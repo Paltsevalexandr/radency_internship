@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/authentication/authentication_bloc.dart';
 import 'package:radency_internship_project_2/models/user.dart';
-import 'package:radency_internship_project_2/ui/restore_password_page.dart';
 import 'package:radency_internship_project_2/ui/sign_up_page.dart';
 
 class LoginPage extends StatelessWidget {
@@ -41,10 +40,6 @@ class LoginForm extends StatelessWidget {
             ElevatedButton(
               child: Text('Sign up'),
               onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
-            ),
-            ElevatedButton(
-              child: Text('Restore password'),
-              onPressed: () => Navigator.of(context).push<void>(RestorePasswordPage.route()),
             ),
           ],
         ),
