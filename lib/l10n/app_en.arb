@@ -1,0 +1,17 @@
+{
+  "exampleTitle": "Example EN Title",
+  "appTitle": "App Title",
+
+  "yourPhoneNumber": "Your phone number",
+  "loginToolbarTitle": "Login",
+  "loginButton": "LOGIN",
+  "noAccount": "Don't have account?",
+  "createNewAccount": "Create a new!",
+  "incorrectPhoneNumber": "Enter the number in international format",
+  "enterPhoneNumber": "Enter phone number",
+  "otpPassSendToNumber": "One-time password was sent to the number: ",
+  "wrongNumber": "Wrong number?",
+  "confirmButton": "CONFIRM",
+  "otpIncorrectPassword": "Incorrect otp password!",
+  "signInSuccessful": "Sign In successful!"
+}
