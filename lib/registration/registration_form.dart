@@ -46,9 +46,8 @@ class RegistrationForm extends StatelessWidget {
         _registrationBloc.handleData('confirm_password', _confirmPasswordController.text);
       }
     });
-    
   }
-
+  
   Widget createNameInput() {
     
     return Container(
@@ -205,5 +204,12 @@ class RegistrationForm extends StatelessWidget {
       }
       )
     );
+  }
+  void dispose() {
+    _focusName.dispose();
+    _focusEmail.dispose();
+    _focusPhone.dispose();
+    _focusPassword.dispose();
+    _focusConfirmPassword.dispose();
   }
 }
