@@ -1,67 +1,209 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:flutter_app/registration/name_input.dart';
-import 'package:flutter_app/registration/confirm_password_input.dart';
-import 'package:flutter_app/registration/email_input.dart';
-import 'package:flutter_app/registration/password_input.dart';
-import 'package:flutter_app/registration/phone_input.dart';
-import 'package:flutter_app/registration/submit_btn.dart';
+import 'package:flutter_app/registration/bloc.dart';
 
 class RegistrationForm extends StatelessWidget {
-  final _registrationBloc = CounterBloc({});
-  
-  Widget build(BuildContext context) {
-    final _formKey = GlobalKey();
 
+  final Map user = {};
+  final _registrationBloc = RegistrationBloc();
+
+  final _focusName = FocusNode();
+  final _focusEmail = FocusNode();
+  final _focusPhone = FocusNode();
+  final _focusPassword = FocusNode();
+  final _focusConfirmPassword = FocusNode();
+
+ 
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneContoller = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  RegistrationForm(){
+    _focusName.addListener(() {
+      if(!_focusName.hasFocus) {
+        _registrationBloc.handleData('name', _nameController.text);
+      }
+    });
+
+    _focusEmail.addListener(() {
+      if(!_focusEmail.hasFocus) {
+        _registrationBloc.handleData('email', _emailController.text);
+      }
+    });
+    _focusPhone.addListener(() {
+      if(!_focusEmail.hasFocus) {
+        _registrationBloc.handleData('phone', _phoneContoller.text);
+      }
+    });
+    _focusPassword.addListener(() {
+      if(!_focusPassword.hasFocus) {
+        _registrationBloc.handleData('password', _passwordController.text);
+      }
+    });
+    _focusConfirmPassword.addListener(() {
+      if(!_focusPassword.hasFocus) {
+        _registrationBloc.handleData('confirm_password', _confirmPasswordController.text);
+      }
+    });
+    
+  }
+
+  Widget createNameInput() {
+    
     return Container(
-      margin: EdgeInsets.all(20),
-      child: 
-          StreamBuilder(
-            stream: _registrationBloc.pressedCount,
-            initialData: _registrationBloc.getData(),
-            builder: (context, snapshot) {
-              var data = snapshot.data;
-              return Form(
-                key: _formKey,
-                child:ListView(
-                  children: [
-                    NameInput(_registrationBloc._handleData('name')),
-                    EmailInput(_registrationBloc._handleData('email')),
-                    PhoneInput(_registrationBloc._handleData('phone')),
-                    PasswordInput(_registrationBloc._handleData('password')),
-                    ConfirmPasswordInput(data['password'], _registrationBloc._handleData('confirm_password')),
-                    SubmitBtn(_formKey)
-                  ]
-                )
-            );
+      margin: EdgeInsets.only(bottom: 10),
+      child: TextFormField(
+        focusNode: _focusName,
+        controller: _nameController,
+        decoration: InputDecoration(
+          labelText: 'name',
+          border: OutlineInputBorder(),
+        ),
+        validator: (value) {
+          RegExp regExp = RegExp(r"^[\wА-Яа-я]+$");
+
+          if (regExp.hasMatch(value) && value.length <= 70) {
+            return null;
+
           }
+          return 'Print name. Only letters, digits, symbol "_"\nand max 70 symbols';
+        }
       )
     );
   }
-}
 
-class CounterBloc {
-  Map _counter;
+  Widget createEmailInput() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      child: TextFormField(
+        focusNode: _focusEmail,
+        controller: _emailController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'email',
+        ),
+        validator: (value) {
+          RegExp regExp = RegExp(r"^[\wА-Яа-я]+@[\wА-Яа-я]+\.[A-Za-z]{2,4}$");
 
-  CounterBloc(this._counter);
+          if (regExp.hasMatch(value)) {
+            return null;
+          }
+          return 'Print email';
+        },
+      )
+    );
+  }
 
-  final _counterStream = StreamController();
+  Widget createPhoneInput() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      child: TextFormField(
+        controller: _phoneContoller,
+        focusNode: _focusPhone,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'phone',
+        ),
+        validator: (value) {
+          RegExp regExp = RegExp(r"^(\+38)\s?\d{3}\s?\d{3}\s?\d{2}\s?\d{2}$");
+          if (regExp.hasMatch(value)) {
+            return null;
+            
+          }
+          return 'Please enter a number in right format +3 xxx xxx xx xx';
+        }
+      )
+    );
+  }
 
-  Stream get pressedCount => _counterStream.stream;
-  Sink get _addValue => _counterStream.sink;
+  Widget createPasswordInput() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      child: TextFormField(
+        focusNode: _focusPassword,
+        controller: _passwordController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'password',
+        ),
+        validator: (value) {
+          if(value.length >= 5) {
+            return null;
+          }
+          return 'password must contain at least 5 symbols';
+        },
+      )
+    );
+  }
 
-  Function _handleData(dataType) {
-    return (data) {
-      _counter[dataType] = data;
-      _addValue.add(_counter);
-    };
+  Widget createConfirmPassword(password) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      child: TextFormField(
+        focusNode: _focusConfirmPassword,
+        controller: _confirmPasswordController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'confirm password',
+        ),
+        validator: (value) {
+          if (value == password) {
+            return null;
+            
+          }
+          return 'Passwords are not similar';
+        }
+      )
+    );
   }
   
-  Map getData() {
-    return _counter;
+  Widget createSubmitButton(_formKey) {
+    return Container(
+      width: 60,
+      height: 30,
+      margin: EdgeInsets.only(right: 5),
+      child: ElevatedButton(
+        onPressed: () => {
+          if(_formKey.currentState.validate()) {
+            print('good')
+          }
+        },
+        child:  Text(
+          'Create account',
+          style: TextStyle(color: Colors.black)
+        )
+      ),
+    );
   }
+  
+  Widget build(BuildContext context) {
+    final _formKey = GlobalKey();
+    //final _registrationBloc = BlocProvider.of<RegistrationBloc>(context);
 
-  void dispose() {
-    _counterStream.close();
+    return Container(
+      margin: EdgeInsets.all(20),
+      child: StreamBuilder(
+        stream: _registrationBloc.userStream,
+        initialData: {},
+        builder: (context, snapshot) {
+          var data = snapshot.data;
+          return Form(
+            key: _formKey,
+            child:ListView(
+              children: [
+                Text(data.toString()),
+                createNameInput(),
+                createEmailInput(),
+                createPhoneInput(),
+                createPasswordInput(),
+                createConfirmPassword(data['password']),
+                createSubmitButton(_formKey)
+              ]
+            )
+        );
+      }
+      )
+    );
   }
 }
