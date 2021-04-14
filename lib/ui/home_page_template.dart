@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/authentication/authentication_bloc.dart';
+import 'package:radency_internship_project_2/blocs/user_profile/user_profile_cubit.dart';
 import 'package:radency_internship_project_2/ui/widgets/avatar.dart';
 
 
@@ -12,7 +13,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -26,18 +26,22 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Avatar(photo: user.photo),
-            const SizedBox(height: 4.0),
-            Text(user.email, style: textTheme.headline6),
-            const SizedBox(height: 4.0),
-            Text(user.name ?? '', style: textTheme.headline5),
-          ],
-        ),
+      body: BlocBuilder<UserProfileCubit, UserProfileState>(
+        builder: (context, state) {
+          return Align(
+            alignment: const Alignment(0, -1 / 3),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Avatar(photo: state.userEntity?.photo),
+                const SizedBox(height: 4.0),
+                Text(state.userEntity?.email ?? '', style: textTheme.headline6),
+                const SizedBox(height: 4.0),
+                Text(state.userEntity?.name ?? '', style: textTheme.headline5),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

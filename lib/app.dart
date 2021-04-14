@@ -1,25 +1,41 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:radency_internship_project_2/ui/home_page.dart';
-import 'package:radency_internship_project_2/ui/login_page.dart';
+import 'package:radency_internship_project_2/blocs/user_profile/user_profile_cubit.dart';
+import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import 'package:radency_internship_project_2/ui/home_page_template.dart';
+import 'package:radency_internship_project_2/ui/login_page_template.dart';
 import 'package:radency_internship_project_2/ui/splash.dart';
 
 import 'blocs/authentication/authentication_bloc.dart';
-import 'models/user.dart';
 
 class App extends StatelessWidget {
   const App({
     Key key,
-  }) : super(key: key);
+    @required this.authenticationRepository,
+  })  : assert(authenticationRepository != null),
+        super(key: key);
 
-  //TODO: Enable firebase, add auth repository
+  final AuthenticationRepository authenticationRepository;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => AuthenticationBloc()..add(AuthenticationUserChanged(User.empty)),
-      child: AppView(),
+    return RepositoryProvider.value(
+      value: authenticationRepository,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => AuthenticationBloc(
+              authenticationRepository: authenticationRepository,
+            ),
+          ),
+          BlocProvider(
+            create: (_) => UserProfileCubit(
+              authenticationRepository: authenticationRepository,
+            ),
+          ),
+        ],
+        child: AppView(),
+      ),
     );
   }
 }

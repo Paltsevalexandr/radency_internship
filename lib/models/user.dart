@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-class User extends Equatable {
+class UserEntity extends Equatable {
   /// {@macro user}
-  const User({
+  const UserEntity({
     @required this.email,
     @required this.id,
     @required this.name,
     @required this.photo,
-  })  : assert(email != null),
+  })  :
         assert(id != null);
 
   /// The current user's email address.
@@ -24,7 +24,7 @@ class User extends Equatable {
   final String photo;
 
   /// Empty user which represents an unauthenticated user.
-  static const empty = User(email: '', id: '', name: null, photo: null);
+  static const empty = UserEntity(email: '', id: '', name: null, photo: null);
 
   @override
   List<Object> get props => [email, id, name, photo];
