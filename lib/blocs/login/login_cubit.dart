@@ -17,7 +17,9 @@ class LoginCubit extends Cubit<LoginState> {
   String verificationId;
   int forceCodeResend;
 
-  Future<void> credentialsSubmitted({@required String phoneNumber,}) async {
+  Future<void> credentialsSubmitted({
+    @required String phoneNumber,
+  }) async {
     emit(state.copyWith(areDetailsProcessing: true));
 
     try {
@@ -61,7 +63,7 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> signInWithPhoneCredential(AuthCredential authCredential) async {
     try {
       await _authenticationRepository.signInWithPhoneCredential(authCredential: authCredential);
-      emit(state.copyWith(errorMessage: 'Successful'));
+      emit(state.copyWith(errorMessage: 'Welcome'));
     } on PlatformException catch (e) {
       emit(state.copyWith(errorMessage: e.message));
     } catch (e) {

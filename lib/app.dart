@@ -4,7 +4,9 @@ import 'package:radency_internship_project_2/blocs/user_profile/user_profile_cub
 import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
 import 'package:radency_internship_project_2/ui/home_page_template.dart';
 import 'package:radency_internship_project_2/ui/login_page_template.dart';
+import 'package:radency_internship_project_2/ui/sign_up_page.dart';
 import 'package:radency_internship_project_2/ui/splash.dart';
+import 'package:radency_internship_project_2/utils/routes.dart';
 
 import 'blocs/authentication/authentication_bloc.dart';
 
@@ -54,30 +56,30 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: _navigatorKey,
+      routes: {
+        Routes.loginPage: (context) => LoginPage(),
+        Routes.homePage: (context) => HomePage(),
+        Routes.signUpPage: (context) => SignUpPage(),
+        Routes.splashScreen: (context) => SplashPage(),
+      },
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
-                  (route) => false,
-                );
+                _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
                 break;
               case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
+                _navigator.pushNamedAndRemoveUntil(Routes.loginPage, (route) => false);
                 break;
               default:
+                _navigator.pushNamedAndRemoveUntil(Routes.splashScreen, (route) => false);
                 break;
             }
           },
           child: child,
         );
       },
-      onGenerateRoute: (_) => SplashPage.route(),
     );
   }
 }
