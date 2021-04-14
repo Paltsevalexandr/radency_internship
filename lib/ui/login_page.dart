@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -156,6 +157,20 @@ class LoginFormState extends State<LoginForm> {
                 ),
               ),
             ),
+          ),
+          RichText(
+            text: TextSpan(
+                text: 'Don\'t have account? ',
+                style: TextStyle(color: Colors.blueGrey, fontSize: 14),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'Create a new!',
+                      style: TextStyle(color: Colors.blueAccent, fontSize: 14),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Create new!')));
+                        })
+                ]),
           ),
         ]);
   }
