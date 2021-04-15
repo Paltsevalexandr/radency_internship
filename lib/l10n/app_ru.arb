@@ -1,0 +1,17 @@
+{
+  "exampleTitle": "РУ Пример Заголовка",
+  "appTitle": "Имя приложения",
+
+  "yourPhoneNumber": "Ваш номер телефона",
+  "loginToolbarTitle": "Вход",
+  "loginButton": "ВОЙТИ",
+  "noAccount": "Нет аккаунта?",
+  "createNewAccount": "Создать новый!",
+  "incorrectPhoneNumber": "Укажите номер в международном формате",
+  "enterPhoneNumber": "Введите номер телефона",
+  "otpPassSendToNumber": "Одноразовый пароль был отправлен на номер:",
+  "wrongNumber": "Не ваш номер?",
+  "confirmButton": "ПОДТВЕРДИТЬ",
+  "otpIncorrectPassword": "Неправильный одноразовый пароль!",
+  "signInSuccessful": "Вход совершён успешно!"
+}

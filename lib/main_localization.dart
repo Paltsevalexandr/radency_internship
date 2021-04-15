@@ -1,16 +1,18 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'repositories/firebase_auth_repository/firebase_auth_repository.dart';
-import 'bottom_nav_bar/bottom_nav_bar.dart';
-import 'app.dart';
+import 'package:radency_internship_project_2/ui/example_page.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(
-    MaterialApp(
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'App Group 2',
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -21,9 +23,10 @@ void main() async {
         const Locale('en', ''),
         const Locale('ru', ''),
       ],
-      home: Scaffold(
-        body: App(authenticationRepository: AuthenticationRepository()),
-        bottomNavigationBar: BottomNavBar(),
-      )
-    ));
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: ExamplePage(),
+    );
+  }
 }
