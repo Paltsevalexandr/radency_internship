@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/authentication/authentication_bloc.dart';
 import '../blocs/user_profile/user_profile_cubit.dart';
 import '../ui/widgets/avatar.dart';
+import '../bottom_nav_bar/bottom_nav_bar.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -43,6 +44,7 @@ class HomePage extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: BottomNavBar()
     );
   }
 }
