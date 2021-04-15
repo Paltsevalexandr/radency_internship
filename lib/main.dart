@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/registration/registration_page.dart';
 import 'package:flutter_app/bottom_nav_bar/bottom_nav_bar.dart';
 
 void main() {
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: RegistrationPage(),
+        body: Text('Test'),
         bottomNavigationBar: BottomNavBar(),
       )
     );
