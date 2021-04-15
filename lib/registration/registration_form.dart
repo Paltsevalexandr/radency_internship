@@ -191,7 +191,6 @@ class RegistrationForm extends StatelessWidget {
             key: _formKey,
             child:ListView(
               children: [
-                Text(data.toString()),
                 createNameInput(),
                 createEmailInput(),
                 createPhoneInput(),
