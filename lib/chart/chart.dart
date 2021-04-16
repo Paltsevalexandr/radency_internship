@@ -1,22 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
+import '../blocs/expenses/expenses_bloc.dart';
 
-class Chart extends StatefulWidget {
-  final List<Map<String, double>> chartData;
+class Chart extends StatelessWidget {
 
-  Chart(this.chartData);
-
-  ChartState createState() => ChartState(chartData);
-}
-
-class ChartState extends State<Chart> {
-  final List<Map<String, double>> chartData;
-  int touchedIndex;
-
-  ChartState(this.chartData);
   
-  List<PieChartSectionData> createSections() {
+  List<PieChartSectionData> createSections(chartData) {
     List<PieChartSectionData> chartSections = 
     [
       for(Map expenseType in chartData)
@@ -33,13 +22,12 @@ class ChartState extends State<Chart> {
     return chartSections;
   }
 
-  List<Widget> history() {
+  List<Widget> history(chartData) {
     List<Widget> expensesHistory = [
       for(Map expenseType in chartData)
         for(String key in expenseType.keys)
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            margin: EdgeInsets.only(bottom: 10),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.blueGrey[50], width: 1)
             ),
@@ -67,23 +55,34 @@ class ChartState extends State<Chart> {
     ];
     return expensesHistory;
   }
+  
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          constraints: BoxConstraints(maxHeight: 200, maxWidth: 200),
-          child: PieChart(
-            PieChartData(
-              sections:createSections()
-            ) 
-          )
-        ),
-        Container(
-          child: Column(
-            children: history(),
-         )
-        )
-      ]
+    final expensesBloc = ExpensesBlocProvider.of<ExpensesBloc>(context);
+    
+    return StreamBuilder(
+      stream: expensesBloc.expensesStream,
+      initialData: expensesBloc.expenses,
+      builder: (context, snapshot) {
+        var expensesData = snapshot.data;
+
+        return ListView(
+          children: [
+            Container(
+              constraints: BoxConstraints(maxHeight: 200, maxWidth: 200),
+              child: PieChart(
+                PieChartData(
+                  sections: createSections(expensesData)
+                )
+              ) 
+            ),
+            Container(
+              child: Column(
+                children: history(expensesData),
+            )
+            )
+          ]
+        );
+      }
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../chart/chart.dart';
+import '../blocs/expenses/expenses_bloc.dart';
+import '../temp_data/expenses_data.dart';
 
 class ChartPage extends StatelessWidget {
 
@@ -10,7 +12,10 @@ class ChartPage extends StatelessWidget {
       ),
       body: Container(
         alignment: Alignment.center,
-        child: Chart([{'Household': 20.0}, {'Hobby': 70.0}, {'Shopping': 10.0}])
+        child: ExpensesBlocProvider(
+          bloc: ExpensesBloc(expensesData),
+          child: Chart(),
+        )
       )
     );
   }
