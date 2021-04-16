@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/ui/chart_page_template.dart';
+import '../ui/chart_page_template.dart';
+//import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -11,6 +14,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void selectIndex(value) {
     setState(() {
       index = value;
+      if(value == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return ChartPage();
+          }
+        ));
+      }
     });
   }
 
