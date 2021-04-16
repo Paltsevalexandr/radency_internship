@@ -1,0 +1,1 @@
+List<Map<String, double>> expensesData = [{'Household': 20.0}, {'Hobby': 70.0}, {'Shopping': 10.0}];
