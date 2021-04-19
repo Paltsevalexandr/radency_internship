@@ -4,7 +4,6 @@ import '../../blocs/expenses/expenses_bloc.dart';
 
 class Chart extends StatelessWidget {
 
-  
   List<PieChartSectionData> createSections(chartData) {
     List<PieChartSectionData> chartSections = 
     [
