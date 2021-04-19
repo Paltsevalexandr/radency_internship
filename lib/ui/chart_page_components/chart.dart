@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../blocs/expenses/expenses_bloc.dart';
+import '../../blocs/expenses/expenses_bloc.dart';
 
 class Chart extends StatelessWidget {
 
