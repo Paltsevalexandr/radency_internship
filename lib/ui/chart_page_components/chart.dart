@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../blocs/expenses/expenses_bloc.dart';
+import '../../blocs/settings/settings_bloc.dart';
 
 class Chart extends StatelessWidget {
-
+  
   List<PieChartSectionData> createSections(chartData) {
+
     List<PieChartSectionData> chartSections = 
     [
       for(Map expenseType in chartData)
@@ -13,7 +17,7 @@ class Chart extends StatelessWidget {
             title: '$key\n${expenseType[key]}%',
             titleStyle: TextStyle(color: Colors.black),
             radius: 100,
-            color: Colors.blue,
+            color: Colors.blue[200],
             value: expenseType[key],
             titlePositionPercentageOffset: 1.4
           )
@@ -21,7 +25,8 @@ class Chart extends StatelessWidget {
     return chartSections;
   }
 
-  List<Widget> history(chartData) {
+  List<Widget> historyOfExpenses(chartData, currency) {
+    
     List<Widget> expensesHistory = [
       for(Map expenseType in chartData)
         for(String key in expenseType.keys)
@@ -40,14 +45,14 @@ class Chart extends StatelessWidget {
                         margin: EdgeInsets.only(right: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: Colors.blue
+                          color: Colors.blue[200]
                         ),
                         child: Text('${expenseType[key]}%')
                       ),
                       Text(key)
                     ],
                 ),
-                Text(expenseType[key].toString())
+                Text('${expenseType[key].toInt().toString()} $currency')
               ]
           )
       )
@@ -75,9 +80,14 @@ class Chart extends StatelessWidget {
               ) 
             ),
             Container(
-              child: Column(
-                children: history(expensesData),
-            )
+              child: BlocBuilder(
+                bloc: context.read<SettingsBloc>(),
+                builder: (context, state) {
+                  return Column(
+                    children: historyOfExpenses(expensesData, state['currency']),
+                  );
+                }
+              )
             )
           ]
         );

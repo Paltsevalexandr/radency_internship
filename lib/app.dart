@@ -9,6 +9,7 @@ import 'ui/splash.dart';
 import 'utils/routes.dart';
 
 import 'blocs/authentication/authentication_bloc.dart';
+import 'blocs/settings/settings_bloc.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -34,6 +35,9 @@ class App extends StatelessWidget {
             create: (_) => UserProfileCubit(
               authenticationRepository: authenticationRepository,
             ),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => SettingsBloc()
           ),
         ],
         child: AppView(),
