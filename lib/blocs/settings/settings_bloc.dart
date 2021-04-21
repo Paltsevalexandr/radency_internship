@@ -6,7 +6,7 @@ part 'settings_event.dart';
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   
   SettingsBloc() 
-  : super(SettingsState(language: 'UAH', currency: 'English'));
+  : super(SettingsState(language: 'English', currency: 'UAH'));
 
   SettingsState changeCurrency(value) {
     return SettingsState(currency: value, language: state.language);
