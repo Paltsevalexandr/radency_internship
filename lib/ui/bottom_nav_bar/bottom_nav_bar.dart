@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../home_page_template.dart';
-import '../chart_page_template.dart';
-import '../settings_page_template.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../utils/routes.dart';
 
 class BottomNavBar extends StatefulWidget {
   final int index;
@@ -11,44 +10,34 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int index;
+  int currentItemIndex;
 
-  _BottomNavBarState(this.index);
+  _BottomNavBarState(this.currentItemIndex);
 
-  void selectIndex(value) {
+  void selectPage(selectedItemIndex) {
     setState(() {
-      index = value;
-      switch(value) {
-        case 0:
-          Navigator.push(
-            context,
-              MaterialPageRoute(builder: (context) {
-                return HomePage();
-              }
-            )
-          );
-          break;
-        case 1:
-          Navigator.push(
-            context,
-              MaterialPageRoute(builder: (context) {
-                return ChartPage();
-              }
-            )
-          );
-          break;
-        case 4: 
-          Navigator.push(
-            context,
-              MaterialPageRoute(builder: (context) {
-                return SettingsPage();
-              }
-            )
-          );
-          break;
-      }
-      
+      currentItemIndex = selectedItemIndex;      
     });
+    switch(selectedItemIndex) {
+      case 0:
+        Navigator.pushNamed(
+          context,
+          Routes.homePage,
+        );
+        break;
+      case 1:
+        Navigator.pushNamed(
+          context,
+          Routes.spendingPage
+        );
+        break;
+      case 4: 
+        Navigator.pushNamed(
+          context,
+          Routes.settingsPage
+        );
+        break;
+    }
   }
 
   Widget build(BuildContext context) {
@@ -57,31 +46,31 @@ class _BottomNavBarState extends State<BottomNavBar> {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: AppLocalizations.of(context).home,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.pie_chart_sharp),
-          label: 'Spending',
+          label: AppLocalizations.of(context).spending,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.credit_card_outlined),
-          label: 'Card',
+          label: AppLocalizations.of(context).card,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.people_rounded),
-          label: 'Contacts',
+          label: AppLocalizations.of(context).contacts,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          label: 'Settings',
+          label: AppLocalizations.of(context).settings,
         ),
       ],
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.blueGrey[50],
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.grey,
-      currentIndex: index,
-      onTap: selectIndex,
+      currentIndex: currentItemIndex,
+      onTap: selectPage,
     );
   }
 }

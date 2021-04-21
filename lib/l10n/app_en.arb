@@ -3,7 +3,7 @@
   "appTitle": "App Title",
 
   "yourPhoneNumber": "Your phone number",
-  "loginToolbarTitle": "Login",
+  "loginToolbarTitle": "Test",
   "loginButton": "LOGIN",
   "noAccount": "Don't have account?",
   "createNewAccount": "Create a new!",
@@ -13,5 +13,11 @@
   "wrongNumber": "Wrong number?",
   "confirmButton": "CONFIRM",
   "otpIncorrectPassword": "Incorrect otp password!",
-  "signInSuccessful": "Sign In successful!"
+  "signInSuccessful": "Sign In successful!",
+
+  "home": "Home",
+  "card": "Card",
+  "contacts": "Contacts",
+  "spending": "Spending",
+  "settings": "Settings"
 }

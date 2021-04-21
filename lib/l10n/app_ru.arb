@@ -13,5 +13,11 @@
   "wrongNumber": "Не ваш номер?",
   "confirmButton": "ПОДТВЕРДИТЬ",
   "otpIncorrectPassword": "Неправильный одноразовый пароль!",
-  "signInSuccessful": "Вход совершён успешно!"
+  "signInSuccessful": "Вход совершён успешно!",
+
+  "home": "Главная",
+  "card": "Карта",
+  "contacts": "Контакты",
+  "spending": "Траты",
+  "settings": "Настройки"
 }

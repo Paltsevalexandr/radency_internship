@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/ui/settings_components/settings_subpages/currency_setting_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'blocs/user_profile/user_profile_cubit.dart';
+import 'blocs/authentication/authentication_bloc.dart';
+import 'blocs/settings/settings_bloc.dart';
+
 import 'repositories/firebase_auth_repository/firebase_auth_repository.dart';
+
 import 'ui/home_page_template.dart';
 import 'ui/login_page_template.dart';
 import 'ui/sign_up_page.dart';
 import 'ui/splash.dart';
+import 'ui/settings_page_template.dart';
+import 'ui/spending_page_template.dart';
 import 'utils/routes.dart';
-
-import 'blocs/authentication/authentication_bloc.dart';
-import 'blocs/settings/settings_bloc.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -37,7 +44,7 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (BuildContext context) => SettingsBloc()
+            create: (BuildContext context) => SettingsBloc('UAH', 'eng')
           ),
         ],
         child: AppView(),
@@ -59,12 +66,25 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', ''),
+        const Locale('ru', ''),
+      ],
       navigatorKey: _navigatorKey,
       routes: {
         Routes.loginPage: (context) => LoginPage(),
         Routes.homePage: (context) => HomePage(),
         Routes.signUpPage: (context) => SignUpPage(),
         Routes.splashScreen: (context) => SplashPage(),
+        Routes.spendingPage: (context) => SpendingPage(),
+        Routes.settingsPage: (context) => SettingsPage(),
+        Routes.currencySettingPage: (context) => CurrencySettingPage(),
       },
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(

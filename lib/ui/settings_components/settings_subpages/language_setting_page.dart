@@ -36,8 +36,8 @@ class _LanguageState extends State<LanguageSettingPage> {
             onChanged: changeAppLanguage
           ),
           RadioListTile(
-            title: Text('Ukrainian'),
-            value: 'Ukrainian',
+            title: Text('Russian'),
+            value: 'Russian',
             groupValue: language,
             onChanged: changeAppLanguage,
           ),
