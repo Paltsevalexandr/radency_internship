@@ -19,5 +19,26 @@
   "card": "Карта",
   "contacts": "Контакты",
   "spending": "Траты",
-  "settings": "Настройки"
+  "settings": "Настройки",
+  
+  "mondayShort": "Пн",
+  "tuesdayShort": "Вт",
+  "wednesdayShort": "Ср",
+  "thursdayShort": "Чт",
+  "fridayShort": "Пт",
+  "saturdayShort": "Сб",
+  "sundayShort": "Вс",
+
+  "januaryShort": "Янв.",
+  "februaryShort": "Фев.",
+  "marchShort": "Мар.",
+  "aprilShort": "Апр.",
+  "mayShort": "Май",
+  "juneShort": "Июн.",
+  "julyShort": "Июл.",
+  "augustShort": "Авг.",
+  "septemberShort": "Сен.",
+  "octoberShort": "Окт.",
+  "novemberShort": "Ноя.",
+  "decemberShort": "Дек."
 }
