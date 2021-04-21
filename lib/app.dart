@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'blocs/user_profile/user_profile_cubit.dart';
-import 'repositories/firebase_auth_repository/firebase_auth_repository.dart';
-import 'ui/home_page_template.dart';
-import 'ui/login_page_template.dart';
-import 'ui/sign_up_page.dart';
-import 'ui/splash.dart';
-import 'utils/routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:radency_internship_project_2/blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
+import 'package:radency_internship_project_2/blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
+import 'package:radency_internship_project_2/blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
+import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import 'package:radency_internship_project_2/ui/home_page.dart';
+import 'package:radency_internship_project_2/ui/login_page_template.dart';
+import 'package:radency_internship_project_2/ui/sign_up_page.dart';
+import 'package:radency_internship_project_2/ui/splash.dart';
+import 'package:radency_internship_project_2/utils/routes.dart';
 
 import 'blocs/authentication/authentication_bloc.dart';
+import 'blocs/user_profile/user_profile_cubit.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -34,6 +39,15 @@ class App extends StatelessWidget {
             create: (_) => UserProfileCubit(
               authenticationRepository: authenticationRepository,
             ),
+          ),
+          BlocProvider(
+            create: (_) => TransactionsDailyBloc()..add(TransactionsDailyInitialize()),
+          ),
+          BlocProvider(
+            create: (_) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
+          ),
+          BlocProvider(
+            create: (_) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
           ),
         ],
         child: AppView(),
@@ -62,6 +76,16 @@ class _AppViewState extends State<AppView> {
         Routes.signUpPage: (context) => SignUpPage(),
         Routes.splashScreen: (context) => SplashPage(),
       },
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', ''),
+        const Locale('ru', ''),
+      ],
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {

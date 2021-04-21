@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../blocs/sign_up/sign_up_cubit.dart';
-import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
-import '../utils/strings.dart';
+import 'package:radency_internship_project_2/blocs/sign_up/sign_up_cubit.dart';
+import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
+
+import 'package:radency_internship_project_2/utils/strings.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key key}) : super(key: key);

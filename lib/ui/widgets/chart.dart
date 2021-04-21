@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../blocs/expenses/expenses_bloc.dart';
+import 'package:radency_internship_project_2/blocs/expenses/expenses_bloc.dart';
 
 class Chart extends StatelessWidget {
 
-  
+
   List<PieChartSectionData> createSections(chartData) {
-    List<PieChartSectionData> chartSections = 
+    List<PieChartSectionData> chartSections =
     [
       for(Map expenseType in chartData)
         for(String key in expenseType.keys)
@@ -55,10 +55,10 @@ class Chart extends StatelessWidget {
     ];
     return expensesHistory;
   }
-  
+
   Widget build(BuildContext context) {
     final expensesBloc = ExpensesBlocProvider.of<ExpensesBloc>(context);
-    
+
     return StreamBuilder(
       stream: expensesBloc.expensesStream,
       initialData: expensesBloc.expenses,
@@ -73,7 +73,7 @@ class Chart extends StatelessWidget {
                 PieChartData(
                   sections: createSections(expensesData)
                 )
-              ) 
+              )
             ),
             Container(
               child: Column(

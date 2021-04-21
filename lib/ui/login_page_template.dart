@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/login/login_cubit.dart';
-import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
-import '../ui/sign_up_page.dart';
+import 'package:radency_internship_project_2/blocs/login/login_cubit.dart';
+import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import 'package:radency_internship_project_2/ui/sign_up_page.dart';
 
 class LoginPage extends StatelessWidget {
   static Route route() {
