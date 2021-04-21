@@ -44,7 +44,7 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (BuildContext context) => SettingsBloc('UAH', 'eng')
+            create: (BuildContext context) => SettingsBloc()
           ),
         ],
         child: AppView(),
