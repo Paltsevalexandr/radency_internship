@@ -13,5 +13,26 @@
   "wrongNumber": "Не ваш номер?",
   "confirmButton": "ПОДТВЕРДИТЬ",
   "otpIncorrectPassword": "Неправильный одноразовый пароль!",
-  "signInSuccessful": "Вход совершён успешно!"
+  "signInSuccessful": "Вход совершён успешно!",
+
+  "mondayShort": "Пн",
+  "tuesdayShort": "Вт",
+  "wednesdayShort": "Ср",
+  "thursdayShort": "Чт",
+  "fridayShort": "Пт",
+  "saturdayShort": "Сб",
+  "sundayShort": "Вс",
+
+  "januaryShort": "Янв.",
+  "februaryShort": "Фев.",
+  "marchShort": "Мар.",
+  "aprilShort": "Апр.",
+  "mayShort": "Май",
+  "juneShort": "Июн.",
+  "julyShort": "Июл.",
+  "augustShort": "Авг.",
+  "septemberShort": "Сен.",
+  "octoberShort": "Окт.",
+  "novemberShort": "Ноя.",
+  "decemberShort": "Дек."
 }
