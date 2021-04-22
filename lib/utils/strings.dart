@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 
 final String emailRegExp =
@@ -6,6 +7,11 @@ final String emailRegExp =
     r"253}[a-zA-Z0-9])?)*$";
 
 final String phoneNumberRegExp = r'^(?:[+])?[0-9]{9,16}$';
+
+final _moneyFormat = NumberFormat("#,###.00");
+String getMoneyFormatted(double value, {String separator, String comma}){
+  return _moneyFormat.format(value).replaceAll(",", " ").replaceAll(".", ",");
+}
 
 String getWeekDayByNumber(int num, BuildContext context) {
   switch (num) {
@@ -55,4 +61,21 @@ String getMonthByNumber(BuildContext context, int num) {
       return S.current.decemberShort;
   }
   return 'None';
+}
+
+String getCurrencySymbol(String currency){
+  String currencySymbol = '';
+  switch(currency){
+    case 'UAH':
+      currencySymbol = '₴';
+      break;
+    case 'USD':
+      currencySymbol = '\$';
+      break;
+    case 'GBP':
+      currencySymbol = '£';
+      break;
+  }
+
+  return currencySymbol;
 }

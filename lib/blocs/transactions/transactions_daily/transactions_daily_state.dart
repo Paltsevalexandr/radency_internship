@@ -1,3 +1,4 @@
+
 part of 'transactions_daily_bloc.dart';
 
 abstract class TransactionsDailyState extends Equatable {
@@ -19,7 +20,6 @@ class TransactionsDailyLoading extends TransactionsDailyState {
 }
 
 class TransactionsDailyLoaded extends TransactionsDailyState {
-
   final String sliderCurrentTimeIntervalString;
 
   TransactionsDailyLoaded({@required this.sliderCurrentTimeIntervalString});

@@ -19,7 +19,6 @@ class TransactionsWeeklyLoading extends TransactionsWeeklyState {
 }
 
 class TransactionsWeeklyLoaded extends TransactionsWeeklyState {
-
   final String sliderCurrentTimeIntervalString;
 
   TransactionsWeeklyLoaded({@required this.sliderCurrentTimeIntervalString});

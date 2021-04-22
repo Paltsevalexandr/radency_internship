@@ -19,7 +19,6 @@ class TransactionsMonthlyLoading extends TransactionsMonthlyState {
 }
 
 class TransactionsMonthlyLoaded extends TransactionsMonthlyState {
-
   final String sliderCurrentTimeIntervalString;
 
   TransactionsMonthlyLoaded({@required this.sliderCurrentTimeIntervalString});

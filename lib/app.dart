@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -7,6 +8,7 @@ import 'blocs/settings/settings_bloc.dart';
 
 import 'repositories/firebase_auth_repository/firebase_auth_repository.dart';
 
+import 'ui/add_transaction_page.dart';
 import 'ui/login_page_template.dart';
 import 'ui/sign_up_page.dart';
 import 'ui/splash.dart';
@@ -58,6 +60,9 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (_) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
           ),
+          BlocProvider(
+            create: (_) => TransactionsSummaryBloc()..add(TransactionsSummaryInitialize()),
+          ),
         ],
         child: AppView(),
       ),
@@ -97,6 +102,7 @@ class _AppViewState extends State<AppView> {
         Routes.spendingPage: (context) => SpendingPage(),
         Routes.settingsPage: (context) => SettingsPage(),
         Routes.currencySettingPage: (context) => CurrencySettingPage(),
+        Routes.addTransactionPage: (context) => AddTransactionPage(),
       },
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
