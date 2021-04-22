@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 part 'transactions_weekly_event.dart';
-
 part 'transactions_weekly_state.dart';
 
 class TransactionsWeeklyBloc extends Bloc<TransactionsWeeklyEvent, TransactionsWeeklyState> {
@@ -31,11 +30,17 @@ class TransactionsWeeklyBloc extends Bloc<TransactionsWeeklyEvent, TransactionsW
   Stream<TransactionsWeeklyState> mapEventToState(
     TransactionsWeeklyEvent event,
   ) async* {
-    if (event is TransactionsWeeklyInitialize) yield* _mapTransactionsWeeklyInitializeToState();
-    if (event is TransactionsWeeklyGetPreviousMonthPressed) yield* _mapTransactionsWeeklyGetPreviousMonthPressedToState();
-    if (event is TransactionsWeeklyGetNextMonthPressed) yield* _mapTransactionsWeeklyGetNextMonthPressedToState();
-    if (event is TransactionsWeeklyFetchRequested) yield* _mapTransactionsWeeklyFetchRequestedToState(dateForFetch: event.dateForFetch);
-    if (event is TransactionWeeklyDisplayRequested) yield* _mapTransactionWeeklyDisplayRequestedToState(event.data);
+    if (event is TransactionsWeeklyInitialize) {
+      yield* _mapTransactionsWeeklyInitializeToState();
+    } else if (event is TransactionsWeeklyGetPreviousMonthPressed) {
+      yield* _mapTransactionsWeeklyGetPreviousMonthPressedToState();
+    } else if (event is TransactionsWeeklyGetNextMonthPressed) {
+      yield* _mapTransactionsWeeklyGetNextMonthPressedToState();
+    } else if (event is TransactionsWeeklyFetchRequested) {
+      yield* _mapTransactionsWeeklyFetchRequestedToState(dateForFetch: event.dateForFetch);
+    } else if (event is TransactionWeeklyDisplayRequested) {
+      yield* _mapTransactionWeeklyDisplayRequestedToState(event.data);
+    }
   }
 
   Stream<TransactionsWeeklyState> _mapTransactionsWeeklyFetchRequestedToState({@required DateTime dateForFetch}) async* {

@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
 part 'transactions_monthly_event.dart';
-
 part 'transactions_monthly_state.dart';
 
 class TransactionsMonthlyBloc extends Bloc<TransactionsMonthlyEvent, TransactionsMonthlyState> {
@@ -27,11 +26,17 @@ class TransactionsMonthlyBloc extends Bloc<TransactionsMonthlyEvent, Transaction
   Stream<TransactionsMonthlyState> mapEventToState(
     TransactionsMonthlyEvent event,
   ) async* {
-    if (event is TransactionsMonthlyInitialize) yield* _mapTransactionsMonthlyInitializeToState();
-    if (event is TransactionsMonthlyGetPreviousYearPressed) yield* _mapTransactionsMonthlyGetPreviousYearPressedToState();
-    if (event is TransactionsMonthlyGetNextYearPressed) yield* _mapTransactionsMonthlyGetNextYearPressedToState();
-    if (event is TransactionsMonthlyFetchRequested) yield* _mapTransactionsMonthlyFetchRequestedToState(dateForFetch: event.dateForFetch);
-    if (event is TransactionMonthlyDisplayRequested) yield* _mapTransactionMonthlyDisplayRequestedToState(event.data);
+    if (event is TransactionsMonthlyInitialize) {
+      yield* _mapTransactionsMonthlyInitializeToState();
+    } else if (event is TransactionsMonthlyGetPreviousYearPressed) {
+      yield* _mapTransactionsMonthlyGetPreviousYearPressedToState();
+    } else if (event is TransactionsMonthlyGetNextYearPressed) {
+      yield* _mapTransactionsMonthlyGetNextYearPressedToState();
+    } else if (event is TransactionsMonthlyFetchRequested) {
+      yield* _mapTransactionsMonthlyFetchRequestedToState(dateForFetch: event.dateForFetch);
+    } else  if (event is TransactionMonthlyDisplayRequested) {
+      yield* _mapTransactionMonthlyDisplayRequestedToState(event.data);
+    }
   }
 
   Stream<TransactionsMonthlyState> _mapTransactionsMonthlyFetchRequestedToState({@required DateTime dateForFetch}) async* {

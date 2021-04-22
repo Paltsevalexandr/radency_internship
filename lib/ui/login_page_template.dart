@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:radency_internship_project_2/blocs/login/login_cubit.dart';
+import 'package:radency_internship_project_2/blocs/login/login_bloc.dart';
 import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
 import 'package:radency_internship_project_2/ui/sign_up_page.dart';
 
@@ -15,8 +15,8 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocProvider<LoginCubit>(
-          create: (_) => LoginCubit(context.read<AuthenticationRepository>()),
+        child: BlocProvider<LoginBloc>(
+          create: (_) => LoginBloc(context.read<AuthenticationRepository>()),
           child: LoginForm(),
         ),
       ),
@@ -27,7 +27,7 @@ class LoginPage extends StatelessWidget {
 class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(listener: (context, state) {
+    return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
       if (state.errorMessage != null) {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
@@ -63,10 +63,11 @@ class LoginForm extends StatelessWidget {
 
                         switch (state.loginPageMode) {
                           case LoginPageMode.Credentials:
-                            return context.read<LoginCubit>().credentialsSubmitted(phoneNumber: '+12345678901');
+                            return context.read<LoginBloc>().add(LoginCredentialsSubmitted(phoneNumber: '+12345678901'));
                             break;
                           case LoginPageMode.OTP:
-                            return context.read<LoginCubit>().otpSubmitted(oneTimePassword: '111111');
+                            return context.read<LoginBloc>().add(LoginOtpSubmitted(oneTimePassword: '111111'));
+
                             break;
                         }
                       },

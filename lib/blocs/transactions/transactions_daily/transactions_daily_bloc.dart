@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
 part 'transactions_daily_event.dart';
-
 part 'transactions_daily_state.dart';
 
 class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDailyState> {
@@ -27,11 +26,17 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
   Stream<TransactionsDailyState> mapEventToState(
     TransactionsDailyEvent event,
   ) async* {
-    if (event is TransactionsDailyInitialize) yield* _mapTransactionsDailyInitializeToState();
-    if (event is TransactionsDailyGetPreviousMonthPressed) yield* _mapTransactionsDailyGetPreviousMonthPressedToState();
-    if (event is TransactionsDailyGetNextMonthPressed) yield* _mapTransactionsDailyGetNextMonthPressedToState();
-    if (event is TransactionsDailyFetchRequested) yield* _mapTransactionsDailyFetchRequestedToState(dateForFetch: event.dateForFetch);
-    if (event is TransactionDailyDisplayRequested) yield* _mapTransactionDailyDisplayRequestedToState(event.data);
+    if (event is TransactionsDailyInitialize) {
+      yield* _mapTransactionsDailyInitializeToState();
+    } else if (event is TransactionsDailyGetPreviousMonthPressed) {
+      yield* _mapTransactionsDailyGetPreviousMonthPressedToState();
+    } else if (event is TransactionsDailyGetNextMonthPressed) {
+      yield* _mapTransactionsDailyGetNextMonthPressedToState();
+    } else if (event is TransactionsDailyFetchRequested) {
+      yield* _mapTransactionsDailyFetchRequestedToState(dateForFetch: event.dateForFetch);
+    } else if (event is TransactionDailyDisplayRequested) {
+      yield* _mapTransactionDailyDisplayRequestedToState(event.data);
+    }
   }
 
   Stream<TransactionsDailyState> _mapTransactionsDailyFetchRequestedToState({@required DateTime dateForFetch}) async* {

@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
+import 'package:radency_internship_project_2/blocs/user_profile/user_profile_bloc.dart';
 import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
 import 'package:radency_internship_project_2/ui/home_page.dart';
 import 'package:radency_internship_project_2/ui/login_page_template.dart';
@@ -13,7 +14,6 @@ import 'package:radency_internship_project_2/ui/splash.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 
 import 'blocs/authentication/authentication_bloc.dart';
-import 'blocs/user_profile/user_profile_cubit.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -36,7 +36,7 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (_) => UserProfileCubit(
+            create: (_) => UserProfileBloc(
               authenticationRepository: authenticationRepository,
             ),
           ),

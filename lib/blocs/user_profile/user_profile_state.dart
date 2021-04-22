@@ -1,4 +1,4 @@
-part of 'user_profile_cubit.dart';
+part of 'user_profile_bloc.dart';
 
 class UserProfileState extends Equatable {
   const UserProfileState({this.userEntity});

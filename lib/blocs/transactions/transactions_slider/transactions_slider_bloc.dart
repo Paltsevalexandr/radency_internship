@@ -19,8 +19,11 @@ class TransactionsSliderBloc extends Bloc<TransactionsSliderEvent, TransactionsS
   Stream<TransactionsSliderState> mapEventToState(
     TransactionsSliderEvent event,
   ) async* {
-    if (event is TransactionsSliderInitialize) yield* _mapTransactionsSliderInitializeToState();
-    if (event is TransactionsSliderModeChanged) yield* _mapTransactionsSliderModeChangedToState(tabIndex: event.index);
+    if (event is TransactionsSliderInitialize) {
+      yield* _mapTransactionsSliderInitializeToState();
+    } else if (event is TransactionsSliderModeChanged) {
+      yield* _mapTransactionsSliderModeChangedToState(tabIndex: event.index);
+    }
   }
 
   Stream<TransactionsSliderState> _mapTransactionsSliderInitializeToState() async* {
