@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/ui/settings_components/settings_subpages/currency_setting_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,6 +15,7 @@ import 'ui/sign_up_page.dart';
 import 'ui/splash.dart';
 import 'ui/settings_page_template.dart';
 import 'ui/spending_page_template.dart';
+import 'ui/settings_components/settings_subpages/currency_setting_page.dart';
 import 'utils/routes.dart';
 
 class App extends StatelessWidget {
