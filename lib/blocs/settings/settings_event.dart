@@ -1,13 +1,11 @@
 part of 'settings_bloc.dart';
 
 abstract class SettingsEvent {
-  SettingsEvent({
-    this.settingName,
-    this.newSettingValue
-  });
+  SettingsEvent();
+}
 
-  String settingName;
-  String newSettingValue;
+class InitialSettingsEvent implements SettingsEvent{
+  InitialSettingsEvent();
 }
 
 class ChangeCurrency implements SettingsEvent {
@@ -15,6 +13,5 @@ class ChangeCurrency implements SettingsEvent {
     this.newSettingValue
   });
 
-  String settingName = 'currency';
   String newSettingValue;
 }

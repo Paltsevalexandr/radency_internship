@@ -20,6 +20,8 @@ import 'blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import 'blocs/user_profile/user_profile_bloc.dart';
 import 'ui/home_page.dart';
 import 'generated/l10n.dart';
+import 'package:radency_internship_project_2/shared_preferences/settings_shared_preferences.dart';
+import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -47,9 +49,6 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (BuildContext context) => SettingsBloc(),
-          ),
-          BlocProvider(
             create: (_) => TransactionsDailyBloc()..add(TransactionsDailyInitialize()),
           ),
           BlocProvider(
@@ -58,6 +57,11 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (_) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
           ),
+          BlocProvider(
+            create: (BuildContext context) => SettingsBloc(
+              SettingsSharedPreferences())
+              ..add(InitialSettingsEvent())
+          )
         ],
         child: AppView(),
       ),
