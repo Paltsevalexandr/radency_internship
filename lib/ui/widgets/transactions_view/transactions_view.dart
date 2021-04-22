@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
-import '../../../ui/widgets/transactions_view/tabs/daily_tab.dart';
-import '../../../ui/widgets/transactions_view/tabs/monthly_tab.dart';
-import '../../../ui/widgets/transactions_view/tabs/summary_tab.dart';
-import '../../../ui/widgets/transactions_view/tabs/weekly_tab.dart';
-import '../../../ui/widgets/transactions_view/widgets/transactions_slider.dart';
-import '../../../utils/styles.dart';
+import 'package:radency_internship_project_2/blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
+import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/daily_tab.dart';
+import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/monthly_tab.dart';
+import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/summary_tab.dart';
+import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/weekly_tab.dart';
+import 'package:radency_internship_project_2/ui/widgets/transactions_view/widgets/transactions_slider.dart';
+import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionsView extends StatefulWidget {
@@ -56,18 +56,10 @@ class _TransactionsViewState extends State<TransactionsView> with SingleTickerPr
     return TabBar(
       controller: controller,
       tabs: [
-        Tab(child: Text(AppLocalizations
-            .of(context)
-            .transactionsTabTitleDaily, style: transactionsTabTitleStyle(context))),
-        Tab(child: Text(AppLocalizations
-            .of(context)
-            .transactionsTabTitleWeekly, style: transactionsTabTitleStyle(context))),
-        Tab(child: Text(AppLocalizations
-            .of(context)
-            .transactionsTabTitleMonthly, style: transactionsTabTitleStyle(context))),
-        Tab(child: Text(AppLocalizations
-            .of(context)
-            .transactionsTabTitleSummary, style: transactionsTabTitleStyle(context))),
+        Tab(child: Text(S.current.transactionsTabTitleDaily, style: transactionsTabTitleStyle(context))),
+        Tab(child: Text(S.current.transactionsTabTitleWeekly, style: transactionsTabTitleStyle(context))),
+        Tab(child: Text(S.current.transactionsTabTitleMonthly, style: transactionsTabTitleStyle(context))),
+        Tab(child: Text(S.current.transactionsTabTitleSummary, style: transactionsTabTitleStyle(context))),
       ],
       indicatorColor: Colors.red,
     );

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:radency_internship_project_2/generated/l10n.dart';
 
 class LoginPage extends StatelessWidget {
   static Route route() {
@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:
-          AppBar(title: Text(AppLocalizations.of(context).loginToolbarTitle)),
+          AppBar(title: Text(S.current.loginToolbarTitle)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: LoginForm(),
@@ -69,7 +69,7 @@ class LoginFormState extends State<LoginForm> {
               Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: Text(AppLocalizations.of(context).appTitle,
+                  child: Text(S.current.appTitle,
                       style: TextStyle(
                           color: Colors.blue,
                           fontSize: 32,
@@ -112,10 +112,10 @@ class LoginFormState extends State<LoginForm> {
               validator: (val) {
                 print(val);
                 if (val.trim().isEmpty)
-                  return AppLocalizations.of(context).enterPhoneNumber;
+                  return S.current.enterPhoneNumber;
 
                 if (val.length != 12) {
-                  return AppLocalizations.of(context).incorrectPhoneNumber;
+                  return S.current.incorrectPhoneNumber;
                 }
 
                 _phoneNumber = val;
@@ -132,7 +132,7 @@ class LoginFormState extends State<LoginForm> {
                   focusedBorder: getColoredBorder(Colors.grey),
                   enabledBorder: getColoredBorder(Colors.grey[300]),
                   prefixText: '+',
-                  labelText: AppLocalizations.of(context).yourPhoneNumber,
+                  labelText: S.current.yourPhoneNumber,
                   icon: Icon(Icons.phone_iphone))),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -151,7 +151,7 @@ class LoginFormState extends State<LoginForm> {
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                 child: Center(
-                  child: Text(AppLocalizations.of(context).loginButton,
+                  child: Text(S.current.loginButton,
                       style: Theme.of(context)
                           .textTheme
                           .headline5
@@ -162,16 +162,16 @@ class LoginFormState extends State<LoginForm> {
           ),
           RichText(
             text: TextSpan(
-                text: AppLocalizations.of(context).noAccount,
+                text: S.current.noAccount,
                 style: TextStyle(color: Colors.blueGrey, fontSize: 14),
                 children: <TextSpan>[
                   TextSpan(
-                      text: ' ${AppLocalizations.of(context).createNewAccount}',
+                      text: ' ${S.current.createNewAccount}',
                       style: TextStyle(color: Colors.blueAccent, fontSize: 14),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(AppLocalizations.of(context)
+                              content: Text(S.current
                                   .createNewAccount)));
                         })
                 ]),
@@ -187,7 +187,7 @@ class LoginFormState extends State<LoginForm> {
           Center(
             child: RichText(
               text: TextSpan(
-                  text: AppLocalizations.of(context).otpPassSendToNumber,
+                  text: S.current.otpPassSendToNumber,
                   style: TextStyle(color: Colors.black, fontSize: 18),
                   children: <TextSpan>[
                     TextSpan(
@@ -203,7 +203,7 @@ class LoginFormState extends State<LoginForm> {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: TextButton(
               child: Text(
-                AppLocalizations.of(context).wrongNumber,
+                S.current.wrongNumber,
                 style: TextStyle(color: Colors.blue),
               ),
               onPressed: () {
@@ -256,7 +256,7 @@ class LoginFormState extends State<LoginForm> {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Text(
               _otpError
-                  ? AppLocalizations.of(context).otpIncorrectPassword
+                  ? S.current.otpIncorrectPassword
                   : '',
               style: TextStyle(
                 color: Colors.red,
@@ -278,7 +278,7 @@ class LoginFormState extends State<LoginForm> {
                 } else {
                   final snackBar = SnackBar(
                       content:
-                          Text(AppLocalizations.of(context).signInSuccessful));
+                          Text(S.current.signInSuccessful));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   setState(() {
                     _otpError = false;
@@ -288,7 +288,7 @@ class LoginFormState extends State<LoginForm> {
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                 child: Center(
-                  child: Text(AppLocalizations.of(context).confirmButton,
+                  child: Text(S.current.confirmButton,
                       style: Theme.of(context)
                           .textTheme
                           .headline5

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'blocs/authentication/authentication_bloc.dart';
@@ -20,6 +19,7 @@ import 'blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
 import 'blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import 'blocs/user_profile/user_profile_bloc.dart';
 import 'ui/home_page.dart';
+import 'generated/l10n.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -79,7 +79,7 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: [
-        AppLocalizations.delegate,
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:radency_internship_project_2/generated/l10n.dart';
 
 final String emailRegExp =
     r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,"
@@ -10,19 +10,19 @@ final String phoneNumberRegExp = r'^(?:[+])?[0-9]{9,16}$';
 String getWeekDayByNumber(int num, BuildContext context) {
   switch (num) {
     case 1:
-      return AppLocalizations.of(context).mondayShort;
+      return S.current.mondayShort;
     case 2:
-      return AppLocalizations.of(context).tuesdayShort;
+      return S.current.tuesdayShort;
     case 3:
-      return AppLocalizations.of(context).wednesdayShort;
+      return S.current.wednesdayShort;
     case 4:
-      return AppLocalizations.of(context).thursdayShort;
+      return S.current.thursdayShort;
     case 5:
-      return AppLocalizations.of(context).fridayShort;
+      return S.current.fridayShort;
     case 6:
-      return AppLocalizations.of(context).saturdayShort;
+      return S.current.saturdayShort;
     case 7:
-      return AppLocalizations.of(context).sundayShort;
+      return S.current.sundayShort;
   }
   return 'None';
 }
@@ -30,29 +30,29 @@ String getWeekDayByNumber(int num, BuildContext context) {
 String getMonthByNumber(BuildContext context, int num) {
   switch (num) {
     case 1:
-      return AppLocalizations.of(context).januaryShort;
+      return S.current.januaryShort;
     case 2:
-      return AppLocalizations.of(context).februaryShort;
+      return S.current.februaryShort;
     case 3:
-      return AppLocalizations.of(context).marchShort;
+      return S.current.marchShort;
     case 4:
-      return AppLocalizations.of(context).aprilShort;
+      return S.current.aprilShort;
     case 5:
-      return AppLocalizations.of(context).mayShort;
+      return S.current.mayShort;
     case 6:
-      return AppLocalizations.of(context).juneShort;
+      return S.current.juneShort;
     case 7:
-      return AppLocalizations.of(context).julyShort;
+      return S.current.julyShort;
     case 8:
-      return AppLocalizations.of(context).augustShort;
+      return S.current.augustShort;
     case 9:
-      return AppLocalizations.of(context).septemberShort;
+      return S.current.septemberShort;
     case 10:
-      return AppLocalizations.of(context).octoberShort;
+      return S.current.octoberShort;
     case 11:
-      return AppLocalizations.of(context).novemberShort;
+      return S.current.novemberShort;
     case 12:
-      return AppLocalizations.of(context).decemberShort;
+      return S.current.decemberShort;
   }
   return 'None';
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:radency_internship_project_2/generated/l10n.dart';
 import '../../utils/routes.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -46,23 +46,23 @@ class _BottomNavBarState extends State<BottomNavBar> {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: AppLocalizations.of(context).home,
+          label: S.current.home,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.pie_chart_sharp),
-          label: AppLocalizations.of(context).spending,
+          label: S.current.spending,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.credit_card_outlined),
-          label: AppLocalizations.of(context).card,
+          label: S.current.card,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.people_rounded),
-          label: AppLocalizations.of(context).contacts,
+          label: S.current.contacts,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          label: AppLocalizations.of(context).settings,
+          label: S.current.settings,
         ),
       ],
       type: BottomNavigationBarType.fixed,
