@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import 'package:flutter_app/models/expense_item.dart';
+import 'package:radency_internship_project_2/models/expense_item.dart';
+
 
 class MockedExpensesItems {
   Map<int, List<ExpenseItemEntity>> generateDailyData() {

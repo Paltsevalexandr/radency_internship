@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../blocs/sign_up/sign_up_cubit.dart';
-import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
-import '../utils/strings.dart';
+import 'package:radency_internship_project_2/blocs/sign_up/sign_up_bloc.dart';
+import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import 'package:radency_internship_project_2/utils/strings.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key key}) : super(key: key);
@@ -22,8 +22,8 @@ class SignUpPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Sign Up')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocProvider<SignUpCubit>(
-          create: (_) => SignUpCubit(context.read<AuthenticationRepository>()),
+        child: BlocProvider<SignUpBloc>(
+          create: (_) => SignUpBloc(context.read<AuthenticationRepository>()),
           child: SignUpForm(),
         ),
       ),
@@ -66,7 +66,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SignUpCubit, SignUpState>(
+    return BlocConsumer<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state.errorMessage != null) {
           ScaffoldMessenger.of(context)
@@ -130,7 +130,7 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   Widget _detailsForm() {
-    return BlocBuilder<SignUpCubit, SignUpState>(builder: (context, state) {
+    return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
       return Column(
         children: [
           Form(
@@ -152,7 +152,7 @@ class _SignUpFormState extends State<SignUpForm> {
                         errorController.close();
                       }
                       errorController = StreamController<ErrorAnimationType>();
-                      context.read<SignUpCubit>().credentialsSubmitted(phoneNumber: _phoneNumber, email: _email, username: _username);
+                      context.read<SignUpBloc>().add(SignUpCredentialsSubmitted(phoneNumber: _phoneNumber, email: _email, username: _username));
                     }
                   },
             child: state.areDetailsProcessing
@@ -237,7 +237,6 @@ class _SignUpFormState extends State<SignUpForm> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-
             children: <Widget>[
               SizedBox(height: 45),
               Text(
@@ -259,7 +258,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
                 onPressed: () {
                   setState(() {
-                    context.read<SignUpCubit>().wrongNumberPressed();
+                    context.read<SignUpBloc>().add(SignUpWrongNumberPressed());
                     _oneTimePassword = '';
                   });
                 },
@@ -331,7 +330,7 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   Widget verifyOtpSection() {
-    return BlocBuilder<SignUpCubit, SignUpState>(builder: (context, state) {
+    return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
       return Container(
         child: TextButton(
           onPressed: state.isOTPProcessing
@@ -343,7 +342,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       otpHasError = true;
                     });
                   } else {
-                    context.read<SignUpCubit>().otpSubmitted(oneTimePassword: _oneTimePassword);
+                    context.read<SignUpBloc>().add(SignUpOtpSubmitted(oneTimePassword: _oneTimePassword));
                   }
                 },
           child: state.isOTPProcessing

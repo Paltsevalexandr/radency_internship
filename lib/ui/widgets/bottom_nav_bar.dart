@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/ui/chart_page_template.dart';
-import '../ui/chart_page_template.dart';
-//import 'package:provider/provider.dart';
+import 'package:radency_internship_project_2/ui/chart_page_template.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override

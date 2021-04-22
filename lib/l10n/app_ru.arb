@@ -34,5 +34,10 @@
   "septemberShort": "Сен.",
   "octoberShort": "Окт.",
   "novemberShort": "Ноя.",
-  "decemberShort": "Дек."
+  "decemberShort": "Дек.",
+
+  "transactionsTabTitleDaily": "По дням",
+  "transactionsTabTitleWeekly": "По неделям",
+  "transactionsTabTitleMonthly": "По месяцам",
+  "transactionsTabTitleSummary": "Сводка"
 }

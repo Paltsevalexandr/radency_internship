@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/utils/ui_utils.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 Widget incomeText(context, String currency, double value) {
   return SizedBox(

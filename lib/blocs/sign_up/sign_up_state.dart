@@ -1,4 +1,4 @@
-part of 'sign_up_cubit.dart';
+part of 'sign_up_bloc.dart';
 
 enum SignUpPageMode { Credentials, OTP }
 
@@ -12,6 +12,26 @@ class SignUpState extends Equatable {
 
   @override
   List<Object> get props => [signUpPageMode, errorMessage, areDetailsProcessing, isOTPProcessing];
+
+  SignUpState onNumberProcessing() {
+    return copyWith(areDetailsProcessing: true);
+  }
+
+  SignUpState onWrongNumber() {
+    return copyWith(signUpPageMode: SignUpPageMode.Credentials);
+  }
+
+  SignUpState onNumberSubmitted() {
+    return copyWith(areDetailsProcessing: false, signUpPageMode: SignUpPageMode.OTP);
+  }
+
+  SignUpState onOtpStartProcessing() {
+    return copyWith(isOTPProcessing: true);
+  }
+
+  SignUpState showError(String message) {
+    return copyWith(errorMessage: message);
+  }
 
   SignUpState copyWith({
     SignUpPageMode signUpPageMode,
