@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:radency_internship_project_2/models/expense_item.dart';
+import '../models/expense_item.dart';
 
 
 class MockedExpensesItems {

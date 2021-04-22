@@ -15,6 +15,12 @@
   "otpIncorrectPassword": "Incorrect otp password!",
   "signInSuccessful": "Sign In successful!",
 
+  "home": "Home",
+  "card": "Card",
+  "contacts": "Contacts",
+  "spending": "Spending",
+  "settings": "Settings",
+  
   "mondayShort": "Mon",
   "tuesdayShort": "Tue",
   "wednesdayShort": "Wed",

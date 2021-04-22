@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:radency_internship_project_2/blocs/expenses_list/daily_bloc.dart';
-import 'package:radency_internship_project_2/models/expense_item.dart';
-import 'package:radency_internship_project_2/utils/mocked_expenses.dart';
-import 'package:radency_internship_project_2/utils/strings.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
+import '../../blocs/expenses_list/daily_bloc.dart';
+import '../../models/expense_item.dart';
+import '../../utils/mocked_expenses.dart';
+import '../../utils/strings.dart';
+import '../../utils/ui_utils.dart';
 
 import 'common_expenses_list.dart';
 

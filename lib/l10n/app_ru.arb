@@ -15,6 +15,12 @@
   "otpIncorrectPassword": "Неправильный одноразовый пароль!",
   "signInSuccessful": "Вход совершён успешно!",
 
+  "home": "Главная",
+  "card": "Карта",
+  "contacts": "Контакты",
+  "spending": "Траты",
+  "settings": "Настройки",
+  
   "mondayShort": "Пн",
   "tuesdayShort": "Вт",
   "wednesdayShort": "Ср",

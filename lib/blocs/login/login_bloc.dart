@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import '../../repositories/firebase_auth_repository/firebase_auth_repository.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

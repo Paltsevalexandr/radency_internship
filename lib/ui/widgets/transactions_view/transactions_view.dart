@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:radency_internship_project_2/blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
-import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/daily_tab.dart';
-import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/monthly_tab.dart';
-import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/summary_tab.dart';
-import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/weekly_tab.dart';
-import 'package:radency_internship_project_2/ui/widgets/transactions_view/widgets/transactions_slider.dart';
-import 'package:radency_internship_project_2/utils/styles.dart';
+import '../../../blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
+import '../../../ui/widgets/transactions_view/tabs/daily_tab.dart';
+import '../../../ui/widgets/transactions_view/tabs/monthly_tab.dart';
+import '../../../ui/widgets/transactions_view/tabs/summary_tab.dart';
+import '../../../ui/widgets/transactions_view/tabs/weekly_tab.dart';
+import '../../../ui/widgets/transactions_view/widgets/transactions_slider.dart';
+import '../../../utils/styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionsView extends StatefulWidget {
