@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/expense_item.dart';
-import 'package:flutter_app/utils/mocked_expenses.dart';
-import 'package:flutter_app/utils/strings.dart';
-import 'package:flutter_app/utils/ui_utils.dart';
-import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import '../../blocs/expenses_list/daily_bloc.dart';
+import '../../models/expense_item.dart';
+import '../../utils/mocked_expenses.dart';
+import '../../utils/strings.dart';
+import '../../utils/ui_utils.dart';
+
 import 'common_expenses_list.dart';
 
 class DailyExpensesList extends StatelessWidget {

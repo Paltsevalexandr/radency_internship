@@ -1,4 +1,4 @@
-part of 'login_cubit.dart';
+part of 'login_bloc.dart';
 
 enum LoginPageMode { Credentials, OTP }
 
@@ -12,6 +12,26 @@ class LoginState extends Equatable {
 
   @override
   List<Object> get props => [loginPageMode, errorMessage, areDetailsProcessing, isOTPProcessing];
+
+  LoginState onNumberProcessing() {
+    return copyWith(areDetailsProcessing: true);
+  }
+
+  LoginState onWrongNumber() {
+    return copyWith(loginPageMode: LoginPageMode.Credentials);
+  }
+
+  LoginState onNumberSubmitted() {
+    return copyWith(areDetailsProcessing: false, loginPageMode: LoginPageMode.OTP);
+  }
+
+  LoginState onOtpStartProcessing () {
+    return copyWith(isOTPProcessing: true);
+  }
+
+  LoginState showError(String message) {
+    return copyWith(errorMessage: message);
+  }
 
   LoginState copyWith({
     LoginPageMode loginPageMode,

@@ -40,5 +40,10 @@
   "septemberShort": "Sep.",
   "octoberShort": "Oct.",
   "novemberShort": "Nov.",
-  "decemberShort": "Dec."
+  "decemberShort": "Dec.",
+
+  "transactionsTabTitleDaily": "Daily",
+  "transactionsTabTitleWeekly": "Weekly",
+  "transactionsTabTitleMonthly": "Monthly",
+  "transactionsTabTitleSummary": "Summary"
 }
