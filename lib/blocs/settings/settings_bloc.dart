@@ -33,9 +33,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield changeCurrency(event.newCurrencyValue);
       await settingsSharedPreferences.setSetting('currency', event.newCurrencyValue);
 
-    } else if(event is ChangeLanguage) {
-      yield changeLanguage(event.newLanguageValue);
-      await settingsSharedPreferences.setSetting('language', event.newLanguageValue);
     }
   }
 }
