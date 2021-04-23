@@ -48,5 +48,13 @@
   "transactionsTabTitleDaily": "Daily",
   "transactionsTabTitleWeekly": "Weekly",
   "transactionsTabTitleMonthly": "Monthly",
-  "transactionsTabTitleSummary": "Summary"
+  "transactionsTabTitleSummary": "Summary",
+
+  "transactionsTabTitleAccount": " Account",
+  "transactionsTabButtonExportToExcel": "Export data to Excel",
+  "income": "Income",
+  "expenses": "Expenses",
+  "total": "Total",
+  "transactionsTabButtonExpensesCashAccounts": "Expenses (Cash, Accounts)",
+  "transactionsTabButtonExpensesCreditCards": "Expenses (Credit Cards)"
 }

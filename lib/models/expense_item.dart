@@ -33,3 +33,13 @@ class ExpenseMonthlyItemEntity {
   final double outcome;
   final int month;
 }
+
+class ExpenseSummaryItemEntity {
+  const ExpenseSummaryItemEntity(this.id, this.income, this.outcomeCash, this.outcomeCreditCards)
+    : assert(id != null);
+
+  final int id;
+  final double income;
+  final double outcomeCash;
+  final double outcomeCreditCards;
+}

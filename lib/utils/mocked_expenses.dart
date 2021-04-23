@@ -81,4 +81,12 @@ class MockedExpensesItems {
 
     return list;
   }
+
+  ExpenseSummaryItemEntity generateSummaryData() {
+    double income = 100 * sqrt(Random().nextInt(100) + 1);
+    double outcomeCash = 100 * sqrt(Random().nextInt(25) + 1);
+    double outcomeCreditCards = 100 * sqrt(Random().nextInt(25) + 1);
+
+    return ExpenseSummaryItemEntity(1, income, outcomeCash, outcomeCreditCards);
+  }
 }

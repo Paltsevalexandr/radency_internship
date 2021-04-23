@@ -5,6 +5,8 @@ import '../../../../blocs/transactions/transactions_monthly/transactions_monthly
 import '../../../../blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
 import '../../../../blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import '../../../../ui/widgets/transactions_view/widgets/slider.dart';
+import '../../../../blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
+
 
 class TransactionsTabSlider extends StatefulWidget {
   TransactionsTabSlider();
@@ -34,8 +36,7 @@ class _TransactionsTabSliderState extends State<TransactionsTabSlider> {
             return Center(child: _monthlySlider(context));
             break;
           case TransactionsSliderMode.summary:
-            // TODO: Handle this case.
-            return SizedBox();
+            return Center(child: _summarySlider(context));
             break;
           case TransactionsSliderMode.undefined:
             return SizedBox();
@@ -117,3 +118,25 @@ Widget _monthlySlider(BuildContext context) {
     return DateRangeSlider(content: '', onBackPressed: null, onForwardPressed: null);
   });
 }
+
+Widget _summarySlider(BuildContext context) {
+  Function onSummaryTransactionsBackPressed = () {
+    return context.read<TransactionsSummaryBloc>().add(TransactionsSummaryGetPreviousMonthPressed());
+  };
+
+  Function onSummaryTransactionsForwardPressed = () {
+    return context.read<TransactionsSummaryBloc>().add(TransactionsSummaryGetNextMonthPressed());
+  };
+
+  return BlocBuilder<TransactionsSummaryBloc, TransactionsSummaryState>(builder: (context, state) {
+    if (state is TransactionsSummaryLoading)
+      return DateRangeSlider(content: state.sliderCurrentTimeIntervalString, onForwardPressed: onSummaryTransactionsForwardPressed, onBackPressed: onSummaryTransactionsBackPressed);
+
+    if (state is TransactionsSummaryLoaded)
+      return DateRangeSlider(content: state.sliderCurrentTimeIntervalString, onForwardPressed: onSummaryTransactionsForwardPressed, onBackPressed: onSummaryTransactionsBackPressed);
+
+    return DateRangeSlider(content: '', onBackPressed: null, onForwardPressed: null);
+  });
+}
+
+

@@ -484,6 +484,76 @@ class S {
       args: [],
     );
   }
+
+  /// ` Account`
+  String get transactionsTabTitleAccount {
+    return Intl.message(
+      ' Account',
+      name: 'transactionsTabTitleAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export data to Excel`
+  String get transactionsTabButtonExportToExcel {
+    return Intl.message(
+      'Export data to Excel',
+      name: 'transactionsTabButtonExportToExcel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Income`
+  String get income {
+    return Intl.message(
+      'Income',
+      name: 'income',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expenses`
+  String get expenses {
+    return Intl.message(
+      'Expenses',
+      name: 'expenses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total`
+  String get total {
+    return Intl.message(
+      'Total',
+      name: 'total',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expenses (Cash, Accounts)`
+  String get transactionsTabButtonExpensesCashAccounts {
+    return Intl.message(
+      'Expenses (Cash, Accounts)',
+      name: 'transactionsTabButtonExpensesCashAccounts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expenses (Credit Cards)`
+  String get transactionsTabButtonExpensesCreditCards {
+    return Intl.message(
+      'Expenses (Credit Cards)',
+      name: 'transactionsTabButtonExpensesCreditCards',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

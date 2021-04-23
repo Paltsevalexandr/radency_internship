@@ -48,5 +48,13 @@
   "transactionsTabTitleDaily": "По дням",
   "transactionsTabTitleWeekly": "По неделям",
   "transactionsTabTitleMonthly": "По месяцам",
-  "transactionsTabTitleSummary": "Сводка"
+  "transactionsTabTitleSummary": "Сводка",
+
+  "transactionsTabTitleAccount": " Счёт",
+  "transactionsTabButtonExportToExcel": "Экспортировать данные в Excel",
+  "income": "Доходы",
+  "expenses": "Расходы",
+  "total": "Итого",
+  "transactionsTabButtonExpensesCashAccounts": "Расходы (Наличные, счета)",
+  "transactionsTabButtonExpensesCreditCards": "Расходы (Кредитные карты)"
 }
