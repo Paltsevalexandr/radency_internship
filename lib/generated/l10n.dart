@@ -455,10 +455,10 @@ class S {
     );
   }
 
-  /// ` Account`
+  /// `Account`
   String get transactionsTabTitleAccount {
     return Intl.message(
-      ' Account',
+      'Account',
       name: 'transactionsTabTitleAccount',
       desc: '',
       args: [],
@@ -520,6 +520,166 @@ class S {
     return Intl.message(
       'Expenses (Credit Cards)',
       name: 'transactionsTabButtonExpensesCreditCards',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signUpPageTitle {
+    return Intl.message(
+      'Sign Up',
+      name: 'signUpPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create account`
+  String get signUpCreateAccountHeader {
+    return Intl.message(
+      'Create account',
+      name: 'signUpCreateAccountHeader',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A one-time password will be sent to your phone number`
+  String get signUpOTPNotice {
+    return Intl.message(
+      'A one-time password will be sent to your phone number',
+      name: 'signUpOTPNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up`
+  String get signUpApplyCredentialsButton {
+    return Intl.message(
+      'Sign up',
+      name: 'signUpApplyCredentialsButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number in international format`
+  String get signUpPhoneNumberLabelText {
+    return Intl.message(
+      'Phone number in international format',
+      name: 'signUpPhoneNumberLabelText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter phone number`
+  String get signUpPhoneNumberValidatorEmpty {
+    return Intl.message(
+      'Enter phone number',
+      name: 'signUpPhoneNumberValidatorEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter correct phone number`
+  String get signUpPhoneNumberValidatorIncorrect {
+    return Intl.message(
+      'Enter correct phone number',
+      name: 'signUpPhoneNumberValidatorIncorrect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `E-mail`
+  String get signUpEmailLabelText {
+    return Intl.message(
+      'E-mail',
+      name: 'signUpEmailLabelText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter e-mail`
+  String get signUpEmailValidatorEmpty {
+    return Intl.message(
+      'Enter e-mail',
+      name: 'signUpEmailValidatorEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter correct email`
+  String get signUpEmailValidatorIncorrect {
+    return Intl.message(
+      'Enter correct email',
+      name: 'signUpEmailValidatorIncorrect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get signUpUsernameLabelText {
+    return Intl.message(
+      'Username',
+      name: 'signUpUsernameLabelText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter username`
+  String get signUpUsernameValidatorEmpty {
+    return Intl.message(
+      'Enter username',
+      name: 'signUpUsernameValidatorEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please, enter a one-time password that was sent to number:`
+  String get signUpOTPSentNotice {
+    return Intl.message(
+      'Please, enter a one-time password that was sent to number:',
+      name: 'signUpOTPSentNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please, enter a correct one-time password`
+  String get signUpOTPValidatorIncorrect {
+    return Intl.message(
+      'Please, enter a correct one-time password',
+      name: 'signUpOTPValidatorIncorrect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong number?`
+  String get signUpWrongNumberButton {
+    return Intl.message(
+      'Wrong number?',
+      name: 'signUpWrongNumberButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get signUpOTPContinueButton {
+    return Intl.message(
+      'Continue',
+      name: 'signUpOTPContinueButton',
       desc: '',
       args: [],
     );
