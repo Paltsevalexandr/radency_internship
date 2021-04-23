@@ -21,6 +21,22 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "addTransactionAccountFieldTitle" : MessageLookupByLibrary.simpleMessage("Account"),
+    "addTransactionAccountFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Select account type"),
+    "addTransactionAmountFieldTitle" : MessageLookupByLibrary.simpleMessage("Amount"),
+    "addTransactionAmountFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Enter correct amount"),
+    "addTransactionButtonContinue" : MessageLookupByLibrary.simpleMessage("Continue"),
+    "addTransactionButtonSave" : MessageLookupByLibrary.simpleMessage("Save"),
+    "addTransactionCategoryFieldTitle" : MessageLookupByLibrary.simpleMessage("Category"),
+    "addTransactionCategoryFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Select category"),
+    "addTransactionDateFieldTitle" : MessageLookupByLibrary.simpleMessage("Date"),
+    "addTransactionFeesFieldTitle" : MessageLookupByLibrary.simpleMessage("Fees"),
+    "addTransactionFromFieldTitle" : MessageLookupByLibrary.simpleMessage("From"),
+    "addTransactionFromFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Enter source"),
+    "addTransactionNoteFieldTitle" : MessageLookupByLibrary.simpleMessage("Note"),
+    "addTransactionSnackBarSuccessMessage" : MessageLookupByLibrary.simpleMessage("Saved"),
+    "addTransactionToFieldTitle" : MessageLookupByLibrary.simpleMessage("To"),
+    "addTransactionToFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Enter destination"),
     "appTitle" : MessageLookupByLibrary.simpleMessage("App Title"),
     "aprilShort" : MessageLookupByLibrary.simpleMessage("Apr."),
     "augustShort" : MessageLookupByLibrary.simpleMessage("Aug."),

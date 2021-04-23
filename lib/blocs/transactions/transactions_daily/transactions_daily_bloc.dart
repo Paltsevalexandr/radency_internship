@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:radency_internship_project_2/utils/date_formatters.dart';
 
 part 'transactions_daily_event.dart';
 part 'transactions_daily_state.dart';
@@ -42,7 +42,7 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
   Stream<TransactionsDailyState> _mapTransactionsDailyFetchRequestedToState({@required DateTime dateForFetch}) async* {
     dailyTransactionsSubscription?.cancel();
 
-    _sliderCurrentTimeIntervalString = DateFormat('MMMM y').format(_observedDate);
+    _sliderCurrentTimeIntervalString = DateFormatters().monthNameAndYearFromDateTimeString(_observedDate);
     yield TransactionsDailyLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
     dailyTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
       // TODO: Implement fetch endpoint

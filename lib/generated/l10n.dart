@@ -684,6 +684,166 @@ class S {
       args: [],
     );
   }
+
+  /// `Save`
+  String get addTransactionButtonSave {
+    return Intl.message(
+      'Save',
+      name: 'addTransactionButtonSave',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get addTransactionButtonContinue {
+    return Intl.message(
+      'Continue',
+      name: 'addTransactionButtonContinue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get addTransactionDateFieldTitle {
+    return Intl.message(
+      'Date',
+      name: 'addTransactionDateFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account`
+  String get addTransactionAccountFieldTitle {
+    return Intl.message(
+      'Account',
+      name: 'addTransactionAccountFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category`
+  String get addTransactionCategoryFieldTitle {
+    return Intl.message(
+      'Category',
+      name: 'addTransactionCategoryFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get addTransactionAmountFieldTitle {
+    return Intl.message(
+      'Amount',
+      name: 'addTransactionAmountFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note`
+  String get addTransactionNoteFieldTitle {
+    return Intl.message(
+      'Note',
+      name: 'addTransactionNoteFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From`
+  String get addTransactionFromFieldTitle {
+    return Intl.message(
+      'From',
+      name: 'addTransactionFromFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To`
+  String get addTransactionToFieldTitle {
+    return Intl.message(
+      'To',
+      name: 'addTransactionToFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fees`
+  String get addTransactionFeesFieldTitle {
+    return Intl.message(
+      'Fees',
+      name: 'addTransactionFeesFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select category`
+  String get addTransactionCategoryFieldValidationEmpty {
+    return Intl.message(
+      'Select category',
+      name: 'addTransactionCategoryFieldValidationEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select account type`
+  String get addTransactionAccountFieldValidationEmpty {
+    return Intl.message(
+      'Select account type',
+      name: 'addTransactionAccountFieldValidationEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter correct amount`
+  String get addTransactionAmountFieldValidationEmpty {
+    return Intl.message(
+      'Enter correct amount',
+      name: 'addTransactionAmountFieldValidationEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter source`
+  String get addTransactionFromFieldValidationEmpty {
+    return Intl.message(
+      'Enter source',
+      name: 'addTransactionFromFieldValidationEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter destination`
+  String get addTransactionToFieldValidationEmpty {
+    return Intl.message(
+      'Enter destination',
+      name: 'addTransactionToFieldValidationEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved`
+  String get addTransactionSnackBarSuccessMessage {
+    return Intl.message(
+      'Saved',
+      name: 'addTransactionSnackBarSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

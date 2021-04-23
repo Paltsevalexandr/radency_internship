@@ -70,5 +70,24 @@
   "signUpOTPSentNotice": "Please, enter a one-time password that was sent to number:",
   "signUpOTPValidatorIncorrect": "Please, enter a correct one-time password",
   "signUpWrongNumberButton": "Wrong number?",
-  "signUpOTPContinueButton": "Continue"
+  "signUpOTPContinueButton": "Continue",
+
+  "addTransactionButtonSave": "Save",
+  "addTransactionButtonContinue": "Continue",
+  "addTransactionDateFieldTitle": "Date",
+  "addTransactionAccountFieldTitle": "Account",
+  "addTransactionCategoryFieldTitle": "Category",
+  "addTransactionAmountFieldTitle": "Amount",
+  "addTransactionNoteFieldTitle": "Note",
+  "addTransactionFromFieldTitle": "From",
+  "addTransactionToFieldTitle": "To",
+  "addTransactionFeesFieldTitle": "Fees",
+
+  "addTransactionCategoryFieldValidationEmpty": "Select category",
+  "addTransactionAccountFieldValidationEmpty": "Select account type",
+  "addTransactionAmountFieldValidationEmpty": "Enter correct amount",
+  "addTransactionFromFieldValidationEmpty": "Enter source",
+  "addTransactionToFieldValidationEmpty": "Enter destination",
+
+  "addTransactionSnackBarSuccessMessage": "Saved"
 }
