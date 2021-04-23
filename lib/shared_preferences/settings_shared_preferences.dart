@@ -1,25 +1,19 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-class Smthh {
+Map defaultSettings = {'currency': 'UAH', 'language': 'en'};
 
-  String value;
-  Smthh({this.value});
-}
 class SettingsSharedPreferences {
-  Map defaultSettings = {'currency': 'UAH', 'language': 'English'};
-
   getSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String settings = prefs.getString('settings');
 
     if(settings == null) {
       prefs.setString('settings', json.encode(defaultSettings));
-      return defaultSettings;
+      return null;
     }
 
-    Map currentSettings = jsonDecode(settings);
-    return currentSettings;
+    return jsonDecode(settings);
   }
 
   setSetting(settingName, newSettingValue) async {

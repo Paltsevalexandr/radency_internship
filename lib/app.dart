@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/language_setting_page.dart';
 
 import 'blocs/authentication/authentication_bloc.dart';
 import 'blocs/settings/settings_bloc.dart';
@@ -81,45 +82,52 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en', ''),
-        const Locale('ru', ''),
-      ],
-      navigatorKey: _navigatorKey,
-      routes: {
-        Routes.loginPage: (context) => LoginPage(),
-        Routes.homePage: (context) => HomePage(),
-        Routes.signUpPage: (context) => SignUpPage(),
-        Routes.splashScreen: (context) => SplashPage(),
-        Routes.spendingPage: (context) => SpendingPage(),
-        Routes.settingsPage: (context) => SettingsPage(),
-        Routes.currencySettingPage: (context) => CurrencySettingPage(),
-      },
-      builder: (context, child) {
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
-                break;
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushNamedAndRemoveUntil(Routes.loginPage, (route) => false);
-                break;
-              default:
-                _navigator.pushNamedAndRemoveUntil(Routes.splashScreen, (route) => false);
-                break;
-            }
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      bloc: BlocProvider.of<SettingsBloc>(context),
+      builder: (context, state) {
+        
+        return MaterialApp(
+          localizationsDelegates: [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en', ''),
+            const Locale('ru', ''),
+          ],
+          navigatorKey: _navigatorKey,
+          routes: {
+            Routes.loginPage: (context) => LoginPage(),
+            Routes.homePage: (context) => HomePage(),
+            Routes.signUpPage: (context) => SignUpPage(),
+            Routes.splashScreen: (context) => SplashPage(),
+            Routes.spendingPage: (context) => SpendingPage(),
+            Routes.settingsPage: (context) => SettingsPage(),
+            Routes.currencySettingPage: (context) => CurrencySettingPage(),
+            Routes.languageSettingPage: (context) => LanguageSettingPage(),
           },
-          child: child,
+          builder: (context, child) {
+            return BlocListener<AuthenticationBloc, AuthenticationState>(
+              listener: (context, state) {
+                switch (state.status) {
+                  case AuthenticationStatus.authenticated:
+                    _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
+                    break;
+                  case AuthenticationStatus.unauthenticated:
+                    _navigator.pushNamedAndRemoveUntil(Routes.loginPage, (route) => false);
+                    break;
+                  default:
+                    _navigator.pushNamedAndRemoveUntil(Routes.splashScreen, (route) => false);
+                    break;
+                }
+              },
+              child: child,
+            );
+          },
         );
-      },
+      }
     );
   }
 }

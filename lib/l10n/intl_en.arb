@@ -20,7 +20,10 @@
   "contacts": "Contacts",
   "spending": "Spending",
   "settings": "Settings",
-  
+  "language": "Language",
+  "currency": "Currency",
+  "main_currency": "Main currency",
+
   "mondayShort": "Mon",
   "tuesdayShort": "Tue",
   "wednesdayShort": "Wed",

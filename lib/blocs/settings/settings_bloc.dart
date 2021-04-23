@@ -19,18 +19,23 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   @override
   Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
     if(event is InitialSettingsEvent) {
-      yield InitialSettingsState();
       try {
         final Map settings = await settingsSharedPreferences.getSettings();
-        yield LoadedSettingsState(currency: settings['currency'], language: settings['language']);
-
-      }catch(_) {
-        print('bad');
+        yield LoadedSettingsState(
+          currency: settings['currency'], 
+          language: settings['language']
+        );
+      } catch(_) {
+        yield InitialSettingsState();
       }
 
     } else if(event is ChangeCurrency) {
-      yield changeCurrency(event.newSettingValue);
-      await settingsSharedPreferences.setSetting('currency', event.newSettingValue);
+      yield changeCurrency(event.newCurrencyValue);
+      await settingsSharedPreferences.setSetting('currency', event.newCurrencyValue);
+
+    } else if(event is ChangeLanguage) {
+      yield changeLanguage(event.newLanguageValue);
+      await settingsSharedPreferences.setSetting('language', event.newLanguageValue);
     }
   }
 }

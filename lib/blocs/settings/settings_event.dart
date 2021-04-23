@@ -10,8 +10,8 @@ class InitialSettingsEvent implements SettingsEvent{
 
 class ChangeCurrency implements SettingsEvent {
   ChangeCurrency({
-    this.newSettingValue
+    this.newCurrencyValue
   });
 
-  String newSettingValue;
+  String newCurrencyValue;
 }

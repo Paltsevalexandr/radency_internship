@@ -225,6 +225,36 @@ class S {
     );
   }
 
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currency`
+  String get currency {
+    return Intl.message(
+      'Currency',
+      name: 'currency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Main currency`
+  String get main_currency {
+    return Intl.message(
+      'Main currency',
+      name: 'main_currency',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mon`
   String get mondayShort {
     return Intl.message(

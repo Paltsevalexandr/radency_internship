@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:settings_ui/settings_ui.dart';
-
+import 'package:radency_internship_project_2/generated/l10n.dart';
 import '../../blocs/settings/settings_bloc.dart';
-
 import '../../utils/routes.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class AppSettingsList extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -18,12 +18,11 @@ class AppSettingsList extends StatelessWidget {
           child: SettingsList(
             sections: [
               SettingsSection(
-                title: 'Settings',
                 titleTextStyle: TextStyle(color: Colors.grey),
-                titlePadding: EdgeInsets.all(10),
+                titlePadding: EdgeInsets.all(pixelsToDP(context, 20)),
                 tiles: [
                   SettingsTile(
-                    title: 'Main Currency Setting',
+                    title: S.current.main_currency,
                     subtitle: state.currency,
                     leading: Icon(FontAwesome5Solid.money_bill),
                     onPressed: (BuildContext context) {
@@ -34,10 +33,15 @@ class AppSettingsList extends StatelessWidget {
                     },
                   ),
                   SettingsTile(
-                    title: 'Language Setting',
+                    title: S.current.language,
                     subtitle: state.language,
                     leading: Icon(FontAwesome5Solid.language),
-                    onPressed: (BuildContext context) {},
+                    onPressed: (BuildContext context) {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.languageSettingPage
+                      );
+                    },
                   ),
                   SettingsTile(
                     title: 'Alarm Setting',

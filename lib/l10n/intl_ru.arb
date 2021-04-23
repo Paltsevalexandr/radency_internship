@@ -20,6 +20,9 @@
   "contacts": "Контакты",
   "spending": "Траты",
   "settings": "Настройки",
+  "language": "Язык",
+  "currency": "Валюта",
+  "main_currency": "Основная валюта",
   
   "mondayShort": "Пн",
   "tuesdayShort": "Вт",
