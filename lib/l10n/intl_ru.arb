@@ -50,11 +50,31 @@
   "transactionsTabTitleMonthly": "По месяцам",
   "transactionsTabTitleSummary": "Сводка",
 
-  "transactionsTabTitleAccount": " Счёт",
+  "transactionsTabTitleAccount": "Счёт",
   "transactionsTabButtonExportToExcel": "Экспортировать данные в Excel",
   "income": "Доходы",
   "expenses": "Расходы",
   "total": "Итого",
   "transactionsTabButtonExpensesCashAccounts": "Расходы (Наличные, счета)",
-  "transactionsTabButtonExpensesCreditCards": "Расходы (Кредитные карты)"
+  "transactionsTabButtonExpensesCreditCards": "Расходы (Кредитные карты)",
+
+  "addTransactionButtonSave": "Сохранить",
+  "addTransactionButtonContinue": "Продолжить",
+  "addTransactionDateFieldTitle": "Дата",
+  "addTransactionAccountFieldTitle": "Источник",
+  "addTransactionCategoryFieldTitle": "Категория",
+  "addTransactionAmountFieldTitle": "Сумма",
+  "addTransactionNoteFieldTitle": "Примечение",
+  "addTransactionFromFieldTitle": "Отправитель",
+  "addTransactionToFieldTitle": "Получатель",
+  "addTransactionFeesFieldTitle": "Комиссия",
+
+  "addTransactionCategoryFieldValidationEmpty": "Выберите категорию",
+  "addTransactionAccountFieldValidationEmpty": "Выберите источник",
+  "addTransactionAmountFieldValidationEmpty": "Введите корректное значение",
+  "addTransactionFromFieldValidationEmpty": "Укажите отправителя",
+  "addTransactionToFieldValidationEmpty": "Укажите получателя",
+
+  "addTransactionSnackBarSuccessMessage": "Сохранено"
+
 }

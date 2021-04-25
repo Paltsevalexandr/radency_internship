@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
 import '../blocs/login/login_bloc.dart';
 import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
 import '../ui/sign_up_page.dart';
@@ -14,7 +15,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(pixelsToDP(context, 8.0)),
         child: BlocProvider<LoginBloc>(
           create: (_) => LoginBloc(context.read<AuthenticationRepository>()),
           child: LoginForm(),
@@ -44,7 +45,7 @@ class LoginForm extends StatelessWidget {
             children: [
               state.isOTPProcessing || state.areDetailsProcessing
                   ? Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: EdgeInsets.all(pixelsToDP(context, 5.0)),
                       child: CircularProgressIndicator(),
                     )
                   : ElevatedButton(

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
+import 'package:radency_internship_project_2/generated/l10n.dart';
 import '../blocs/sign_up/sign_up_bloc.dart';
 import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
 import '../utils/strings.dart';
@@ -19,9 +21,9 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign Up')),
+      appBar: AppBar(title: Text(S.current.signUpPageTitle)),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(pixelsToDP(context, 8.0)),
         child: BlocProvider<SignUpBloc>(
           create: (_) => SignUpBloc(context.read<AuthenticationRepository>()),
           child: SignUpForm(),
@@ -95,31 +97,31 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _signUpDetails() {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: EdgeInsets.all(pixelsToDP(context, 15.0)),
       child: SingleChildScrollView(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: BoxConstraints(maxWidth: pixelsToDP(context, 400)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             // mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Create account',
+                S.current.signUpCreateAccountHeader,
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               SizedBox(
-                height: 20,
+                height: pixelsToDP(context, 20),
               ),
               Text(
-                'A one-time password will be sent to your phone number',
+                S.current.signUpOTPNotice,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,
                 ),
               ),
               SizedBox(
-                height: 80,
+                height: pixelsToDP(context, 80),
               ),
               _detailsForm(),
             ],
@@ -145,10 +147,8 @@ class _SignUpFormState extends State<SignUpForm> {
                 ? null
                 : () {
                     _formKey.currentState.save();
-
                     if (_formKey.currentState.validate()) {
                       if (!errorController.isClosed) {
-                        print('_PhoneAuthScreenState: !errorController.isClosed');
                         errorController.close();
                       }
                       errorController = StreamController<ErrorAnimationType>();
@@ -160,7 +160,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     padding: const EdgeInsets.all(5.0),
                     child: CircularProgressIndicator(),
                   )
-                : Text('Sign up'),
+                : Text(S.current.signUpApplyCredentialsButton),
           )
         ],
       );
@@ -169,7 +169,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _phoneNumberField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: _padding),
+      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: TextFormField(
         initialValue: _phoneNumber?.replaceAll('+', '') ?? '',
         inputFormatters: [
@@ -179,12 +179,12 @@ class _SignUpFormState extends State<SignUpForm> {
         decoration: InputDecoration(
             prefix: Text('+'),
             helperText: '',
-            labelText: 'Phone number in international format',
+            labelText: S.current.signUpPhoneNumberLabelText,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
         validator: (val) {
-          if (val.trim().isEmpty) return 'Enter phone number';
+          if (val.trim().isEmpty) return S.current.signUpPhoneNumberValidatorEmpty;
 
-          if (!RegExp(phoneNumberRegExp).hasMatch(val)) return 'Enter correct phone number';
+          if (!RegExp(phoneNumberRegExp).hasMatch(val)) return S.current.signUpPhoneNumberValidatorIncorrect;
 
           return null;
         },
@@ -195,15 +195,16 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _emailField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: _padding),
+      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         initialValue: _email ?? '',
-        decoration: InputDecoration(helperText: '', labelText: 'E-mail', border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+        decoration:
+            InputDecoration(helperText: '', labelText: S.current.signUpEmailLabelText, border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
         validator: (val) {
-          if (val.trim().isEmpty) return 'Enter e-mail';
+          if (val.trim().isEmpty) return S.current.signUpEmailValidatorEmpty;
 
-          if (!RegExp(emailRegExp).hasMatch(val)) return 'Enter correct email';
+          if (!RegExp(emailRegExp).hasMatch(val)) return S.current.signUpEmailValidatorIncorrect;
 
           return null;
         },
@@ -214,12 +215,13 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _usernameField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: _padding),
+      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: TextFormField(
         initialValue: _username ?? '',
-        decoration: InputDecoration(helperText: '', labelText: 'Username', border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+        decoration:
+            InputDecoration(helperText: '', labelText: S.current.signUpUsernameLabelText, border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
         validator: (val) {
-          if (val.trim().isEmpty) return 'Enter username';
+          if (val.trim().isEmpty) return S.current.signUpUsernameValidatorEmpty;
 
           return null;
         },
@@ -230,30 +232,30 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _otpInput() {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: EdgeInsets.all(pixelsToDP(context, 15.0)),
       child: SingleChildScrollView(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: BoxConstraints(maxWidth: pixelsToDP(context, 400)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 45),
+              SizedBox(height: pixelsToDP(context, 45)),
               Text(
-                'Please, enter a one-time password that was sent to number:',
+                S.current.signUpOTPSentNotice,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18.0),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: pixelsToDP(context, 25)),
               Text(
                 _phoneNumber,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20.0),
               ),
-              SizedBox(height: 15),
+              SizedBox(height: pixelsToDP(context, 15)),
               TextButton(
                 child: Text(
-                  'Wrong number?',
+                  S.current.signUpWrongNumberButton,
                   style: TextStyle(color: Colors.blue),
                 ),
                 onPressed: () {
@@ -263,12 +265,12 @@ class _SignUpFormState extends State<SignUpForm> {
                   });
                 },
               ),
-              SizedBox(height: 45),
+              SizedBox(height: pixelsToDP(context, 45)),
               _pinCodeField(),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                padding: EdgeInsets.symmetric(horizontal: pixelsToDP(context, 15.0)),
                 child: Text(
-                  otpHasError ? 'Please, enter a correct one-time password' : "",
+                  otpHasError ? S.current.signUpOTPValidatorIncorrect : "",
                   style: TextStyle(
                     color: Colors.red.shade300,
                     fontSize: 15,
@@ -276,7 +278,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: pixelsToDP(context, 30)),
               verifyOtpSection(),
             ],
           ),
@@ -287,7 +289,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _pinCodeField() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.0),
+      padding: EdgeInsets.symmetric(horizontal: pixelsToDP(context, 15.0)),
       child: new PinCodeTextField(
         appContext: context,
         autoFocus: true,
@@ -296,8 +298,8 @@ class _SignUpFormState extends State<SignUpForm> {
         pinTheme: PinTheme(
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(5),
-          fieldHeight: 50,
-          fieldWidth: 40,
+          fieldHeight: pixelsToDP(context, 50),
+          fieldWidth: pixelsToDP(context, 40),
           selectedColor: Theme.of(context).accentColor,
           selectedFillColor: Colors.blueGrey,
           inactiveFillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -310,9 +312,7 @@ class _SignUpFormState extends State<SignUpForm> {
         errorAnimationController: errorController,
         controller: codeController,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        onCompleted: (v) {
-          print("Completed");
-        },
+        onCompleted: (v) {},
         onChanged: (value) {
           print(value);
           setState(() {
@@ -320,9 +320,6 @@ class _SignUpFormState extends State<SignUpForm> {
           });
         },
         beforeTextPaste: (text) {
-          print("Allowing to paste $text");
-          //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-          //but you can show anything you want here, like your pop up saying wrong paste format or etc
           return false;
         },
       ),
@@ -348,7 +345,7 @@ class _SignUpFormState extends State<SignUpForm> {
           child: state.isOTPProcessing
               ? CircularProgressIndicator()
               : Text(
-                  'Continue',
+                  S.current.signUpOTPContinueButton,
                 ),
         ),
       );

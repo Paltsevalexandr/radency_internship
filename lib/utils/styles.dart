@@ -15,3 +15,19 @@ const regularTextStyle = TextStyle(
   fontSize: 16,
 );
 
+
+
+TextStyle addTransactionFormTitleTextStyle(BuildContext context) {
+  return TextStyle(color: Colors.grey, fontSize: 20);
+}
+
+TextStyle addTransactionBottomModalSheetButtonsTextStyle(BuildContext context) {
+  return TextStyle(
+    color: Theme.of(context).textTheme.bodyText1.color,
+    fontSize: 18,
+  );
+}
+
+TextStyle addTransactionElevatedButtonTitleStyle(BuildContext context, Color titleColor) {
+  return TextStyle(color: titleColor, fontSize: 18);
+}

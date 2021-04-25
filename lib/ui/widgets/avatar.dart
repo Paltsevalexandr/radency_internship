@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 const _avatarSize = 48.0;
 
@@ -10,10 +11,10 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: _avatarSize,
+      radius: pixelsToDP(context, _avatarSize),
       backgroundImage: photo != null ? NetworkImage(photo) : null,
       child: photo == null
-          ? const Icon(Icons.person_outline, size: _avatarSize)
+          ? Icon(Icons.person_outline, size: pixelsToDP(context, _avatarSize))
           : null,
     );
   }

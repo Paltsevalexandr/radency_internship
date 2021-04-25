@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:radency_internship_project_2/utils/date_formatters.dart';
 
 part 'transactions_monthly_event.dart';
 part 'transactions_monthly_state.dart';
@@ -42,7 +42,7 @@ class TransactionsMonthlyBloc extends Bloc<TransactionsMonthlyEvent, Transaction
   Stream<TransactionsMonthlyState> _mapTransactionsMonthlyFetchRequestedToState({@required DateTime dateForFetch}) async* {
     monthlyTransactionsSubscription?.cancel();
 
-    _sliderCurrentTimeIntervalString = DateFormat('y').format(_observedDate);
+    _sliderCurrentTimeIntervalString = DateFormatters().yearFromDateTimeString(_observedDate);
     yield TransactionsMonthlyLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
 
     monthlyTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
