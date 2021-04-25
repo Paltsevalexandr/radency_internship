@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
-import 'package:radency_internship_project_2/shared_preferences/settings_shared_preferences.dart';
+import 'package:radency_internship_project_2/repositories/settings_repository/settings_repository.dart';
 
 part 'settings_state.dart';
 part 'settings_event.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
-  final SettingsSharedPreferences settingsSharedPreferences;
+  final SettingsRepository settingsRepository;
   
-  SettingsBloc(this.settingsSharedPreferences)
-  : assert(settingsSharedPreferences != null),
+  SettingsBloc(this.settingsRepository)
+  : assert(settingsRepository != null),
   super(InitialSettingsState());
 
   SettingsState changeCurrency(value) {
@@ -19,20 +19,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   @override
   Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
     if(event is InitialSettingsEvent) {
-      try {
-        final Map settings = await settingsSharedPreferences.getSettings();
-        yield LoadedSettingsState(
-          currency: settings['currency'], 
-          language: settings['language']
-        );
-      } catch(_) {
-        yield InitialSettingsState();
-      }
+        SettingsState loadedSettings = await settingsRepository.get();
+        yield loadedSettings;
 
     } else if(event is ChangeCurrency) {
       yield changeCurrency(event.newCurrencyValue);
-      await settingsSharedPreferences.setSetting('currency', event.newCurrencyValue);
-
+      await settingsRepository.set('currency', event.newCurrencyValue);
     }
   }
 }

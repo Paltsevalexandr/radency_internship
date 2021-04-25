@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/authentication/authentication_bloc.dart';
 import '../blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
-import 'bottom_nav_bar/bottom_nav_bar.dart';
+import 'widgets/bottom_nav_bar.dart';
 import 'widgets/transactions_view/transactions_view.dart';
 
 class HomePage extends StatelessWidget {

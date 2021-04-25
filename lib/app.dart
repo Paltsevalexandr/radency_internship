@@ -23,7 +23,7 @@ import 'blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import 'blocs/user_profile/user_profile_bloc.dart';
 import 'ui/home_page.dart';
 import 'generated/l10n.dart';
-import 'package:radency_internship_project_2/shared_preferences/settings_shared_preferences.dart';
+import 'package:radency_internship_project_2/repositories/settings_repository/settings_repository.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 
 class App extends StatelessWidget {
@@ -65,7 +65,7 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (BuildContext context) => SettingsBloc(
-              SettingsSharedPreferences())
+              SettingsRepository())
               ..add(InitialSettingsEvent())
           ),
         ],
@@ -88,9 +88,8 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: BlocProvider.of<SettingsBloc>(context),
       builder: (context, state) {
-        
+        print(state.currency);
         return MaterialApp(
           localizationsDelegates: [
             S.delegate,

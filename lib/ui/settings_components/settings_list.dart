@@ -9,10 +9,8 @@ import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class AppSettingsList extends StatelessWidget {
   Widget build(BuildContext context) {
-    var settingsBloc = BlocProvider.of<SettingsBloc>(context);
 
     return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: settingsBloc,
       builder: (BuildContext context, state) {
         return Container(
           child: SettingsList(
