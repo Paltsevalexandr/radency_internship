@@ -46,23 +46,23 @@ class _BottomNavBarState extends State<BottomNavBar> {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: S.current.home,
+          label: S.of(context).home,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.pie_chart_sharp),
-          label: S.current.spending,
+          label: S.of(context).spending,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.credit_card_outlined),
-          label: S.current.card,
+          label: S.of(context).card,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.people_rounded),
-          label: S.current.contacts,
+          label: S.of(context).contacts,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          label: S.current.settings,
+          label: S.of(context).settings,
         ),
       ],
       type: BottomNavigationBarType.fixed,

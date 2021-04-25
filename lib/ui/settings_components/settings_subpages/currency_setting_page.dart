@@ -13,8 +13,6 @@ class CurrencySettingPage extends StatefulWidget {
 }
 class CurrensyPageState extends State<CurrencySettingPage> {
 
-  String thisCurrency = '';
-
   List<Widget> createListOfCurrencies(context, settingsBloc, state) {
 
       return [
@@ -53,10 +51,9 @@ class CurrensyPageState extends State<CurrencySettingPage> {
     var settingsBloc = BlocProvider.of<SettingsBloc>(context);
     
     return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: settingsBloc,
       builder: (BuildContext context, state) {
         return Scaffold(
-          appBar: AppBar(title: Text(S.current.currency)),
+          appBar: AppBar(title: Text(S.of(context).currency)),
           body: Container(
             margin: EdgeInsets.only(top: pixelsToDP(context, 20)),
             decoration: BoxDecoration(

@@ -23,6 +23,8 @@
   "language": "Язык",
   "currency": "Валюта",
   "main_currency": "Основная валюта",
+  "style": "Стили",
+  "passcode": "Пароль",
   
   "mondayShort": "Пн",
   "tuesdayShort": "Вт",

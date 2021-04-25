@@ -16,6 +16,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     return LoadedSettingsState(currency: value, language: state.language);
   }
 
+  SettingsState changeLanguage(value) {
+    return LoadedSettingsState(language: value, currency: state.currency);
+  }
+
   @override
   Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
     if(event is InitialSettingsEvent) {
@@ -25,6 +29,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } else if(event is ChangeCurrency) {
       yield changeCurrency(event.newCurrencyValue);
       await settingsRepository.set('currency', event.newCurrencyValue);
+
+    } else if(event is ChangeLanguage) {
+      yield changeLanguage(event.newLanguageValue);
+      await settingsRepository.set('language', event.newLanguageValue);
     }
   }
 }

@@ -20,7 +20,7 @@ class AppSettingsList extends StatelessWidget {
                 titlePadding: EdgeInsets.all(pixelsToDP(context, 20)),
                 tiles: [
                   SettingsTile(
-                    title: S.current.main_currency,
+                    title: S.of(context).main_currency,
                     subtitle: state.currency,
                     leading: Icon(FontAwesome5Solid.money_bill),
                     onPressed: (BuildContext context) {
@@ -31,7 +31,7 @@ class AppSettingsList extends StatelessWidget {
                     },
                   ),
                   SettingsTile(
-                    title: S.current.language,
+                    title: S.of(context).language,
                     subtitle: state.language,
                     leading: Icon(FontAwesome5Solid.language),
                     onPressed: (BuildContext context) {
@@ -47,12 +47,12 @@ class AppSettingsList extends StatelessWidget {
                     onPressed: (BuildContext context) {},
                   ),
                   SettingsTile(
-                    title: 'Style',
+                    title: S.of(context).style,
                     leading: Icon(FontAwesome5Solid.palette),
                     onPressed: (BuildContext context) {},
                   ),
                   SettingsTile(
-                    title: 'Passcode',
+                    title: S.of(context).passcode,
                     leading: Icon(FontAwesome5Solid.lock),
                     onPressed: (BuildContext context){},
                   ),

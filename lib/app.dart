@@ -89,7 +89,7 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        print(state.currency);
+
         return MaterialApp(
           localizationsDelegates: [
             S.delegate,
@@ -101,6 +101,7 @@ class _AppViewState extends State<AppView> {
             const Locale('en', ''),
             const Locale('ru', ''),
           ],
+          locale: Locale(state.language),
           navigatorKey: _navigatorKey,
           routes: {
             Routes.loginPage: (context) => LoginPage(),

@@ -23,6 +23,8 @@
   "language": "Language",
   "currency": "Currency",
   "main_currency": "Main currency",
+  "style": "Style",
+  "passcode": "Passcode",
 
   "mondayShort": "Mon",
   "tuesdayShort": "Tue",

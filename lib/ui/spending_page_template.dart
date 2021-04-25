@@ -10,7 +10,7 @@ class SpendingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.current.spending)
+        title: Text(S.of(context).spending)
       ),
       body: Container(
         alignment: Alignment.center,
