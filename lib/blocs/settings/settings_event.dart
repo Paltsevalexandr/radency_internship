@@ -15,3 +15,11 @@ class ChangeCurrency implements SettingsEvent {
 
   String newCurrencyValue;
 }
+
+class ChangeLanguage implements SettingsEvent {
+  ChangeLanguage({
+    this.newLanguageValue
+  });
+
+  String newLanguageValue;
+}

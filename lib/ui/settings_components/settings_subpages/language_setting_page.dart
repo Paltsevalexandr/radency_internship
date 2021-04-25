@@ -4,48 +4,52 @@ import '../../../blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
+List languages = ['ru', 'en'];
+
 class LanguageSettingPage extends StatelessWidget{
+
+  List<Widget> createAllLanguageRows(context, state, settingsBloc) {
+    return [
+        for(String language in languages)
+
+          GestureDetector(
+            child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: pixelsToDP(context, 30), 
+              horizontal: pixelsToDP(context, 20)
+            ),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 1, color: Colors.grey)
+              ),
+              color: state.language == language ? Colors.red[50] : Colors.blueGrey[50]
+            ), 
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(language),
+                  state.language == language ? Icon(Icons.check) : Container()
+                ],              
+              )
+            ),
+            onTap: () {
+              settingsBloc.add(ChangeLanguage(newLanguageValue: language));
+              //Navigator.pop(context);
+            }
+          )
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     var settingsBloc =  BlocProvider.of<SettingsBloc>(context);
     return BlocBuilder<SettingsBloc, SettingsState>(
-      bloc: settingsBloc,
       builder: (BuildContext context, state) {
 
         return Scaffold(
-          appBar: AppBar(title: Text(S.current.language)),
+          appBar: AppBar(title: Text(S.of(context).language)),
           body: ListView(
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: pixelsToDP(context, 4)),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: pixelsToDP(context, 2), 
-                      color: Colors.grey[200])
-                  )
-                ),
-                child: ListTile(
-                  title: Text('English'),
-                  hoverColor: Colors.blueGrey[800],
-                )
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: pixelsToDP(context, 4)),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: pixelsToDP(context, 2), 
-                      color: Colors.grey[200])
-                  )
-                ),
-                child: ListTile(
-                  title: Text('Russian'),
-                  hoverColor: Colors.blueGrey[800],
-                )
-              ),
-            ],
+            children: createAllLanguageRows(context, state, settingsBloc)
           )
         );
       }

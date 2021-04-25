@@ -10,7 +10,7 @@ class SettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.current.settings)
+        title: Text(S.of(context).settings)
       ),
       body: AppSettingsList(),
       bottomNavigationBar: BottomNavBar(4)

@@ -255,6 +255,26 @@ class S {
     );
   }
 
+  /// `Style`
+  String get style {
+    return Intl.message(
+      'Style',
+      name: 'style',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passcode`
+  String get passcode {
+    return Intl.message(
+      'Passcode',
+      name: 'passcode',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mon`
   String get mondayShort {
     return Intl.message(

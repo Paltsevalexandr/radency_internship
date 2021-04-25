@@ -5,6 +5,7 @@ import 'widgets/transactions_view/transactions_view.dart';
 import 'package:radency_internship_project_2/blocs/authentication/authentication_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
+import 'package:radency_internship_project_2/generated/l10n.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {
@@ -15,7 +16,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Home'),
+          title: Text(S.of(context).home),
           actions: <Widget>[
             IconButton(
               key: const Key('homePage_logout_iconButton'),
