@@ -20,8 +20,9 @@ class TransactionsMonthlyLoading extends TransactionsMonthlyState {
 
 class TransactionsMonthlyLoaded extends TransactionsMonthlyState {
   final String sliderCurrentTimeIntervalString;
+  final List<ExpenseMonthlyItemEntity> data;
 
-  TransactionsMonthlyLoaded({@required this.sliderCurrentTimeIntervalString});
+  TransactionsMonthlyLoaded({this.data, @required this.sliderCurrentTimeIntervalString});
 
   @override
   List<Object> get props => [sliderCurrentTimeIntervalString];

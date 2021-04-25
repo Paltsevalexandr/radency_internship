@@ -5,6 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 
+import '../../../models/expense_item.dart';
+import '../../../utils/mocked_expenses.dart';
+
 part 'transactions_daily_event.dart';
 part 'transactions_daily_state.dart';
 
@@ -35,7 +38,7 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
     } else if (event is TransactionsDailyFetchRequested) {
       yield* _mapTransactionsDailyFetchRequestedToState(dateForFetch: event.dateForFetch);
     } else if (event is TransactionDailyDisplayRequested) {
-      yield* _mapTransactionDailyDisplayRequestedToState(event.data);
+      yield* _mapTransactionDailyDisplayRequestedToState(event.expenseData);
     }
   }
 
@@ -46,13 +49,13 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
     yield TransactionsDailyLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
     dailyTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
       // TODO: Implement fetch endpoint
-
-      add(TransactionDailyDisplayRequested(data: _sliderCurrentTimeIntervalString));
+      var dailyData = MockedExpensesItems().generateDailyData();
+      add(TransactionDailyDisplayRequested(expenseData: dailyData, data: _sliderCurrentTimeIntervalString));
     });
   }
 
-  Stream<TransactionsDailyState> _mapTransactionDailyDisplayRequestedToState(String data) async* {
-    yield TransactionsDailyLoaded(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
+  Stream<TransactionsDailyState> _mapTransactionDailyDisplayRequestedToState(Map<int, List<ExpenseItemEntity>> data) async* {
+    yield TransactionsDailyLoaded(data: data, sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
   }
 
   Stream<TransactionsDailyState> _mapTransactionsDailyInitializeToState() async* {

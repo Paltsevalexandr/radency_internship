@@ -77,7 +77,7 @@ class MockedExpensesItems {
           month));
     }
 
-    list.sort((a, b) => a.month.compareTo(b.month));
+    list.sort((a, b) => a.monthNumber.compareTo(b.monthNumber));
 
     return list;
   }

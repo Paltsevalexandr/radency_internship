@@ -5,6 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 
+import '../../../models/expense_item.dart';
+import '../../../utils/mocked_expenses.dart';
+
 part 'transactions_monthly_event.dart';
 part 'transactions_monthly_state.dart';
 
@@ -35,7 +38,7 @@ class TransactionsMonthlyBloc extends Bloc<TransactionsMonthlyEvent, Transaction
     } else if (event is TransactionsMonthlyFetchRequested) {
       yield* _mapTransactionsMonthlyFetchRequestedToState(dateForFetch: event.dateForFetch);
     } else  if (event is TransactionMonthlyDisplayRequested) {
-      yield* _mapTransactionMonthlyDisplayRequestedToState(event.data);
+      yield* _mapTransactionMonthlyDisplayRequestedToState(event.expenseData);
     }
   }
 
@@ -46,12 +49,13 @@ class TransactionsMonthlyBloc extends Bloc<TransactionsMonthlyEvent, Transaction
     yield TransactionsMonthlyLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
 
     monthlyTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
-      add(TransactionMonthlyDisplayRequested(data: _sliderCurrentTimeIntervalString));
+      var monthlyData = MockedExpensesItems().generateMonthlyData();
+      add(TransactionMonthlyDisplayRequested(expenseData:monthlyData, data: _sliderCurrentTimeIntervalString));
     });
   }
 
-  Stream<TransactionsMonthlyState> _mapTransactionMonthlyDisplayRequestedToState(String data) async* {
-    yield TransactionsMonthlyLoaded(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
+  Stream<TransactionsMonthlyState> _mapTransactionMonthlyDisplayRequestedToState(List<ExpenseMonthlyItemEntity> data) async* {
+    yield TransactionsMonthlyLoaded(data: data, sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
   }
 
   Stream<TransactionsMonthlyState> _mapTransactionsMonthlyInitializeToState() async* {
