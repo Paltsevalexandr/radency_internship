@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,8 +13,6 @@ import 'ui/add_transaction_page.dart';
 import 'ui/login_page_template.dart';
 import 'ui/sign_up_page.dart';
 import 'ui/splash.dart';
-import 'ui/settings_page_template.dart';
-import 'ui/spending_page_template.dart';
 import 'ui/settings_components/settings_subpages/currency_setting_page.dart';
 import 'utils/routes.dart';
 import 'blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
@@ -49,7 +48,7 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (BuildContext context) => SettingsBloc(),
+            create: (_) => SettingsBloc(),
           ),
           BlocProvider(
             create: (_) => TransactionsDailyBloc()..add(TransactionsDailyInitialize()),
@@ -62,6 +61,9 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (_) => TransactionsSummaryBloc()..add(TransactionsSummaryInitialize()),
+          ),
+          BlocProvider(
+            create: (_) => NavigationBloc()..add(SelectPage(0)),
           ),
         ],
         child: AppView(),
@@ -99,8 +101,6 @@ class _AppViewState extends State<AppView> {
         Routes.homePage: (context) => HomePage(),
         Routes.signUpPage: (context) => SignUpPage(),
         Routes.splashScreen: (context) => SplashPage(),
-        Routes.spendingPage: (context) => SpendingPage(),
-        Routes.settingsPage: (context) => SettingsPage(),
         Routes.currencySettingPage: (context) => CurrencySettingPage(),
         Routes.addTransactionPage: (context) => AddTransactionPage(),
       },
