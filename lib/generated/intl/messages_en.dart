@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "addTransactionAccountFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Select account type"),
     "addTransactionAmountFieldTitle" : MessageLookupByLibrary.simpleMessage("Amount"),
     "addTransactionAmountFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Enter correct amount"),
+    "addTransactionButtonAdd" : MessageLookupByLibrary.simpleMessage("Add"),
     "addTransactionButtonContinue" : MessageLookupByLibrary.simpleMessage("Continue"),
     "addTransactionButtonSave" : MessageLookupByLibrary.simpleMessage("Save"),
     "addTransactionCategoryFieldTitle" : MessageLookupByLibrary.simpleMessage("Category"),

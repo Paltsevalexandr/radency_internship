@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/stylized_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/test_modal_bottom_menu.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/show_modal.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
@@ -129,7 +130,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
             readOnly: true,
             showCursor: false,
             onTap: () async {
-              _fromFieldController.text = await getValueFromTestModalBottomSheet(context: context, options: accounts, onAddCallback: null);
+              _fromFieldController.text = await showModal(context: context, type: ModalType.Account, values: accounts, onAddCallback: null);
               setState(() {});
             },
             onSaved: (value) => _fromValue = value,
@@ -159,7 +160,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
             readOnly: true,
             showCursor: false,
             onTap: () async {
-              _toFieldController.text = await getValueFromTestModalBottomSheet(context: context, options: accounts, onAddCallback: null);
+              _toFieldController.text = await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
               setState(() {});
             },
             onSaved: (value) => _toValue = value,
@@ -189,14 +190,19 @@ class _AddTransferFormState extends State<AddTransferForm> {
               Expanded(
                 child: TextFormField(
                   controller: _amountFieldController,
+                  readOnly: true,
+                  showCursor: false,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(numberWithDecimalRegExp)),
                   ],
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  // keyboardType: TextInputType.numberWithOptions(decimal: true),
                   validator: (val) {
                     if (!RegExp(moneyAmountRegExp).hasMatch(val)) return S.current.addTransactionAmountFieldValidationEmpty;
 
                     return null;
+                  },
+                  onTap: () {
+                    showModal(context: context, type: ModalType.Amount, updateAmountCallback: updateAmountCallback);
                   },
                   onSaved: (value) => _amountValue = double.tryParse(value) ?? 0,
                 ),
@@ -240,6 +246,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
                 Expanded(
                   child: TextFormField(
                     controller: _feesFieldController,
+                    readOnly: true,
+                    showCursor: false,
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(numberWithDecimalRegExp)),
                     ],
@@ -250,6 +258,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
                       if (!RegExp(moneyAmountRegExp).hasMatch(val)) return S.current.addTransactionAmountFieldValidationEmpty;
 
                       return null;
+                    },
+                    onTap: () {
+                      showModal(context: context, type: ModalType.Amount, updateAmountCallback: updateFeeCallback, title: S.current.addTransactionFeesFieldTitle);
                     },
                     onSaved: (value) {
                       _areFeesVisible ? _feesValue = double.tryParse(value) ?? 0 : _feesValue = 0;
@@ -369,6 +380,20 @@ class _AddTransferFormState extends State<AddTransferForm> {
         _dateFieldController.text = DateFormatters().dateToTransactionDateString(result);
       });
     }
+  }
+
+  void updateAmountCallback(var value) {
+    String amount = getUpdatedAmount(_amountFieldController, value);
+    setState(() {
+      _amountFieldController.text = amount;
+    });
+  }
+
+  void updateFeeCallback(var value) {
+    String amount = getUpdatedAmount(_feesFieldController, value);
+    setState(() {
+      _feesFieldController.text = amount;
+    });
   }
 
   void _clearFields() {

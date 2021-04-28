@@ -66,6 +66,7 @@
   "lightTheme": "Светлая тема",
   "systemTheme": "Системная тема",
 
+  "addTransactionButtonAdd": "Добавить",
   "addTransactionButtonSave": "Сохранить",
   "addTransactionButtonContinue": "Продолжить",
   "addTransactionDateFieldTitle": "Дата",

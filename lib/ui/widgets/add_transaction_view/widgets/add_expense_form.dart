@@ -3,14 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location/transaction_location_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/location.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/account_modal.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/amount_modal.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/category_modal.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/stylized_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/test_modal_bottom_menu.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/show_modal.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
@@ -136,7 +140,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             readOnly: true,
             showCursor: false,
             onTap: () async {
-              _accountFieldController.text = await getValueFromTestModalBottomSheet(context: context, options: accounts, onAddCallback: null);
+              _accountFieldController.text = await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
               setState(() {});
             },
             onSaved: (value) => _accountValue = value,
@@ -166,7 +170,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             readOnly: true,
             showCursor: false,
             onTap: () async {
-              _categoryFieldController.text = await getValueFromTestModalBottomSheet(context: context, options: categories, onAddCallback: null);
+              _categoryFieldController.text = await showModal(context: context, values: categories, type: ModalType.Category, onAddCallback: null);
               setState(() {});
             },
             onSaved: (value) => _categoryValue = value,
@@ -192,15 +196,19 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         Flexible(
           flex: _textFieldFlex,
           child: TextFormField(
+            readOnly: true,
+            showCursor: true,
             controller: _amountFieldController,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(numberWithDecimalRegExp)),
             ],
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
             validator: (val) {
               if (!RegExp(moneyAmountRegExp).hasMatch(val)) return S.current.addTransactionAmountFieldValidationEmpty;
 
               return null;
+            },
+            onTap: () {
+              showModal(context: context, type: ModalType.Amount, updateAmountCallback: updateAmountCallback);
             },
             onSaved: (value) => _amountValue = double.tryParse(value),
           ),
@@ -342,6 +350,13 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     }
   }
 
+  void updateAmountCallback(var value) {
+    String amount = getUpdatedAmount(_amountFieldController, value);
+    setState(() {
+      _amountFieldController.text = amount;
+    });
+  }
+
   void _clearFields() {
     setState(() {
       _selectedDateTime = DateTime.now();
@@ -373,66 +388,66 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   }
 
   Future<ExpenseLocation> _getLocationFromModalBottomSheet(
-      {@required BuildContext xContext, @required String languageCode, @required bool isLocationSelected}) {
+    {@required BuildContext xContext, @required String languageCode, @required bool isLocationSelected}) {
     final transactionLocationBloc = BlocProvider.of<TransactionLocationBloc>(xContext);
 
     return showModalBottomSheet(
       context: xContext,
       builder: (context) => BlocConsumer<TransactionLocationBloc, TransactionLocationState>(
-          bloc: transactionLocationBloc,
-          listener: (context, state) async {
-            if (state is TransactionLocationSelected) {
-              if (state.expenseLocation == null)
-                Navigator.pop(context, null);
-              else
-                Navigator.pop(context, state.expenseLocation);
-            }
-          },
-          builder: (context, state) {
-            return Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _locationMenuItem(
-                    leading: Icon(Icons.my_location),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(S.current.addTransactionLocationMenuCurrent),
-                        if (state is TransactionLocationCurrentLoading) CircularProgressIndicator(),
-                      ],
-                    ),
-                    onSelect: () async {
-                      xContext.read<TransactionLocationBloc>().add(TransactionLocationCurrentPressed(languageCode: languageCode));
-                    },
+        bloc: transactionLocationBloc,
+        listener: (context, state) async {
+          if (state is TransactionLocationSelected) {
+            if (state.expenseLocation == null)
+              Navigator.pop(context, null);
+            else
+              Navigator.pop(context, state.expenseLocation);
+          }
+        },
+        builder: (context, state) {
+          return Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _locationMenuItem(
+                  leading: Icon(Icons.my_location),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(S.current.addTransactionLocationMenuCurrent),
+                      if (state is TransactionLocationCurrentLoading) CircularProgressIndicator(),
+                    ],
                   ),
-                  _locationMenuItem(
-                    leading: Icon(Icons.location_pin),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(S.current.addTransactionLocationMenuFromMap),
-                        if (state is TransactionLocationFromMapLoading) CircularProgressIndicator(),
-                      ],
-                    ),
-                    onSelect: () async {
-                      context.read<TransactionLocationMapBloc>().add(TransactionLocationMapInitialize());
-                      var latLng = await Navigator.of(context).pushNamed(Routes.transactionLocationSelectView);
-                      xContext.read<TransactionLocationBloc>().add(TransactionLocationFromMapPressed(languageCode: languageCode, latLng: latLng as LatLng));
-                    },
+                  onSelect: () async {
+                    xContext.read<TransactionLocationBloc>().add(TransactionLocationCurrentPressed(languageCode: languageCode));
+                  },
+                ),
+                _locationMenuItem(
+                  leading: Icon(Icons.location_pin),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(S.current.addTransactionLocationMenuFromMap),
+                      if (state is TransactionLocationFromMapLoading) CircularProgressIndicator(),
+                    ],
                   ),
-                  if (isLocationSelected)
-                    _locationMenuItem(
-                      leading: Icon(Icons.cancel),
-                      title: Text(S.current.addTransactionLocationMenuCancel),
-                      onSelect: () {
-                        xContext.read<TransactionLocationBloc>().add(TransactionLocationCancelSelected());
-                      },
-                    )
-                ],
-              ),
-            );
-          }),
+                  onSelect: () async {
+                    context.read<TransactionLocationMapBloc>().add(TransactionLocationMapInitialize());
+                    var latLng = await Navigator.of(context).pushNamed(Routes.transactionLocationSelectView);
+                    xContext.read<TransactionLocationBloc>().add(TransactionLocationFromMapPressed(languageCode: languageCode, latLng: latLng as LatLng));
+                  },
+                ),
+                if (isLocationSelected)
+                  _locationMenuItem(
+                    leading: Icon(Icons.cancel),
+                    title: Text(S.current.addTransactionLocationMenuCancel),
+                    onSelect: () {
+                      xContext.read<TransactionLocationBloc>().add(TransactionLocationCancelSelected());
+                    },
+                  )
+              ],
+            ),
+          );
+        }),
     );
   }
 
@@ -445,4 +460,17 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       onTap: onSelect,
     );
   }
+}
+
+String getUpdatedAmount(TextEditingController controller, var value) {
+  String amount = (controller.text ?? "").toString();
+
+  if(value == CalculatorButton.Back && amount.length > 0) {
+    amount = amount.substring(0, amount.length - 1);
+  }
+  if(RegExp(moneyAmountEditRegExp).hasMatch(amount + value.toString())){
+    amount = amount + value.toString();
+  }
+
+  return amount;
 }

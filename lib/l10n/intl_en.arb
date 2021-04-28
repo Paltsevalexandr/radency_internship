@@ -83,6 +83,7 @@
   "signUpWrongNumberButton": "Wrong number?",
   "signUpOTPContinueButton": "Continue",
 
+  "addTransactionButtonAdd": "Add",
   "addTransactionButtonSave": "Save",
   "addTransactionButtonContinue": "Continue",
   "addTransactionDateFieldTitle": "Date",

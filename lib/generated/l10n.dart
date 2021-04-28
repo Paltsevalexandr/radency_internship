@@ -765,6 +765,16 @@ class S {
     );
   }
 
+  /// `Add`
+  String get addTransactionButtonAdd {
+    return Intl.message(
+      'Add',
+      name: 'addTransactionButtonAdd',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Save`
   String get addTransactionButtonSave {
     return Intl.message(

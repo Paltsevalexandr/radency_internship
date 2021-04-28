@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "addTransactionAccountFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Выберите источник"),
     "addTransactionAmountFieldTitle" : MessageLookupByLibrary.simpleMessage("Сумма"),
     "addTransactionAmountFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Введите корректное значение"),
+    "addTransactionButtonAdd" : MessageLookupByLibrary.simpleMessage("Добавить"),
     "addTransactionButtonContinue" : MessageLookupByLibrary.simpleMessage("Продолжить"),
     "addTransactionButtonSave" : MessageLookupByLibrary.simpleMessage("Сохранить"),
     "addTransactionCategoryFieldTitle" : MessageLookupByLibrary.simpleMessage("Категория"),
