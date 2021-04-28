@@ -99,6 +99,7 @@
   "addTransactionFromFieldTitle": "From",
   "addTransactionToFieldTitle": "To",
   "addTransactionFeesFieldTitle": "Fees",
+  "addTransactionSharedFieldTitle": "Shared",
   "addTransactionLocationFieldTitle": "Location",
 
   "addTransactionCategoryFieldValidationEmpty": "Select category",

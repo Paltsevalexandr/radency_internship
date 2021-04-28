@@ -925,6 +925,16 @@ class S {
     );
   }
 
+  /// `Shared`
+  String get addTransactionSharedFieldTitle {
+    return Intl.message(
+      'Shared',
+      name: 'addTransactionSharedFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Location`
   String get addTransactionLocationFieldTitle {
     return Intl.message(

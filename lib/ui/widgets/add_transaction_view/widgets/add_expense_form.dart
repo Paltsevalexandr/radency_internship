@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
@@ -32,12 +33,14 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   double _amountValue;
   String _noteValue;
   ExpenseLocation _locationValue;
+  FullContact _sharedContact;
 
   TextEditingController _dateFieldController = TextEditingController();
   TextEditingController _accountFieldController = TextEditingController();
   TextEditingController _categoryFieldController = TextEditingController();
   TextEditingController _amountFieldController = TextEditingController();
   TextEditingController _noteFieldController = TextEditingController();
+  TextEditingController _sharedFieldController = TextEditingController();
   TextEditingController _locationFieldController = TextEditingController();
 
   final int _titleFlex = 3;
@@ -88,6 +91,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             _categoryField(state.categories),
             _amountField(),
             _noteField(),
+            _sharedWithField(),
             _locationField(context),
             SizedBox(
               height: pixelsToDP(context, 30),
@@ -233,6 +237,67 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     );
   }
 
+  Widget _sharedWithField() {
+    ImageProvider _photoProvider;
+    try {
+      _photoProvider = _sharedContact.photo.asProvider();
+    }
+    catch(_){}
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          child: _fieldTitleWidget(title: S.current.addTransactionSharedFieldTitle),
+          flex: _titleFlex,
+        ),
+        Flexible(
+          flex: _textFieldFlex,
+          child: Row(
+            children: [
+              Flexible(
+                child: TextFormField(
+                  controller: _sharedFieldController,
+                  decoration: InputDecoration(
+                    prefixIcon: _sharedContact != null ? Container(
+                      margin: EdgeInsets.only(
+                        top: pixelsToDP(context, 3),
+                        right: pixelsToDP(context, 45),
+                        bottom: pixelsToDP(context, 3),
+                        left: pixelsToDP(context, 5),
+                      ),
+                      child: CircleAvatar(
+                        foregroundImage: _photoProvider,
+                        child: FittedBox(
+                          child: Container(
+                            padding: EdgeInsets.all(pixelsToDP(context, 20)),
+                            child: Text(
+                              getContactInitials(_sharedContact),
+                              style: addTransactionAvatarTextStyle,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ) : null,
+                  ),
+                  onTap: _selectSharedContact,
+                  readOnly: true,
+                ),
+              ),
+              Visibility(
+                visible: _sharedContact != null,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: _cancelSelectContact,
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _locationField(BuildContext _context) {
     return BlocProvider(
       create: (_context) => TransactionLocationBloc(),
@@ -298,6 +363,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                   dateTime: _selectedDateTime,
                   category: _categoryValue,
                   amount: _amountValue,
+                  sharedContact: _sharedContact,
                 )));
           }
         });
@@ -323,6 +389,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                   dateTime: _selectedDateTime,
                   category: _categoryValue,
                   amount: _amountValue,
+                  sharedContact: _sharedContact,
                 )));
           }
         });
@@ -347,6 +414,23 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     }
   }
 
+  Future _selectSharedContact() async {
+    final FullContact contact = await FlutterContactPicker.pickFullContact();
+    if (contact != null) {
+      setState(() {
+        _sharedContact = contact;
+        _sharedFieldController.text = contact.name.nickName;
+      });
+    }
+  }
+
+  void _cancelSelectContact() {
+    setState(() {
+      _sharedContact = null;
+      _sharedFieldController.text = "";
+    });
+  }
+
   void updateAmountCallback(var value) {
     String amount = getUpdatedAmount(_amountFieldController, value);
     setState(() {
@@ -366,6 +450,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       _categoryFieldController.text = '';
       _amountFieldController.text = '';
       _noteFieldController.text = '';
+
+      _sharedContact = null;
     });
   }
 
@@ -470,4 +556,9 @@ String getUpdatedAmount(TextEditingController controller, var value) {
   }
 
   return amount;
+}
+
+String getContactInitials(FullContact contact){
+  String lastName = contact.name.lastName ?? "";
+  return contact.name.nickName.trim()[0] + (lastName != "" ? lastName[0] : "");
 }

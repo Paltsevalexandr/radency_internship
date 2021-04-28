@@ -15,6 +15,10 @@ const regularTextStyle = TextStyle(
   fontSize: 16,
 );
 
+const addTransactionAvatarTextStyle = TextStyle(
+  fontSize: 28,
+);
+
 var primaryColorsArray = [
   "#FFFFFF", "#E25F4E", "#EB839A", "#5ABC7B", "#4896F4", "#4A4A4A"
 ];
@@ -75,4 +79,3 @@ TextStyle addTransactionBottomModalSheetButtonsTextStyle(BuildContext context) {
 TextStyle addTransactionElevatedButtonTitleStyle(BuildContext context, Color titleColor) {
   return TextStyle(color: titleColor, fontSize: 18);
 }
-

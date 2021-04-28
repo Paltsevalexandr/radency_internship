@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "addTransactionLocationViewSelectButton" : MessageLookupByLibrary.simpleMessage("Выбрать"),
     "addTransactionLocationViewTitle" : MessageLookupByLibrary.simpleMessage("Выбор местоположения"),
     "addTransactionNoteFieldTitle" : MessageLookupByLibrary.simpleMessage("Примечение"),
+    "addTransactionSharedFieldTitle" : MessageLookupByLibrary.simpleMessage("Совмесно с"),
     "addTransactionSnackBarLocationSelectCancelled" : MessageLookupByLibrary.simpleMessage("Выбор местоположения отменён"),
     "addTransactionSnackBarSuccessMessage" : MessageLookupByLibrary.simpleMessage("Сохранено"),
     "addTransactionToFieldTitle" : MessageLookupByLibrary.simpleMessage("Назначение"),

@@ -29,7 +29,7 @@ dependencies:
   intl: ^0.17.0
 
   flutter_sticky_header: 0.6.0
-  
+
   bloc: 7.0.0
   flutter_bloc: 7.0.0
   equatable: 2.0.0
@@ -47,6 +47,7 @@ dependencies:
   flutter_icons: ^1.1.0
 
   modal_bottom_sheet: 2.0.0
+  fluttercontactpicker: 4.4.0
 
 dev_dependencies:
   flutter_test:

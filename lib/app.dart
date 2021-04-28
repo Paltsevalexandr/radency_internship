@@ -16,7 +16,6 @@ import 'blocs/settings/settings_bloc.dart';
 
 import 'repositories/firebase_auth_repository/firebase_auth_repository.dart';
 
-import 'ui/add_transaction_page.dart';
 import 'ui/login_page.dart';
 import 'ui/sign_up_page.dart';
 import 'ui/splash.dart';

@@ -25,7 +25,7 @@
   "main_currency": "Основная валюта",
   "style": "Стили",
   "passcode": "Пароль",
-  
+
   "mondayShort": "Пн",
   "tuesdayShort": "Вт",
   "wednesdayShort": "Ср",
@@ -83,6 +83,7 @@
   "addTransactionToFieldTitle": "Назначение",
   "addTransactionFeesFieldTitle": "Комиссия",
   "addTransactionLocationFieldTitle": "Местоположение",
+  "addTransactionSharedFieldTitle": "Совмесно с",
 
   "addTransactionCategoryFieldValidationEmpty": "Выберите категорию",
   "addTransactionAccountFieldValidationEmpty": "Выберите источник",
