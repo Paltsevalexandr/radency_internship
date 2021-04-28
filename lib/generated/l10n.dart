@@ -225,6 +225,56 @@ class S {
     );
   }
 
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currency`
+  String get currency {
+    return Intl.message(
+      'Currency',
+      name: 'currency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Main currency`
+  String get main_currency {
+    return Intl.message(
+      'Main currency',
+      name: 'main_currency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Style`
+  String get style {
+    return Intl.message(
+      'Style',
+      name: 'style',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passcode`
+  String get passcode {
+    return Intl.message(
+      'Passcode',
+      name: 'passcode',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mon`
   String get mondayShort {
     return Intl.message(

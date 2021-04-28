@@ -84,7 +84,7 @@ String getTransactionType(String type){
       result = S.current.expense;
       break;
     case 'Transfer':
-      result = S.current.transfer;;
+      result = S.current.transfer;
       break;
   }
 

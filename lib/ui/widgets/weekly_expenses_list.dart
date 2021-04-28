@@ -3,14 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/utils/time.dart';
 
 import '../../blocs/settings/settings_bloc.dart';
-import '../../blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
-import '../../blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import '../../blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import '../../models/expense_item.dart';
 import '../../utils/strings.dart';
 import '../../utils/ui_utils.dart';
 import 'common_expenses_list.dart';
-import 'monthly_expenses_list.dart';
 
 Widget buildWeeklyExpensesList(BuildContext context) {
   return BlocBuilder<TransactionsWeeklyBloc, TransactionsWeeklyState>(

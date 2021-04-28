@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import '../../../../ui/widgets/transactions_view/widgets/data_loading_widget.dart';
-import '../../../../ui/widgets/transactions_view/widgets/transactions_data_placeholder.dart';
 import '../../weekly_expenses_list.dart';
 
 class WeeklyTab extends StatefulWidget {
