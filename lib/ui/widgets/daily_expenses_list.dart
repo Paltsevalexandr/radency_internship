@@ -162,7 +162,7 @@ class DailyExpensesHeader extends StatelessWidget {
   final double incomeTotal;
   final double outcomeTotal;
 
-  Widget buildDateColumn(context) {
+  Widget buildBigDayText(context) {
     return Padding(
       padding: EdgeInsets.only(
           right: pixelsToDP(context, 24), left: pixelsToDP(context, 36)),
@@ -174,7 +174,7 @@ class DailyExpensesHeader extends StatelessWidget {
     );
   }
 
-  Widget buildBigDayText(BuildContext context) {
+  Widget buildDateColumn(BuildContext context) {
     const greyColor = Color(0xff8d8d8d);
 
     return Column(
