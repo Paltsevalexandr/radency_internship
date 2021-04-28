@@ -4,8 +4,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:radency_internship_project_2/generated/l10n.dart';
+
+import '../blocs/login/login_bloc.dart';
+import '../generated/l10n.dart';
+import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import '../utils/strings.dart';
+import 'sign_up_page.dart';
 
 class LoginPage extends StatelessWidget {
   static Route route() {
@@ -16,10 +23,13 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:
-          AppBar(title: Text(S.current.loginToolbarTitle)),
+      AppBar(title: Text(S.current.loginToolbarTitle)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: LoginForm(),
+        child: BlocProvider<LoginBloc>(
+          create: (_) => LoginBloc(context.read<AuthenticationRepository>()),
+          child: LoginForm(),
+        ),
       ),
     );
   }
@@ -27,19 +37,16 @@ class LoginPage extends StatelessWidget {
 
 class LoginForm extends StatefulWidget {
   @override
-  LoginFormState createState() {
-    return new LoginFormState();
-  }
+  _LoginFormState createState() => _LoginFormState();
 }
 
-class LoginFormState extends State<LoginForm> {
+class _LoginFormState extends State<LoginForm> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  bool _validate = false;
-
-  bool _otpError = false;
-  String _codeText = "";
+  String _otpText = "";
   String _phoneNumber = "";
+
+  TextEditingController codeController;
 
   StreamController<ErrorAnimationType> errorController;
 
@@ -58,51 +65,138 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Center(
+    return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
+      if (state.errorMessage != null) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(content: Text(state.errorMessage)),
+          );
+      }
+    }, builder: (context, state) {
+      return Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: Text(S.current.appTitle,
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold))),
-              Container(
-                margin: const EdgeInsets.all(16.0),
-                color: Colors.blue,
-                width: 80.0,
-                height: 80.0,
-                child: Center(
-                    child: Text('Logo',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold))),
-              ),
+              appTitle(),
+              appLogo(),
+
               Container(
                 margin:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 constraints: const BoxConstraints(maxWidth: 500),
-                child: _validate ? otpPassInput() : phoneNumberInput(),
+                child: () {
+                  switch (state.loginPageMode) {
+                    case LoginPageMode.Credentials:
+                      return Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [phoneNumberInput(context)],
+                          ));
+                      break;
+                    case LoginPageMode.OTP:
+                      return Column(
+                        children: [
+                          Center(
+                            child: RichText(
+                              text: TextSpan(
+                                  text: S.current
+                                      .otpPassSendToNumber,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 18),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: _phoneNumber.toString(),
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18)),
+                                  ]),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: TextButton(
+                              child: Text(
+                                S.current.wrongNumber,
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                              onPressed: () {
+                                setState(() {
+
+                                  _otpText = '';
+                                });
+                              },
+                            ),
+                          ),
+                          otpPassInput(context, _phoneNumber)
+                        ],
+                      );
+                      break;
+                  }
+                }(),
               ),
-              SizedBox(
-                height: 60,
+              Container(
+                margin: const EdgeInsets.only(
+                    left: 20, right: 20, bottom: 10, top: 10),
+                constraints: const BoxConstraints(maxWidth: 350),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (state.isOTPProcessing || state.areDetailsProcessing)
+                      return null;
+
+                    switch (state.loginPageMode) {
+                      case LoginPageMode.Credentials:
+                        _formKey.currentState.save();
+
+                        if (_formKey.currentState.validate()) {
+                          if (!errorController.isClosed) {
+                            print(
+                                '_PhoneAuthScreenState: !errorController.isClosed');
+                            errorController.close();
+                          }
+                          errorController =
+                              StreamController<ErrorAnimationType>();
+                          return context.read<LoginBloc>().add(LoginCredentialsSubmitted(phoneNumber: _phoneNumber));
+                        }
+                        break;
+                      case LoginPageMode.OTP:
+                        return context.read<LoginBloc>().add(LoginOtpSubmitted(oneTimePassword: _otpText));
+                        break;
+                    }
+                  },
+                  child: Container(
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    child: Center(child: () {
+                      switch (state.loginPageMode) {
+                        case LoginPageMode.Credentials:
+                          return buttonText(S.current.loginButton);
+                          break;
+                        case LoginPageMode.OTP:
+                          return buttonText(S.current.confirmButton);
+                          break;
+                      }
+                    }()),
+                  ),
+                ),
               ),
+              if (state.loginPageMode == LoginPageMode.Credentials)
+                createNewAccount(),
+              SizedBox(height: 100),
             ],
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
-  Widget phoneNumberInput() {
+  Widget phoneNumberInput(context) {
     return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,15 +204,11 @@ class LoginFormState extends State<LoginForm> {
           TextFormField(
               initialValue: _phoneNumber?.replaceAll('+', '') ?? '',
               validator: (val) {
-                print(val);
                 if (val.trim().isEmpty)
                   return S.current.enterPhoneNumber;
 
-                if (val.length != 12) {
+                if (!RegExp(phoneNumberRegExp).hasMatch(val))
                   return S.current.incorrectPhoneNumber;
-                }
-
-                _phoneNumber = val;
 
                 return null;
               },
@@ -126,100 +216,24 @@ class LoginFormState extends State<LoginForm> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
               ],
+              onSaved: (value) => _phoneNumber = '+$value',
               decoration: InputDecoration(
                   focusedErrorBorder: getColoredBorder(Colors.red),
                   errorBorder: getColoredBorder(Colors.redAccent),
                   focusedBorder: getColoredBorder(Colors.grey),
                   enabledBorder: getColoredBorder(Colors.grey[300]),
                   prefixText: '+',
-                  labelText: S.current.yourPhoneNumber,
-                  icon: Icon(Icons.phone_iphone))),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-            constraints: const BoxConstraints(maxWidth: 300),
-            child: ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  setState(() {
-                    if (!errorController.isClosed) errorController.close();
-                    errorController = StreamController<ErrorAnimationType>();
-
-                    _validate = true;
-                  });
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                child: Center(
-                  child: Text(S.current.loginButton,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(color: Colors.white)),
-                ),
-              ),
-            ),
-          ),
-          RichText(
-            text: TextSpan(
-                text: S.current.noAccount,
-                style: TextStyle(color: Colors.blueGrey, fontSize: 14),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: ' ${S.current.createNewAccount}',
-                      style: TextStyle(color: Colors.blueAccent, fontSize: 14),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(S.current
-                                  .createNewAccount)));
-                        })
-                ]),
-          ),
+                  labelText: S.current.yourPhoneNumber)),
         ]);
   }
 
-  Widget otpPassInput() {
+  Widget otpPassInput(context, _phoneNumber) {
     return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: RichText(
-              text: TextSpan(
-                  text: S.current.otpPassSendToNumber,
-                  style: TextStyle(color: Colors.black, fontSize: 18),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: '\n+$_phoneNumber',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18)),
-                  ]),
-            ),
-          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: TextButton(
-              child: Text(
-                S.current.wrongNumber,
-                style: TextStyle(color: Colors.blue),
-              ),
-              onPressed: () {
-                setState(() {
-                  _validate = false;
-                  _codeText = '';
-                });
-              },
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: PinCodeTextField(
                   appContext: context,
                   autoFocus: true,
@@ -233,15 +247,13 @@ class LoginFormState extends State<LoginForm> {
                     selectedColor: Theme.of(context).accentColor,
                     selectedFillColor: Colors.blueGrey,
                     inactiveFillColor:
-                        Theme.of(context).scaffoldBackgroundColor,
+                    Theme.of(context).scaffoldBackgroundColor,
                     inactiveColor: Theme.of(context).disabledColor,
                     activeFillColor: Colors.white,
                   ),
                   animationDuration: Duration(milliseconds: 300),
                   //autoDisposeControllers: false,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   enableActiveFill: true,
-                  errorAnimationController: errorController,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   onCompleted: (v) {
                     print("Completed");
@@ -249,55 +261,61 @@ class LoginFormState extends State<LoginForm> {
                   onChanged: (value) {
                     print(value);
                     setState(() {
-                      _codeText = value;
+                      _otpText = value;
                     });
                   })),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Text(
-              _otpError
-                  ? S.current.otpIncorrectPassword
-                  : '',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 18,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-            constraints: const BoxConstraints(maxWidth: 300),
-            child: ElevatedButton(
-              onPressed: () {
-                if (_codeText?.length != 6) {
-                  errorController.add(ErrorAnimationType.shake);
-                  setState(() {
-                    _otpError = true;
-                  });
-                } else {
-                  final snackBar = SnackBar(
-                      content:
-                          Text(S.current.signInSuccessful));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  setState(() {
-                    _otpError = false;
-                  });
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                child: Center(
-                  child: Text(S.current.confirmButton,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(color: Colors.white)),
-                ),
-              ),
-            ),
-          ),
         ]);
+  }
+
+  Widget appTitle() {
+    return Container(
+        margin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+        child: Text(S.current.appTitle,
+            style: TextStyle(
+                color: Colors.blue,
+                fontSize: 32,
+                fontWeight: FontWeight.bold)));
+  }
+
+  Widget appLogo() {
+    return Container(
+      margin: const EdgeInsets.all(16.0),
+      color: Colors.blue,
+      width: 100.0,
+      height: 100.0,
+      child: Center(
+          child: Text('Logo',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold))),
+    );
+  }
+
+  Widget createNewAccount() {
+    return RichText(
+      text: TextSpan(
+          text: S.current.noAccount,
+          style: TextStyle(color: Colors.blueGrey, fontSize: 14),
+          children: <TextSpan>[
+            TextSpan(
+                text: ' ${S.current.createNewAccount}',
+                style: TextStyle(color: Colors.blueAccent, fontSize: 14),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.of(context).push<void>(SignUpPage.route());
+                  })
+          ]),
+    );
+  }
+
+  Widget buttonText(String text) {
+    return Text(
+        text,
+        style: Theme.of(context)
+            .textTheme
+            .headline5
+            .copyWith(color: Colors.white));
   }
 }
 
