@@ -110,6 +110,15 @@
   "addTransactionLocationViewSelectButton": "Выбрать",
 
   "addTransactionSnackBarSuccessMessage": "Сохранено",
+
+  "incomeCategoryTitle": "Доходы",
+  "expensesCategoryTitle": "Расходы",
+  "delete": "Удалить",
+  "edit": "Редактировать",
+  "save": "Сохранить",
+  "categoryName": "Имя категории",
+  "newCategory": "Новая категория",
+  
   "addTransactionSnackBarLocationSelectCancelled": "Выбор местоположения отменён",
 
   "addTransactionLocationMenuCurrent" : "Указать текущее местоположение",

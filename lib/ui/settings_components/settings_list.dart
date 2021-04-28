@@ -47,6 +47,27 @@ class AppSettingsList extends StatelessWidget {
                     onPressed: (BuildContext context) {},
                   ),
                   SettingsTile(
+                    title: 'Income Categories List',
+                    leading: Icon(FontAwesome5Solid.money_bill),
+                    onPressed: (BuildContext context) {
+                      Navigator.pushNamed(
+                          context,
+                          Routes.incomeCategoriesPage
+                      );
+                    },
+                  ),
+                  SettingsTile(
+                    title: 'Expenses Categories List',
+                    leading: Icon(FontAwesome5Solid.money_bill_wave),
+                    onPressed: (BuildContext context) {
+                      Navigator.pushNamed(
+                          context,
+                          Routes.expensesCategoriesPage
+                      );
+                    },
+                  ),
+                  SettingsTile(
+                    title: 'Style',
                     title: S.of(context).style,
                     leading: Icon(FontAwesome5Solid.palette),
                     onPressed: (BuildContext context) {

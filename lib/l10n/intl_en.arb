@@ -107,6 +107,17 @@
   "addTransactionFromFieldValidationEmpty": "Enter source",
   "addTransactionToFieldValidationEmpty": "Enter destination",
 
+  "addTransactionSnackBarSuccessMessage": "Saved",
+
+  "incomeCategoryTitle": "Income",
+  "expensesCategoryTitle": "Expenses",
+  "delete": "Delete",
+  "edit": "Edit",
+  "save": "Save",
+  "categoryName": "Category Name",
+  "newCategory": "New Category",
+
+
   "addTransactionLocationFieldHint": "Tap to select location",
 
   "addTransactionLocationViewTitle": "Select location",
@@ -129,5 +140,4 @@
   "statsBudgetMonthlyTotalTitle": "Monthly",
   "statsBudgetSetupSaveButton": "Save",
   "statsBudgetSetupSaveDescription": "Enter desired budget"
-
 }

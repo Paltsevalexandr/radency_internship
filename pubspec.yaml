@@ -29,6 +29,9 @@ dependencies:
   intl: ^0.17.0
 
   flutter_sticky_header: 0.6.0
+  flutter_reorderable_list: 1.0.0
+
+  shared_preferences: 2.0.5
 
   bloc: 7.0.0
   flutter_bloc: 7.0.0

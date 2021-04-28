@@ -13,4 +13,7 @@ class Routes {
   static const String languageSettingPage = '/languageSettingPage';
   static const String styleSettingPage = '/stylePage';
   static const String transactionLocationSelectView = '/locationSelectView';
+  static const String incomeCategoriesPage = '/incomeCategoriesPage';
+  static const String expensesCategoriesPage = '/expensesCategoriesPage';
+  static const String newCategoryPage = '/newCategoryPage';
 }

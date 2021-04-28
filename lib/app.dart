@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
+import 'package:radency_internship_project_2/ui/category_page/expenses_catedory_list.dart';
+import 'package:radency_internship_project_2/ui/category_page/income_catedory_list.dart';
 import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.dart';
@@ -18,6 +22,7 @@ import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_o
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/category_budget_setup_view.dart';
 
 import 'blocs/authentication/authentication_bloc.dart';
+import 'blocs/settings/category/category_bloc.dart';
 import 'blocs/settings/settings_bloc.dart';
 import 'blocs/stats/budget_overview/budget_overview_bloc.dart';
 import 'blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
@@ -61,6 +66,9 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (BuildContext context) => StylesBloc(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => CategoryBloc(),
           ),
           BlocProvider(
             create: (_) => TransactionsDailyBloc()..add(TransactionsDailyInitialize()),
@@ -137,6 +145,9 @@ class _AppViewState extends State<AppView> {
             Routes.languageSettingPage: (context) => LanguageSettingPage(),
             Routes.styleSettingPage: (context) => StyleSettingPage(),
             Routes.transactionLocationSelectView: (context) => TransactionLocationSelectView(),
+            Routes.incomeCategoriesPage: (context) => IncomeCategoriesPage(),
+            Routes.expensesCategoriesPage: (context) => ExpensesCategoriesPage(),
+            Routes.newCategoryPage: (context) => NewCategoryPage(),
           },
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
