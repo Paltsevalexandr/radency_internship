@@ -17,16 +17,12 @@ class BottomNavBar extends StatelessWidget {
               label: S.of(context).home,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.pie_chart_sharp),
-              label: S.of(context).spending,
+              icon: Icon(Icons.bar_chart),
+              label: S.current.stats,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.credit_card_outlined),
-              label: S.of(context).card,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people_rounded),
-              label: S.of(context).contacts,
+              icon: Icon(Icons.money),
+              label: S.current.accounts,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),

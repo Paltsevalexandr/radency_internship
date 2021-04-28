@@ -16,9 +16,8 @@
   "signInSuccessful": "Вход совершён успешно!",
 
   "home": "Главная",
-  "card": "Карта",
-  "contacts": "Контакты",
-  "spending": "Траты",
+  "stats": "Статистика",
+  "accounts": "Счета",
   "settings": "Настройки",
   "language": "Язык",
   "currency": "Валюта",
@@ -92,6 +91,20 @@
   "addTransactionToFieldValidationEmpty": "Укажите назначение",
 
   "addTransactionLocationFieldHint": "Нажмите для выбора местоположения",
+
+
+  "statsViewButtonStats": "Стат.",
+  "statsViewButtonBudget": "Бюджет",
+  "statsViewButtonNote": "Заметки",
+  "statsBudgetViewRemainingMonthlyTitle": "Остаток (месяц)",
+  "statsBudgetViewBudgetSettingsTitle": "Настройки бюджета",
+  "statsBudgetSetupFieldValidatorIncorrect": "Введите правильное значение",
+  "statsBudgetMonthlyRemainingTitle": "Остаток (этот месяц)",
+  "statsBudgetMonthlyTotalTitle": "Этот месяц",
+  "statsBudgetSetupSaveButton": "Сохранить",
+  "statsBudgetSetupSaveDescription": "Введите желаемый бюджет",
+
+
 
   "addTransactionLocationViewTitle": "Выбор местоположения",
   "addTransactionLocationViewSelectButton": "Выбрать",

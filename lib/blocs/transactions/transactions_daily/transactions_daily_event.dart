@@ -28,11 +28,11 @@ class TransactionsDailyFetchRequested extends TransactionsDailyEvent {
   List<Object> get props => [dateForFetch];
 }
 
-class TransactionDailyDisplayRequested extends TransactionsDailyEvent {
+class TransactionsDailyDisplayRequested extends TransactionsDailyEvent {
   final String data;
   final Map<int, List<ExpenseItemEntity>> expenseData;
 
-  TransactionDailyDisplayRequested({this.expenseData, @required this.data});
+  TransactionsDailyDisplayRequested({this.expenseData, @required this.data});
 
   @override
   List<Object> get props => [data];

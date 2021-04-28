@@ -185,31 +185,21 @@ class S {
     );
   }
 
-  /// `Card`
-  String get card {
+  /// `Stats`
+  String get stats {
     return Intl.message(
-      'Card',
-      name: 'card',
+      'Stats',
+      name: 'stats',
       desc: '',
       args: [],
     );
   }
 
-  /// `Contacts`
-  String get contacts {
+  /// `Accounts`
+  String get accounts {
     return Intl.message(
-      'Contacts',
-      name: 'contacts',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Spending`
-  String get spending {
-    return Intl.message(
-      'Spending',
-      name: 'spending',
+      'Accounts',
+      name: 'accounts',
       desc: '',
       args: [],
     );
@@ -1025,16 +1015,6 @@ class S {
     );
   }
 
-  /// `Saved`
-  String get addTransactionSnackBarSuccessMessage {
-    return Intl.message(
-      'Saved',
-      name: 'addTransactionSnackBarSuccessMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Location selection cancelled`
   String get addTransactionSnackBarLocationSelectCancelled {
     return Intl.message(
@@ -1070,6 +1050,116 @@ class S {
     return Intl.message(
       'Cancel selection',
       name: 'addTransactionLocationMenuCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved`
+  String get addTransactionSnackBarSuccessMessage {
+    return Intl.message(
+      'Saved',
+      name: 'addTransactionSnackBarSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stats`
+  String get statsViewButtonStats {
+    return Intl.message(
+      'Stats',
+      name: 'statsViewButtonStats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Budget`
+  String get statsViewButtonBudget {
+    return Intl.message(
+      'Budget',
+      name: 'statsViewButtonBudget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note`
+  String get statsViewButtonNote {
+    return Intl.message(
+      'Note',
+      name: 'statsViewButtonNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remaining (Monthly)`
+  String get statsBudgetViewRemainingMonthlyTitle {
+    return Intl.message(
+      'Remaining (Monthly)',
+      name: 'statsBudgetViewRemainingMonthlyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Budget Settings`
+  String get statsBudgetViewBudgetSettingsTitle {
+    return Intl.message(
+      'Budget Settings',
+      name: 'statsBudgetViewBudgetSettingsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter correct value`
+  String get statsBudgetSetupFieldValidatorIncorrect {
+    return Intl.message(
+      'Enter correct value',
+      name: 'statsBudgetSetupFieldValidatorIncorrect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remaining (Monthly)`
+  String get statsBudgetMonthlyRemainingTitle {
+    return Intl.message(
+      'Remaining (Monthly)',
+      name: 'statsBudgetMonthlyRemainingTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly`
+  String get statsBudgetMonthlyTotalTitle {
+    return Intl.message(
+      'Monthly',
+      name: 'statsBudgetMonthlyTotalTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get statsBudgetSetupSaveButton {
+    return Intl.message(
+      'Save',
+      name: 'statsBudgetSetupSaveButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter desired budget`
+  String get statsBudgetSetupSaveDescription {
+    return Intl.message(
+      'Enter desired budget',
+      name: 'statsBudgetSetupSaveDescription',
       desc: '',
       args: [],
     );

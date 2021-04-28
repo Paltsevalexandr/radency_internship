@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
 import '../blocs/sign_up/sign_up_bloc.dart';
 import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
 import '../utils/strings.dart';
@@ -96,39 +96,35 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   Widget _signUpDetails() {
-    return Padding(
-      padding: EdgeInsets.all(pixelsToDP(context, 15.0)),
-      child: SingleChildScrollView(
-        child: Container(
-          constraints: BoxConstraints(maxWidth: pixelsToDP(context, 400)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                S.current.signUpCreateAccountHeader,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: pixelsToDP(context, 20),
-              ),
-              Text(
-                S.current.signUpOTPNotice,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(
-                height: pixelsToDP(context, 80),
-              ),
-              _detailsForm(),
-            ],
+    return centeredScrollView(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      // mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          height: pixelsToDP(context, 15.0),
+        ),
+        Text(
+          S.current.signUpCreateAccountHeader,
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: pixelsToDP(context, 20),
+        ),
+        Text(
+          S.current.signUpOTPNotice,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
           ),
         ),
-      ),
-    );
+        SizedBox(
+          height: pixelsToDP(context, 80),
+        ),
+        _detailsForm(),
+      ],
+    ));
   }
 
   Widget _detailsForm() {
@@ -231,60 +227,53 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   Widget _otpInput() {
-    return Padding(
-      padding: EdgeInsets.all(pixelsToDP(context, 15.0)),
-      child: SingleChildScrollView(
-        child: Container(
-          constraints: BoxConstraints(maxWidth: pixelsToDP(context, 400)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: pixelsToDP(context, 45)),
-              Text(
-                S.current.signUpOTPSentNotice,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(height: pixelsToDP(context, 25)),
-              Text(
-                _phoneNumber,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20.0),
-              ),
-              SizedBox(height: pixelsToDP(context, 15)),
-              TextButton(
-                child: Text(
-                  S.current.signUpWrongNumberButton,
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onPressed: () {
-                  setState(() {
-                    context.read<SignUpBloc>().add(SignUpWrongNumberPressed());
-                    _oneTimePassword = '';
-                  });
-                },
-              ),
-              SizedBox(height: pixelsToDP(context, 45)),
-              _pinCodeField(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: pixelsToDP(context, 15.0)),
-                child: Text(
-                  otpHasError ? S.current.signUpOTPValidatorIncorrect : "",
-                  style: TextStyle(
-                    color: Colors.red.shade300,
-                    fontSize: 15,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: pixelsToDP(context, 30)),
-              verifyOtpSection(),
-            ],
+    return centeredScrollView(
+        child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(height: pixelsToDP(context, 45)),
+        Text(
+          S.current.signUpOTPSentNotice,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18.0),
+        ),
+        SizedBox(height: pixelsToDP(context, 25)),
+        Text(
+          _phoneNumber,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20.0),
+        ),
+        SizedBox(height: pixelsToDP(context, 15)),
+        TextButton(
+          child: Text(
+            S.current.signUpWrongNumberButton,
+            style: TextStyle(color: Colors.blue),
+          ),
+          onPressed: () {
+            setState(() {
+              context.read<SignUpBloc>().add(SignUpWrongNumberPressed());
+              _oneTimePassword = '';
+            });
+          },
+        ),
+        SizedBox(height: pixelsToDP(context, 45)),
+        _pinCodeField(),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: pixelsToDP(context, 15.0)),
+          child: Text(
+            otpHasError ? S.current.signUpOTPValidatorIncorrect : "",
+            style: TextStyle(
+              color: Colors.red.shade300,
+              fontSize: 15,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
-      ),
-    );
+        SizedBox(height: pixelsToDP(context, 30)),
+        verifyOtpSection(),
+      ],
+    ));
   }
 
   Widget _pinCodeField() {
@@ -350,5 +339,17 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
       );
     });
+  }
+
+  Widget centeredScrollView({@required Widget child}) {
+    return Center(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: pixelsToDP(context, 15.0)),
+        child: Container(
+          constraints: BoxConstraints(maxWidth: pixelsToDP(context, 400)),
+          child: child,
+        ),
+      ),
+    );
   }
 }

@@ -43,6 +43,10 @@ dependencies:
   geolocator: 7.0.3
   geocoding: 2.0.0
 
+  hive: ^2.0.4
+  path_provider: ^2.0.1
+
+
   cupertino_icons: ^1.0.2
   flutter_icons: ^1.1.0
 
@@ -52,6 +56,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  hive_generator:
+  build_runner:
+
 
 flutter:
   generate: true

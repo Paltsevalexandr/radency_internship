@@ -16,9 +16,8 @@
   "signInSuccessful": "Sign In successful!",
 
   "home": "Home",
-  "card": "Card",
-  "contacts": "Contacts",
-  "spending": "Spending",
+  "stats": "Stats",
+  "accounts": "Accounts",
   "settings": "Settings",
   "language": "Language",
   "currency": "Currency",
@@ -113,10 +112,22 @@
   "addTransactionLocationViewTitle": "Select location",
   "addTransactionLocationViewSelectButton": "Select",
 
-  "addTransactionSnackBarSuccessMessage": "Saved",
   "addTransactionSnackBarLocationSelectCancelled": "Location selection cancelled",
 
   "addTransactionLocationMenuCurrent" : "Select current location",
   "addTransactionLocationMenuFromMap" : "Select on map",
-  "addTransactionLocationMenuCancel" : "Cancel selection"
+  "addTransactionLocationMenuCancel" : "Cancel selection",
+  "addTransactionSnackBarSuccessMessage": "Saved",
+
+  "statsViewButtonStats": "Stats",
+  "statsViewButtonBudget": "Budget",
+  "statsViewButtonNote": "Note",
+  "statsBudgetViewRemainingMonthlyTitle": "Remaining (Monthly)",
+  "statsBudgetViewBudgetSettingsTitle": "Budget Settings",
+  "statsBudgetSetupFieldValidatorIncorrect": "Enter correct value",
+  "statsBudgetMonthlyRemainingTitle": "Remaining (Monthly)",
+  "statsBudgetMonthlyTotalTitle": "Monthly",
+  "statsBudgetSetupSaveButton": "Save",
+  "statsBudgetSetupSaveDescription": "Enter desired budget"
+
 }

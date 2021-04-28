@@ -37,7 +37,7 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
       yield* _mapTransactionsDailyGetNextMonthPressedToState();
     } else if (event is TransactionsDailyFetchRequested) {
       yield* _mapTransactionsDailyFetchRequestedToState(dateForFetch: event.dateForFetch);
-    } else if (event is TransactionDailyDisplayRequested) {
+    } else if (event is TransactionsDailyDisplayRequested) {
       yield* _mapTransactionDailyDisplayRequestedToState(event.expenseData);
     }
   }
@@ -50,7 +50,7 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
     dailyTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
       // TODO: Implement fetch endpoint
       var dailyData = MockedExpensesItems().generateDailyData();
-      add(TransactionDailyDisplayRequested(expenseData: dailyData, data: _sliderCurrentTimeIntervalString));
+      add(TransactionsDailyDisplayRequested(expenseData: dailyData, data: _sliderCurrentTimeIntervalString));
     });
   }
 
