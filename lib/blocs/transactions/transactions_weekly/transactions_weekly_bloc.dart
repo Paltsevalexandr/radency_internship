@@ -4,6 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../../models/expense_item.dart';
+import '../../../utils/mocked_expenses.dart';
+
 part 'transactions_weekly_event.dart';
 part 'transactions_weekly_state.dart';
 
@@ -39,7 +42,7 @@ class TransactionsWeeklyBloc extends Bloc<TransactionsWeeklyEvent, TransactionsW
     } else if (event is TransactionsWeeklyFetchRequested) {
       yield* _mapTransactionsWeeklyFetchRequestedToState(dateForFetch: event.dateForFetch);
     } else if (event is TransactionWeeklyDisplayRequested) {
-      yield* _mapTransactionWeeklyDisplayRequestedToState(event.data);
+      yield* _mapTransactionWeeklyDisplayRequestedToState(event.expenseData);
     }
   }
 
@@ -50,12 +53,13 @@ class TransactionsWeeklyBloc extends Bloc<TransactionsWeeklyEvent, TransactionsW
     yield TransactionsWeeklyLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
 
     weeklyTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
-      add(TransactionWeeklyDisplayRequested(data: _sliderCurrentTimeIntervalString));
+      var weeklyData = MockedExpensesItems().generateWeeklyData();
+      add(TransactionWeeklyDisplayRequested(expenseData: weeklyData, data: _sliderCurrentTimeIntervalString));
     });
   }
 
-  Stream<TransactionsWeeklyState> _mapTransactionWeeklyDisplayRequestedToState(String data) async* {
-    yield TransactionsWeeklyLoaded(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
+  Stream<TransactionsWeeklyState> _mapTransactionWeeklyDisplayRequestedToState(List<ExpenseWeeklyItemEntity> data) async* {
+    yield TransactionsWeeklyLoaded(data: data, sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
   }
 
   Stream<TransactionsWeeklyState> _mapTransactionsWeeklyInitializeToState() async* {

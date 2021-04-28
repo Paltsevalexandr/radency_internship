@@ -21,8 +21,9 @@ class TransactionsDailyLoading extends TransactionsDailyState {
 
 class TransactionsDailyLoaded extends TransactionsDailyState {
   final String sliderCurrentTimeIntervalString;
+  final Map<int, List<ExpenseItemEntity>> data;
 
-  TransactionsDailyLoaded({@required this.sliderCurrentTimeIntervalString});
+  TransactionsDailyLoaded({this.data, @required this.sliderCurrentTimeIntervalString});
 
   @override
   List<Object> get props => [sliderCurrentTimeIntervalString];

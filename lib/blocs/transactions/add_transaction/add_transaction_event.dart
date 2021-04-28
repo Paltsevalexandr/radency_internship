@@ -7,7 +7,7 @@ abstract class AddTransactionEvent extends Equatable {
   List<Object> get props => throw [];
 }
 
-class AddExpenseInitialize extends AddTransactionEvent {}
+class AddTransactionInitialize extends AddTransactionEvent {}
 
 class AddExpenseTransaction extends AddTransactionEvent {
   final ExpenseTransaction expenseTransaction;

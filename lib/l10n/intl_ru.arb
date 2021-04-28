@@ -47,6 +47,9 @@
   "novemberShort": "Ноя.",
   "decemberShort": "Дек.",
 
+  "transaction": "Транзакция",
+  "addTransaction": "Добавить транзакцию",
+
   "transactionsTabTitleDaily": "По дням",
   "transactionsTabTitleWeekly": "По неделям",
   "transactionsTabTitleMonthly": "По месяцам",
@@ -60,6 +63,15 @@
   "transactionsTabButtonExpensesCashAccounts": "Расходы (Наличные, счета)",
   "transactionsTabButtonExpensesCreditCards": "Расходы (Кредитные карты)",
 
+  "expense": "Расходы",
+  "transfer": "Перевод",
+
+  "stylePageTitle": "Стиль",
+  "darkTheme": "Тёмная тема",
+  "lightTheme": "Светлая тема",
+  "systemTheme": "Системная тема",
+
+  "addTransactionButtonAdd": "Добавить",
   "addTransactionButtonSave": "Сохранить",
   "addTransactionButtonContinue": "Продолжить",
   "addTransactionDateFieldTitle": "Дата",
@@ -67,16 +79,26 @@
   "addTransactionCategoryFieldTitle": "Категория",
   "addTransactionAmountFieldTitle": "Сумма",
   "addTransactionNoteFieldTitle": "Примечение",
-  "addTransactionFromFieldTitle": "Отправитель",
-  "addTransactionToFieldTitle": "Получатель",
+  "addTransactionFromFieldTitle": "Источник",
+  "addTransactionToFieldTitle": "Назначение",
   "addTransactionFeesFieldTitle": "Комиссия",
+  "addTransactionLocationFieldTitle": "Местоположение",
 
   "addTransactionCategoryFieldValidationEmpty": "Выберите категорию",
   "addTransactionAccountFieldValidationEmpty": "Выберите источник",
   "addTransactionAmountFieldValidationEmpty": "Введите корректное значение",
-  "addTransactionFromFieldValidationEmpty": "Укажите отправителя",
-  "addTransactionToFieldValidationEmpty": "Укажите получателя",
+  "addTransactionFromFieldValidationEmpty": "Укажите источник",
+  "addTransactionToFieldValidationEmpty": "Укажите назначение",
 
-  "addTransactionSnackBarSuccessMessage": "Сохранено"
+  "addTransactionLocationFieldHint": "Нажмите для выбора местоположения",
 
+  "addTransactionLocationViewTitle": "Выбор местоположения",
+  "addTransactionLocationViewSelectButton": "Выбрать",
+
+  "addTransactionSnackBarSuccessMessage": "Сохранено",
+  "addTransactionSnackBarLocationSelectCancelled": "Выбор местоположения отменён",
+
+  "addTransactionLocationMenuCurrent" : "Указать текущее местоположение",
+  "addTransactionLocationMenuFromMap" : "Выбрать на карте",
+  "addTransactionLocationMenuCancel" : "Отменить выбор"
 }

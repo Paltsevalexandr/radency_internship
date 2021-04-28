@@ -18,14 +18,14 @@ class AddTransactionBloc extends Bloc<AddTransactionEvent, AddTransactionState> 
   Stream<AddTransactionState> mapEventToState(
     AddTransactionEvent event,
   ) async* {
-    if (event is AddExpenseInitialize) {
-      yield* _mapAddExpenseInitializeToState();
+    if (event is AddTransactionInitialize) {
+      yield* _mapAddTransactionInitializeToState();
     } else if (event is AddExpenseTransaction) {
       yield* _mapAddExpenseTransactionToState(event.expenseTransaction, event.isAddingCompleted);
     } else if (event is AddTransferTransaction) yield* _mapAddTransferTransactionToState(event.transferTransaction, event.isAddingCompleted);
   }
 
-  Stream<AddTransactionState> _mapAddExpenseInitializeToState() async* {
+  Stream<AddTransactionState> _mapAddTransactionInitializeToState() async* {
     // TODO: fetch categories, accounts, etc.
 
     yield AddTransactionLoaded(categories: TempAddTransactionValues().categories, accounts: TempAddTransactionValues().accounts);

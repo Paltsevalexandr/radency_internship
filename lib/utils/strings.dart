@@ -82,4 +82,6 @@ String getCurrencySymbol(String currency){
 
 final String numberWithDecimalRegExp = r'[0-9.]';
 
+final String moneyAmountEditRegExp = r'^[0-9]+(\.[0-9]{0,2})?$';
+
 final String moneyAmountRegExp = r'^[0-9]+(\.[0-9]{1,2})?$';

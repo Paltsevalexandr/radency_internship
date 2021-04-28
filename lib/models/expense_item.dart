@@ -25,13 +25,13 @@ class ExpenseWeeklyItemEntity {
 
 
 class ExpenseMonthlyItemEntity {
-  const ExpenseMonthlyItemEntity(this.id, this.income, this.outcome, this.month)
+  const ExpenseMonthlyItemEntity(this.id, this.income, this.outcome, this.monthNumber)
       : assert(id != null);
 
   final int id;
   final double income;
   final double outcome;
-  final int month;
+  final int monthNumber;
 }
 
 class ExpenseSummaryItemEntity {

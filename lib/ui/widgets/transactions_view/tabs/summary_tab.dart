@@ -183,7 +183,7 @@ class _SummaryTabState extends State<SummaryTab> {
       return SizedBox();
     });
   }
-  
+
   Widget _buildRowItem({String title, String currencySymbol, double amount, Color color}){
     return Column(
       children: [

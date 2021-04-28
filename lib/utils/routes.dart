@@ -8,4 +8,6 @@ class Routes {
   static const String spendingPage = '/spendingPage';
   static const String currencySettingPage = '/currencySettingPage';
   static const String languageSettingPage = '/languageSettingPage';
+  static const String styleSettingPage = '/stylePage';
+  static const String transactionLocationSelectView = '/locationSelectView';
 }

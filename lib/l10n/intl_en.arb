@@ -47,6 +47,9 @@
   "novemberShort": "Nov.",
   "decemberShort": "Dec.",
 
+  "transaction": "Transaction",
+  "addTransaction": "Add transaction",
+
   "transactionsTabTitleDaily": "Daily",
   "transactionsTabTitleWeekly": "Weekly",
   "transactionsTabTitleMonthly": "Monthly",
@@ -59,6 +62,14 @@
   "total": "Total",
   "transactionsTabButtonExpensesCashAccounts": "Expenses (Cash, Accounts)",
   "transactionsTabButtonExpensesCreditCards": "Expenses (Credit Cards)",
+
+  "expense": "Expense",
+  "transfer": "Transfer",
+
+  "stylePageTitle": "Style",
+  "darkTheme": "Dark Theme",
+  "lightTheme": "Light Theme",
+  "systemTheme": "System Theme",
 
   "signUpPageTitle": "Sign Up",
   "signUpCreateAccountHeader": "Create account",
@@ -77,6 +88,7 @@
   "signUpWrongNumberButton": "Wrong number?",
   "signUpOTPContinueButton": "Continue",
 
+  "addTransactionButtonAdd": "Add",
   "addTransactionButtonSave": "Save",
   "addTransactionButtonContinue": "Continue",
   "addTransactionDateFieldTitle": "Date",
@@ -87,6 +99,7 @@
   "addTransactionFromFieldTitle": "From",
   "addTransactionToFieldTitle": "To",
   "addTransactionFeesFieldTitle": "Fees",
+  "addTransactionLocationFieldTitle": "Location",
 
   "addTransactionCategoryFieldValidationEmpty": "Select category",
   "addTransactionAccountFieldValidationEmpty": "Select account type",
@@ -94,5 +107,15 @@
   "addTransactionFromFieldValidationEmpty": "Enter source",
   "addTransactionToFieldValidationEmpty": "Enter destination",
 
-  "addTransactionSnackBarSuccessMessage": "Saved"
+  "addTransactionLocationFieldHint": "Tap to select location",
+
+  "addTransactionLocationViewTitle": "Select location",
+  "addTransactionLocationViewSelectButton": "Select",
+
+  "addTransactionSnackBarSuccessMessage": "Saved",
+  "addTransactionSnackBarLocationSelectCancelled": "Location selection cancelled",
+
+  "addTransactionLocationMenuCurrent" : "Select current location",
+  "addTransactionLocationMenuFromMap" : "Select on map",
+  "addTransactionLocationMenuCancel" : "Cancel selection"
 }
