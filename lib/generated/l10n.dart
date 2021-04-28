@@ -225,6 +225,56 @@ class S {
     );
   }
 
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currency`
+  String get currency {
+    return Intl.message(
+      'Currency',
+      name: 'currency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Main currency`
+  String get main_currency {
+    return Intl.message(
+      'Main currency',
+      name: 'main_currency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Style`
+  String get style {
+    return Intl.message(
+      'Style',
+      name: 'style',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passcode`
+  String get passcode {
+    return Intl.message(
+      'Passcode',
+      name: 'passcode',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mon`
   String get mondayShort {
     return Intl.message(
@@ -415,6 +465,26 @@ class S {
     );
   }
 
+  /// `Transaction`
+  String get transaction {
+    return Intl.message(
+      'Transaction',
+      name: 'transaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add transaction`
+  String get addTransaction {
+    return Intl.message(
+      'Add transaction',
+      name: 'addTransaction',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Daily`
   String get transactionsTabTitleDaily {
     return Intl.message(
@@ -520,6 +590,66 @@ class S {
     return Intl.message(
       'Expenses (Credit Cards)',
       name: 'transactionsTabButtonExpensesCreditCards',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expense`
+  String get expense {
+    return Intl.message(
+      'Expense',
+      name: 'expense',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transfer`
+  String get transfer {
+    return Intl.message(
+      'Transfer',
+      name: 'transfer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Style`
+  String get stylePageTitle {
+    return Intl.message(
+      'Style',
+      name: 'stylePageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark Theme`
+  String get darkTheme {
+    return Intl.message(
+      'Dark Theme',
+      name: 'darkTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Light Theme`
+  String get lightTheme {
+    return Intl.message(
+      'Light Theme',
+      name: 'lightTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System Theme`
+  String get systemTheme {
+    return Intl.message(
+      'System Theme',
+      name: 'systemTheme',
       desc: '',
       args: [],
     );
@@ -685,6 +815,16 @@ class S {
     );
   }
 
+  /// `Add`
+  String get addTransactionButtonAdd {
+    return Intl.message(
+      'Add',
+      name: 'addTransactionButtonAdd',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Save`
   String get addTransactionButtonSave {
     return Intl.message(
@@ -785,6 +925,16 @@ class S {
     );
   }
 
+  /// `Location`
+  String get addTransactionLocationFieldTitle {
+    return Intl.message(
+      'Location',
+      name: 'addTransactionLocationFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Select category`
   String get addTransactionCategoryFieldValidationEmpty {
     return Intl.message(
@@ -835,11 +985,81 @@ class S {
     );
   }
 
+  /// `Tap to select location`
+  String get addTransactionLocationFieldHint {
+    return Intl.message(
+      'Tap to select location',
+      name: 'addTransactionLocationFieldHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select location`
+  String get addTransactionLocationViewTitle {
+    return Intl.message(
+      'Select location',
+      name: 'addTransactionLocationViewTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select`
+  String get addTransactionLocationViewSelectButton {
+    return Intl.message(
+      'Select',
+      name: 'addTransactionLocationViewSelectButton',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Saved`
   String get addTransactionSnackBarSuccessMessage {
     return Intl.message(
       'Saved',
       name: 'addTransactionSnackBarSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location selection cancelled`
+  String get addTransactionSnackBarLocationSelectCancelled {
+    return Intl.message(
+      'Location selection cancelled',
+      name: 'addTransactionSnackBarLocationSelectCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select current location`
+  String get addTransactionLocationMenuCurrent {
+    return Intl.message(
+      'Select current location',
+      name: 'addTransactionLocationMenuCurrent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select on map`
+  String get addTransactionLocationMenuFromMap {
+    return Intl.message(
+      'Select on map',
+      name: 'addTransactionLocationMenuFromMap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel selection`
+  String get addTransactionLocationMenuCancel {
+    return Intl.message(
+      'Cancel selection',
+      name: 'addTransactionLocationMenuCancel',
       desc: '',
       args: [],
     );

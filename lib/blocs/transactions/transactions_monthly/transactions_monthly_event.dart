@@ -31,8 +31,9 @@ class TransactionsMonthlyFetchRequested extends TransactionsMonthlyEvent {
 
 class TransactionMonthlyDisplayRequested extends TransactionsMonthlyEvent {
   final String data;
+  final List<ExpenseMonthlyItemEntity> expenseData;
 
-  TransactionMonthlyDisplayRequested({@required this.data});
+  TransactionMonthlyDisplayRequested({this.expenseData, @required this.data});
 
   @override
   List<Object> get props => [data];

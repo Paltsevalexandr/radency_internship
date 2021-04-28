@@ -1,48 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../blocs/settings/settings_bloc.dart';
+import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
-class LanguageSettingPage extends StatefulWidget{
-  LanguageSettingPage({Key key, this.language, this.changeLanguage}):super(key:key);
+List languages = ['ru', 'en'];
 
-  final String language;
-  final Function changeLanguage;
+class LanguageSettingPage extends StatelessWidget{
 
-  _LanguageState createState() => _LanguageState(language, changeLanguage);
-}
+  List<Widget> createAllLanguageRows(context, state, settingsBloc) {
+    return [
+        for(String language in languages)
 
-class _LanguageState extends State<LanguageSettingPage> {
-  
-  String language;
-  Function changeLanguage;
-
-  _LanguageState(this.language, this.changeLanguage);
-
-  void changeAppLanguage(value) {
-    changeLanguage(value);
-    setState(() {
-      language = value;
-    });
+          GestureDetector(
+            child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: pixelsToDP(context, 30), 
+              horizontal: pixelsToDP(context, 20)
+            ),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 1, color: Colors.grey)
+              ),
+              color: state.language == language ? Colors.red[50] : Colors.blueGrey[50]
+            ), 
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(language),
+                  state.language == language ? Icon(Icons.check) : Container()
+                ],              
+              )
+            ),
+            onTap: () {
+              settingsBloc.add(ChangeLanguage(newLanguageValue: language));
+              //Navigator.pop(context);
+            }
+          )
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Language')),
-      body: ListView(
-        children: [
-          RadioListTile(
-            title: Text('English'),
-            value: 'English',
-            groupValue: language,
-            onChanged: changeAppLanguage
-          ),
-          RadioListTile(
-            title: Text('Russian'),
-            value: 'Russian',
-            groupValue: language,
-            onChanged: changeAppLanguage,
-          ),
-        ],
-      )
+    var settingsBloc =  BlocProvider.of<SettingsBloc>(context);
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (BuildContext context, state) {
+
+        return Scaffold(
+          appBar: AppBar(title: Text(S.of(context).language)),
+          body: ListView(
+            children: createAllLanguageRows(context, state, settingsBloc)
+          )
+        );
+      }
     );
   }
 }

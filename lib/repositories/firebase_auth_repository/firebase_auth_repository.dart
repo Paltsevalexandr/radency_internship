@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
-import '../../models/user.dart';
+import 'package:radency_internship_project_2/models/user.dart';
 
 class SignUpFailure implements Exception {}
 

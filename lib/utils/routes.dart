@@ -5,4 +5,7 @@ class Routes {
   static const String signUpPage = '/signUpPage';
   static const String addTransactionPage = '/addTransactionPage';
   static const String currencySettingPage = '/currencySettingPage';
+  static const String languageSettingPage = '/languageSettingPage';
+  static const String styleSettingPage = '/stylePage';
+  static const String transactionLocationSelectView = '/locationSelectView';
 }

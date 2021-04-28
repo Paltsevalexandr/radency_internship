@@ -31,8 +31,9 @@ class TransactionsWeeklyFetchRequested extends TransactionsWeeklyEvent {
 
 class TransactionWeeklyDisplayRequested extends TransactionsWeeklyEvent {
   final String data;
+  final List<ExpenseWeeklyItemEntity> expenseData;
 
-  TransactionWeeklyDisplayRequested({@required this.data});
+  TransactionWeeklyDisplayRequested({this.expenseData, @required this.data});
 
   @override
   List<Object> get props => [data];
