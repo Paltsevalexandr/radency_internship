@@ -28,10 +28,6 @@ Widget buildDailyExpensesList(BuildContext context) {
         body: CustomScrollView(
           slivers: sliversMap,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
-        ),
       );
     }
 
@@ -67,10 +63,6 @@ class DailyExpensesList extends StatelessWidget {
               slivers: sliversMap,
             );
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
-      ),
     );
   }
 }

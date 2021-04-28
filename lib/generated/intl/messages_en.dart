@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "addTransaction" : MessageLookupByLibrary.simpleMessage("Add transaction"),
     "addTransactionAccountFieldTitle" : MessageLookupByLibrary.simpleMessage("Account"),
     "addTransactionAccountFieldValidationEmpty" : MessageLookupByLibrary.simpleMessage("Select account type"),
     "addTransactionAmountFieldTitle" : MessageLookupByLibrary.simpleMessage("Amount"),
@@ -56,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "decemberShort" : MessageLookupByLibrary.simpleMessage("Dec."),
     "enterPhoneNumber" : MessageLookupByLibrary.simpleMessage("Enter phone number"),
     "exampleTitle" : MessageLookupByLibrary.simpleMessage("Example EN Title"),
+    "expense" : MessageLookupByLibrary.simpleMessage("Expense"),
     "expenses" : MessageLookupByLibrary.simpleMessage("Expenses"),
     "februaryShort" : MessageLookupByLibrary.simpleMessage("Feb."),
     "fridayShort" : MessageLookupByLibrary.simpleMessage("Fri"),
@@ -102,6 +104,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "systemTheme" : MessageLookupByLibrary.simpleMessage("System Theme"),
     "thursdayShort" : MessageLookupByLibrary.simpleMessage("Thu"),
     "total" : MessageLookupByLibrary.simpleMessage("Total"),
+    "transaction" : MessageLookupByLibrary.simpleMessage("Transaction"),
     "transactionsTabButtonExpensesCashAccounts" : MessageLookupByLibrary.simpleMessage("Expenses (Cash, Accounts)"),
     "transactionsTabButtonExpensesCreditCards" : MessageLookupByLibrary.simpleMessage("Expenses (Credit Cards)"),
     "transactionsTabButtonExportToExcel" : MessageLookupByLibrary.simpleMessage("Export data to Excel"),
@@ -110,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transactionsTabTitleMonthly" : MessageLookupByLibrary.simpleMessage("Monthly"),
     "transactionsTabTitleSummary" : MessageLookupByLibrary.simpleMessage("Summary"),
     "transactionsTabTitleWeekly" : MessageLookupByLibrary.simpleMessage("Weekly"),
+    "transfer" : MessageLookupByLibrary.simpleMessage("Transfer"),
     "tuesdayShort" : MessageLookupByLibrary.simpleMessage("Tue"),
     "wednesdayShort" : MessageLookupByLibrary.simpleMessage("Wed"),
     "wrongNumber" : MessageLookupByLibrary.simpleMessage("Wrong number?"),

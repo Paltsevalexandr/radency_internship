@@ -415,6 +415,26 @@ class S {
     );
   }
 
+  /// `Transaction`
+  String get transaction {
+    return Intl.message(
+      'Transaction',
+      name: 'transaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add transaction`
+  String get addTransaction {
+    return Intl.message(
+      'Add transaction',
+      name: 'addTransaction',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Daily`
   String get transactionsTabTitleDaily {
     return Intl.message(
@@ -525,16 +545,31 @@ class S {
     );
   }
 
+  /// `Expense`
+  String get expense {
+    return Intl.message(
+      'Expense',
+      name: 'expense',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transfer`
+  String get transfer {
+    return Intl.message(
+      'Transfer',
+      name: 'transfer',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Style`
   String get stylePageTitle {
     return Intl.message(
       'Style',
       name: 'stylePageTitle',
-  /// `Sign Up`
-  String get signUpPageTitle {
-    return Intl.message(
-      'Sign Up',
-      name: 'signUpPageTitle',
       desc: '',
       args: [],
     );
@@ -545,11 +580,6 @@ class S {
     return Intl.message(
       'Dark Theme',
       name: 'darkTheme',
-  /// `Create account`
-  String get signUpCreateAccountHeader {
-    return Intl.message(
-      'Create account',
-      name: 'signUpCreateAccountHeader',
       desc: '',
       args: [],
     );
@@ -560,11 +590,6 @@ class S {
     return Intl.message(
       'Light Theme',
       name: 'lightTheme',
-  /// `A one-time password will be sent to your phone number`
-  String get signUpOTPNotice {
-    return Intl.message(
-      'A one-time password will be sent to your phone number',
-      name: 'signUpOTPNotice',
       desc: '',
       args: [],
     );
@@ -575,6 +600,41 @@ class S {
     return Intl.message(
       'System Theme',
       name: 'systemTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signUpPageTitle {
+    return Intl.message(
+      'Sign Up',
+      name: 'signUpPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create account`
+  String get signUpCreateAccountHeader {
+    return Intl.message(
+      'Create account',
+      name: 'signUpCreateAccountHeader',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A one-time password will be sent to your phone number`
+  String get signUpOTPNotice {
+    return Intl.message(
+      'A one-time password will be sent to your phone number',
+      name: 'signUpOTPNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign up`
   String get signUpApplyCredentialsButton {
     return Intl.message(

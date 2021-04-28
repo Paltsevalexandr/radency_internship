@@ -62,16 +62,18 @@ class App extends StatelessWidget {
             create: (BuildContext context) => StylesBloc(),
           ),
           BlocProvider(
-            create: (_) =>
-                TransactionsDailyBloc()..add(TransactionsDailyInitialize()),
+            create: (_) => TransactionsDailyBloc()..add(TransactionsDailyInitialize()),
           ),
           BlocProvider(
-            create: (_) =>
-                TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
+            create: (_) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
+          ),
+          BlocProvider(
+            create: (_) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
           ),
           BlocProvider(
             create: (_) => TransactionsSummaryBloc()..add(TransactionsSummaryInitialize()),
-          ),          BlocProvider(
+          ),
+          BlocProvider(
             create: (_) => TransactionLocationMapBloc(),
           ),
         ],

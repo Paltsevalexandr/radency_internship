@@ -42,6 +42,9 @@
   "novemberShort": "Nov.",
   "decemberShort": "Dec.",
 
+  "transaction": "Transaction",
+  "addTransaction": "Add transaction",
+
   "transactionsTabTitleDaily": "Daily",
   "transactionsTabTitleWeekly": "Weekly",
   "transactionsTabTitleMonthly": "Monthly",
@@ -55,10 +58,14 @@
   "transactionsTabButtonExpensesCashAccounts": "Expenses (Cash, Accounts)",
   "transactionsTabButtonExpensesCreditCards": "Expenses (Credit Cards)",
 
+  "expense": "Expense",
+  "transfer": "Transfer",
+
   "stylePageTitle": "Style",
   "darkTheme": "Dark Theme",
   "lightTheme": "Light Theme",
   "systemTheme": "System Theme",
+
   "signUpPageTitle": "Sign Up",
   "signUpCreateAccountHeader": "Create account",
   "signUpOTPNotice": "A one-time password will be sent to your phone number",
