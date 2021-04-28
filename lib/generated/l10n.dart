@@ -525,6 +525,11 @@ class S {
     );
   }
 
+  /// `Style`
+  String get stylePageTitle {
+    return Intl.message(
+      'Style',
+      name: 'stylePageTitle',
   /// `Sign Up`
   String get signUpPageTitle {
     return Intl.message(
@@ -535,6 +540,11 @@ class S {
     );
   }
 
+  /// `Dark Theme`
+  String get darkTheme {
+    return Intl.message(
+      'Dark Theme',
+      name: 'darkTheme',
   /// `Create account`
   String get signUpCreateAccountHeader {
     return Intl.message(
@@ -545,6 +555,11 @@ class S {
     );
   }
 
+  /// `Light Theme`
+  String get lightTheme {
+    return Intl.message(
+      'Light Theme',
+      name: 'lightTheme',
   /// `A one-time password will be sent to your phone number`
   String get signUpOTPNotice {
     return Intl.message(
@@ -555,6 +570,11 @@ class S {
     );
   }
 
+  /// `System Theme`
+  String get systemTheme {
+    return Intl.message(
+      'System Theme',
+      name: 'systemTheme',
   /// `Sign up`
   String get signUpApplyCredentialsButton {
     return Intl.message(

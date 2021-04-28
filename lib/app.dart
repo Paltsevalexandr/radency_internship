@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+
+import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/style_setting_page.dart';
+import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.dart';
+
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +28,7 @@ import 'blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import 'blocs/user_profile/user_profile_bloc.dart';
 import 'ui/home_page.dart';
 import 'generated/l10n.dart';
+import 'utils/styles.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -54,13 +59,15 @@ class App extends StatelessWidget {
             create: (BuildContext context) => SettingsBloc(),
           ),
           BlocProvider(
-            create: (_) => TransactionsDailyBloc()..add(TransactionsDailyInitialize()),
+            create: (BuildContext context) => StylesBloc(),
           ),
           BlocProvider(
-            create: (_) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
+            create: (_) =>
+                TransactionsDailyBloc()..add(TransactionsDailyInitialize()),
           ),
           BlocProvider(
-            create: (_) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
+            create: (_) =>
+                TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
           ),
           BlocProvider(
             create: (_) => TransactionsSummaryBloc()..add(TransactionsSummaryInitialize()),
@@ -86,47 +93,57 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en', ''),
-        const Locale('ru', ''),
-      ],
-      navigatorKey: _navigatorKey,
-      routes: {
-        Routes.loginPage: (context) => LoginPage(),
-        Routes.homePage: (context) => HomePage(),
-        Routes.signUpPage: (context) => SignUpPage(),
-        Routes.splashScreen: (context) => SplashPage(),
-        Routes.spendingPage: (context) => SpendingPage(),
-        Routes.settingsPage: (context) => SettingsPage(),
-        Routes.currencySettingPage: (context) => CurrencySettingPage(),
-        Routes.addTransactionPage: (context) => AddTransactionView(),
-        Routes.transactionLocationSelectView: (context) => TransactionLocationSelectView(),
-      },
-      builder: (context, child) {
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
-                break;
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushNamedAndRemoveUntil(Routes.loginPage, (route) => false);
-                break;
-              default:
-                _navigator.pushNamedAndRemoveUntil(Routes.splashScreen, (route) => false);
-                break;
-            }
-          },
-          child: child,
-        );
-      },
-    );
+    return BlocBuilder<StylesBloc, StylesState>(
+        builder: (BuildContext context, state) {
+          return MaterialApp(
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              const Locale('en', ''),
+              const Locale('ru', ''),
+            ],
+            themeMode: getThemeMode(state.theme),
+            theme: Styles.themeData(context, false, state.lightPrimaryColor),
+            darkTheme: Styles.themeData(context, true, state.lightPrimaryColor),
+            navigatorKey: _navigatorKey,
+            routes: {
+              Routes.loginPage: (context) => LoginPage(),
+              Routes.homePage: (context) => HomePage(),
+              Routes.signUpPage: (context) => SignUpPage(),
+              Routes.splashScreen: (context) => SplashPage(),
+              Routes.spendingPage: (context) => SpendingPage(),
+              Routes.settingsPage: (context) => SettingsPage(),
+              Routes.currencySettingPage: (context) => CurrencySettingPage(),
+              Routes.addTransactionPage: (context) => AddTransactionPage(),
+              Routes.styleSettingPage: (context) => StyleSettingPage(),
+              Routes.transactionLocationSelectView: (context) => TransactionLocationSelectView(),
+            },
+            builder: (context, child) {
+              return BlocListener<AuthenticationBloc, AuthenticationState>(
+                listener: (context, state) {
+                  switch (state.status) {
+                    case AuthenticationStatus.authenticated:
+                      _navigator.pushNamedAndRemoveUntil(
+                          Routes.homePage, (route) => false);
+                      break;
+                    case AuthenticationStatus.unauthenticated:
+                      _navigator.pushNamedAndRemoveUntil(
+                          Routes.loginPage, (route) => false);
+                      break;
+                    default:
+                      _navigator.pushNamedAndRemoveUntil(
+                          Routes.splashScreen, (route) => false);
+                      break;
+                  }
+                },
+                child: child,
+              );
+            },
+          );
+        });
   }
 }

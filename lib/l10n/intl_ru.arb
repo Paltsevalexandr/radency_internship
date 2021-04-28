@@ -55,6 +55,10 @@
   "transactionsTabButtonExpensesCashAccounts": "Расходы (Наличные, счета)",
   "transactionsTabButtonExpensesCreditCards": "Расходы (Кредитные карты)",
 
+  "stylePageTitle": "Стиль",
+  "darkTheme": "Тёмная тема",
+  "lightTheme": "Светлая тема",
+  "systemTheme": "Системная тема",
   "addTransactionButtonSave": "Сохранить",
   "addTransactionButtonContinue": "Продолжить",
   "addTransactionDateFieldTitle": "Дата",
@@ -84,5 +88,4 @@
   "addTransactionLocationMenuCurrent" : "Указать текущее местоположение",
   "addTransactionLocationMenuFromMap" : "Выбрать на карте",
   "addTransactionLocationMenuCancel" : "Отменить выбор"
-
 }

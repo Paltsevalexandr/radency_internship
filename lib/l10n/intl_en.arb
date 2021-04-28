@@ -55,6 +55,10 @@
   "transactionsTabButtonExpensesCashAccounts": "Expenses (Cash, Accounts)",
   "transactionsTabButtonExpensesCreditCards": "Expenses (Credit Cards)",
 
+  "stylePageTitle": "Style",
+  "darkTheme": "Dark Theme",
+  "lightTheme": "Light Theme",
+  "systemTheme": "System Theme",
   "signUpPageTitle": "Sign Up",
   "signUpCreateAccountHeader": "Create account",
   "signUpOTPNotice": "A one-time password will be sent to your phone number",

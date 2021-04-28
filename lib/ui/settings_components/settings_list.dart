@@ -47,7 +47,12 @@ class AppSettingsList extends StatelessWidget {
                   SettingsTile(
                     title: 'Style',
                     leading: Icon(FontAwesome5Solid.palette),
-                    onPressed: (BuildContext context) {},
+                    onPressed: (BuildContext context) {
+                      Navigator.pushNamed(
+                          context,
+                          Routes.styleSettingPage
+                      );
+                    },
                   ),
                   SettingsTile(
                     title: 'Passcode',
