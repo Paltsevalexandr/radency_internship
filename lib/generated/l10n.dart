@@ -785,6 +785,16 @@ class S {
     );
   }
 
+  /// `Location`
+  String get addTransactionLocationFieldTitle {
+    return Intl.message(
+      'Location',
+      name: 'addTransactionLocationFieldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Select category`
   String get addTransactionCategoryFieldValidationEmpty {
     return Intl.message(
@@ -835,11 +845,81 @@ class S {
     );
   }
 
+  /// `Tap to select location`
+  String get addTransactionLocationFieldHint {
+    return Intl.message(
+      'Tap to select location',
+      name: 'addTransactionLocationFieldHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select location`
+  String get addTransactionLocationViewTitle {
+    return Intl.message(
+      'Select location',
+      name: 'addTransactionLocationViewTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select`
+  String get addTransactionLocationViewSelectButton {
+    return Intl.message(
+      'Select',
+      name: 'addTransactionLocationViewSelectButton',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Saved`
   String get addTransactionSnackBarSuccessMessage {
     return Intl.message(
       'Saved',
       name: 'addTransactionSnackBarSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location selection cancelled`
+  String get addTransactionSnackBarLocationSelectCancelled {
+    return Intl.message(
+      'Location selection cancelled',
+      name: 'addTransactionSnackBarLocationSelectCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select current location`
+  String get addTransactionLocationMenuCurrent {
+    return Intl.message(
+      'Select current location',
+      name: 'addTransactionLocationMenuCurrent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select on map`
+  String get addTransactionLocationMenuFromMap {
+    return Intl.message(
+      'Select on map',
+      name: 'addTransactionLocationMenuFromMap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel selection`
+  String get addTransactionLocationMenuCancel {
+    return Intl.message(
+      'Cancel selection',
+      name: 'addTransactionLocationMenuCancel',
       desc: '',
       args: [],
     );

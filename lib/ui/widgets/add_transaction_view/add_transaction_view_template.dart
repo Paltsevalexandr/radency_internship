@@ -50,13 +50,13 @@ class _AddTransactionViewState extends State<AddTransactionView> {
         break;
       case TransactionType.transfer:
         return BlocProvider<AddTransactionBloc>(
-          create: (_) => AddTransactionBloc()..add(AddExpenseInitialize()),
+          create: (_) => AddTransactionBloc()..add(AddTransactionInitialize()),
           child: AddTransferForm(),
         );
         break;
       case TransactionType.expense:
         return BlocProvider<AddTransactionBloc>(
-          create: (_) => AddTransactionBloc()..add(AddExpenseInitialize()),
+          create: (_) => AddTransactionBloc()..add(AddTransactionInitialize()),
           child: AddExpenseForm(),
         );
         break;

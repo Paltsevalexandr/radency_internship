@@ -82,6 +82,7 @@
   "addTransactionFromFieldTitle": "From",
   "addTransactionToFieldTitle": "To",
   "addTransactionFeesFieldTitle": "Fees",
+  "addTransactionLocationFieldTitle": "Location",
 
   "addTransactionCategoryFieldValidationEmpty": "Select category",
   "addTransactionAccountFieldValidationEmpty": "Select account type",
@@ -89,5 +90,15 @@
   "addTransactionFromFieldValidationEmpty": "Enter source",
   "addTransactionToFieldValidationEmpty": "Enter destination",
 
-  "addTransactionSnackBarSuccessMessage": "Saved"
+  "addTransactionLocationFieldHint": "Tap to select location",
+
+  "addTransactionLocationViewTitle": "Select location",
+  "addTransactionLocationViewSelectButton": "Select",
+
+  "addTransactionSnackBarSuccessMessage": "Saved",
+  "addTransactionSnackBarLocationSelectCancelled": "Location selection cancelled",
+
+  "addTransactionLocationMenuCurrent" : "Select current location",
+  "addTransactionLocationMenuFromMap" : "Select on map",
+  "addTransactionLocationMenuCancel" : "Cancel selection"
 }

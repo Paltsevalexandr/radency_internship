@@ -7,6 +7,8 @@ import 'package:radency_internship_project_2/utils/routes.dart';
 
 import 'bottom_nav_bar/bottom_nav_bar.dart';
 
+final String addButtonHeroTag = 'addButton';
+
 class HomePage extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => HomePage());
@@ -34,8 +36,12 @@ class HomePage extends StatelessWidget {
   }
 
   Widget floatingAddButton(BuildContext context) {
-    return FloatingActionButton(onPressed: () {
-      Navigator.of(context).pushNamed(Routes.addTransactionPage);
-    }, child: Icon(Icons.add),);
+    return FloatingActionButton(
+      onPressed: () {
+        Navigator.of(context).pushNamed(Routes.addTransactionPage);
+      },
+      child: Icon(Icons.add),
+      heroTag: addButtonHeroTag,
+    );
   }
 }
