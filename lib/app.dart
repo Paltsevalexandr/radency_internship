@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
 
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/style_setting_page.dart';
 import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.dart';
@@ -19,8 +20,6 @@ import 'repositories/firebase_auth_repository/firebase_auth_repository.dart';
 import 'ui/login_page.dart';
 import 'ui/sign_up_page.dart';
 import 'ui/splash.dart';
-import 'ui/settings_page_template.dart';
-import 'ui/spending_page_template.dart';
 import 'ui/settings_components/settings_subpages/currency_setting_page.dart';
 import 'utils/routes.dart';
 import 'blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
@@ -72,6 +71,9 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (_) => TransactionsSummaryBloc()..add(TransactionsSummaryInitialize()),
+          ),
+          BlocProvider(
+            create: (_) => NavigationBloc()..add(SelectPage(0)),
           ),
           BlocProvider(
             create: (_) => TransactionLocationMapBloc(),
@@ -126,8 +128,6 @@ class _AppViewState extends State<AppView> {
                 Routes.homePage: (context) => HomePage(),
                 Routes.signUpPage: (context) => SignUpPage(),
                 Routes.splashScreen: (context) => SplashPage(),
-                Routes.spendingPage: (context) => SpendingPage(),
-                Routes.settingsPage: (context) => SettingsPage(),
                 Routes.currencySettingPage: (context) => CurrencySettingPage(),
                 Routes.languageSettingPage: (context) => LanguageSettingPage(),
                 Routes.addTransactionPage: (context) => AddTransactionPage(),

@@ -19,7 +19,7 @@ class SpendingPage extends StatelessWidget {
           child: Chart(),
         )
       ),
-      bottomNavigationBar: BottomNavBar(1),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

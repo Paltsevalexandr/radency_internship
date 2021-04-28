@@ -13,7 +13,7 @@ class SettingsPage extends StatelessWidget {
         title: Text(S.of(context).settings)
       ),
       body: AppSettingsList(),
-      bottomNavigationBar: BottomNavBar(4)
+      bottomNavigationBar: BottomNavBar()
     );
   }
 }
