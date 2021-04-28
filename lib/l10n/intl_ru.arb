@@ -111,8 +111,8 @@
 
   "addTransactionSnackBarSuccessMessage": "Сохранено",
 
-  "incomeCategoryTitle": "Доходы",
-  "expensesCategoryTitle": "Расходы",
+  "incomeCategoryTitle": "Категории доходов",
+  "expensesCategoryTitle": "Категории расходов",
   "delete": "Удалить",
   "edit": "Редактировать",
   "save": "Сохранить",

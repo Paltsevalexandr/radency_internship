@@ -52,7 +52,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "appTitle" : MessageLookupByLibrary.simpleMessage("App Title"),
     "aprilShort" : MessageLookupByLibrary.simpleMessage("Apr."),
     "augustShort" : MessageLookupByLibrary.simpleMessage("Aug."),
-    "card" : MessageLookupByLibrary.simpleMessage("Card"),
     "categoryName" : MessageLookupByLibrary.simpleMessage("Category Name"),
     "confirmButton" : MessageLookupByLibrary.simpleMessage("CONFIRM"),
     "createNewAccount" : MessageLookupByLibrary.simpleMessage("Create a new!"),

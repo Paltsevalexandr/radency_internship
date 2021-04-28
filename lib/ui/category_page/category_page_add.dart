@@ -2,9 +2,9 @@ import 'package:flutter/material.dart' hide ReorderableList;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/category/category_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
-import 'package:radency_internship_project_2/ui/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
+import '../widgets/bottom_nav_bar.dart';
 import 'category_page_common.dart';
 
 class NewCategoryPageArguments {
@@ -69,7 +69,7 @@ class NewCategoryPage extends StatelessWidget {
               )
             ],
           ),
-          bottomNavigationBar: BottomNavBar(4));
+          bottomNavigationBar: BottomNavBar());
     });
   }
 

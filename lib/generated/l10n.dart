@@ -985,6 +985,86 @@ class S {
     );
   }
 
+  /// `Saved`
+  String get addTransactionSnackBarSuccessMessage {
+    return Intl.message(
+      'Saved',
+      name: 'addTransactionSnackBarSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Income`
+  String get incomeCategoryTitle {
+    return Intl.message(
+      'Income',
+      name: 'incomeCategoryTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expenses`
+  String get expensesCategoryTitle {
+    return Intl.message(
+      'Expenses',
+      name: 'expensesCategoryTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category Name`
+  String get categoryName {
+    return Intl.message(
+      'Category Name',
+      name: 'categoryName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Category`
+  String get newCategory {
+    return Intl.message(
+      'New Category',
+      name: 'newCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Tap to select location`
   String get addTransactionLocationFieldHint {
     return Intl.message(
@@ -1055,43 +1135,12 @@ class S {
     );
   }
 
-  /// `Saved`
-  String get addTransactionSnackBarSuccessMessage {
-    return Intl.message(
-      'Saved',
-      name: 'addTransactionSnackBarSuccessMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Income`
-  String get incomeCategoryTitle {
-    return Intl.message(
-      'Income',
-      name: 'incomeCategoryTitle',
-            desc: '',
-      args: [],
-    );
-  }
-
-
   /// `Stats`
   String get statsViewButtonStats {
     return Intl.message(
       'Stats',
       name: 'statsViewButtonStats',
       desc: '',
-      args: [],
-    );
-  }
-
-  /// `Expenses`
-  String get expensesCategoryTitle {
-    return Intl.message(
-      'Expenses',
-      name: 'expensesCategoryTitle',
-            desc: '',
       args: [],
     );
   }
@@ -1106,16 +1155,6 @@ class S {
     );
   }
 
-  /// `Delete`
-  String get delete {
-    return Intl.message(
-      'Delete',
-      name: 'delete',
-            desc: '',
-      args: [],
-    );
-  }
-
   /// `Note`
   String get statsViewButtonNote {
     return Intl.message(
@@ -1126,32 +1165,12 @@ class S {
     );
   }
 
-  /// `Edit`
-  String get edit {
-    return Intl.message(
-      'Edit',
-      name: 'edit',
-            desc: '',
-      args: [],
-    );
-  }
-
   /// `Remaining (Monthly)`
   String get statsBudgetViewRemainingMonthlyTitle {
     return Intl.message(
       'Remaining (Monthly)',
       name: 'statsBudgetViewRemainingMonthlyTitle',
       desc: '',
-      args: [],
-    );
-  }
-
-  /// `Save`
-  String get save {
-    return Intl.message(
-      'Save',
-      name: 'save',
-            desc: '',
       args: [],
     );
   }
@@ -1186,16 +1205,6 @@ class S {
     );
   }
 
-  /// `Category Name`
-  String get categoryName {
-    return Intl.message(
-      'Category Name',
-      name: 'categoryName',
-            desc: '',
-      args: [],
-    );
-  }
-
   /// `Monthly`
   String get statsBudgetMonthlyTotalTitle {
     return Intl.message(
@@ -1211,16 +1220,6 @@ class S {
     return Intl.message(
       'Save',
       name: 'statsBudgetSetupSaveButton',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `New Category`
-  String get newCategory {
-    return Intl.message(
-      'New Category',
-      name: 'newCategory',
       desc: '',
       args: [],
     );

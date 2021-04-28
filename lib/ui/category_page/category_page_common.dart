@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:radency_internship_project_2/blocs/settings/category/category_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
-import 'package:radency_internship_project_2/ui/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
+import '../widgets/bottom_nav_bar.dart';
 import 'category_page_add.dart';
 
 class CategoryItemData {
@@ -87,7 +87,7 @@ Widget buildReorderedCategoryList(BuildContext context, String categoriesType) {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(4),
+      bottomNavigationBar: BottomNavBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, Routes.newCategoryPage,
