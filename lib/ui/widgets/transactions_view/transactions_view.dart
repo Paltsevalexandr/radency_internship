@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/daily_tab.dart';
@@ -7,7 +8,6 @@ import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/s
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/weekly_tab.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/widgets/transactions_slider.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionsView extends StatefulWidget {
   @override
@@ -53,15 +53,33 @@ class _TransactionsViewState extends State<TransactionsView> with SingleTickerPr
   }
 
   Widget transactionsTabBar(BuildContext context, TabController controller) {
-    return TabBar(
-      controller: controller,
-      tabs: [
-        Tab(child: Text(S.current.transactionsTabTitleDaily, style: transactionsTabTitleStyle(context))),
-        Tab(child: Text(S.current.transactionsTabTitleWeekly, style: transactionsTabTitleStyle(context))),
-        Tab(child: Text(S.current.transactionsTabTitleMonthly, style: transactionsTabTitleStyle(context))),
-        Tab(child: Text(S.current.transactionsTabTitleSummary, style: transactionsTabTitleStyle(context))),
-      ],
-      indicatorColor: Colors.red,
+    return Container(
+      child: TabBar(
+        controller: controller,
+        isScrollable: true,
+        tabs: [
+          Tab(
+            child: tabTitle(S.current.transactionsTabTitleDaily),
+          ),
+          Tab(
+            child: tabTitle(S.current.transactionsTabTitleWeekly),
+          ),
+          Tab(
+            child: tabTitle(S.current.transactionsTabTitleMonthly),
+          ),
+          Tab(
+            child: tabTitle(S.current.transactionsTabTitleSummary),
+          ),
+        ],
+        indicatorColor: Colors.red,
+      ),
+    );
+  }
+
+  Widget tabTitle(String localizedTitle) {
+    return Text(
+      localizedTitle,
+      style: transactionsTabTitleStyle(context),
     );
   }
 }
