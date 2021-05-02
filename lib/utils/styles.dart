@@ -98,3 +98,7 @@ TextStyle addTransactionBottomModalSheetButtonsTextStyle(BuildContext context) {
 TextStyle addTransactionElevatedButtonTitleStyle(BuildContext context, Color titleColor) {
   return TextStyle(color: titleColor, fontSize: 18);
 }
+
+InputDecoration addTransactionFormFieldDecoration() {
+  return InputDecoration(helperText: '');
+}

@@ -11,8 +11,8 @@ import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/location.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/amount_modal.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/stylized_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/show_modal.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/stylized_elevated_button.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
@@ -25,7 +25,10 @@ class AddExpenseForm extends StatefulWidget {
 }
 
 class _AddExpenseFormState extends State<AddExpenseForm> {
-  static final GlobalKey<FormState> _addExpenseFormKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> _accountValueFormKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> _categoryValueFormKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> _amountValueFormKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> _noteValueFormKey = GlobalKey<FormState>();
 
   DateTime _selectedDateTime;
   String _accountValue;
@@ -80,25 +83,22 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
 
   Widget _addExpenseFormBody(AddTransactionLoaded state) {
     return Padding(
-      padding: EdgeInsets.all(pixelsToDP(context, 16.0)),
-      child: Form(
-        key: _addExpenseFormKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _dateField(),
-            _accountField(state.accounts),
-            _categoryField(state.categories),
-            _amountField(),
-            _noteField(),
-            _sharedWithField(),
-            _locationField(context),
-            SizedBox(
-              height: pixelsToDP(context, 30),
-            ),
-            _submitButtons(),
-          ],
-        ),
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _dateField(),
+          _accountField(state.accounts),
+          _categoryField(state.categories),
+          _amountField(),
+          _noteField(),
+          _sharedWithField(),
+          _locationField(context),
+          SizedBox(
+            height: pixelsToDP(context, 30),
+          ),
+          _submitButtons(),
+        ],
       ),
     );
   }
@@ -114,6 +114,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         Flexible(
           flex: _textFieldFlex,
           child: TextFormField(
+            decoration: addTransactionFormFieldDecoration(),
             controller: _dateFieldController,
             readOnly: true,
             showCursor: false,
@@ -136,20 +137,26 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         ),
         Flexible(
           flex: _textFieldFlex,
-          child: TextFormField(
-            controller: _accountFieldController,
-            readOnly: true,
-            showCursor: false,
-            onTap: () async {
-              _accountFieldController.text = await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
-              setState(() {});
-            },
-            onSaved: (value) => _accountValue = value,
-            validator: (val) {
-              if (val.isEmpty) return S.current.addTransactionAccountFieldValidationEmpty;
+          child: Form(
+            key: _accountValueFormKey,
+            child: TextFormField(
+              decoration: addTransactionFormFieldDecoration(),
+              controller: _accountFieldController,
+              readOnly: true,
+              showCursor: false,
+              onTap: () async {
+                _accountFieldController.text = await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
+                setState(() {
+                  _accountValueFormKey.currentState.validate();
+                });
+              },
+              onSaved: (value) => _accountValue = value,
+              validator: (val) {
+                if (val.isEmpty) return S.current.addTransactionAccountFieldValidationEmpty;
 
-              return null;
-            },
+                return null;
+              },
+            ),
           ),
         )
       ],
@@ -166,20 +173,26 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         ),
         Flexible(
           flex: _textFieldFlex,
-          child: TextFormField(
-            controller: _categoryFieldController,
-            readOnly: true,
-            showCursor: false,
-            onTap: () async {
-              _categoryFieldController.text = await showModal(context: context, values: categories, type: ModalType.Category, onAddCallback: null);
-              setState(() {});
-            },
-            onSaved: (value) => _categoryValue = value,
-            validator: (val) {
-              if (val.isEmpty) return S.current.addTransactionCategoryFieldValidationEmpty;
+          child: Form(
+            key: _categoryValueFormKey,
+            child: TextFormField(
+              decoration: addTransactionFormFieldDecoration(),
+              controller: _categoryFieldController,
+              readOnly: true,
+              showCursor: false,
+              onTap: () async {
+                _categoryFieldController.text = await showModal(context: context, values: categories, type: ModalType.Category, onAddCallback: null);
+                setState(() {
+                  _categoryValueFormKey.currentState.validate();
+                });
+              },
+              onSaved: (value) => _categoryValue = value,
+              validator: (val) {
+                if (val.isEmpty) return S.current.addTransactionCategoryFieldValidationEmpty;
 
-              return null;
-            },
+                return null;
+              },
+            ),
           ),
         )
       ],
@@ -196,22 +209,29 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         ),
         Flexible(
           flex: _textFieldFlex,
-          child: TextFormField(
-            readOnly: true,
-            showCursor: true,
-            controller: _amountFieldController,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(numberWithDecimalRegExp)),
-            ],
-            validator: (val) {
-              if (!RegExp(moneyAmountRegExp).hasMatch(val)) return S.current.addTransactionAmountFieldValidationEmpty;
+          child: Form(
+            key: _amountValueFormKey,
+            child: TextFormField(
+              decoration: addTransactionFormFieldDecoration(),
+              readOnly: true,
+              showCursor: true,
+              controller: _amountFieldController,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(numberWithDecimalRegExp)),
+              ],
+              validator: (val) {
+                if (!RegExp(moneyAmountRegExp).hasMatch(val)) return S.current.addTransactionAmountFieldValidationEmpty;
 
-              return null;
-            },
-            onTap: () {
-              showModal(context: context, type: ModalType.Amount, updateAmountCallback: updateAmountCallback);
-            },
-            onSaved: (value) => _amountValue = double.tryParse(value),
+                return null;
+              },
+              onTap: () async {
+                await showModal(context: context, type: ModalType.Amount, updateAmountCallback: updateAmountCallback);
+                setState(() {
+                  _amountValueFormKey.currentState.validate();
+                });
+              },
+              onSaved: (value) => _amountValue = double.tryParse(value),
+            ),
           ),
         )
       ],
@@ -228,9 +248,13 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         ),
         Flexible(
           flex: _textFieldFlex,
-          child: TextFormField(
-            controller: _noteFieldController,
-            onSaved: (value) => _noteValue = value,
+          child: Form(
+            key: _noteValueFormKey,
+            child: TextFormField(
+              decoration: addTransactionFormFieldDecoration(),
+              controller: _noteFieldController,
+              onSaved: (value) => _noteValue = value,
+            ),
           ),
         )
       ],
@@ -241,8 +265,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     ImageProvider _photoProvider;
     try {
       _photoProvider = _sharedContact.photo.asProvider();
-    }
-    catch(_){}
+    } catch (_) {}
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -259,26 +282,29 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                 child: TextFormField(
                   controller: _sharedFieldController,
                   decoration: InputDecoration(
-                    prefixIcon: _sharedContact != null ? Container(
-                      margin: EdgeInsets.only(
-                        top: pixelsToDP(context, 3),
-                        right: pixelsToDP(context, 45),
-                        bottom: pixelsToDP(context, 3),
-                        left: pixelsToDP(context, 5),
-                      ),
-                      child: CircleAvatar(
-                        foregroundImage: _photoProvider,
-                        child: FittedBox(
-                          child: Container(
-                            padding: EdgeInsets.all(pixelsToDP(context, 20)),
-                            child: Text(
-                              getContactInitials(_sharedContact),
-                              style: addTransactionAvatarTextStyle,
+                    helperText: '',
+                    prefixIcon: _sharedContact != null
+                        ? Container(
+                            margin: EdgeInsets.only(
+                              top: pixelsToDP(context, 3),
+                              right: pixelsToDP(context, 45),
+                              bottom: pixelsToDP(context, 3),
+                              left: pixelsToDP(context, 5),
                             ),
-                          ),
-                        ),
-                      ),
-                    ) : null,
+                            child: CircleAvatar(
+                              foregroundImage: _photoProvider,
+                              child: FittedBox(
+                                child: Container(
+                                  padding: EdgeInsets.all(pixelsToDP(context, 20)),
+                                  child: Text(
+                                    getContactInitials(_sharedContact),
+                                    style: addTransactionAvatarTextStyle,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : null,
                   ),
                   onTap: _selectSharedContact,
                   readOnly: true,
@@ -313,7 +339,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               flex: _textFieldFlex,
               child: TextFormField(
                 controller: _locationFieldController,
-                decoration: InputDecoration(hintText: S.current.addTransactionLocationFieldHint),
+                decoration: InputDecoration(hintText: S.current.addTransactionLocationFieldHint, helperText: ''),
                 readOnly: true,
                 showCursor: false,
                 onTap: () async {
@@ -352,9 +378,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         ),
         backgroundColor: Colors.orange,
         onPressed: () {
-          _addExpenseFormKey.currentState.save();
+          _saveForms();
 
-          if (_addExpenseFormKey.currentState.validate()) {
+          if (_validateForms()) {
             BlocProvider.of<AddTransactionBloc>(context).add(AddExpenseTransaction(
                 isAddingCompleted: true,
                 expenseTransaction: ExpenseTransaction(
@@ -378,9 +404,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         backgroundColor: Colors.white,
         borderColor: Colors.black,
         onPressed: () {
-          _addExpenseFormKey.currentState.save();
+          _saveForms();
 
-          if (_addExpenseFormKey.currentState.validate()) {
+          if (_validateForms()) {
             BlocProvider.of<AddTransactionBloc>(context).add(AddExpenseTransaction(
                 isAddingCompleted: false,
                 expenseTransaction: ExpenseTransaction(
@@ -471,66 +497,66 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   }
 
   Future<ExpenseLocation> _getLocationFromModalBottomSheet(
-    {@required BuildContext xContext, @required String languageCode, @required bool isLocationSelected}) {
+      {@required BuildContext xContext, @required String languageCode, @required bool isLocationSelected}) {
     final transactionLocationBloc = BlocProvider.of<TransactionLocationBloc>(xContext);
 
     return showModalBottomSheet(
       context: xContext,
       builder: (context) => BlocConsumer<TransactionLocationBloc, TransactionLocationState>(
-        bloc: transactionLocationBloc,
-        listener: (context, state) async {
-          if (state is TransactionLocationSelected) {
-            if (state.expenseLocation == null)
-              Navigator.pop(context, null);
-            else
-              Navigator.pop(context, state.expenseLocation);
-          }
-        },
-        builder: (context, state) {
-          return Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _locationMenuItem(
-                  leading: Icon(Icons.my_location),
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(S.current.addTransactionLocationMenuCurrent),
-                      if (state is TransactionLocationCurrentLoading) CircularProgressIndicator(),
-                    ],
-                  ),
-                  onSelect: () async {
-                    xContext.read<TransactionLocationBloc>().add(TransactionLocationCurrentPressed(languageCode: languageCode));
-                  },
-                ),
-                _locationMenuItem(
-                  leading: Icon(Icons.location_pin),
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(S.current.addTransactionLocationMenuFromMap),
-                      if (state is TransactionLocationFromMapLoading) CircularProgressIndicator(),
-                    ],
-                  ),
-                  onSelect: () async {
-                    context.read<TransactionLocationMapBloc>().add(TransactionLocationMapInitialize());
-                    var latLng = await Navigator.of(context).pushNamed(Routes.transactionLocationSelectView);
-                    xContext.read<TransactionLocationBloc>().add(TransactionLocationFromMapPressed(languageCode: languageCode, latLng: latLng as LatLng));
-                  },
-                ),
-                if (isLocationSelected)
+          bloc: transactionLocationBloc,
+          listener: (context, state) async {
+            if (state is TransactionLocationSelected) {
+              if (state.expenseLocation == null)
+                Navigator.pop(context, null);
+              else
+                Navigator.pop(context, state.expenseLocation);
+            }
+          },
+          builder: (context, state) {
+            return Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
                   _locationMenuItem(
-                    leading: Icon(Icons.cancel),
-                    title: Text(S.current.addTransactionLocationMenuCancel),
-                    onSelect: () {
-                      xContext.read<TransactionLocationBloc>().add(TransactionLocationCancelSelected());
+                    leading: Icon(Icons.my_location),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(S.current.addTransactionLocationMenuCurrent),
+                        if (state is TransactionLocationCurrentLoading) CircularProgressIndicator(),
+                      ],
+                    ),
+                    onSelect: () async {
+                      xContext.read<TransactionLocationBloc>().add(TransactionLocationCurrentPressed(languageCode: languageCode));
                     },
-                  )
-              ],
-            ),
-          );
-        }),
+                  ),
+                  _locationMenuItem(
+                    leading: Icon(Icons.location_pin),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(S.current.addTransactionLocationMenuFromMap),
+                        if (state is TransactionLocationFromMapLoading) CircularProgressIndicator(),
+                      ],
+                    ),
+                    onSelect: () async {
+                      context.read<TransactionLocationMapBloc>().add(TransactionLocationMapInitialize());
+                      var latLng = await Navigator.of(context).pushNamed(Routes.transactionLocationSelectView);
+                      xContext.read<TransactionLocationBloc>().add(TransactionLocationFromMapPressed(languageCode: languageCode, latLng: latLng as LatLng));
+                    },
+                  ),
+                  if (isLocationSelected)
+                    _locationMenuItem(
+                      leading: Icon(Icons.cancel),
+                      title: Text(S.current.addTransactionLocationMenuCancel),
+                      onSelect: () {
+                        xContext.read<TransactionLocationBloc>().add(TransactionLocationCancelSelected());
+                      },
+                    )
+                ],
+              ),
+            );
+          }),
     );
   }
 
@@ -543,22 +569,40 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       onTap: onSelect,
     );
   }
+
+  void _saveForms() {
+    _accountValueFormKey.currentState.save();
+    _categoryValueFormKey.currentState.save();
+    _amountValueFormKey.currentState.save();
+    _noteValueFormKey.currentState.save();
+  }
+
+  bool _validateForms() {
+    bool result = true;
+
+    if (!_accountValueFormKey.currentState.validate()) result = false;
+    if (!_categoryValueFormKey.currentState.validate()) result = false;
+    if (!_amountValueFormKey.currentState.validate()) result = false;
+    if (!_noteValueFormKey.currentState.validate()) result = false;
+
+    return result;
+  }
 }
 
 String getUpdatedAmount(TextEditingController controller, var value) {
   String amount = (controller.text ?? "").toString();
 
-  if(value == CalculatorButton.Back && amount.length > 0) {
+  if (value == CalculatorButton.Back && amount.length > 0) {
     amount = amount.substring(0, amount.length - 1);
   }
-  if(RegExp(moneyAmountEditRegExp).hasMatch(amount + value.toString())){
+  if (RegExp(moneyAmountEditRegExp).hasMatch(amount + value.toString())) {
     amount = amount + value.toString();
   }
 
   return amount;
 }
 
-String getContactInitials(FullContact contact){
+String getContactInitials(FullContact contact) {
   String lastName = contact.name.lastName ?? "";
   return contact.name.nickName.trim()[0] + (lastName != "" ? lastName[0] : "");
 }

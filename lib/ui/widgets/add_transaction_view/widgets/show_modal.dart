@@ -6,9 +6,10 @@ import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/mod
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/category_modal.dart';
 
-enum ModalType{Account, Category, Amount}
+enum ModalType { Account, Category, Amount }
 
-Future<String> showModal({BuildContext context, @required ModalType type, List<String> values, onAddCallback, updateAmountCallback, String title}) {
+Future<String> showModal({BuildContext context, @required ModalType type, List<String> values, onAddCallback, updateAmountCallback, String title}) async {
+  // TODO: investigate
   var modal;
   switch (type) {
     case ModalType.Account:
