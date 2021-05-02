@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/blocs/stats/expenses/expenses_bloc.dart';
 import 'package:radency_internship_project_2/temp_data/expenses_data.dart';
-import 'package:radency_internship_project_2/ui/spending_page_components/chart.dart';
+import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/spending_page/spending_page_components/chart.dart';
 
 class SpendingPage extends StatelessWidget {
 

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/expenses/expenses_bloc.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
-import '../../blocs/settings/settings_bloc.dart';
+import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 
 class Chart extends StatelessWidget {
   List<PieChartSectionData> createSections(expensesData, context) {

@@ -19,6 +19,11 @@
   "stats": "Статистика",
   "accounts": "Счета",
   "settings": "Настройки",
+  "cancel": "Отмена",
+  "gallery": "Галерея",
+  "camera": "Камера",
+  "form": "Заполнить форму",
+  
   "language": "Язык",
   "currency": "Валюта",
   "main_currency": "Основная валюта",

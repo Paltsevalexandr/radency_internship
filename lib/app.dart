@@ -29,6 +29,7 @@ import 'blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
 import 'blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
 import 'blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import 'blocs/user_profile/user_profile_bloc.dart';
+import 'package:radency_internship_project_2/blocs/image_picker/image_picker_bloc.dart';
 import 'generated/l10n.dart';
 import 'repositories/firebase_auth_repository/firebase_auth_repository.dart';
 import 'ui/home_page.dart';
@@ -81,6 +82,12 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (_) => TransactionsSummaryBloc()..add(TransactionsSummaryInitialize()),
+          ),
+          BlocProvider(
+            create: (_) => ImagePickerBloc(),
+          ),
+          BlocProvider(
+            create: (_) => NavigationBloc()..add(SelectPage(0)),
           ),
           BlocProvider(
             create: (_) => StatsBloc(),
