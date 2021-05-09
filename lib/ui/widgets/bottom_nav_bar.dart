@@ -31,7 +31,7 @@ class BottomNavBar extends StatelessWidget {
           ],
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.blueGrey[50],
-          selectedItemColor: Colors.blue,
+          selectedItemColor: Theme.of(context).accentColor,
           unselectedItemColor: Colors.grey,
           currentIndex: state.selectedPageIndex,
           onTap: (currentIndex) => navigationBloc.add(SelectPage(currentIndex)),

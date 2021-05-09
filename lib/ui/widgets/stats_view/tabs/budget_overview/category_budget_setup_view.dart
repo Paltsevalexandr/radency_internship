@@ -5,9 +5,8 @@ import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/budget_overview/budget_overview_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/budget/category_budget.dart';
-import 'package:radency_internship_project_2/ui/widgets/stylized_elevated_button.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
-import 'package:radency_internship_project_2/utils/styles.dart';
 
 class CategoryBudgetSetupView extends StatefulWidget {
   CategoryBudgetSetupView();
@@ -42,13 +41,10 @@ class _CategoryBudgetSetupViewState extends State<CategoryBudgetSetupView> {
                 textFieldForm(),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  child: StylizedElevatedButton(
-                      borderColor: Colors.transparent,
+                  child: ColoredElevatedButton(
                       child: Text(
                         S.current.statsBudgetSetupSaveButton,
-                        style: elevatedButtonTitleStyle(context, Colors.white),
                       ),
-                      backgroundColor: Colors.red,
                       onPressed: () {
                         _formKey.currentState.save();
 

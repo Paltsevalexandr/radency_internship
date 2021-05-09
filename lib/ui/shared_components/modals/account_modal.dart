@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/base_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/base_modal.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
-class CategoryModal extends StatelessWidget{
-  final List<String> categories;
+class AccountModal extends StatelessWidget{
+  final List<String> accounts;
   final onAddCallback;
 
-  const CategoryModal({Key key, this.categories, this.onAddCallback}) : super(key: key);
+  const AccountModal({Key key, this.accounts, this.onAddCallback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> contents = categories.map((element) => TextButton(
+    List<Widget> contents = accounts.map((element) => TextButton(
       onPressed: (){
         Navigator.of(context).pop(element);
       },
-      child: Text(
-        element,
-        textAlign: TextAlign.center,
-      )
+      child: Text(element)
     )).toList()
       + [
         TextButton(
@@ -28,9 +25,15 @@ class CategoryModal extends StatelessWidget{
       ];
 
     return BaseModal(
-      title: S.current.addTransactionCategoryFieldTitle,
+      title: S.current.transactionsTabTitleAccount,
       contents: contents,
       actions: [
+        IconButton(
+          icon: Icon(Icons.copy),
+          onPressed: (){},
+          color: Colors.white,
+          iconSize: pixelsToDP(context, 90),
+        ),
         IconButton(
           icon: Icon(Icons.edit_outlined),
           onPressed: (){},

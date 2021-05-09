@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 
 import '../blocs/login/login_bloc.dart';
 import '../generated/l10n.dart';
@@ -124,7 +125,7 @@ class _LoginFormState extends State<LoginForm> {
                             child: TextButton(
                               child: Text(
                                 S.current.wrongNumber,
-                                style: TextStyle(color: Colors.blue),
+                                style: TextStyle(color: Theme.of(context).accentColor),
                               ),
                               onPressed: () {
                                 setState(() {
@@ -145,7 +146,7 @@ class _LoginFormState extends State<LoginForm> {
                 margin: const EdgeInsets.only(
                     left: 20, right: 20, bottom: 10, top: 10),
                 constraints: const BoxConstraints(maxWidth: 350),
-                child: ElevatedButton(
+                child: ColoredElevatedButton(
                   onPressed: () {
                     if (state.isOTPProcessing || state.areDetailsProcessing)
                       return null;
@@ -272,7 +273,7 @@ class _LoginFormState extends State<LoginForm> {
         margin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
         child: Text(S.current.appTitle,
             style: TextStyle(
-                color: Colors.blue,
+                color: Theme.of(context).accentColor,
                 fontSize: 32,
                 fontWeight: FontWeight.bold)));
   }
@@ -280,7 +281,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget appLogo() {
     return Container(
       margin: const EdgeInsets.all(16.0),
-      color: Colors.blue,
+      color: Theme.of(context).accentColor,
       width: 100.0,
       height: 100.0,
       child: Center(
@@ -300,7 +301,7 @@ class _LoginFormState extends State<LoginForm> {
           children: <TextSpan>[
             TextSpan(
                 text: ' ${S.current.createNewAccount}',
-                style: TextStyle(color: Colors.blueAccent, fontSize: 14),
+                style: TextStyle(color: Theme.of(context).accentColor, fontSize: 14),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     Navigator.of(context).push<void>(SignUpPage.route());

@@ -33,7 +33,7 @@ class _ExpensesTypesTabbarState extends State<ExpensesTypesTabbar> {
                 child: Text(
                   getTransactionType(element.toString().split('.').last),
                   style: regularTextStyle.copyWith(
-                    color: element == selectedTab ? null : Colors.black54,
+                    color: element == selectedTab ? Theme.of(context).accentColor : Colors.black54,
                   ),
                 ),
                 onPressed: (){
@@ -109,7 +109,7 @@ getButtonStyleMap(BuildContext context) => {
      RoundedRectangleBorder(
        borderRadius: BorderRadius.circular(pixelsToDP(context, 15)),
        side: BorderSide(
-         color: Colors.blue,
+         color: Theme.of(context).accentColor,
          width: pixelsToDP(context, 4.5),
        )
      )

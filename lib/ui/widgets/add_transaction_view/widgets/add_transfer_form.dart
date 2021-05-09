@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/show_modal.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/stylized_elevated_button.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/show_modal.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
@@ -240,13 +241,12 @@ class _AddTransferFormState extends State<AddTransferForm> {
     return StylizedElevatedButton(
       child: Text(
         S.current.addTransactionFeesFieldTitle,
-        style: addTransactionElevatedButtonTitleStyle(context, _areFeesVisible ? Colors.red : Colors.black),
       ),
       backgroundColor: Colors.white,
+      foregroundColor: _areFeesVisible ? Theme.of(context).accentColor : Colors.black,
       onPressed: () {
         _toggleFeesVisibility();
       },
-      borderColor: _areFeesVisible ? Colors.red : Colors.black,
     );
   }
 
@@ -338,12 +338,10 @@ class _AddTransferFormState extends State<AddTransferForm> {
   }
 
   Widget _saveButton() {
-    return StylizedElevatedButton(
+    return ColoredElevatedButton(
         child: Text(
           S.current.addTransactionButtonSave,
-          style: addTransactionElevatedButtonTitleStyle(context, Colors.white),
         ),
-        backgroundColor: Colors.orange,
         onPressed: () {
           _saveForms();
 
@@ -366,10 +364,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
     return StylizedElevatedButton(
         child: Text(
           S.current.addTransactionButtonContinue,
-          style: addTransactionElevatedButtonTitleStyle(context, Colors.black),
         ),
-        backgroundColor: Colors.white,
-        borderColor: Colors.black,
         onPressed: () {
           _saveForms();
 

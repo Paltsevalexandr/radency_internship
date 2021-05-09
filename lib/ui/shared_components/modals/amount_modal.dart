@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/base_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/base_modal.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class AmountModal extends StatelessWidget{

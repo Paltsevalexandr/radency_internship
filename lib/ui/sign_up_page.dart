@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 import '../blocs/sign_up/sign_up_bloc.dart';
 import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
@@ -138,7 +139,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [_phoneNumberField(), _emailField(), _usernameField()],
               )),
-          ElevatedButton(
+          ColoredElevatedButton(
             onPressed: state.areDetailsProcessing
                 ? null
                 : () {
@@ -154,7 +155,9 @@ class _SignUpFormState extends State<SignUpForm> {
             child: state.areDetailsProcessing
                 ? Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onSecondary),
+                    ),
                   )
                 : Text(S.current.signUpApplyCredentialsButton),
           )
@@ -248,7 +251,7 @@ class _SignUpFormState extends State<SignUpForm> {
         TextButton(
           child: Text(
             S.current.signUpWrongNumberButton,
-            style: TextStyle(color: Colors.blue),
+            style: TextStyle(color: Theme.of(context).accentColor),
           ),
           onPressed: () {
             setState(() {
@@ -335,6 +338,9 @@ class _SignUpFormState extends State<SignUpForm> {
               ? CircularProgressIndicator()
               : Text(
                   S.current.signUpOTPContinueButton,
+                  style: TextStyle(
+                    color: Theme.of(context).accentColor,
+                  ),
                 ),
         ),
       );

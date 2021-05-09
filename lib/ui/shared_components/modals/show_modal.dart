@@ -2,9 +2,9 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/account_modal.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/amount_modal.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/category_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/account_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/amount_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/category_modal.dart';
 
 enum ModalType { Account, Category, Amount }
 

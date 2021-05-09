@@ -4,6 +4,7 @@ import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/budget_overview/budget_overview_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/widgets/budget_slider.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/widgets/expense_category_budget_card.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
@@ -108,7 +109,7 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
   }
 
   Widget settingsButton() {
-    return ElevatedButton(
+    return ColoredElevatedButton(
         onPressed: () {
           Navigator.of(context).pushNamed(Routes.budgetSettings);
         },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide ReorderableList;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/category/category_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 import '../widgets/bottom_nav_bar.dart';
@@ -47,7 +48,7 @@ class NewCategoryPage extends StatelessWidget {
                       vertical: pixelsToDP(context, 24.0),
                       horizontal: pixelsToDP(context, 12.0)),
                   child: buildCategoryEditText(context)),
-              ElevatedButton(
+              ColoredElevatedButton(
                 onPressed: () {
                   if (newCategoryName.isNotEmpty) {
                     print(nextItemId.toString());

@@ -3,6 +3,7 @@ import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/expense_item.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,10 +76,18 @@ class _SummaryTabState extends State<SummaryTab> {
               padding: EdgeInsets.symmetric(
                 horizontal: pixelsToDP(context, 60),
               ),
-              child: ElevatedButton.icon(
+              child: ColoredElevatedButton(
                 onPressed: (){},
-                icon: Icon(Icons.add_moderator),
-                label: Text(S.current.transactionsTabButtonExportToExcel),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add_moderator),
+                    SizedBox(
+                      width: pixelsToDP(context, 30),
+                    ),
+                    Text(S.current.transactionsTabButtonExportToExcel)
+                  ],
+                ),
               ),
             )
           ],

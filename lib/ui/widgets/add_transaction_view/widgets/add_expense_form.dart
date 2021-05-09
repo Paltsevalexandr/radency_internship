@@ -10,9 +10,10 @@ import 'package:radency_internship_project_2/blocs/transactions/add_transaction/
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/location.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/modals/amount_modal.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/show_modal.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/stylized_elevated_button.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/amount_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/show_modal.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
@@ -371,12 +372,10 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   }
 
   Widget _saveButton() {
-    return StylizedElevatedButton(
+    return ColoredElevatedButton(
         child: Text(
           S.current.addTransactionButtonSave,
-          style: addTransactionElevatedButtonTitleStyle(context, Colors.white),
         ),
-        backgroundColor: Colors.orange,
         onPressed: () {
           _saveForms();
 
@@ -399,10 +398,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     return StylizedElevatedButton(
         child: Text(
           S.current.addTransactionButtonContinue,
-          style: addTransactionElevatedButtonTitleStyle(context, Colors.black),
         ),
-        backgroundColor: Colors.white,
-        borderColor: Colors.black,
         onPressed: () {
           _saveForms();
 

@@ -71,7 +71,7 @@ class _TransactionsViewState extends State<TransactionsView> with SingleTickerPr
             child: tabTitle(S.current.transactionsTabTitleSummary),
           ),
         ],
-        indicatorColor: Colors.red,
+        indicatorColor: Theme.of(context).accentColor,
       ),
     );
   }
