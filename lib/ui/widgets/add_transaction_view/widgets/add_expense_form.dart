@@ -1,7 +1,9 @@
+import 'dart:io';
+
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
@@ -37,7 +39,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   double _amountValue;
   String _noteValue;
   ExpenseLocation _locationValue;
-  FullContact _sharedContact;
+  Contact _sharedContact;
 
   TextEditingController _dateFieldController = TextEditingController();
   TextEditingController _accountFieldController = TextEditingController();
@@ -265,7 +267,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   Widget _sharedWithField() {
     ImageProvider _photoProvider;
     try {
-      _photoProvider = _sharedContact.photo.asProvider();
+      _photoProvider = MemoryImage(_sharedContact.avatar);
     } catch (_) {}
 
     return Row(
@@ -437,11 +439,14 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   }
 
   Future _selectSharedContact() async {
-    final FullContact contact = await FlutterContactPicker.pickFullContact();
+    final Contact contact = await ContactsService.openDeviceContactPicker();
+    if(Platform.isAndroid) {
+      contact.avatar = await ContactsService.getAvatar(contact);
+    }
     if (contact != null) {
       setState(() {
         _sharedContact = contact;
-        _sharedFieldController.text = contact.name.nickName;
+        _sharedFieldController.text = contact.displayName;
       });
     }
   }
@@ -598,7 +603,7 @@ String getUpdatedAmount(TextEditingController controller, var value) {
   return amount;
 }
 
-String getContactInitials(FullContact contact) {
-  String lastName = contact.name.lastName ?? "";
-  return contact.name.nickName.trim()[0] + (lastName != "" ? lastName[0] : "");
+String getContactInitials(Contact contact) {
+  String lastName = contact.familyName ?? "";
+  return contact.displayName.trim()[0] + (lastName != "" ? lastName[0] : "");
 }
