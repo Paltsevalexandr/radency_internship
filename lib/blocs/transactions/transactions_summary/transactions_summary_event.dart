@@ -29,11 +29,17 @@ class TransactionsSummaryFetchRequested extends TransactionsSummaryEvent {
 }
 
 class TransactionSummaryDisplayRequested extends TransactionsSummaryEvent {
-  final String data;
+  final String sliderCurrentTimeIntervalString;
   final ExpenseSummaryItemEntity expenseSummaryItemEntity;
 
-  TransactionSummaryDisplayRequested({this.expenseSummaryItemEntity, @required this.data});
+  TransactionSummaryDisplayRequested({this.expenseSummaryItemEntity, @required this.sliderCurrentTimeIntervalString});
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [sliderCurrentTimeIntervalString];
+}
+
+class TransactionsSummaryLocaleChanged extends TransactionsSummaryEvent {
+
+  @override
+  List<Object> get props => [];
 }

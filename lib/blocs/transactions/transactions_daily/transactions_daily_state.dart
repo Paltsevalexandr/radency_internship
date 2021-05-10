@@ -26,5 +26,5 @@ class TransactionsDailyLoaded extends TransactionsDailyState {
   TransactionsDailyLoaded({this.data, @required this.sliderCurrentTimeIntervalString});
 
   @override
-  List<Object> get props => [sliderCurrentTimeIntervalString];
+  List<Object> get props => [sliderCurrentTimeIntervalString, data];
 }

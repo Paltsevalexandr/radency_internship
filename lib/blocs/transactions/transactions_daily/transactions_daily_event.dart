@@ -29,11 +29,17 @@ class TransactionsDailyFetchRequested extends TransactionsDailyEvent {
 }
 
 class TransactionsDailyDisplayRequested extends TransactionsDailyEvent {
-  final String data;
+  final String sliderCurrentTimeIntervalString;
   final Map<int, List<ExpenseItemEntity>> expenseData;
 
-  TransactionsDailyDisplayRequested({this.expenseData, @required this.data});
+  TransactionsDailyDisplayRequested({this.expenseData, @required this.sliderCurrentTimeIntervalString});
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [sliderCurrentTimeIntervalString];
+}
+
+class TransactionsDailyLocaleChanged extends TransactionsDailyEvent {
+
+  @override
+  List<Object> get props => [];
 }

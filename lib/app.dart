@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
-import 'package:radency_internship_project_2/ui/category_page/expenses_catedory_list.dart';
-import 'package:radency_internship_project_2/ui/category_page/income_catedory_list.dart';
+import 'package:radency_internship_project_2/blocs/image_picker/image_picker_bloc.dart';
 import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.dart';
@@ -12,6 +9,9 @@ import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
 import 'package:radency_internship_project_2/repositories/settings_repository/settings_repository.dart';
+import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
+import 'package:radency_internship_project_2/ui/category_page/expenses_catedory_list.dart';
+import 'package:radency_internship_project_2/ui/category_page/income_catedory_list.dart';
 import 'package:radency_internship_project_2/ui/login_page.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/language_setting_page.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/style_setting_page.dart';
@@ -29,7 +29,6 @@ import 'blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
 import 'blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
 import 'blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import 'blocs/user_profile/user_profile_bloc.dart';
-import 'package:radency_internship_project_2/blocs/image_picker/image_picker_bloc.dart';
 import 'generated/l10n.dart';
 import 'repositories/firebase_auth_repository/firebase_auth_repository.dart';
 import 'ui/home_page.dart';
@@ -56,32 +55,41 @@ class App extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => AuthenticationBloc(
+            create: (context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent()),
+          ),
+          BlocProvider(
+            create: (context) => AuthenticationBloc(
               authenticationRepository: authenticationRepository,
             ),
           ),
           BlocProvider(
-            create: (_) => UserProfileBloc(
+            create: (context) => UserProfileBloc(
               authenticationRepository: authenticationRepository,
             ),
           ),
           BlocProvider(
-            create: (BuildContext context) => StylesBloc(),
+            create: (context) => StylesBloc(),
           ),
           BlocProvider(
-            create: (BuildContext context) => CategoryBloc(),
+            create: (context) => CategoryBloc(),
           ),
           BlocProvider(
-            create: (_) => TransactionsDailyBloc()..add(TransactionsDailyInitialize()),
+            create: (context) => TransactionsDailyBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
+              ..add(
+                TransactionsDailyInitialize(),
+              ),
           ),
           BlocProvider(
-            create: (_) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
+            create: (context) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
           ),
           BlocProvider(
-            create: (_) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
+            create: (context) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
           ),
           BlocProvider(
-            create: (_) => TransactionsSummaryBloc()..add(TransactionsSummaryInitialize()),
+            create: (context) => TransactionsSummaryBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
+              ..add(
+                TransactionsSummaryInitialize(),
+              ),
           ),
           BlocProvider(
             create: (_) => ImagePickerBloc(),
@@ -90,16 +98,17 @@ class App extends StatelessWidget {
             create: (_) => NavigationBloc()..add(SelectPage(0)),
           ),
           BlocProvider(
-            create: (_) => StatsBloc(),
-          ),
-          BlocProvider(create: (_) => BudgetOverviewBloc()..add(BudgetOverviewInitialize())),
-          BlocProvider(
-            create: (_) => NavigationBloc()..add(SelectPage(0)),
+            create: (context) => StatsBloc(),
           ),
           BlocProvider(
-            create: (_) => TransactionLocationMapBloc(),
+            create: (context) => BudgetOverviewBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
+              ..add(
+                BudgetOverviewInitialize(),
+              ),
           ),
-          BlocProvider(create: (BuildContext context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent())),
+          BlocProvider(
+            create: (context) => TransactionLocationMapBloc(),
+          ),
         ],
         child: AppView(),
       ),

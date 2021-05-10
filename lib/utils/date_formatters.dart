@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:radency_internship_project_2/utils/strings.dart';
 
 
 class DateFormatters {
@@ -12,7 +13,7 @@ class DateFormatters {
 
   }
 
-  String monthNameAndYearFromDateTimeString(DateTime dateTime) {
-    return  DateFormat('MMMM y').format(dateTime);
+  String monthNameAndYearFromDateTimeString(DateTime dateTime, {String locale}) {
+    return capitalizeFirstLetterOfEachWord(DateFormat('LLLL y', locale).format(dateTime));
   }
 }

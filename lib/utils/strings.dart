@@ -85,3 +85,11 @@ final String numberWithDecimalRegExp = r'[0-9.]';
 final String moneyAmountEditRegExp = r'^[0-9]+(\.[0-9]{0,2})?$';
 
 final String moneyAmountRegExp = r'^[0-9]+(\.[0-9]{1,2})?$';
+
+String capitalizeFirstLetter(String s) {
+  if (s.trim().isEmpty) return '';
+
+  return '${s[0]?.toUpperCase()}${s.substring(1)}';
+}
+
+String capitalizeFirstLetterOfEachWord(String s) => s.split(" ").map((str) => capitalizeFirstLetter(str)).join(" ");

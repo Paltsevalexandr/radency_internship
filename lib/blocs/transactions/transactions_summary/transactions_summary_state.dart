@@ -25,5 +25,5 @@ class TransactionsSummaryLoaded extends TransactionsSummaryState {
   TransactionsSummaryLoaded({this.expenseSummaryItemEntity, @required this.sliderCurrentTimeIntervalString});
 
   @override
-  List<Object> get props => [sliderCurrentTimeIntervalString];
+  List<Object> get props => [sliderCurrentTimeIntervalString, expenseSummaryItemEntity];
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/budget/category_budget.dart';
 import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
@@ -15,7 +16,11 @@ part 'budget_overview_event.dart';
 part 'budget_overview_state.dart';
 
 class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> {
-  BudgetOverviewBloc() : super(BudgetOverviewInitial());
+  BudgetOverviewBloc({@required this.settingsBloc}) : super(BudgetOverviewInitial());
+
+  SettingsBloc settingsBloc;
+  StreamSubscription settingsSubscription;
+  String locale = '';
 
   DateTime _observedDate;
   String _sliderCurrentTimeIntervalString = '';
@@ -30,6 +35,8 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
   @override
   Future<void> close() {
     budgetOverviewSubscription?.cancel();
+    settingsSubscription?.cancel();
+
     return super.close();
   }
 
@@ -47,7 +54,45 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
       yield* _mapBudgetOverviewFetchRequestedToState(dateForFetch: event.dateForFetch);
     } else if (event is BudgetOverviewDisplayRequested) {
       yield* _mapTransactionDailyDisplayRequestedToState();
-    } else if (event is BudgetOverviewCategoryBudgetSaved) yield* _mapBudgetOverviewCategoryBudgetSavedToState(event.categoryBudget);
+    } else if (event is BudgetOverviewCategoryBudgetSaved) {
+      yield* _mapBudgetOverviewCategoryBudgetSavedToState(event.categoryBudget);
+    } else if (event is BudgetOverviewLocaleChanged) {
+      yield* _mapBudgetOverviewLocaleChangedToState();
+    }
+  }
+
+  Stream<BudgetOverviewState> _mapBudgetOverviewInitializeToState() async* {
+    _observedDate = DateTime.now();
+    await _fetchSavedBudget();
+
+    if (settingsBloc.state is LoadedSettingsState) {
+      locale = settingsBloc.state.language;
+    }
+    settingsBloc.stream.listen((newSettingsState) {
+      print("TransactionsDailyBloc._mapTransactionsDailyInitializeToState: newSettingsState");
+      if (newSettingsState is LoadedSettingsState && newSettingsState.language != locale) {
+        locale = newSettingsState.language;
+        add(BudgetOverviewLocaleChanged());
+      }
+    });
+
+    add(BudgetOverviewFetchRequested(dateForFetch: _observedDate));
+  }
+
+  Stream<BudgetOverviewState> _mapBudgetOverviewLocaleChangedToState() async* {
+    _sliderCurrentTimeIntervalString =
+        DateFormatters().monthNameAndYearFromDateTimeString(_observedDate, locale: locale);
+
+    print("TransactionsDailyBloc._mapTransactionsDailyLocaleChangedToState: $_sliderCurrentTimeIntervalString");
+
+    if (state is BudgetOverviewLoaded) {
+      yield BudgetOverviewLoaded(
+          sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
+          monthlyCategoryExpenses: monthlyCategoryExpenses,
+          summary: summary);
+    } else if (state is BudgetOverviewLoading) {
+      yield BudgetOverviewLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
+    }
   }
 
   Stream<BudgetOverviewState> _mapBudgetOverviewFetchRequestedToState({@required DateTime dateForFetch}) async* {
@@ -55,7 +100,8 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
 
     _sliderCurrentTimeIntervalString = DateFormatters().monthNameAndYearFromDateTimeString(_observedDate);
     yield BudgetOverviewLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
-    budgetOverviewSubscription = MockedExpensesItems().generateMonthlyCategoryExpenses().asStream().listen((fetchedMonthlyCategoryExpensesList) {
+    budgetOverviewSubscription =
+        MockedExpensesItems().generateMonthlyCategoryExpenses().asStream().listen((fetchedMonthlyCategoryExpensesList) {
       monthlyCategoryExpenses.clear();
       monthlyCategoryExpenses = fetchedMonthlyCategoryExpensesList;
 
@@ -68,14 +114,9 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
     _calculateBudgetSummary();
 
     yield BudgetOverviewLoaded(
-        sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString, monthlyCategoryExpenses: monthlyCategoryExpenses, summary: summary);
-  }
-
-  Stream<BudgetOverviewState> _mapBudgetOverviewInitializeToState() async* {
-    _observedDate = DateTime.now();
-    await _fetchSavedBudget();
-
-    add(BudgetOverviewFetchRequested(dateForFetch: _observedDate));
+        sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
+        monthlyCategoryExpenses: monthlyCategoryExpenses,
+        summary: summary);
   }
 
   Stream<BudgetOverviewState> _mapBudgetOverviewGetPreviousMonthPressedToState() async* {
@@ -102,8 +143,9 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
   void _sortCategories() {
     if (budgets.isNotEmpty) {
       budgets.forEach((budgetEntry) {
-        monthlyCategoryExpenses.firstWhere((monthlyCategoryExpense) => monthlyCategoryExpense.category == budgetEntry.category).budgetTotal =
-            budgetEntry.budgetValue;
+        monthlyCategoryExpenses
+            .firstWhere((monthlyCategoryExpense) => monthlyCategoryExpense.category == budgetEntry.category)
+            .budgetTotal = budgetEntry.budgetValue;
       });
     }
 

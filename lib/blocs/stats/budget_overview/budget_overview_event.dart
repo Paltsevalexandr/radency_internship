@@ -44,3 +44,9 @@ class BudgetOverviewCategoryBudgetSaved extends BudgetOverviewEvent {
   @override
   List<Object> get props => [categoryBudget];
 }
+
+class BudgetOverviewLocaleChanged extends BudgetOverviewEvent {
+
+  @override
+  List<Object> get props => [];
+}
