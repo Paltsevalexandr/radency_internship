@@ -25,6 +25,7 @@ import 'blocs/authentication/authentication_bloc.dart';
 import 'blocs/settings/category/category_bloc.dart';
 import 'blocs/settings/settings_bloc.dart';
 import 'blocs/stats/budget_overview/budget_overview_bloc.dart';
+import 'blocs/stats/expenses_map/expenses_map_bloc.dart';
 import 'blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
 import 'blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
 import 'blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
@@ -87,9 +88,7 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => TransactionsSummaryBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-              ..add(
-                TransactionsSummaryInitialize(),
-              ),
+              ..add(TransactionsSummaryInitialize()),
           ),
           BlocProvider(
             create: (_) => ImagePickerBloc(),
@@ -102,13 +101,15 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => BudgetOverviewBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-              ..add(
-                BudgetOverviewInitialize(),
-              ),
+              ..add(BudgetOverviewInitialize()),
           ),
           BlocProvider(
             create: (context) => TransactionLocationMapBloc(),
           ),
+          BlocProvider(
+            create: (context) =>
+                ExpensesMapBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))..add(ExpensesMapInitialize()),
+          )
         ],
         child: AppView(),
       ),

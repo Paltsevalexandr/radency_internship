@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
-import 'package:radency_internship_project_2/ui/widgets/bottom_nav_bar.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/budget_overview_tab.dart';
-import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/spending_page/spending_page.dart';
+import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/stats/stats_tab_view.dart';
+import 'package:radency_internship_project_2/ui/widgets/bottom_nav_bar.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class StatsView extends StatefulWidget {
@@ -26,18 +26,18 @@ class _StatsViewState extends State<StatsView> {
   }
 
   Widget _body() {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          _statsViewModeSlider(),
-          BlocConsumer<StatsBloc, StatsState>(
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        _statsViewModeSlider(),
+        Expanded(
+          child: BlocConsumer<StatsBloc, StatsState>(
             listener: (context, state) {},
             builder: (context, state) {
               switch (state.statsPageMode) {
                 case StatsPageMode.stats:
-                  return SpendingPage();
+                  return StatsTabView();
                   break;
                 case StatsPageMode.budget:
                   return BudgetOverviewTab();
@@ -49,9 +49,9 @@ class _StatsViewState extends State<StatsView> {
 
               return SizedBox();
             },
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
@@ -64,7 +64,7 @@ class _StatsViewState extends State<StatsView> {
               children: _statsViewSliderButtons(),
               groupValue: state.statsPageMode,
               onValueChanged: (value) {
-                context.read<StatsBloc>().add(StatsModeChanged(statsPageMode: value));
+                context.read<StatsBloc>().add(StatsPageModeChanged(statsPageMode: value));
               });
         },
       ),

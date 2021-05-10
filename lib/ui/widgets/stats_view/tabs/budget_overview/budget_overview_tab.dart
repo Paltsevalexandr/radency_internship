@@ -21,10 +21,10 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: [
         BudgetSlider(),
-        budgetOverview(),
+        Expanded(child: budgetOverview()),
       ],
     );
   }
@@ -38,17 +38,15 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
           );
 
         if (state is BudgetOverviewLoaded) {
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                summaryAndSettingsButton(state.summary),
-                SizedBox(
-                  height: pixelsToDP(context, 30),
-                ),
-                categoriesBudgetList(state.monthlyCategoryExpenses),
-              ],
-            ),
+          return Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              summaryAndSettingsButton(state.summary),
+              SizedBox(
+                height: pixelsToDP(context, 30),
+              ),
+              categoriesBudgetList(state.monthlyCategoryExpenses),
+            ],
           );
         }
 
@@ -117,19 +115,22 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
   }
 
   Widget categoriesBudgetList(List<MonthlyCategoryExpense> monthlyCategoryExpenses) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(
-            monthlyCategoryExpenses.length,
-            (index) => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (index != 0) Divider(),
-                    ExpenseCategoryBudgetItem(monthlyCategoryExpense: monthlyCategoryExpenses[index]),
-                  ],
-                )),
+    return Expanded(
+      child: Container(
+        color: Colors.white,
+        child: ListView(
+          shrinkWrap: true,
+          // mainAxisSize: MainAxisSize.min,
+          children: List.generate(
+              monthlyCategoryExpenses.length,
+              (index) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (index != 0) Divider(),
+                      ExpenseCategoryBudgetItem(monthlyCategoryExpense: monthlyCategoryExpenses[index]),
+                    ],
+                  )),
+        ),
       ),
     );
   }

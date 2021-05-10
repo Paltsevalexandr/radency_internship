@@ -79,7 +79,7 @@ class _TransactionsViewState extends State<TransactionsView> with SingleTickerPr
   Widget tabTitle(String localizedTitle) {
     return Text(
       localizedTitle,
-      style: transactionsTabTitleStyle(context),
+      style: tabTitleStyle(context),
     );
   }
 }

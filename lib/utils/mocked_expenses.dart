@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
+import 'package:radency_internship_project_2/models/location.dart';
+
+import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
 
 import '../models/expense_item.dart';
 
@@ -20,7 +23,7 @@ class MockedExpensesItems {
   ];
   final List<String> accounts = ['Cash', 'Bank accounts', 'Credit cards'];
 
-  Map<int, List<ExpenseItemEntity>> generateDailyData() {
+  Map<int, List<ExpenseItemEntity>> generateDailyData({double locationLatitude, double locationLongitude}) {
     var map = Map<int, List<ExpenseItemEntity>>();
 
     var list = List<ExpenseItemEntity>.empty(growable: true);
@@ -29,8 +32,18 @@ class MockedExpensesItems {
       var date = Random().nextInt(29) + 1;
       var dateString = date <= 9 ? "0$date" : date.toString();
 
+      double newLatitude = 0;
+      double newLongitude = 0;
+
+      if (locationLatitude != null && locationLongitude != null) {
+        newLatitude = locationLatitude + (Random().nextInt(9) * 0.01);
+        newLongitude = locationLongitude + (Random().nextInt(9) * 0.01);
+      }
+
+      ExpenseLocation expenseLocation = ExpenseLocation(address: '', latitude: newLatitude, longitude: newLongitude);
+
       list.add(ExpenseItemEntity(j, j % 2 == 0 ? ExpenseType.income : ExpenseType.outcome, 5 * sqrt(j) * j - sqrt(j) * j + j + sqrt(j),
-          DateTime.parse("2021-04-$dateString"), "Catname", "Description $j"));
+          DateTime.parse("2021-04-$dateString"), "Catname", "Description $j", expenseLocation: expenseLocation));
     }
 
     list.sort((a, b) => a.dateTime.compareTo(b.dateTime));

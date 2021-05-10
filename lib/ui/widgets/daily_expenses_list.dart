@@ -24,10 +24,8 @@ Widget buildDailyExpensesList(BuildContext context) {
         sliversMap.add(_StickyExpensesDaily(items: value));
       });
 
-      return Scaffold(
-        body: CustomScrollView(
-          slivers: sliversMap,
-        ),
+      return CustomScrollView(
+        slivers: sliversMap,
       );
     }
 

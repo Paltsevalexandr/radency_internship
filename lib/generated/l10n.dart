@@ -1025,16 +1025,6 @@ class S {
     );
   }
 
-  /// `Saved`
-  String get addTransactionSnackBarSuccessMessage {
-    return Intl.message(
-      'Saved',
-      name: 'addTransactionSnackBarSuccessMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Income`
   String get incomeCategoryTitle {
     return Intl.message(
@@ -1175,6 +1165,16 @@ class S {
     );
   }
 
+  /// `Saved`
+  String get addTransactionSnackBarSuccessMessage {
+    return Intl.message(
+      'Saved',
+      name: 'addTransactionSnackBarSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Stats`
   String get statsViewButtonStats {
     return Intl.message(
@@ -1200,6 +1200,26 @@ class S {
     return Intl.message(
       'Note',
       name: 'statsViewButtonNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chart`
+  String get statsViewChartTab {
+    return Intl.message(
+      'Chart',
+      name: 'statsViewChartTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Map`
+  String get statsViewMapTab {
+    return Intl.message(
+      'Map',
+      name: 'statsViewMapTab',
       desc: '',
       args: [],
     );

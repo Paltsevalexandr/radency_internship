@@ -112,8 +112,6 @@
   "addTransactionFromFieldValidationEmpty": "Enter source",
   "addTransactionToFieldValidationEmpty": "Enter destination",
 
-  "addTransactionSnackBarSuccessMessage": "Saved",
-
   "incomeCategoryTitle": "Income",
   "expensesCategoryTitle": "Expenses",
   "delete": "Delete",
@@ -138,6 +136,8 @@
   "statsViewButtonStats": "Stats",
   "statsViewButtonBudget": "Budget",
   "statsViewButtonNote": "Note",
+  "statsViewChartTab": "Chart",
+  "statsViewMapTab": "Map",
   "statsBudgetViewRemainingMonthlyTitle": "Remaining (Monthly)",
   "statsBudgetViewBudgetSettingsTitle": "Budget Settings",
   "statsBudgetSetupFieldValidatorIncorrect": "Enter correct value",

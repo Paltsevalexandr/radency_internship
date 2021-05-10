@@ -1,8 +1,10 @@
+import 'package:radency_internship_project_2/models/location.dart';
+
 enum ExpenseType { income, outcome, transfer }
 
 class ExpenseItemEntity {
   const ExpenseItemEntity(this.id, this.type, this.amount, this.dateTime,
-      this.category, this.description)
+      this.category, this.description, {this.expenseLocation})
       : assert(id != null);
 
   final int id;
@@ -11,6 +13,7 @@ class ExpenseItemEntity {
   final ExpenseType type;
   final double amount;
   final DateTime dateTime;
+  final ExpenseLocation expenseLocation;
 }
 
 class ExpenseWeeklyItemEntity {

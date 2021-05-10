@@ -98,9 +98,12 @@
   "addTransactionLocationFieldHint": "Нажмите для выбора местоположения",
 
 
+
   "statsViewButtonStats": "Стат.",
   "statsViewButtonBudget": "Бюджет",
   "statsViewButtonNote": "Заметки",
+  "statsViewChartTab": "График",
+  "statsViewMapTab": "Карта",
   "statsBudgetViewRemainingMonthlyTitle": "Остаток (месяц)",
   "statsBudgetViewBudgetSettingsTitle": "Настройки бюджета",
   "statsBudgetSetupFieldValidatorIncorrect": "Введите правильное значение",
@@ -111,8 +114,6 @@
 
 
 
-  "addTransactionLocationViewTitle": "Выбор местоположения",
-  "addTransactionLocationViewSelectButton": "Выбрать",
 
   "addTransactionSnackBarSuccessMessage": "Сохранено",
 
@@ -123,7 +124,7 @@
   "save": "Сохранить",
   "categoryName": "Имя категории",
   "newCategory": "Новая категория",
-  
+
   "addTransactionSnackBarLocationSelectCancelled": "Выбор местоположения отменён",
 
   "addTransactionLocationMenuCurrent" : "Указать текущее местоположение",

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-TextStyle transactionsTabTitleStyle(BuildContext context) {
+TextStyle tabTitleStyle(BuildContext context) {
   return TextStyle(color: Theme.of(context).textTheme.bodyText1.color);
 }
 
@@ -74,7 +74,6 @@ TextStyle budgetItemLimitedExpenseAmountStyle({@required bool isOverBudget}) {
 }
 
 const budgetSummaryRemainingAmountStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
 
 
 // ###

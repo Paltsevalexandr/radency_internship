@@ -125,6 +125,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "statsViewButtonBudget" : MessageLookupByLibrary.simpleMessage("Budget"),
     "statsViewButtonNote" : MessageLookupByLibrary.simpleMessage("Note"),
     "statsViewButtonStats" : MessageLookupByLibrary.simpleMessage("Stats"),
+    "statsViewChartTab" : MessageLookupByLibrary.simpleMessage("Chart"),
+    "statsViewMapTab" : MessageLookupByLibrary.simpleMessage("Map"),
     "style" : MessageLookupByLibrary.simpleMessage("Style"),
     "stylePageTitle" : MessageLookupByLibrary.simpleMessage("Style"),
     "sundayShort" : MessageLookupByLibrary.simpleMessage("Sun"),
