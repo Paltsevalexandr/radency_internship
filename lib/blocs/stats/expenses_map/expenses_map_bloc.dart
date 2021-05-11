@@ -146,7 +146,7 @@ class ExpensesMapBloc extends Bloc<ExpensesMapEvent, ExpensesMapState> {
       Position position = await GeolocatorUtils().determinePosition();
       yield state.animateToPosition(latLng: LatLng(position.latitude, position.longitude));
     } catch (e) {
-      // TODO: handle errors
+      yield state.showMessage(e);
     }
 
     yield state.setFocused();

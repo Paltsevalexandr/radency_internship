@@ -38,6 +38,14 @@ class _TransactionLocationSelectViewState extends State<TransactionLocationSelec
       if (state.shouldAnimateToPosition) {
         _animateCamera(state.animateTargetPosition);
       }
+
+      if (state.message != null) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+      }
     }, builder: (context, state) {
       if (state.isInitialized) {
         return Stack(

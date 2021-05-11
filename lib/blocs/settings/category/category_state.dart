@@ -1,11 +1,7 @@
 part of 'category_bloc.dart';
 
 class CategoryState {
-  CategoryState(
-      {this.incomeCategories,
-        this.nextIncomeCategoryId,
-      this.expensesCategories,
-        this.nextExpenseCategoryId});
+  CategoryState({this.incomeCategories, this.nextIncomeCategoryId, this.expensesCategories, this.nextExpenseCategoryId});
 
   final List<CategoryItemData> incomeCategories;
   final List<CategoryItemData> expensesCategories;

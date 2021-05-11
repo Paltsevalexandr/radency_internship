@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.radency.radency_internship_project_2">
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:label="radency_internship_project_2"
         android:icon="@mipmap/ic_launcher"
@@ -40,6 +42,4 @@
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyBPLVbRzYF4B-Q05aOjQzJ1gbFh4HdDp4Y"/>
     </application>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 </manifest>

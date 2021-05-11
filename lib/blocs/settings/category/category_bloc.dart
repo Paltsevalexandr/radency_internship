@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/ui/category_page/category_page_common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'category_state.dart';
-
 part 'category_event.dart';
+part 'category_state.dart';
 
 const String incomeList = "incomeList";
 const String expensesList = "expensesList";
@@ -13,14 +12,11 @@ const String expensesList = "expensesList";
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   SharedPreferences prefs;
 
-  CategoryBloc()
-      : super(CategoryState(
-            incomeCategories: List.empty(), expensesCategories: List.empty())) {
+  CategoryBloc() : super(CategoryState(incomeCategories: List.empty(), expensesCategories: List.empty())) {
     add(LoadCategoriesFromSharedPreferences());
   }
 
-  CategoryState changeCategory(
-      String categoryType, List<CategoryItemData> items) {
+  CategoryState changeCategory(String categoryType, List<CategoryItemData> items) {
     if (categoryType == incomeList) {
       return CategoryState(
         incomeCategories: items,
@@ -85,8 +81,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   @override
   Stream<CategoryState> mapEventToState(CategoryEvent event) async* {
     if (event is ChangeCategory) {
-      yield changeCategory(
-          event.settingName, event.listSettingValue.cast<CategoryItemData>());
+      yield changeCategory(event.settingName, event.listSettingValue.cast<CategoryItemData>());
     }
 
     if (event is ChangeCategoryCounter) {

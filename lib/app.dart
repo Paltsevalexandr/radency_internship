@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:radency_internship_project_2/blocs/csv_export/csv_export_bloc.dart';
 import 'package:radency_internship_project_2/blocs/image_picker/image_picker_bloc.dart';
 import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
@@ -8,7 +9,7 @@ import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.d
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
-import 'package:radency_internship_project_2/blocs/csv_export/csv_export_bloc.dart';
+import 'package:radency_internship_project_2/repositories/budgets_repository.dart';
 import 'package:radency_internship_project_2/repositories/settings_repository/settings_repository.dart';
 import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
 import 'package:radency_internship_project_2/ui/category_page/expenses_catedory_list.dart';
@@ -46,10 +47,12 @@ class App extends StatelessWidget {
   const App({
     Key key,
     @required this.authenticationService,
+    @required this.budgetsRepository,
   })  : assert(authenticationService != null),
         super(key: key);
 
   final FirebaseAuthenticationService authenticationService;
+  final BudgetsRepository budgetsRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +105,13 @@ class App extends StatelessWidget {
             create: (context) => StatsBloc(),
           ),
           BlocProvider(
-            create: (context) => BudgetOverviewBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
+            create: (context) => BudgetOverviewBloc(
+                settingsBloc: BlocProvider.of<SettingsBloc>(context), budgetsRepository: budgetsRepository)
               ..add(BudgetOverviewInitialize()),
           ),
           BlocProvider(
             create: (context) => TransactionLocationMapBloc(),
           ),
-          BlocProvider(create: (BuildContext context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent())),
           BlocProvider(create: (_) => CsvExportBloc()),
           BlocProvider(
             create: (context) =>
@@ -174,7 +177,6 @@ class _AppViewState extends State<AppView> {
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
-                _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
                     print("_AppViewState.build: AuthenticationStatus.authenticated ${state.user.emailVerified}");

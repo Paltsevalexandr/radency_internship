@@ -1,20 +1,14 @@
 part of 'category_bloc.dart';
 
 abstract class CategoryEvent {
-  CategoryEvent({
-    this.settingName,
-    this.listSettingValue
-  });
+  CategoryEvent({this.settingName, this.listSettingValue});
 
   String settingName;
   List<dynamic> listSettingValue = List.empty();
 }
 
 class ChangeCategory implements CategoryEvent {
-  ChangeCategory({
-    this.settingName,
-    this.listSettingValue
-  });
+  ChangeCategory({this.settingName, this.listSettingValue});
 
   String settingName;
 
@@ -36,17 +30,12 @@ class LoadCategoriesFromSharedPreferences implements CategoryEvent {
   int settingValue;
 }
 
-
 class ChangeCategoryCounter implements CategoryEvent {
-  ChangeCategoryCounter({
-    this.settingName,
-    this.settingValue
-  });
+  ChangeCategoryCounter({this.settingName, this.settingValue});
 
   int settingValue;
   String settingName;
 
   @override
   List listSettingValue;
-
 }

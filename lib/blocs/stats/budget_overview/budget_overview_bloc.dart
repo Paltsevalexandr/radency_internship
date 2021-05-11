@@ -7,7 +7,7 @@ import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/budget/category_budget.dart';
 import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
-import 'package:radency_internship_project_2/providers/hive/hive_budgets.dart';
+import 'package:radency_internship_project_2/repositories/budgets_repository.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/mocked_expenses.dart';
 
@@ -16,11 +16,13 @@ part 'budget_overview_event.dart';
 part 'budget_overview_state.dart';
 
 class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> {
-  BudgetOverviewBloc({@required this.settingsBloc}) : super(BudgetOverviewInitial());
+  BudgetOverviewBloc({@required this.settingsBloc, @required this.budgetsRepository}) : super(BudgetOverviewInitial());
 
   SettingsBloc settingsBloc;
   StreamSubscription settingsSubscription;
   String locale = '';
+
+  BudgetsRepository budgetsRepository;
 
   DateTime _observedDate;
   String _sliderCurrentTimeIntervalString = '';
@@ -130,14 +132,14 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
   }
 
   Stream<BudgetOverviewState> _mapBudgetOverviewCategoryBudgetSavedToState(CategoryBudget categoryBudget) async* {
-    await HiveBudgets().saveCategoryBudget(categoryBudget: categoryBudget);
+    await budgetsRepository.update(categoryBudget: categoryBudget);
     await _fetchSavedBudget();
 
     add(BudgetOverviewDisplayRequested());
   }
 
   Future<void> _fetchSavedBudget() async {
-    budgets = await HiveBudgets().getBudgets();
+    budgets = await budgetsRepository.findAll();
   }
 
   void _sortCategories() {

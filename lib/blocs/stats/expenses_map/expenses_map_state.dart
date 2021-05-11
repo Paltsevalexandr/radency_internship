@@ -9,6 +9,7 @@ class ExpensesMapState extends Equatable {
     this.initialCameraPosition,
     this.isMapInitialized = false,
     this.markers,
+    this.message,
   });
 
   final bool isMapInitialized;
@@ -18,9 +19,19 @@ class ExpensesMapState extends Equatable {
   final LatLng animateTargetPosition;
   final CameraPosition initialCameraPosition;
   final Set<Marker> markers;
+  final String message;
 
   @override
-  List<Object> get props => [sliderCurrentTimeIntervalString, isFocusing, animateTargetPosition, initialCameraPosition, markers];
+  List<Object> get props => [
+        isMapInitialized,
+        sliderCurrentTimeIntervalString,
+        isFocusing,
+        animateTargetPosition,
+        initialCameraPosition,
+        markers,
+        shouldAnimateToPosition,
+        message,
+      ];
 
   ExpensesMapState initial({@required CameraPosition cameraPosition}) {
     return copyWith(initialCameraPosition: cameraPosition, isMapInitialized: true, markers: <Marker>{});
@@ -50,6 +61,9 @@ class ExpensesMapState extends Equatable {
     return copyWith(markers: <Marker>{});
   }
 
+  ExpensesMapState showMessage(String message) {
+    return copyWith(message: message);
+  }
 
   ExpensesMapState copyWith({
     bool isMapInitialized,
@@ -59,6 +73,7 @@ class ExpensesMapState extends Equatable {
     LatLng animateTargetPosition,
     String sliderCurrentTimeIntervalString,
     Set<Marker> markers,
+    String message,
   }) {
     return ExpensesMapState(
         sliderCurrentTimeIntervalString: sliderCurrentTimeIntervalString ?? this.sliderCurrentTimeIntervalString,
@@ -67,6 +82,7 @@ class ExpensesMapState extends Equatable {
         isMapInitialized: isMapInitialized ?? this.isMapInitialized,
         shouldAnimateToPosition: shouldAnimateToPosition ?? false,
         animateTargetPosition: animateTargetPosition ?? null,
-        markers: markers ?? this.markers);
+        markers: markers ?? this.markers,
+        message: message ?? null);
   }
 }

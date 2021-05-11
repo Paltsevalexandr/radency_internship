@@ -12,7 +12,6 @@ class ExpensesMapView extends StatefulWidget {
 }
 
 class _ExpensesMapViewState extends State<ExpensesMapView> {
-  CameraPosition _cameraPosition;
   Completer<GoogleMapController> _controller = Completer();
 
   @override
@@ -21,9 +20,16 @@ class _ExpensesMapViewState extends State<ExpensesMapView> {
       if (state.shouldAnimateToPosition) {
         _animateCamera(state.animateTargetPosition);
       }
+
+      if (state.message != null) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+      }
     }, builder: (context, state) {
       if (state.isMapInitialized) {
-
         print("_ExpensesMapViewState.build: ${state.markers.length}");
 
         return Expanded(
@@ -32,12 +38,9 @@ class _ExpensesMapViewState extends State<ExpensesMapView> {
               GoogleMap(
                 onMapCreated: (GoogleMapController controller) async {
                   _controller.complete(controller);
-                  _cameraPosition = state.initialCameraPosition;
                   context.read<ExpensesMapBloc>().add(ExpensesMapCreated(controller: controller));
                 },
                 onCameraMove: (cameraPosition) {
-                  _cameraPosition = cameraPosition;
-
                   context.read<ExpensesMapBloc>().add(ExpensesMapOnCameraMoved(cameraPosition: cameraPosition));
                 },
                 onCameraIdle: () {

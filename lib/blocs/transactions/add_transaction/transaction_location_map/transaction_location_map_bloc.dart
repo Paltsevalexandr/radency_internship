@@ -31,7 +31,6 @@ class TransactionLocationMapBloc extends Bloc<TransactionLocationMapEvent, Trans
   }
 
   Stream<TransactionLocationMapState> _mapTransactionLocationMapInitializeToState() async* {
-
     // TODO: add fetching of last saved location from local storage
 
     yield state.initial(cameraPosition: _kGooglePlex);
@@ -46,7 +45,7 @@ class TransactionLocationMapBloc extends Bloc<TransactionLocationMapEvent, Trans
       Position position = await GeolocatorUtils().determinePosition();
       yield state.animateToPosition(latLng: LatLng(position.latitude, position.longitude));
     } catch (e) {
-      // TODO: handle errors
+      yield state.showMessage(e);
     }
 
     yield state.setFocused();

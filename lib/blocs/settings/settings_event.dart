@@ -4,22 +4,18 @@ abstract class SettingsEvent {
   SettingsEvent();
 }
 
-class InitialSettingsEvent implements SettingsEvent{
+class InitialSettingsEvent implements SettingsEvent {
   InitialSettingsEvent();
 }
 
 class ChangeCurrency implements SettingsEvent {
-  ChangeCurrency({
-    this.newCurrencyValue
-  });
+  ChangeCurrency({this.newCurrencyValue});
 
   String newCurrencyValue;
 }
 
 class ChangeLanguage implements SettingsEvent {
-  ChangeLanguage({
-    this.newLanguageValue
-  });
+  ChangeLanguage({this.newLanguageValue});
 
   String newLanguageValue;
 }
