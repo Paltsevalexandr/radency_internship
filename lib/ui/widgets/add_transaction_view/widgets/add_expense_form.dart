@@ -13,8 +13,8 @@ import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/location.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/show_modal.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
@@ -77,7 +77,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         }
       },
       builder: (context, state) {
-        if (state is AddTransactionLoaded) return _addExpenseFormBody(state);
+        if (state is AddTransactionLoaded) {
+          return _addExpenseFormBody(state);
+        }
 
         return SizedBox();
       },
@@ -155,7 +157,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               },
               onSaved: (value) => _accountValue = value,
               validator: (val) {
-                if (val.isEmpty) return S.current.addTransactionAccountFieldValidationEmpty;
+                if (val.isEmpty) {
+                  return S.current.addTransactionAccountFieldValidationEmpty;
+                }
 
                 return null;
               },
@@ -191,7 +195,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               },
               onSaved: (value) => _categoryValue = value,
               validator: (val) {
-                if (val.isEmpty) return S.current.addTransactionCategoryFieldValidationEmpty;
+                if (val.isEmpty) {
+                  return S.current.addTransactionCategoryFieldValidationEmpty;
+                }
 
                 return null;
               },
@@ -223,7 +229,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                 FilteringTextInputFormatter.allow(RegExp(numberWithDecimalRegExp)),
               ],
               validator: (val) {
-                if (!RegExp(moneyAmountRegExp).hasMatch(val)) return S.current.addTransactionAmountFieldValidationEmpty;
+                if (!RegExp(moneyAmountRegExp).hasMatch(val)) {
+                  return S.current.addTransactionAmountFieldValidationEmpty;
+                }
 
                 return null;
               },
@@ -581,10 +589,18 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   bool _validateForms() {
     bool result = true;
 
-    if (!_accountValueFormKey.currentState.validate()) result = false;
-    if (!_categoryValueFormKey.currentState.validate()) result = false;
-    if (!_amountValueFormKey.currentState.validate()) result = false;
-    if (!_noteValueFormKey.currentState.validate()) result = false;
+    if (!_accountValueFormKey.currentState.validate()) {
+      result = false;
+    }
+    if (!_categoryValueFormKey.currentState.validate()) {
+      result = false;
+    }
+    if (!_amountValueFormKey.currentState.validate()) {
+      result = false;
+    }
+    if (!_noteValueFormKey.currentState.validate()) {
+      result = false;
+    }
 
     return result;
   }

@@ -3,18 +3,18 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-import '../../repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
 
 part 'sign_up_event.dart';
 
 part 'sign_up_state.dart';
 
-class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  SignUpBloc(this._authenticationRepository)
-      : assert(_authenticationRepository != null),
-        super(const SignUpState());
+class PhoneSignUpBloc extends Bloc<PhoneSignUpEvent, PhoneSignUpState> {
+  PhoneSignUpBloc(this._authenticationService)
+      : assert(_authenticationService != null),
+        super(const PhoneSignUpState());
 
-  final AuthenticationRepository _authenticationRepository;
+  final FirebaseAuthenticationService _authenticationService;
 
   String email;
   String username;
@@ -22,8 +22,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   int forceCodeResend;
 
   @override
-  Stream<SignUpState> mapEventToState(
-    SignUpEvent event,
+  Stream<PhoneSignUpState> mapEventToState(
+    PhoneSignUpEvent event,
   ) async* {
     if (event is SignUpCredentialsSubmitted) {
       yield* _mapSignUpCredentialsSubmittedToState(phoneNumber: event.phoneNumber, email: event.email, username: event.username);
@@ -34,20 +34,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     } else if (event is SignUpSignInWithPhoneCredentialCalled) {
       yield* _mapSignUpSignInWithPhoneCredentialAndUpdateProfileCalledToState(event.authCredential);
     } else if (event is SignUpCodeSent) {
-      yield state.copyWith(areDetailsProcessing: false, signUpPageMode: SignUpPageMode.OTP);
+      yield state.copyWith(areDetailsProcessing: false, signUpPageMode: PhoneSignUpPageMode.OTP);
     } else if (event is SignUpVerificationFailed) {
       yield state.copyWith(areDetailsProcessing: false, errorMessage: event.exception.message);
     }
   }
 
-  Stream<SignUpState> _mapSignUpCredentialsSubmittedToState({@required String phoneNumber, @required String email, @required String username}) async* {
+  Stream<PhoneSignUpState> _mapSignUpCredentialsSubmittedToState({@required String phoneNumber, @required String email, @required String username}) async* {
     yield state.onNumberProcessing();
 
     this.email = email;
     this.username = username;
 
     try {
-      await _authenticationRepository.startPhoneNumberAuthentication(
+      await _authenticationService.startPhoneNumberAuthentication(
           phoneNumber: phoneNumber,
           verificationCompleted: (AuthCredential phoneAuthCredential) {
             print('PhoneAuthBloc: verificationCompleted');
@@ -69,7 +69,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     }
   }
 
-  Stream<SignUpState> _mapSignUpOtpSubmittedToState({@required String oneTimePassword}) async* {
+  Stream<PhoneSignUpState> _mapSignUpOtpSubmittedToState({@required String oneTimePassword}) async* {
     yield state.onOtpStartProcessing();
 
     final AuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
@@ -80,9 +80,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     add(SignUpSignInWithPhoneCredentialCalled(authCredential: phoneAuthCredential));
   }
 
-  Stream<SignUpState> _mapSignUpSignInWithPhoneCredentialAndUpdateProfileCalledToState(AuthCredential authCredential) async* {
+  Stream<PhoneSignUpState> _mapSignUpSignInWithPhoneCredentialAndUpdateProfileCalledToState(AuthCredential authCredential) async* {
     try {
-      await _authenticationRepository.signUpWithPhoneCredentialAndUpdateProfile(authCredential: authCredential, email: email, username: username);
+      await _authenticationService.signInWithPhoneCredentialAndUpdateProfile(authCredential: authCredential, email: email, username: username);
     } on PlatformException catch (e) {
       yield state.showError(e.message);
     } catch (e) {

@@ -5,19 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:radency_internship_project_2/blocs/sign_up/sign_up_phone/sign_up_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
+import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
-import '../blocs/sign_up/sign_up_bloc.dart';
-import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
-import '../utils/strings.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key key}) : super(key: key);
-
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => const SignUpPage());
-  }
+class PhoneSignUpPage extends StatelessWidget {
+  const PhoneSignUpPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +21,8 @@ class SignUpPage extends StatelessWidget {
       appBar: AppBar(title: Text(S.current.signUpPageTitle)),
       body: Padding(
         padding: EdgeInsets.all(pixelsToDP(context, 8.0)),
-        child: BlocProvider<SignUpBloc>(
-          create: (_) => SignUpBloc(context.read<AuthenticationRepository>()),
+        child: BlocProvider<PhoneSignUpBloc>(
+          create: (_) => PhoneSignUpBloc(context.read<FirebaseAuthenticationService>()),
           child: SignUpForm(),
         ),
       ),
@@ -58,7 +54,9 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   void initState() {
     super.initState();
-    if (errorController == null || !errorController.hasListener) errorController = StreamController<ErrorAnimationType>();
+    if (errorController == null || !errorController.hasListener) {
+      errorController = StreamController<ErrorAnimationType>();
+    }
   }
 
   @override
@@ -69,7 +67,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SignUpBloc, SignUpState>(
+    return BlocConsumer<PhoneSignUpBloc, PhoneSignUpState>(
       listener: (context, state) {
         if (state.errorMessage != null) {
           ScaffoldMessenger.of(context)
@@ -81,10 +79,10 @@ class _SignUpFormState extends State<SignUpForm> {
       },
       builder: (context, state) {
         switch (state.signUpPageMode) {
-          case SignUpPageMode.Credentials:
+          case PhoneSignUpPageMode.Credentials:
             return _signUpDetails();
             break;
-          case SignUpPageMode.OTP:
+          case PhoneSignUpPageMode.OTP:
             return _otpInput();
             break;
           default:
@@ -129,7 +127,7 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   Widget _detailsForm() {
-    return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
+    return BlocBuilder<PhoneSignUpBloc, PhoneSignUpState>(builder: (context, state) {
       return Column(
         children: [
           Form(
@@ -149,7 +147,8 @@ class _SignUpFormState extends State<SignUpForm> {
                         errorController.close();
                       }
                       errorController = StreamController<ErrorAnimationType>();
-                      context.read<SignUpBloc>().add(SignUpCredentialsSubmitted(phoneNumber: _phoneNumber, email: _email, username: _username));
+                      context.read<PhoneSignUpBloc>().add(
+                          SignUpCredentialsSubmitted(phoneNumber: _phoneNumber, email: _email, username: _username));
                     }
                   },
             child: state.areDetailsProcessing
@@ -181,9 +180,13 @@ class _SignUpFormState extends State<SignUpForm> {
             labelText: S.current.signUpPhoneNumberLabelText,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
         validator: (val) {
-          if (val.trim().isEmpty) return S.current.signUpPhoneNumberValidatorEmpty;
+          if (val.trim().isEmpty) {
+            return S.current.signUpPhoneNumberValidatorEmpty;
+          }
 
-          if (!RegExp(phoneNumberRegExp).hasMatch(val)) return S.current.signUpPhoneNumberValidatorIncorrect;
+          if (!RegExp(phoneNumberRegExp).hasMatch(val)) {
+            return S.current.signUpPhoneNumberValidatorIncorrect;
+          }
 
           return null;
         },
@@ -198,12 +201,18 @@ class _SignUpFormState extends State<SignUpForm> {
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         initialValue: _email ?? '',
-        decoration:
-            InputDecoration(helperText: '', labelText: S.current.signUpEmailLabelText, border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+        decoration: InputDecoration(
+            helperText: '',
+            labelText: S.current.signUpEmailLabelText,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
         validator: (val) {
-          if (val.trim().isEmpty) return S.current.signUpEmailValidatorEmpty;
+          if (val.trim().isEmpty) {
+            return S.current.signUpEmailValidatorEmpty;
+          }
 
-          if (!RegExp(emailRegExp).hasMatch(val)) return S.current.signUpEmailValidatorIncorrect;
+          if (!RegExp(emailRegExp).hasMatch(val)) {
+            return S.current.signUpEmailValidatorIncorrect;
+          }
 
           return null;
         },
@@ -217,10 +226,14 @@ class _SignUpFormState extends State<SignUpForm> {
       padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: TextFormField(
         initialValue: _username ?? '',
-        decoration:
-            InputDecoration(helperText: '', labelText: S.current.signUpUsernameLabelText, border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+        decoration: InputDecoration(
+            helperText: '',
+            labelText: S.current.signUpUsernameLabelText,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
         validator: (val) {
-          if (val.trim().isEmpty) return S.current.signUpUsernameValidatorEmpty;
+          if (val.trim().isEmpty) {
+            return S.current.signUpUsernameValidatorEmpty;
+          }
 
           return null;
         },
@@ -255,7 +268,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           onPressed: () {
             setState(() {
-              context.read<SignUpBloc>().add(SignUpWrongNumberPressed());
+              context.read<PhoneSignUpBloc>().add(SignUpWrongNumberPressed());
               _oneTimePassword = '';
             });
           },
@@ -319,7 +332,7 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   Widget verifyOtpSection() {
-    return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
+    return BlocBuilder<PhoneSignUpBloc, PhoneSignUpState>(builder: (context, state) {
       return Container(
         child: TextButton(
           onPressed: state.isOTPProcessing
@@ -331,7 +344,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       otpHasError = true;
                     });
                   } else {
-                    context.read<SignUpBloc>().add(SignUpOtpSubmitted(oneTimePassword: _oneTimePassword));
+                    context.read<PhoneSignUpBloc>().add(SignUpOtpSubmitted(oneTimePassword: _oneTimePassword));
                   }
                 },
           child: state.isOTPProcessing

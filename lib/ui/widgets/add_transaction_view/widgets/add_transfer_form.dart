@@ -5,9 +5,9 @@ import 'package:radency_internship_project_2/blocs/transactions/add_transaction/
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/show_modal.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
@@ -69,7 +69,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
         }
       },
       builder: (context, state) {
-        if (state is AddTransactionLoaded) return _addTransferFormBody(state);
+        if (state is AddTransactionLoaded) {
+          return _addTransferFormBody(state);
+        }
 
         return SizedBox();
       },
@@ -143,7 +145,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
               },
               onSaved: (value) => _fromValue = value,
               validator: (val) {
-                if (val.isEmpty) return S.current.addTransactionAccountFieldValidationEmpty;
+                if (val.isEmpty) {
+                  return S.current.addTransactionAccountFieldValidationEmpty;
+                }
 
                 return null;
               },
@@ -179,7 +183,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
               },
               onSaved: (value) => _toValue = value,
               validator: (val) {
-                if (val.isEmpty) return S.current.addTransactionAccountFieldValidationEmpty;
+                if (val.isEmpty) {
+                  return S.current.addTransactionAccountFieldValidationEmpty;
+                }
 
                 return null;
               },
@@ -215,7 +221,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
                     ],
                     // keyboardType: TextInputType.numberWithOptions(decimal: true),
                     validator: (val) {
-                      if (!RegExp(moneyAmountRegExp).hasMatch(val)) return S.current.addTransactionAmountFieldValidationEmpty;
+                      if (!RegExp(moneyAmountRegExp).hasMatch(val)) {
+                        return S.current.addTransactionAmountFieldValidationEmpty;
+                      }
 
                       return null;
                     },
@@ -277,9 +285,13 @@ class _AddTransferFormState extends State<AddTransferForm> {
                       ],
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
                       validator: (val) {
-                        if (!_areFeesVisible) return null;
+                        if (!_areFeesVisible) {
+                          return null;
+                        }
 
-                        if (!RegExp(moneyAmountRegExp).hasMatch(val)) return S.current.addTransactionAmountFieldValidationEmpty;
+                        if (!RegExp(moneyAmountRegExp).hasMatch(val)) {
+                          return S.current.addTransactionAmountFieldValidationEmpty;
+                        }
 
                         return null;
                       },
@@ -442,17 +454,29 @@ class _AddTransferFormState extends State<AddTransferForm> {
     _fromValueFormKey.currentState.save();
     _amountValueFormKey.currentState.save();
     _noteValueFormKey.currentState.save();
-    if (_areFeesVisible) _feesValueFormKey.currentState.save();
+    if (_areFeesVisible) {
+      _feesValueFormKey.currentState.save();
+    }
   }
 
   bool _validateForms() {
     bool result = true;
 
-    if (!_fromValueFormKey.currentState.validate()) result = false;
-    if (!_toValueFormKey.currentState.validate()) result = false;
-    if (!_amountValueFormKey.currentState.validate()) result = false;
-    if (!_noteValueFormKey.currentState.validate()) result = false;
-    if (_areFeesVisible && !_feesValueFormKey.currentState.validate()) result = false;
+    if (!_fromValueFormKey.currentState.validate()) {
+      result = false;
+    }
+    if (!_toValueFormKey.currentState.validate()) {
+      result = false;
+    }
+    if (!_amountValueFormKey.currentState.validate()) {
+      result = false;
+    }
+    if (!_noteValueFormKey.currentState.validate()) {
+      result = false;
+    }
+    if (_areFeesVisible && !_feesValueFormKey.currentState.validate()) {
+      result = false;
+    }
 
     return result;
   }

@@ -21,9 +21,13 @@ class _DailyTabState extends State<DailyTab> {
 
   Widget _dailyContent() {
     return BlocBuilder<TransactionsDailyBloc, TransactionsDailyState>(builder: (context, state) {
-      if (state is TransactionsDailyLoading) return DataLoadingWidget();
+      if (state is TransactionsDailyLoading) {
+        return DataLoadingWidget();
+      }
 
-      if (state is TransactionsDailyLoaded) return buildDailyExpensesList(context);
+      if (state is TransactionsDailyLoaded) {
+        return buildDailyExpensesList(context);
+      }
 
       return SizedBox();
     });

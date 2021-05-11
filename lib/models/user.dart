@@ -8,6 +8,7 @@ class UserEntity extends Equatable {
     @required this.id,
     @required this.name,
     @required this.photo,
+    @required this.emailVerified,
   })  :
         assert(id != null);
 
@@ -23,9 +24,11 @@ class UserEntity extends Equatable {
   /// Url for the current user's photo.
   final String photo;
 
+  final bool emailVerified;
+
   /// Empty user which represents an unauthenticated user.
-  static const empty = UserEntity(email: '', id: '', name: null, photo: null);
+  static const empty = UserEntity(email: '', id: '', name: null, photo: null, emailVerified: false);
 
   @override
-  List<Object> get props => [email, id, name, photo];
+  List<Object> get props => [email, id, name, photo, emailVerified];
 }

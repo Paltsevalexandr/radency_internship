@@ -32,10 +32,11 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
   Widget budgetOverview() {
     return BlocBuilder<BudgetOverviewBloc, BudgetOverviewState>(
       builder: (context, state) {
-        if (state is BudgetOverviewLoading)
+        if (state is BudgetOverviewLoading) {
           return Center(
             child: CircularProgressIndicator(),
           );
+        }
 
         if (state is BudgetOverviewLoaded) {
           return Column(

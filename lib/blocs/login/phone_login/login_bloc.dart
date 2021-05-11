@@ -3,17 +3,17 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-import '../../repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc(this._authenticationRepository)
-      : assert(_authenticationRepository != null),
+  LoginBloc(this._authenticationService)
+      : assert(_authenticationService != null),
         super(const LoginState());
 
-  final AuthenticationRepository _authenticationRepository;
+  final FirebaseAuthenticationService _authenticationService;
 
   String verificationId;
   int forceCodeResend;
@@ -43,7 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield state.onNumberProcessing();
 
     try {
-      await _authenticationRepository.startPhoneNumberAuthentication(
+      await _authenticationService.startPhoneNumberAuthentication(
           phoneNumber: phoneNumber,
           verificationCompleted: (AuthCredential phoneAuthCredential) {
             print('PhoneAuthBloc: verificationCompleted');
@@ -78,7 +78,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Stream<LoginState> _mapLoginSignInWithPhoneCredentialCalledToState(AuthCredential authCredential) async* {
     try {
-      await _authenticationRepository.signInWithPhoneCredential(authCredential: authCredential);
+      await _authenticationService.signInWithPhoneCredential(authCredential: authCredential);
     } on PlatformException catch (e) {
       yield state.showError(e.message);
     } catch (e) {

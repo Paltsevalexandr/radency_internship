@@ -23,7 +23,7 @@
   "gallery": "Gallery",
   "camera": "Camera",
   "form": "Fill form",
-  
+
   "language": "Language",
   "currency": "Currency",
   "main_currency": "Main currency",
@@ -75,6 +75,19 @@
   "lightTheme": "Light Theme",
   "systemTheme": "System Theme",
 
+  "loginWelcomeText": "Welcome Back",
+  "loginNoticeText": "Sign to continue",
+  "loginEmailLabelText": "Email",
+  "loginPasswordLabelText": "Password",
+  "loginEmailValidatorEmpty": "Enter e-mail",
+  "loginEmailValidatorIncorrect": "Enter correct email",
+  "loginPasswordValidatorEmpty": "Enter password",
+  "loginForgotPasswordButton": "Forgot password?",
+  "loginSubmitButton": "LOGIN",
+  "loginNoAccountNotice": "Don't have account?",
+  "loginCreateAccountButton": "Create a new account",
+
+
   "signUpPageTitle": "Sign Up",
   "signUpCreateAccountHeader": "Create account",
   "signUpOTPNotice": "A one-time password will be sent to your phone number",
@@ -91,6 +104,15 @@
   "signUpOTPValidatorIncorrect": "Please, enter a correct one-time password",
   "signUpWrongNumberButton": "Wrong number?",
   "signUpOTPContinueButton": "Continue",
+
+  "signUpPasswordLabelText": "Password",
+  "signUpPasswordConfirmationLabelText": "Confirm password",
+  "signUpPasswordValidatorEmpty": "Enter password",
+  "signUpPasswordConfirmationValidatorNotMatch": "Passwords don't match",
+
+  "emailVerificationTitle": "Email verification",
+  "emailVerificationNotice": "We sent a confirmation email to the email address you provided during registration. If you did not receive it, check your Spam or request a new confirmation email.",
+  "emailVerificationResendButton": "Resend",
 
   "addTransactionButtonAdd": "Add",
   "addTransactionButtonSave": "Save",

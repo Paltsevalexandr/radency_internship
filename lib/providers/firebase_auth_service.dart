@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
@@ -16,8 +17,8 @@ class SignUpWithPhoneNumberFailure implements Exception {
 
 class LogOutFailure implements Exception {}
 
-class AuthenticationRepository {
-  AuthenticationRepository({
+class FirebaseAuthenticationService {
+  FirebaseAuthenticationService({
     firebase_auth.FirebaseAuth firebaseAuth,
   }) : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
 
@@ -25,14 +26,14 @@ class AuthenticationRepository {
 
   Stream<UserEntity> get userFromAuthState {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      print("AuthenticationRepository.user: user changed ${firebaseUser?.uid ?? null}");
+      print("authenticationService.user: user changed ${firebaseUser?.uid ?? null}");
       return firebaseUser == null ? UserEntity.empty : firebaseUser.toUserEntity;
     });
   }
 
   Stream<UserEntity> get userFromAnyChanges {
     return _firebaseAuth.userChanges().map((firebaseUser) {
-      print("AuthenticationRepository.user: user changed ${firebaseUser?.uid ?? null}");
+      print("authenticationService.user: user changed ${firebaseUser?.uid ?? null}");
       return firebaseUser == null ? UserEntity.empty : firebaseUser.toUserEntity;
     });
   }
@@ -49,11 +50,9 @@ class AuthenticationRepository {
     });
 
     await _firebaseAuth.currentUser.reload();
-
-    print("AuthenticationRepository.signInWithPhoneCredentialAndUpdateProfile: ${firebaseUser.uid} ${firebaseUser.displayName}");
   }
 
-  Future<void> signUpWithPhoneCredentialAndUpdateProfile({@required AuthCredential authCredential, String email, String username}) async {
+  Future<void> signInWithPhoneCredentialAndUpdateProfile({@required AuthCredential authCredential, String email, String username}) async {
     User firebaseUser;
     await _firebaseAuth.signInWithCredential(authCredential).then((value) {
       firebaseUser = value.user;
@@ -97,6 +96,30 @@ class AuthenticationRepository {
     }
   }
 
+  Future<void> signInWithEmailAndPassword({@required String email, @required String password}) async {
+    await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+  }
+
+  Future<void> signUpWithEmailAndPassword({@required String email, @required String password, @required String username}) async {
+    await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+
+    User firebaseUser;
+    await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).then((value) => firebaseUser = value.user);
+
+    await firebaseUser.updateProfile(displayName: username);
+    await _firebaseAuth.currentUser.reload();
+
+    await sendEmailVerification();
+  }
+
+  Future<void> sendEmailVerification() async {
+    await _firebaseAuth.currentUser.sendEmailVerification();
+  }
+
+  Future<void> reloadUser() async {
+    await _firebaseAuth.currentUser.reload();
+  }
+
   Future<void> logOut() async {
     try {
       await Future.wait([
@@ -110,6 +133,6 @@ class AuthenticationRepository {
 
 extension on firebase_auth.User {
   UserEntity get toUserEntity {
-    return UserEntity(id: uid, email: email, name: displayName, photo: photoURL);
+    return UserEntity(id: uid, email: email, name: displayName, photo: photoURL, emailVerified: emailVerified);
   }
 }

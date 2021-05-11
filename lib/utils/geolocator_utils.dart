@@ -31,23 +31,32 @@ class GeolocatorUtils {
     return await Geolocator.getCurrentPosition();
   }
 
-  Future<ExpenseLocation> convertCoordinatesToExpenseLocation({@required double latitude, @required double longitude, @required String languageCode}) async {
+  Future<ExpenseLocation> convertCoordinatesToExpenseLocation(
+      {@required double latitude, @required double longitude, @required String languageCode}) async {
     String _newAddress = '';
 
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude, localeIdentifier: languageCode);
-      if (placemarks[0].locality != '')
+      if (placemarks[0].locality != '') {
         _newAddress += placemarks[0].locality;
-      else {
-        if (placemarks[0].country != '') _newAddress += placemarks[0].country;
-        if (placemarks[0].administrativeArea != '') _newAddress += ", " + placemarks[0].administrativeArea;
+      } else {
+        if (placemarks[0].country != '') {
+          _newAddress += placemarks[0].country;
+        }
+        if (placemarks[0].administrativeArea != '') {
+          _newAddress += ", " + placemarks[0].administrativeArea;
+        }
       }
 
       if (placemarks[0].thoroughfare != '' && placemarks[0].thoroughfare != 'Unnamed Road') {
         _newAddress += ", " + placemarks[0].thoroughfare;
-        if (placemarks[0].subThoroughfare != '') _newAddress += ", " + placemarks[0].subThoroughfare;
+        if (placemarks[0].subThoroughfare != '') {
+          _newAddress += ", " + placemarks[0].subThoroughfare;
+        }
       } else {
-        if (placemarks[0].subLocality != '') _newAddress += ", " + placemarks[0].subLocality;
+        if (placemarks[0].subLocality != '') {
+          _newAddress += ", " + placemarks[0].subLocality;
+        }
       }
     } catch (e) {
       print('_convertCoordinatesToExpenseLocation: placemarks error $e');

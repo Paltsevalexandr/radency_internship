@@ -13,7 +13,9 @@ import 'package:radency_internship_project_2/repositories/settings_repository/se
 import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
 import 'package:radency_internship_project_2/ui/category_page/expenses_catedory_list.dart';
 import 'package:radency_internship_project_2/ui/category_page/income_catedory_list.dart';
-import 'package:radency_internship_project_2/ui/login_page.dart';
+import 'package:radency_internship_project_2/ui/email_login_page.dart';
+import 'package:radency_internship_project_2/ui/email_sign_up_page.dart';
+import 'package:radency_internship_project_2/ui/email_verification_resend_screen.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/language_setting_page.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/style_setting_page.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/add_transaction_view_template.dart';
@@ -32,11 +34,10 @@ import 'blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
 import 'blocs/transactions/transactions_weekly/transactions_weekly_bloc.dart';
 import 'blocs/user_profile/user_profile_bloc.dart';
 import 'generated/l10n.dart';
-import 'repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import 'providers/firebase_auth_service.dart';
 import 'ui/home_page.dart';
 import 'ui/settings_components/settings_subpages/currency_setting_page.dart';
 import 'ui/settings_page_template.dart';
-import 'ui/sign_up_page.dart';
 import 'ui/splash.dart';
 import 'utils/routes.dart';
 import 'utils/styles.dart';
@@ -44,16 +45,16 @@ import 'utils/styles.dart';
 class App extends StatelessWidget {
   const App({
     Key key,
-    @required this.authenticationRepository,
-  })  : assert(authenticationRepository != null),
+    @required this.authenticationService,
+  })  : assert(authenticationService != null),
         super(key: key);
 
-  final AuthenticationRepository authenticationRepository;
+  final FirebaseAuthenticationService authenticationService;
 
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: authenticationRepository,
+      value: authenticationService,
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -61,12 +62,12 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => AuthenticationBloc(
-              authenticationRepository: authenticationRepository,
+              authenticationService: authenticationService,
             ),
           ),
           BlocProvider(
             create: (context) => UserProfileBloc(
-              authenticationRepository: authenticationRepository,
+              authenticationService: authenticationService,
             ),
           ),
           BlocProvider(
@@ -152,9 +153,9 @@ class _AppViewState extends State<AppView> {
           theme: Styles.themeData(context, false, state.lightPrimaryColor),
           darkTheme: Styles.themeData(context, true, state.lightPrimaryColor),
           routes: {
-            Routes.loginPage: (context) => LoginPage(),
+            Routes.loginPage: (context) => EmailLoginPage(),
             Routes.homePage: (context) => HomePage(),
-            Routes.signUpPage: (context) => SignUpPage(),
+            Routes.signUpPage: (context) => EmailSignUpPage(),
             Routes.splashScreen: (context) => SplashPage(),
             Routes.statsPage: (context) => StatsView(),
             Routes.budgetSettings: (context) => BudgetSettingsPage(),
@@ -168,6 +169,7 @@ class _AppViewState extends State<AppView> {
             Routes.incomeCategoriesPage: (context) => IncomeCategoriesPage(),
             Routes.expensesCategoriesPage: (context) => ExpensesCategoriesPage(),
             Routes.newCategoryPage: (context) => NewCategoryPage(),
+            Routes.emailVerificationResendPage: (context) => EmailVerificationResendScreen(),
           },
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
@@ -175,7 +177,12 @@ class _AppViewState extends State<AppView> {
                 _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
-                    _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
+                    print("_AppViewState.build: AuthenticationStatus.authenticated ${state.user.emailVerified}");
+                    if (state.user.emailVerified) {
+                      _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
+                    } else {
+                      _navigator.pushNamedAndRemoveUntil(Routes.emailVerificationResendPage, (route) => false);
+                    }
                     break;
                   case AuthenticationStatus.unauthenticated:
                     _navigator.pushNamedAndRemoveUntil(Routes.loginPage, (route) => false);

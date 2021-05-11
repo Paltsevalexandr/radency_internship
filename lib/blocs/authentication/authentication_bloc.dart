@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:radency_internship_project_2/models/user.dart';
 import 'package:meta/meta.dart';
-import 'package:radency_internship_project_2/repositories/firebase_auth_repository/firebase_auth_repository.dart';
+import 'package:radency_internship_project_2/models/user.dart';
+import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
 
 part 'authentication_event.dart';
 
@@ -12,40 +12,44 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({
-    @required AuthenticationRepository authenticationRepository,
-  })  : assert(authenticationRepository != null),
-        _authenticationRepository = authenticationRepository,
+    @required FirebaseAuthenticationService authenticationService,
+  })  : assert(authenticationService != null),
+        _authenticationService = authenticationService,
         super(const AuthenticationState.unknown()) {
-    _userAuthStateSubscription = _authenticationRepository.userFromAnyChanges.listen((userChanged) {
-
+    _userAuthStateSubscription = _authenticationService.userFromAnyChanges.listen((userChanged) {
       /// Listens to changes of current firebase user (log in/log out/profile details modifying)
       /// Triggers change to auth state (means global navigation between homepage and sign in/sign up pages) ONLY if one of the following requirement is met:
       /// - user logged out;
-      /// - user was not authenticated and firebase emitted user with complete profile.
-      ///
-      /// "Complete" in context of current app means that user completed registration flow, providing their e-mail and username as well verifying their phone
-      /// number.
-      ///
-      /// Problem lays in fact, that verifying a phone number (for firebase user account) serves as sign in AND sign up (if profile wasn't previously
-      /// created) at the same time. Thus firebase don't provide ability to set profile details while verifying phone number, so we must to populate them after
-      /// receiving instance of FirebaseUser.
-      ///
-      /// This check made to prevent opening homepage with uncompleted user profile and to return to login page in case if user logs out.
-
-      // TODO: if this looks messy consider changing way of listening to FBUser changes
+      /// - user details were changed or it was manually reloaded via _firebase_auth.currentUser.reload() call
 
       bool userLoggedOut = userChanged == UserEntity.empty;
       bool userWasNotAuthenticated = this.user == UserEntity.empty;
-      bool newUserIsRegistered = userChanged?.name != null && userChanged?.email != null;
-      print("AuthenticationBloc.AuthenticationBloc: userLoggedOut $userLoggedOut ${userChanged.toString()}"
-          "userWasNotAuthenticated $userWasNotAuthenticated newUserIsRegistered $newUserIsRegistered");
-      if (userLoggedOut || (userWasNotAuthenticated && newUserIsRegistered)) add(AuthenticationUserChanged(userChanged));
+
+      if (userLoggedOut || userWasNotAuthenticated) {
+        add(AuthenticationUserChanged(userChanged));
+      }
+
+      /// If user is logged in:
+      /// 1) if email is not verified, after slight delay reloads firebase user; this action triggers new event in userFromAnyChanges stream;
+      ///    so this reload will be repeatedly called until email will be verified;
+      /// 2) if email was just verified, refreshes bloc state.
+      ///
+      /// This ("manual") constant reload is required because nor authStateChanges, nor userChanges are triggered when
+      /// email is verified, so we must fetch verification status "automatically" (in some kind of loop), or
+      /// maybe give user ability to do so (via "Check verification status" button?).
+      if (userChanged != UserEntity.empty) {
+        if (!userChanged.emailVerified) {
+          _reloadUser();
+        } else if (!this.user.emailVerified) {
+          add(AuthenticationUserChanged(userChanged));
+        }
+      }
     });
   }
 
   UserEntity user = UserEntity.empty;
 
-  final AuthenticationRepository _authenticationRepository;
+  final FirebaseAuthenticationService _authenticationService;
   StreamSubscription<UserEntity> _userAuthStateSubscription;
 
   @override
@@ -61,7 +65,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is AuthenticationUserChanged) {
       yield _mapAuthenticationUserChangedToState(event.user);
     } else if (event is AuthenticationLogoutRequested) {
-      _authenticationRepository.logOut();
+      _authenticationService.logOut();
+    } else if (event is AuthenticationEmailResendRequested) {
+      yield* _mapAuthenticationEmailResendRequestedToState();
     }
   }
 
@@ -76,5 +82,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       user = userChanged;
       return AuthenticationState.authenticated(user);
     }
+  }
+
+  Stream<AuthenticationState> _mapAuthenticationEmailResendRequestedToState() async* {
+    await _authenticationService.sendEmailVerification();
+  }
+
+  void _reloadUser() async {
+    await Future.delayed(Duration(seconds: 10));
+    await _authenticationService.reloadUser();
   }
 }

@@ -1,10 +1,10 @@
 part of 'sign_up_bloc.dart';
 
-abstract class SignUpEvent extends Equatable {
-  const SignUpEvent();
+abstract class PhoneSignUpEvent extends Equatable {
+  const PhoneSignUpEvent();
 }
 
-class SignUpCredentialsSubmitted extends SignUpEvent {
+class SignUpCredentialsSubmitted extends PhoneSignUpEvent {
   final String phoneNumber;
   final String email;
   final String username;
@@ -15,7 +15,7 @@ class SignUpCredentialsSubmitted extends SignUpEvent {
   List<Object> get props => [phoneNumber, email, username];
 }
 
-class SignUpOtpSubmitted extends SignUpEvent {
+class SignUpOtpSubmitted extends PhoneSignUpEvent {
   final String oneTimePassword;
 
   SignUpOtpSubmitted({@required this.oneTimePassword});
@@ -24,12 +24,12 @@ class SignUpOtpSubmitted extends SignUpEvent {
   List<Object> get props => [oneTimePassword];
 }
 
-class SignUpWrongNumberPressed extends SignUpEvent {
+class SignUpWrongNumberPressed extends PhoneSignUpEvent {
   @override
   List<Object> get props => [];
 }
 
-class SignUpSignInWithPhoneCredentialCalled extends SignUpEvent {
+class SignUpSignInWithPhoneCredentialCalled extends PhoneSignUpEvent {
   final AuthCredential authCredential;
 
   SignUpSignInWithPhoneCredentialCalled({@required this.authCredential});
@@ -38,12 +38,12 @@ class SignUpSignInWithPhoneCredentialCalled extends SignUpEvent {
   List<Object> get props => [authCredential];
 }
 
-class SignUpCodeSent extends SignUpEvent {
+class SignUpCodeSent extends PhoneSignUpEvent {
   @override
   List<Object> get props => [];
 }
 
-class SignUpVerificationFailed extends SignUpEvent {
+class SignUpVerificationFailed extends PhoneSignUpEvent {
   final FirebaseAuthException exception;
 
   SignUpVerificationFailed({@required this.exception});

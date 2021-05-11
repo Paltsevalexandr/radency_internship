@@ -47,7 +47,8 @@ class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, Transaction
     } else if (event is TransactionsSummaryFetchRequested) {
       yield* _mapTransactionsSummaryFetchRequestedToState(dateForFetch: event.dateForFetch);
     } else if (event is TransactionSummaryDisplayRequested) {
-      yield* _mapTransactionSummaryDisplayRequestedToState(event.sliderCurrentTimeIntervalString, event.expenseSummaryItemEntity);
+      yield* _mapTransactionSummaryDisplayRequestedToState(
+          event.sliderCurrentTimeIntervalString, event.expenseSummaryItemEntity);
     } else if (event is TransactionsSummaryLocaleChanged) {
       yield* _mapTransactionsSummaryLocaleChangedToState();
     }
@@ -70,16 +71,19 @@ class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, Transaction
   }
 
   Stream<TransactionsSummaryState> _mapTransactionsSummaryLocaleChangedToState() async* {
-    _sliderCurrentTimeIntervalString = DateFormatters().monthNameAndYearFromDateTimeString(_observedDate, locale: locale);
+    _sliderCurrentTimeIntervalString =
+        DateFormatters().monthNameAndYearFromDateTimeString(_observedDate, locale: locale);
     if (state is TransactionsSummaryLoaded) {
       add(TransactionSummaryDisplayRequested(
-          expenseSummaryItemEntity: expenseSummaryItemEntity, sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString));
+          expenseSummaryItemEntity: expenseSummaryItemEntity,
+          sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString));
     } else if (state is TransactionsSummaryLoading) {
       yield TransactionsSummaryLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
     }
   }
 
-  Stream<TransactionsSummaryState> _mapTransactionsSummaryFetchRequestedToState({@required DateTime dateForFetch}) async* {
+  Stream<TransactionsSummaryState> _mapTransactionsSummaryFetchRequestedToState(
+      {@required DateTime dateForFetch}) async* {
     summaryTransactionsSubscription?.cancel();
 
     _sliderCurrentTimeIntervalString = DateFormatters().monthNameAndYearFromDateTimeString(_observedDate);
@@ -88,12 +92,16 @@ class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, Transaction
       // TODO: Implement fetch endpoint
       expenseSummaryItemEntity = MockedExpensesItems().generateSummaryData();
       add(TransactionSummaryDisplayRequested(
-          sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString, expenseSummaryItemEntity: expenseSummaryItemEntity));
+          sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
+          expenseSummaryItemEntity: expenseSummaryItemEntity));
     });
   }
 
-  Stream<TransactionsSummaryState> _mapTransactionSummaryDisplayRequestedToState(String data, ExpenseSummaryItemEntity expenseSummaryItemEntity) async* {
-    yield TransactionsSummaryLoaded(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString, expenseSummaryItemEntity: expenseSummaryItemEntity);
+  Stream<TransactionsSummaryState> _mapTransactionSummaryDisplayRequestedToState(
+      String data, ExpenseSummaryItemEntity expenseSummaryItemEntity) async* {
+    yield TransactionsSummaryLoaded(
+        sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
+        expenseSummaryItemEntity: expenseSummaryItemEntity);
   }
 
   Stream<TransactionsSummaryState> _mapTransactionsSummaryGetPreviousMonthPressedToState() async* {

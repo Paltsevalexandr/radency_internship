@@ -1,19 +1,17 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:radency_internship_project_2/blocs/login/phone_login/login_bloc.dart';
+import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
-
-import '../blocs/login/login_bloc.dart';
-import '../generated/l10n.dart';
-import '../repositories/firebase_auth_repository/firebase_auth_repository.dart';
-import '../utils/strings.dart';
-import 'sign_up_page.dart';
+import 'package:radency_internship_project_2/utils/routes.dart';
+import 'package:radency_internship_project_2/utils/strings.dart';
 
 class LoginPage extends StatelessWidget {
   static Route route() {
@@ -23,12 +21,11 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-      AppBar(title: Text(S.current.loginToolbarTitle)),
+      appBar: AppBar(title: Text(S.current.loginToolbarTitle)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocProvider<LoginBloc>(
-          create: (_) => LoginBloc(context.read<AuthenticationRepository>()),
+          create: (_) => LoginBloc(context.read<FirebaseAuthenticationService>()),
           child: LoginForm(),
         ),
       ),
@@ -54,8 +51,9 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     super.initState();
-    if (errorController == null || !errorController.hasListener)
+    if (errorController == null || !errorController.hasListener) {
       errorController = StreamController<ErrorAnimationType>();
+    }
   }
 
   @override
@@ -83,10 +81,8 @@ class _LoginFormState extends State<LoginForm> {
             children: [
               appTitle(),
               appLogo(),
-
               Container(
-                margin:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 constraints: const BoxConstraints(maxWidth: 500),
                 child: () {
                   switch (state.loginPageMode) {
@@ -105,23 +101,18 @@ class _LoginFormState extends State<LoginForm> {
                           Center(
                             child: RichText(
                               text: TextSpan(
-                                  text: S.current
-                                      .otpPassSendToNumber,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
+                                  text: S.current.otpPassSendToNumber,
+                                  style: TextStyle(color: Colors.black, fontSize: 18),
                                   children: <TextSpan>[
                                     TextSpan(
                                         text: _phoneNumber.toString(),
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18)),
+                                        style:
+                                            TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
                                   ]),
                             ),
                           ),
                           Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 15.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
                             child: TextButton(
                               child: Text(
                                 S.current.wrongNumber,
@@ -129,7 +120,6 @@ class _LoginFormState extends State<LoginForm> {
                               ),
                               onPressed: () {
                                 setState(() {
-
                                   _otpText = '';
                                 });
                               },
@@ -143,13 +133,13 @@ class _LoginFormState extends State<LoginForm> {
                 }(),
               ),
               Container(
-                margin: const EdgeInsets.only(
-                    left: 20, right: 20, bottom: 10, top: 10),
+                margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
                 constraints: const BoxConstraints(maxWidth: 350),
                 child: ColoredElevatedButton(
                   onPressed: () {
-                    if (state.isOTPProcessing || state.areDetailsProcessing)
+                    if (state.isOTPProcessing || state.areDetailsProcessing) {
                       return null;
+                    }
 
                     switch (state.loginPageMode) {
                       case LoginPageMode.Credentials:
@@ -157,12 +147,10 @@ class _LoginFormState extends State<LoginForm> {
 
                         if (_formKey.currentState.validate()) {
                           if (!errorController.isClosed) {
-                            print(
-                                '_PhoneAuthScreenState: !errorController.isClosed');
+                            print('_PhoneAuthScreenState: !errorController.isClosed');
                             errorController.close();
                           }
-                          errorController =
-                              StreamController<ErrorAnimationType>();
+                          errorController = StreamController<ErrorAnimationType>();
                           return context.read<LoginBloc>().add(LoginCredentialsSubmitted(phoneNumber: _phoneNumber));
                         }
                         break;
@@ -172,8 +160,7 @@ class _LoginFormState extends State<LoginForm> {
                     }
                   },
                   child: Container(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                     child: Center(child: () {
                       switch (state.loginPageMode) {
                         case LoginPageMode.Credentials:
@@ -187,8 +174,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
               ),
-              if (state.loginPageMode == LoginPageMode.Credentials)
-                createNewAccount(),
+              if (state.loginPageMode == LoginPageMode.Credentials) createNewAccount(),
               SizedBox(height: 100),
             ],
           ),
@@ -198,84 +184,76 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Widget phoneNumberInput(context) {
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          TextFormField(
-              initialValue: _phoneNumber?.replaceAll('+', '') ?? '',
-              validator: (val) {
-                if (val.trim().isEmpty)
-                  return S.current.enterPhoneNumber;
+    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: [
+      TextFormField(
+          initialValue: _phoneNumber?.replaceAll('+', '') ?? '',
+          validator: (val) {
+            if (val.trim().isEmpty) {
+              return S.current.enterPhoneNumber;
+            }
 
-                if (!RegExp(phoneNumberRegExp).hasMatch(val))
-                  return S.current.incorrectPhoneNumber;
+            if (!RegExp(phoneNumberRegExp).hasMatch(val)) {
+              return S.current.incorrectPhoneNumber;
+            }
 
-                return null;
-              },
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              ],
-              onSaved: (value) => _phoneNumber = '+$value',
-              decoration: InputDecoration(
-                  focusedErrorBorder: getColoredBorder(Colors.red),
-                  errorBorder: getColoredBorder(Colors.redAccent),
-                  focusedBorder: getColoredBorder(Colors.grey),
-                  enabledBorder: getColoredBorder(Colors.grey[300]),
-                  prefixText: '+',
-                  labelText: S.current.yourPhoneNumber)),
-        ]);
+            return null;
+          },
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+          ],
+          onSaved: (value) => _phoneNumber = '+$value',
+          decoration: InputDecoration(
+              focusedErrorBorder: getColoredBorder(Colors.red),
+              errorBorder: getColoredBorder(Colors.redAccent),
+              focusedBorder: getColoredBorder(Colors.grey),
+              enabledBorder: getColoredBorder(Colors.grey[300]),
+              prefixText: '+',
+              labelText: S.current.yourPhoneNumber)),
+    ]);
   }
 
   Widget otpPassInput(context, _phoneNumber) {
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: PinCodeTextField(
-                  appContext: context,
-                  autoFocus: true,
-                  length: 6,
-                  animationType: AnimationType.fade,
-                  pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.box,
-                    borderRadius: BorderRadius.circular(5),
-                    fieldHeight: 50,
-                    fieldWidth: 40,
-                    selectedColor: Theme.of(context).accentColor,
-                    selectedFillColor: Colors.blueGrey,
-                    inactiveFillColor:
-                    Theme.of(context).scaffoldBackgroundColor,
-                    inactiveColor: Theme.of(context).disabledColor,
-                    activeFillColor: Colors.white,
-                  ),
-                  animationDuration: Duration(milliseconds: 300),
-                  //autoDisposeControllers: false,
-                  enableActiveFill: true,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onCompleted: (v) {
-                    print("Completed");
-                  },
-                  onChanged: (value) {
-                    print(value);
-                    setState(() {
-                      _otpText = value;
-                    });
-                  })),
-        ]);
+    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: [
+      Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: PinCodeTextField(
+              appContext: context,
+              autoFocus: true,
+              length: 6,
+              animationType: AnimationType.fade,
+              pinTheme: PinTheme(
+                shape: PinCodeFieldShape.box,
+                borderRadius: BorderRadius.circular(5),
+                fieldHeight: 50,
+                fieldWidth: 40,
+                selectedColor: Theme.of(context).accentColor,
+                selectedFillColor: Colors.blueGrey,
+                inactiveFillColor: Theme.of(context).scaffoldBackgroundColor,
+                inactiveColor: Theme.of(context).disabledColor,
+                activeFillColor: Colors.white,
+              ),
+              animationDuration: Duration(milliseconds: 300),
+              //autoDisposeControllers: false,
+              enableActiveFill: true,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onCompleted: (v) {
+                print("Completed");
+              },
+              onChanged: (value) {
+                print(value);
+                setState(() {
+                  _otpText = value;
+                });
+              })),
+    ]);
   }
 
   Widget appTitle() {
     return Container(
         margin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
         child: Text(S.current.appTitle,
-            style: TextStyle(
-                color: Theme.of(context).accentColor,
-                fontSize: 32,
-                fontWeight: FontWeight.bold)));
+            style: TextStyle(color: Theme.of(context).accentColor, fontSize: 32, fontWeight: FontWeight.bold)));
   }
 
   Widget appLogo() {
@@ -284,12 +262,8 @@ class _LoginFormState extends State<LoginForm> {
       color: Theme.of(context).accentColor,
       width: 100.0,
       height: 100.0,
-      child: Center(
-          child: Text('Logo',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold))),
+      child:
+          Center(child: Text('Logo', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))),
     );
   }
 
@@ -304,19 +278,14 @@ class _LoginFormState extends State<LoginForm> {
                 style: TextStyle(color: Theme.of(context).accentColor, fontSize: 14),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.of(context).push<void>(SignUpPage.route());
+                    Navigator.of(context).pushNamed(Routes.signUpPage);
                   })
           ]),
     );
   }
 
   Widget buttonText(String text) {
-    return Text(
-        text,
-        style: Theme.of(context)
-            .textTheme
-            .headline5
-            .copyWith(color: Colors.white));
+    return Text(text, style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white));
   }
 }
 

@@ -685,6 +685,116 @@ class S {
     );
   }
 
+  /// `Welcome Back`
+  String get loginWelcomeText {
+    return Intl.message(
+      'Welcome Back',
+      name: 'loginWelcomeText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign to continue`
+  String get loginNoticeText {
+    return Intl.message(
+      'Sign to continue',
+      name: 'loginNoticeText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get loginEmailLabelText {
+    return Intl.message(
+      'Email',
+      name: 'loginEmailLabelText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get loginPasswordLabelText {
+    return Intl.message(
+      'Password',
+      name: 'loginPasswordLabelText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter e-mail`
+  String get loginEmailValidatorEmpty {
+    return Intl.message(
+      'Enter e-mail',
+      name: 'loginEmailValidatorEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter correct email`
+  String get loginEmailValidatorIncorrect {
+    return Intl.message(
+      'Enter correct email',
+      name: 'loginEmailValidatorIncorrect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter password`
+  String get loginPasswordValidatorEmpty {
+    return Intl.message(
+      'Enter password',
+      name: 'loginPasswordValidatorEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot password?`
+  String get loginForgotPasswordButton {
+    return Intl.message(
+      'Forgot password?',
+      name: 'loginForgotPasswordButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LOGIN`
+  String get loginSubmitButton {
+    return Intl.message(
+      'LOGIN',
+      name: 'loginSubmitButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't have account?`
+  String get loginNoAccountNotice {
+    return Intl.message(
+      'Don\'t have account?',
+      name: 'loginNoAccountNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a new account`
+  String get loginCreateAccountButton {
+    return Intl.message(
+      'Create a new account',
+      name: 'loginCreateAccountButton',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign Up`
   String get signUpPageTitle {
     return Intl.message(
@@ -840,6 +950,76 @@ class S {
     return Intl.message(
       'Continue',
       name: 'signUpOTPContinueButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get signUpPasswordLabelText {
+    return Intl.message(
+      'Password',
+      name: 'signUpPasswordLabelText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm password`
+  String get signUpPasswordConfirmationLabelText {
+    return Intl.message(
+      'Confirm password',
+      name: 'signUpPasswordConfirmationLabelText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter password`
+  String get signUpPasswordValidatorEmpty {
+    return Intl.message(
+      'Enter password',
+      name: 'signUpPasswordValidatorEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passwords don't match`
+  String get signUpPasswordConfirmationValidatorNotMatch {
+    return Intl.message(
+      'Passwords don\'t match',
+      name: 'signUpPasswordConfirmationValidatorNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email verification`
+  String get emailVerificationTitle {
+    return Intl.message(
+      'Email verification',
+      name: 'emailVerificationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We sent a confirmation email to the email address you provided during registration. If you did not receive it, check your Spam or request a new confirmation email.`
+  String get emailVerificationNotice {
+    return Intl.message(
+      'We sent a confirmation email to the email address you provided during registration. If you did not receive it, check your Spam or request a new confirmation email.',
+      name: 'emailVerificationNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resend`
+  String get emailVerificationResendButton {
+    return Intl.message(
+      'Resend',
+      name: 'emailVerificationResendButton',
       desc: '',
       args: [],
     );

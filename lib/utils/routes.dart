@@ -5,7 +5,6 @@ class Routes {
   static const String signUpPage = '/signUpPage';
   static const String addTransactionPage = '/addTransactionPage';
   static const String settingsPage = '/settingsPage';
-  //static const String spendingPage = '/spendingPage';
   static const String currencySettingPage = '/currencySettingPage';
   static const String statsPage = '/statsPage';
   static const String budgetSettings = '/budgetSettings';
@@ -16,4 +15,5 @@ class Routes {
   static const String incomeCategoriesPage = '/incomeCategoriesPage';
   static const String expensesCategoriesPage = '/expensesCategoriesPage';
   static const String newCategoryPage = '/newCategoryPage';
+  static const String emailVerificationResendPage = '/emailVerificationResendPage';
 }
