@@ -118,7 +118,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transaction" : MessageLookupByLibrary.simpleMessage("Транзакция"),
     "transactionsTabButtonExpensesCashAccounts" : MessageLookupByLibrary.simpleMessage("Расходы (Наличные, счета)"),
     "transactionsTabButtonExpensesCreditCards" : MessageLookupByLibrary.simpleMessage("Расходы (Кредитные карты)"),
-    "transactionsTabButtonExportToExcel" : MessageLookupByLibrary.simpleMessage("Экспортировать данные в Excel"),
+    "transactionsTabButtonExportToCSV" : MessageLookupByLibrary.simpleMessage("Экспортировать данные в CSV"),
     "transactionsTabTitleAccount" : MessageLookupByLibrary.simpleMessage("Счёт"),
     "transactionsTabTitleDaily" : MessageLookupByLibrary.simpleMessage("По дням"),
     "transactionsTabTitleMonthly" : MessageLookupByLibrary.simpleMessage("По месяцам"),

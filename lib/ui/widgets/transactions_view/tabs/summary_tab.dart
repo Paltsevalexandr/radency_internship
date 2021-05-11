@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radency_internship_project_2/blocs/csv_export/csv_export_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
@@ -76,18 +77,23 @@ class _SummaryTabState extends State<SummaryTab> {
               padding: EdgeInsets.symmetric(
                 horizontal: pixelsToDP(context, 60),
               ),
-              child: ColoredElevatedButton(
-                onPressed: (){},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.add_moderator),
-                    SizedBox(
-                      width: pixelsToDP(context, 30),
-                    ),
-                    Text(S.current.transactionsTabButtonExportToExcel)
-                  ],
-                ),
+              child: BlocBuilder<CsvExportBloc, CsvExportState>(
+                builder: (BuildContext context, csvState) {
+                  var csvExportBloc = BlocProvider.of<CsvExportBloc>(context);
+                  return ColoredElevatedButton(
+                    onPressed: () => csvExportBloc.add(ExportDataToCsv(data: state.expenseSummaryItemEntity)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.add_moderator),
+                        SizedBox(
+                          width: pixelsToDP(context, 30),
+                        ),
+                        Text(S.current.transactionsTabButtonExportToCSV)
+                      ],
+                    )
+                  );
+                },
               ),
             )
           ],

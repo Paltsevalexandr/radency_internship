@@ -8,6 +8,7 @@ import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.d
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
+import 'package:radency_internship_project_2/blocs/csv_export/csv_export_bloc.dart';
 import 'package:radency_internship_project_2/repositories/settings_repository/settings_repository.dart';
 import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
 import 'package:radency_internship_project_2/ui/category_page/expenses_catedory_list.dart';
@@ -106,6 +107,8 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (context) => TransactionLocationMapBloc(),
           ),
+          BlocProvider(create: (BuildContext context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent())),
+          BlocProvider(create: (_) => CsvExportBloc()),
           BlocProvider(
             create: (context) =>
                 ExpensesMapBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))..add(ExpensesMapInitialize()),
@@ -169,6 +172,7 @@ class _AppViewState extends State<AppView> {
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
+                _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
                     _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);

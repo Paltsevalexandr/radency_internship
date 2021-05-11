@@ -60,7 +60,7 @@
   "transactionsTabTitleSummary": "Сводка",
 
   "transactionsTabTitleAccount": "Счёт",
-  "transactionsTabButtonExportToExcel": "Экспортировать данные в Excel",
+  "transactionsTabButtonExportToCSV": "Экспортировать данные в CSV",
   "income": "Доходы",
   "expenses": "Расходы",
   "total": "Итого",

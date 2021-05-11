@@ -60,7 +60,7 @@
   "transactionsTabTitleSummary": "Summary",
 
   "transactionsTabTitleAccount": "Account",
-  "transactionsTabButtonExportToExcel": "Export data to Excel",
+  "transactionsTabButtonExportToCSV": "Export data to CSV",
   "income": "Income",
   "expenses": "Expenses",
   "total": "Total",

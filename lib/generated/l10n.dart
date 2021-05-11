@@ -565,11 +565,11 @@ class S {
     );
   }
 
-  /// `Export data to Excel`
-  String get transactionsTabButtonExportToExcel {
+  /// `Export data to CSV`
+  String get transactionsTabButtonExportToCSV {
     return Intl.message(
-      'Export data to Excel',
-      name: 'transactionsTabButtonExportToExcel',
+      'Export data to CSV',
+      name: 'transactionsTabButtonExportToCSV',
       desc: '',
       args: [],
     );

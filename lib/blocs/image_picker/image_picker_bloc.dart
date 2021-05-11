@@ -42,7 +42,7 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
         yield await getImageFromGallery();
       
       }else if(event is ImageFromCamera) {
-        yield await getImageFromGallery();
+        yield await getImageFromCamera();
       }
   }
 }
