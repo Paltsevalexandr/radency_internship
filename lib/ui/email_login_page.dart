@@ -14,7 +14,7 @@ class EmailLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(S.current.loginToolbarTitle)),
+      appBar: AppBar(title: Text(S.of(context).loginToolbarTitle)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocProvider<EmailLoginBloc>(

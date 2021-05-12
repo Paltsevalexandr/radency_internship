@@ -175,6 +175,10 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
             return null;
           },
           onSaved: (value) => _password = value,
+          onChanged: (value) {
+            _password = value;
+            _passwordConfirmationFormKey.currentState.validate();
+          },
         ),
       ),
     );
