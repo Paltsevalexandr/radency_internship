@@ -6,10 +6,9 @@ import 'package:radency_internship_project_2/ui/shared_components/modals/account
 import 'package:radency_internship_project_2/ui/shared_components/modals/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/category_modal.dart';
 
-enum ModalType { Account, Category, Amount }
+enum ModalType{Account, Category, Amount}
 
-Future<String> showModal({BuildContext context, @required ModalType type, List<String> values, onAddCallback, updateAmountCallback, String title}) async {
-  // TODO: investigate
+Future<String> showModal({BuildContext context, @required ModalType type, List<String> values, onAddCallback, updateAmountCallback, String title}) {
   var modal;
   switch (type) {
     case ModalType.Account:

@@ -116,4 +116,15 @@ class MockedExpensesItems {
     await Future.delayed(Duration(seconds: 1));
     return list;
   }
+
+  List<Map<String, double>> summaryExpensesByCategories() {
+    List<Map<String, double>> expensesByCategories = [];
+
+    for(String category in categories) {
+      double categorySum = (Random().nextDouble() * Random().nextInt(1000));
+      double roundedCategorySum = num.parse(categorySum.toInt().toStringAsFixed(2));
+      expensesByCategories.add({category: roundedCategorySum});
+    }
+    return expensesByCategories;
+  }
 }

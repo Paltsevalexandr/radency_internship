@@ -71,7 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "expenses" : MessageLookupByLibrary.simpleMessage("Expenses"),
     "expensesCategoryTitle" : MessageLookupByLibrary.simpleMessage("Expenses"),
     "februaryShort" : MessageLookupByLibrary.simpleMessage("Feb."),
-    "form" : MessageLookupByLibrary.simpleMessage("Fill form"),
+    "form" : MessageLookupByLibrary.simpleMessage("Form"),
     "fridayShort" : MessageLookupByLibrary.simpleMessage("Fri"),
     "gallery" : MessageLookupByLibrary.simpleMessage("Gallery"),
     "home" : MessageLookupByLibrary.simpleMessage("Home"),

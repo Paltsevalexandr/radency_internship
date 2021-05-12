@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/daily_tab.dart';
@@ -8,6 +7,7 @@ import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/s
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/weekly_tab.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/widgets/transactions_slider.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionsView extends StatefulWidget {
   @override

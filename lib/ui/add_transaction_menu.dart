@@ -46,7 +46,7 @@ class AddTransactionMenu extends StatelessWidget {
   List<Widget> createMenuItems(imageBloc, context) {
     return [
       ListTile(
-        onTap: () => Navigator.pushNamed(context, Routes.addTransactionPage), 
+        onTap: () => Navigator.of(context).pushNamed(Routes.addTransactionPage), 
         title: Text(S.current.form, style: TextStyle(fontSize: pixelsToDP(context, 60)))),
       Divider(color: Colors.grey),
       ListTile(

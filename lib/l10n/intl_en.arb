@@ -19,16 +19,17 @@
   "stats": "Stats",
   "accounts": "Accounts",
   "settings": "Settings",
-  "cancel": "Cancel",
-  "gallery": "Gallery",
-  "camera": "Camera",
-  "form": "Fill form",
-
+ 
   "language": "Language",
   "currency": "Currency",
   "main_currency": "Main currency",
   "style": "Style",
   "passcode": "Passcode",
+
+  "cancel": "Cancel",
+  "form": "Form",
+  "gallery": "Gallery",
+  "camera": "Camera",
 
   "mondayShort": "Mon",
   "tuesdayShort": "Tue",

@@ -19,16 +19,16 @@
   "stats": "Статистика",
   "accounts": "Счета",
   "settings": "Настройки",
-  "cancel": "Отмена",
-  "gallery": "Галерея",
-  "camera": "Камера",
-  "form": "Заполнить форму",
-  
   "language": "Язык",
   "currency": "Валюта",
   "main_currency": "Основная валюта",
   "style": "Стили",
   "passcode": "Пароль",
+
+  "cancel": "Отмена",
+  "form": "Заполнить форму",
+  "gallery": "Галерея",
+  "camera": "Камера",
 
   "mondayShort": "Пн",
   "tuesdayShort": "Вт",

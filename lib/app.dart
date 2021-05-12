@@ -38,7 +38,7 @@ import 'generated/l10n.dart';
 import 'providers/firebase_auth_service.dart';
 import 'ui/home_page.dart';
 import 'ui/settings_components/settings_subpages/currency_setting_page.dart';
-import 'ui/settings_page_template.dart';
+import 'ui/settings_page.dart';
 import 'ui/splash.dart';
 import 'utils/routes.dart';
 import 'utils/styles.dart';

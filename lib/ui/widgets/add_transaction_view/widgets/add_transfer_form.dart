@@ -19,6 +19,7 @@ class AddTransferForm extends StatefulWidget {
 }
 
 class _AddTransferFormState extends State<AddTransferForm> {
+  static final GlobalKey<FormState> _addTransferFormKey = GlobalKey<FormState>();
   static final GlobalKey<FormState> _fromValueFormKey = GlobalKey<FormState>();
   static final GlobalKey<FormState> _toValueFormKey = GlobalKey<FormState>();
   static final GlobalKey<FormState> _amountValueFormKey = GlobalKey<FormState>();
@@ -80,18 +81,21 @@ class _AddTransferFormState extends State<AddTransferForm> {
 
   Widget _addTransferFormBody(AddTransactionLoaded state) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _dateField(),
-          _fromField(state.accounts),
-          _toField(state.accounts),
-          _amountField(),
-          _feesField(),
-          _noteField(),
-          _submitButtons(),
-        ],
+      padding: EdgeInsets.all(pixelsToDP(context, 16.0)),
+      child: Form(
+        key: _addTransferFormKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _dateField(),
+            _fromField(state.accounts),
+            _toField(state.accounts),
+            _amountField(),
+            _feesField(),
+            _noteField(),
+            _submitButtons(),
+          ],
+        ),
       ),
     );
   }
@@ -107,7 +111,6 @@ class _AddTransferFormState extends State<AddTransferForm> {
         Flexible(
           flex: _textFieldFlex,
           child: TextFormField(
-            decoration: addTransactionFormFieldDecoration(),
             controller: _dateFieldController,
             readOnly: true,
             showCursor: false,
@@ -326,13 +329,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
         ),
         Flexible(
           flex: _textFieldFlex,
-          child: Form(
-            key: _noteValueFormKey,
-            child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
-              controller: _noteFieldController,
-              onSaved: (value) => _noteValue = value,
-            ),
+          child: TextFormField(
+            controller: _noteFieldController,
+            onSaved: (value) => _noteValue = value,
           ),
         )
       ],
@@ -355,9 +354,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
           S.current.addTransactionButtonSave,
         ),
         onPressed: () {
-          _saveForms();
+          _addTransferFormKey.currentState.save();
 
-          if (_validateForms()) {
+          if (_addTransferFormKey.currentState.validate()) {
             BlocProvider.of<AddTransactionBloc>(context).add(AddTransferTransaction(
                 isAddingCompleted: true,
                 transferTransaction: TransferTransaction(
@@ -378,9 +377,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
           S.current.addTransactionButtonContinue,
         ),
         onPressed: () {
-          _saveForms();
+          _addTransferFormKey.currentState.save();
 
-          if (_validateForms()) {
+          if (_addTransferFormKey.currentState.validate()) {
             BlocProvider.of<AddTransactionBloc>(context).add(AddTransferTransaction(
                 isAddingCompleted: false,
                 transferTransaction: TransferTransaction(
