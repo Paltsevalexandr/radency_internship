@@ -19,6 +19,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ru';
 
+  static m0(email) => "Произведен вход в учетную запись: ${email}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "accounts" : MessageLookupByLibrary.simpleMessage("Счета"),
@@ -50,6 +52,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "appTitle" : MessageLookupByLibrary.simpleMessage("Имя приложения"),
     "aprilShort" : MessageLookupByLibrary.simpleMessage("Апр."),
     "augustShort" : MessageLookupByLibrary.simpleMessage("Авг."),
+    "authenticationBiometricsErrorLockedOut" : MessageLookupByLibrary.simpleMessage("Превышен лимит попыток"),
+    "authenticationBiometricsErrorNotAvailable" : MessageLookupByLibrary.simpleMessage("Ваше устройство не поддерживает функции считывания отпечатка пальца или лица"),
+    "authenticationBiometricsErrorNotEnrolled" : MessageLookupByLibrary.simpleMessage("Ваше устройство не содержит сохраненных отпечатков пальцев или лиц"),
+    "authenticationBiometricsErrorUnknownError" : MessageLookupByLibrary.simpleMessage("Возникла непредвиденная ошибка считывания отпечатка пальца или лица"),
+    "authenticationBiometricsFailure" : MessageLookupByLibrary.simpleMessage("Не удалось идентифицировать"),
+    "authenticationBiometricsLoginButton" : MessageLookupByLibrary.simpleMessage("Войти используя биометрию"),
+    "authenticationBiometricsPairCheckbox" : MessageLookupByLibrary.simpleMessage("Использовать биометрию для входа"),
+    "authenticationBiometricsReasonRead" : MessageLookupByLibrary.simpleMessage("Авторизируйтесь для входа в учетную запись"),
+    "authenticationBiometricsReasonSave" : MessageLookupByLibrary.simpleMessage("Авторизируйтесь для сохранения учетных данных"),
+    "authenticationBiometricsSuccessful" : m0,
     "camera" : MessageLookupByLibrary.simpleMessage("Камера"),
     "cancel" : MessageLookupByLibrary.simpleMessage("Отмена"),
     "categoryName" : MessageLookupByLibrary.simpleMessage("Имя категории"),

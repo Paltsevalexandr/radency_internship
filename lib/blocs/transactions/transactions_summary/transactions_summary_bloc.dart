@@ -90,7 +90,7 @@ class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, Transaction
     yield TransactionsSummaryLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
     summaryTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
       // TODO: Implement fetch endpoint
-      expenseSummaryItemEntity = MockedExpensesItems().generateSummaryData();
+       expenseSummaryItemEntity = MockedExpensesItems().generateSummaryData();
       add(TransactionSummaryDisplayRequested(
           sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
           expenseSummaryItemEntity: expenseSummaryItemEntity));

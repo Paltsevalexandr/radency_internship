@@ -116,6 +116,17 @@
   "signUpPasswordValidatorEmpty": "Enter password",
   "signUpPasswordConfirmationValidatorNotMatch": "Passwords don't match",
 
+  "authenticationBiometricsFailure": "Couldn't apply fingerprint/face",
+  "authenticationBiometricsSuccessful": "Logged in with email: {email}",
+  "authenticationBiometricsReasonSave": "Please authenticate in order to save credentials",
+  "authenticationBiometricsReasonRead": "Please authenticate in order to log in",
+  "authenticationBiometricsPairCheckbox": "Use biometrics",
+  "authenticationBiometricsLoginButton": "Login using biometrics",
+  "authenticationBiometricsErrorNotAvailable": "Your device does not support biometric authentication",
+  "authenticationBiometricsErrorNotEnrolled": "Your device does not have any registered fingerprints or faces",
+  "authenticationBiometricsErrorLockedOut": "Too many unsuccessful attempts",
+  "authenticationBiometricsErrorUnknownError": "Unknown biometric authentication error",
+
   "emailVerificationTitle": "Email verification",
   "emailVerificationNotice": "We sent a confirmation email to the email address you provided during registration. If you did not receive it, check your Spam or request a new confirmation email.",
   "emailVerificationResendButton": "Resend",

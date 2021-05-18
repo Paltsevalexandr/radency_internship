@@ -10,6 +10,7 @@ import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
 import 'package:radency_internship_project_2/blocs/import_csv/import_csv_bloc.dart';
+import 'package:radency_internship_project_2/providers/biometric_credentials_service.dart';
 import 'package:radency_internship_project_2/repositories/budgets_repository.dart';
 import 'package:radency_internship_project_2/repositories/settings_repository/settings_repository.dart';
 import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
@@ -49,80 +50,85 @@ class App extends StatelessWidget {
     Key key,
     @required this.authenticationService,
     @required this.budgetsRepository,
+    @required this.biometricCredentialsService,
   })  : assert(authenticationService != null),
         super(key: key);
 
   final FirebaseAuthenticationService authenticationService;
   final BudgetsRepository budgetsRepository;
+  final BiometricCredentialsService biometricCredentialsService;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: authenticationService,
-      child: MultiBlocProvider(
+    return MultiRepositoryProvider(
         providers: [
-          BlocProvider(
-            create: (context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent()),
-          ),
-          BlocProvider(
-            create: (context) => AuthenticationBloc(
-              authenticationService: authenticationService,
-            ),
-          ),
-          BlocProvider(
-            create: (context) => UserProfileBloc(
-              authenticationService: authenticationService,
-            ),
-          ),
-          BlocProvider(
-            create: (context) => StylesBloc(),
-          ),
-          BlocProvider(
-            create: (context) => CategoryBloc(),
-          ),
-          BlocProvider(
-            create: (context) => TransactionsDailyBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-              ..add(
-                TransactionsDailyInitialize(),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
-          ),
-          BlocProvider(
-            create: (context) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
-          ),
-          BlocProvider(
-            create: (context) => TransactionsSummaryBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-              ..add(TransactionsSummaryInitialize()),
-          ),
-          BlocProvider(
-            create: (_) => ImagePickerBloc(),
-          ),
-          BlocProvider(
-            create: (_) => NavigationBloc()..add(SelectPage(0)),
-          ),
-          BlocProvider(
-            create: (context) => StatsBloc(),
-          ),
-          BlocProvider(
-            create: (context) => BudgetOverviewBloc(
-                settingsBloc: BlocProvider.of<SettingsBloc>(context), budgetsRepository: budgetsRepository)
-              ..add(BudgetOverviewInitialize()),
-          ),
-          BlocProvider(
-            create: (context) => TransactionLocationMapBloc(),
-          ),
-          BlocProvider(create: (_) => ImportCsvBloc()),
-          BlocProvider(create: (_) => CsvExportBloc()),
-          BlocProvider(
-            create: (context) =>
-                ExpensesMapBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))..add(ExpensesMapInitialize()),
-          )
+          RepositoryProvider.value(value: authenticationService),
+          RepositoryProvider.value(value: biometricCredentialsService),
+          RepositoryProvider.value(value: budgetsRepository),
         ],
-        child: AppView(),
-      ),
-    );
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent()),
+            ),
+            BlocProvider(
+              create: (context) => AuthenticationBloc(
+                authenticationService: authenticationService,
+              ),
+            ),
+            BlocProvider(
+              create: (context) => UserProfileBloc(
+                authenticationService: authenticationService,
+              ),
+            ),
+            BlocProvider(
+              create: (context) => StylesBloc(),
+            ),
+            BlocProvider(
+              create: (context) => CategoryBloc(),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsDailyBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
+                ..add(
+                  TransactionsDailyInitialize(),
+                ),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsSummaryBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
+                ..add(TransactionsSummaryInitialize()),
+            ),
+            BlocProvider(
+              create: (_) => ImagePickerBloc(),
+            ),
+            BlocProvider(
+              create: (_) => NavigationBloc()..add(SelectPage(0)),
+            ),
+            BlocProvider(
+              create: (context) => StatsBloc(),
+            ),
+            BlocProvider(
+              create: (context) => BudgetOverviewBloc(
+                  settingsBloc: BlocProvider.of<SettingsBloc>(context), budgetsRepository: budgetsRepository)
+                ..add(BudgetOverviewInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => TransactionLocationMapBloc(),
+            ),
+            BlocProvider(create: (_) => ImportCsvBloc()),
+          BlocProvider(create: (_) => CsvExportBloc()),
+            BlocProvider(
+              create: (context) =>
+                  ExpensesMapBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))..add(ExpensesMapInitialize()),
+            )
+          ],
+          child: AppView(),
+        ));
   }
 }
 

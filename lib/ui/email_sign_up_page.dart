@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/sign_up/sign_up_email/sign_up_email_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/providers/biometric_credentials_service.dart';
 import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
 import 'package:radency_internship_project_2/ui/widgets/centered_scroll_view.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
@@ -14,7 +15,10 @@ class EmailSignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SignUpEmailBloc>(
-      create: (_) => SignUpEmailBloc(context.read<FirebaseAuthenticationService>()),
+      create: (_) => SignUpEmailBloc(
+        context.read<FirebaseAuthenticationService>(),
+        context.read<BiometricCredentialsService>(),
+      )..add(SignUpEmailInitialize()),
       child: Scaffold(
         appBar: AppBar(
           title: Text(S.current.signUpPageTitle),
@@ -39,6 +43,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
   String _username;
   String _password;
   String _passwordConfirmation;
+  bool _biometricsPairingEnabled = false;
 
   static final GlobalKey<FormState> _emailFormKey = GlobalKey<FormState>();
   static final GlobalKey<FormState> _usernameFormKey = GlobalKey<FormState>();
@@ -60,7 +65,13 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         }
       },
       builder: (context, state) {
-        return signUpContent();
+        if (state.signUpFlowInitializationStatus) {
+          return signUpContent();
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }
@@ -97,13 +108,13 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
             _usernameField(),
             _passwordField(),
             _passwordConfirmationField(),
+            _biometricsPairingCheckbox(),
           ],
         ),
         _submitButton(),
       ],
     );
   }
-
 
   Widget _emailField() {
     return Padding(
@@ -114,8 +125,10 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
           autovalidateMode: autovalidateMode,
           keyboardType: TextInputType.emailAddress,
           initialValue: _email ?? '',
-          decoration:
-              InputDecoration(helperText: '', labelText: S.current.signUpEmailLabelText, border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+          decoration: InputDecoration(
+              helperText: '',
+              labelText: S.current.signUpEmailLabelText,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
           validator: (val) {
             if (val.trim().isEmpty) {
               return S.current.signUpEmailValidatorEmpty;
@@ -141,8 +154,10 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         child: TextFormField(
           autovalidateMode: autovalidateMode,
           initialValue: _username ?? '',
-          decoration:
-              InputDecoration(helperText: '', labelText: S.current.signUpUsernameLabelText, border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+          decoration: InputDecoration(
+              helperText: '',
+              labelText: S.current.signUpUsernameLabelText,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
           validator: (val) {
             if (val.trim().isEmpty) {
               return S.current.signUpUsernameValidatorEmpty;
@@ -165,8 +180,10 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
           autovalidateMode: autovalidateMode,
           initialValue: _password ?? '',
           obscureText: true,
-          decoration:
-              InputDecoration(helperText: '', labelText: S.current.signUpPasswordLabelText, border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+          decoration: InputDecoration(
+              helperText: '',
+              labelText: S.current.signUpPasswordLabelText,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
           validator: (val) {
             if (val.trim().isEmpty) {
               return S.current.signUpPasswordValidatorEmpty;
@@ -194,7 +211,9 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
           initialValue: _passwordConfirmation ?? '',
           obscureText: true,
           decoration: InputDecoration(
-              helperText: '', labelText: S.current.signUpPasswordConfirmationLabelText, border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+              helperText: '',
+              labelText: S.current.signUpPasswordConfirmationLabelText,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
           validator: (val) {
             if (val != _password) {
               return S.current.signUpPasswordConfirmationValidatorNotMatch;
@@ -206,6 +225,30 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         ),
       ),
     );
+  }
+
+  Widget _biometricsPairingCheckbox() {
+    return BlocBuilder<SignUpEmailBloc, SignUpEmailState>(builder: (context, state) {
+      if (state.biometricsAvailable) {
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+          child: Row(
+            children: [
+              Checkbox(
+                  value: _biometricsPairingEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      _biometricsPairingEnabled = value;
+                    });
+                  }),
+              Text(S.current.authenticationBiometricsPairCheckbox),
+            ],
+          ),
+        );
+      }
+
+      return SizedBox();
+    });
   }
 
   Widget _submitButton() {
@@ -225,9 +268,12 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
                     });
 
                     if (_validateForms()) {
-                      context
-                          .read<SignUpEmailBloc>()
-                          .add(SignUpEmailSubmitted(email: _email, password: _password, username: _username));
+                      context.read<SignUpEmailBloc>().add(SignUpEmailSubmitted(
+                            email: _email,
+                            password: _password,
+                            username: _username,
+                            biometricsPairingStatus: _biometricsPairingEnabled,
+                          ));
                     }
                   },
             child: state.areDetailsProcessing

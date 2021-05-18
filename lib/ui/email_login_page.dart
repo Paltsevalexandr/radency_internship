@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/login/email_login/email_login_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/providers/biometric_credentials_service.dart';
 import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
 import 'package:radency_internship_project_2/ui/widgets/centered_scroll_view.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
@@ -18,7 +19,9 @@ class EmailLoginPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocProvider<EmailLoginBloc>(
-          create: (_) => EmailLoginBloc(context.read<FirebaseAuthenticationService>()),
+          create: (_) =>
+              EmailLoginBloc(context.read<FirebaseAuthenticationService>(), context.read<BiometricCredentialsService>())
+                ..add(EmailLoginInitialize()),
           child: EmailLoginForm(),
         ),
       ),
@@ -38,9 +41,12 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
 
   String _email;
   String _password;
+  bool _biometricsPairingEnabled = false;
 
   static final GlobalKey<FormState> _emailFormKey = GlobalKey<FormState>();
   static final GlobalKey<FormState> _passwordFormKey = GlobalKey<FormState>();
+
+  TextEditingController _emailController = TextEditingController();
 
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
@@ -55,9 +61,20 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
               SnackBar(content: Text(state.errorMessage)),
             );
         }
+
+        if (state.savedEmail != null) {
+          _emailController.text = state.savedEmail;
+          _email = state.savedEmail;
+        }
       },
       builder: (context, state) {
-        return loginContent();
+        if (state.loginFlowInitialized) {
+          return loginContent();
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }
@@ -86,9 +103,15 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
             height: pixelsToDP(context, 80),
           ),
           _loginForms(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [forgotButton()],
+          Container(
+            width: double.infinity,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              children: [
+                _biometricsPairingCheckbox(),
+                forgotButton(),
+              ],
+            ),
           ),
           _submitButton(),
           _newAccountSection(),
@@ -144,7 +167,7 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
         child: TextFormField(
           autovalidateMode: autovalidateMode,
           keyboardType: TextInputType.emailAddress,
-          initialValue: _email ?? '',
+          controller: _emailController,
           decoration: InputDecoration(
               helperText: '',
               labelText: S.current.loginEmailLabelText,
@@ -214,6 +237,7 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
                       context.read<EmailLoginBloc>().add(EmailLoginSubmitted(
                             email: _email,
                             password: _password,
+                            pairWithBiometrics: _biometricsPairingEnabled,
                           ));
                     }
                   },
@@ -227,6 +251,31 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
         );
       },
     );
+  }
+
+  Widget _biometricsPairingCheckbox() {
+    return BlocBuilder<EmailLoginBloc, EmailLoginState>(builder: (context, state) {
+      if (state.biometricsCredentialsEnrolled) {
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Checkbox(
+                  value: _biometricsPairingEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      _biometricsPairingEnabled = value;
+                    });
+                  }),
+              Text(S.current.authenticationBiometricsPairCheckbox),
+            ],
+          ),
+        );
+      }
+
+      return SizedBox();
+    });
   }
 
   void _saveForms() {

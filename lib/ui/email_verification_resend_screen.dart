@@ -15,10 +15,16 @@ class _EmailVerificationResendScreenState extends State<EmailVerificationResendS
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          S.current.emailVerificationTitle,
-        ),
-      ),
+          title: Text(
+            S.current.emailVerificationTitle,
+          ),
+          actions: <Widget>[
+            IconButton(
+              key: const Key('homePage_logout_iconButton'),
+              icon: const Icon(Icons.exit_to_app),
+              onPressed: () => context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested()),
+            )
+          ]),
       body: body(),
     );
   }

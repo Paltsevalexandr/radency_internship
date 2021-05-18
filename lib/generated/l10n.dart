@@ -1015,6 +1015,106 @@ class S {
     );
   }
 
+  /// `Couldn't apply fingerprint/face`
+  String get authenticationBiometricsFailure {
+    return Intl.message(
+      'Couldn\'t apply fingerprint/face',
+      name: 'authenticationBiometricsFailure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logged in with email: {email}`
+  String authenticationBiometricsSuccessful(Object email) {
+    return Intl.message(
+      'Logged in with email: $email',
+      name: 'authenticationBiometricsSuccessful',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  /// `Please authenticate in order to save credentials`
+  String get authenticationBiometricsReasonSave {
+    return Intl.message(
+      'Please authenticate in order to save credentials',
+      name: 'authenticationBiometricsReasonSave',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please authenticate in order to log in`
+  String get authenticationBiometricsReasonRead {
+    return Intl.message(
+      'Please authenticate in order to log in',
+      name: 'authenticationBiometricsReasonRead',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use biometrics`
+  String get authenticationBiometricsPairCheckbox {
+    return Intl.message(
+      'Use biometrics',
+      name: 'authenticationBiometricsPairCheckbox',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login using biometrics`
+  String get authenticationBiometricsLoginButton {
+    return Intl.message(
+      'Login using biometrics',
+      name: 'authenticationBiometricsLoginButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your device does not support biometric authentication`
+  String get authenticationBiometricsErrorNotAvailable {
+    return Intl.message(
+      'Your device does not support biometric authentication',
+      name: 'authenticationBiometricsErrorNotAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your device does not have any registered fingerprints or faces`
+  String get authenticationBiometricsErrorNotEnrolled {
+    return Intl.message(
+      'Your device does not have any registered fingerprints or faces',
+      name: 'authenticationBiometricsErrorNotEnrolled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Too many unsuccessful attempts`
+  String get authenticationBiometricsErrorLockedOut {
+    return Intl.message(
+      'Too many unsuccessful attempts',
+      name: 'authenticationBiometricsErrorLockedOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown biometric authentication error`
+  String get authenticationBiometricsErrorUnknownError {
+    return Intl.message(
+      'Unknown biometric authentication error',
+      name: 'authenticationBiometricsErrorUnknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Email verification`
   String get emailVerificationTitle {
     return Intl.message(

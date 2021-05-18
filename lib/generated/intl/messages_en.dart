@@ -19,6 +19,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static m0(email) => "Logged in with email: ${email}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "accounts" : MessageLookupByLibrary.simpleMessage("Accounts"),
@@ -52,6 +54,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "appTitle" : MessageLookupByLibrary.simpleMessage("App Title"),
     "aprilShort" : MessageLookupByLibrary.simpleMessage("Apr."),
     "augustShort" : MessageLookupByLibrary.simpleMessage("Aug."),
+    "authenticationBiometricsErrorLockedOut" : MessageLookupByLibrary.simpleMessage("Too many unsuccessful attempts"),
+    "authenticationBiometricsErrorNotAvailable" : MessageLookupByLibrary.simpleMessage("Your device does not support biometric authentication"),
+    "authenticationBiometricsErrorNotEnrolled" : MessageLookupByLibrary.simpleMessage("Your device does not have any registered fingerprints or faces"),
+    "authenticationBiometricsErrorUnknownError" : MessageLookupByLibrary.simpleMessage("Unknown biometric authentication error"),
+    "authenticationBiometricsFailure" : MessageLookupByLibrary.simpleMessage("Couldn\'t apply fingerprint/face"),
+    "authenticationBiometricsLoginButton" : MessageLookupByLibrary.simpleMessage("Login using biometrics"),
+    "authenticationBiometricsPairCheckbox" : MessageLookupByLibrary.simpleMessage("Use biometrics"),
+    "authenticationBiometricsReasonRead" : MessageLookupByLibrary.simpleMessage("Please authenticate in order to log in"),
+    "authenticationBiometricsReasonSave" : MessageLookupByLibrary.simpleMessage("Please authenticate in order to save credentials"),
+    "authenticationBiometricsSuccessful" : m0,
     "camera" : MessageLookupByLibrary.simpleMessage("Camera"),
     "cancel" : MessageLookupByLibrary.simpleMessage("Cancel"),
     "categoryName" : MessageLookupByLibrary.simpleMessage("Category Name"),
