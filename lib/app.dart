@@ -113,7 +113,6 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (context) => TransactionLocationMapBloc(),
           ),
-          BlocProvider(create: (BuildContext context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent())),
           BlocProvider(create: (_) => ImportCsvBloc()),
           BlocProvider(create: (_) => CsvExportBloc()),
           BlocProvider(
