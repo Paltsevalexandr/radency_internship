@@ -1,5 +1,3 @@
-import 'package:uuid/uuid.dart';
-
 abstract class Transaction {
   String id;
   TransactionType type;

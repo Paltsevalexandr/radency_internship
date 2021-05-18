@@ -150,7 +150,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _accountFieldController.text = await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
+                _accountFieldController.text =
+                    await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
                 setState(() {
                   _accountValueFormKey.currentState.validate();
                 });
@@ -188,7 +189,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _categoryFieldController.text = await showModal(context: context, values: categories, type: ModalType.Category, onAddCallback: null);
+                _categoryFieldController.text = await showModal(
+                    context: context, values: categories, type: ModalType.Category, onAddCallback: null);
                 setState(() {
                   _categoryValueFormKey.currentState.validate();
                 });
@@ -296,25 +298,25 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                     helperText: '',
                     prefixIcon: _sharedContact != null
                         ? Container(
-                      margin: EdgeInsets.only(
-                        top: pixelsToDP(context, 3),
-                        right: pixelsToDP(context, 45),
-                        bottom: pixelsToDP(context, 3),
-                        left: pixelsToDP(context, 5),
-                      ),
-                      child: CircleAvatar(
-                        foregroundImage: _photoProvider,
-                        child: FittedBox(
-                          child: Container(
-                            padding: EdgeInsets.all(pixelsToDP(context, 20)),
-                            child: Text(
-                              getContactInitials(_sharedContact),
-                              style: addTransactionAvatarTextStyle,
+                            margin: EdgeInsets.only(
+                              top: pixelsToDP(context, 3),
+                              right: pixelsToDP(context, 45),
+                              bottom: pixelsToDP(context, 3),
+                              left: pixelsToDP(context, 5),
                             ),
-                          ),
-                        ),
-                      ),
-                    )
+                            child: CircleAvatar(
+                              foregroundImage: _photoProvider,
+                              child: FittedBox(
+                                child: Container(
+                                  padding: EdgeInsets.all(pixelsToDP(context, 20)),
+                                  child: Text(
+                                    getContactInitials(_sharedContact),
+                                    style: addTransactionAvatarTextStyle,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                         : null,
                   ),
                   onTap: _selectSharedContact,
@@ -361,7 +363,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                   }
 
                   BlocProvider.of<TransactionLocationBloc>(_context).add(TransactionLocationMenuOpened());
-                  await _selectLocation(context: _context, languageCode: languageCode, isLocationSelected: _locationValue != null);
+                  await _selectLocation(
+                      context: _context, languageCode: languageCode, isLocationSelected: _locationValue != null);
                 },
               ),
             )
@@ -382,49 +385,55 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   }
 
   Widget _saveButton() {
-    return ColoredElevatedButton(
-        child: Text(
-          S.current.addTransactionButtonSave,
-        ),
-        onPressed: () {
-          _saveForms();
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+      return ColoredElevatedButton(
+          child: Text(
+            S.current.addTransactionButtonSave,
+          ),
+          onPressed: () {
+            _saveForms();
 
-          if (_validateForms()) {
-            BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
-                isAddingCompleted: true,
-                transaction: ExpenseTransaction(
-                  note: _noteValue,
-                  accountOrigin: _accountValue,
-                  dateTime: _selectedDateTime,
-                  category: _categoryValue,
-                  amount: _amountValue,
-                  sharedContact: _sharedContact,
-                )));
-          }
-        });
+            if (_validateForms()) {
+              BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
+                  isAddingCompleted: true,
+                  transaction: ExpenseTransaction(
+                    currency: state.currency,
+                    note: _noteValue,
+                    accountOrigin: _accountValue,
+                    dateTime: _selectedDateTime,
+                    category: _categoryValue,
+                    amount: _amountValue,
+                    sharedContact: _sharedContact,
+                  )));
+            }
+          });
+    });
   }
 
   Widget _continueButton() {
-    return StylizedElevatedButton(
-        child: Text(
-          S.current.addTransactionButtonContinue,
-        ),
-        onPressed: () {
-          _saveForms();
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+      return StylizedElevatedButton(
+          child: Text(
+            S.current.addTransactionButtonContinue,
+          ),
+          onPressed: () {
+            _saveForms();
 
-          if (_validateForms()) {
-            BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
-                isAddingCompleted: false,
-                transaction: ExpenseTransaction(
-                  note: _noteValue,
-                  accountOrigin: _accountValue,
-                  dateTime: _selectedDateTime,
-                  category: _categoryValue,
-                  amount: _amountValue,
-                  sharedContact: _sharedContact,
-                )));
-          }
-        });
+            if (_validateForms()) {
+              BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
+                  isAddingCompleted: false,
+                  transaction: ExpenseTransaction(
+                    note: _noteValue,
+                    accountOrigin: _accountValue,
+                    dateTime: _selectedDateTime,
+                    category: _categoryValue,
+                    amount: _amountValue,
+                    sharedContact: _sharedContact,
+                    currency: state.currency
+                  )));
+            }
+          });
+    });
   }
 
   Widget _fieldTitleWidget({@required String title}) {
@@ -437,7 +446,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   }
 
   Future _selectNewDate() async {
-    DateTime result = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime.now());
+    DateTime result = await showDatePicker(
+        context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime.now());
     if (result != null) {
       setState(() {
         _selectedDateTime = result;
@@ -448,7 +458,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
 
   Future _selectSharedContact() async {
     final Contact contact = await ContactsService.openDeviceContactPicker();
-    if(Platform.isAndroid) {
+    if (Platform.isAndroid) {
       contact.avatar = await ContactsService.getAvatar(contact);
     }
     if (contact != null) {
@@ -490,10 +500,12 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     });
   }
 
-  Future _selectLocation({@required BuildContext context, @required String languageCode, @required bool isLocationSelected}) async {
+  Future _selectLocation(
+      {@required BuildContext context, @required String languageCode, @required bool isLocationSelected}) async {
     ExpenseLocation _newLocation;
 
-    _newLocation = await _getLocationFromModalBottomSheet(xContext: context, languageCode: languageCode, isLocationSelected: isLocationSelected);
+    _newLocation = await _getLocationFromModalBottomSheet(
+        xContext: context, languageCode: languageCode, isLocationSelected: isLocationSelected);
 
     if (_newLocation == null) {
       _locationValue = null;
@@ -536,7 +548,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                       ],
                     ),
                     onSelect: () async {
-                      xContext.read<TransactionLocationBloc>().add(TransactionLocationCurrentPressed(languageCode: languageCode));
+                      xContext
+                          .read<TransactionLocationBloc>()
+                          .add(TransactionLocationCurrentPressed(languageCode: languageCode));
                     },
                   ),
                   _locationMenuItem(
@@ -551,7 +565,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                     onSelect: () async {
                       context.read<TransactionLocationMapBloc>().add(TransactionLocationMapInitialize());
                       var latLng = await Navigator.of(context).pushNamed(Routes.transactionLocationSelectView);
-                      xContext.read<TransactionLocationBloc>().add(TransactionLocationFromMapPressed(languageCode: languageCode, latLng: latLng as LatLng));
+                      xContext
+                          .read<TransactionLocationBloc>()
+                          .add(TransactionLocationFromMapPressed(languageCode: languageCode, latLng: latLng as LatLng));
                     },
                   ),
                   if (isLocationSelected)

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:radency_internship_project_2/blocs/transactions/transactions_calendar/transactions_calendar_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
@@ -37,8 +38,8 @@ class _TransactionsTabSliderState extends State<TransactionsTabSlider> {
           case TransactionsSliderMode.summary:
             return Center(child: _summarySlider(context));
             break;
-          case TransactionsSliderMode.undefined:
-            return SizedBox();
+          case TransactionsSliderMode.calendar:
+            return Center(child: _calendarSlider(context));
             break;
         }
       }
@@ -63,6 +64,28 @@ Widget _dailySlider(BuildContext context) {
           content: state.sliderCurrentTimeIntervalString, onForwardPressed: onDailyTransactionsForwardPressed, onBackPressed: onDailyTransactionsBackPressed);
 
     if (state is TransactionsDailyLoaded)
+      return DateRangeSlider(
+          content: state.sliderCurrentTimeIntervalString, onForwardPressed: onDailyTransactionsForwardPressed, onBackPressed: onDailyTransactionsBackPressed);
+
+    return DateRangeSlider(content: '', onBackPressed: null, onForwardPressed: null);
+  });
+}
+
+Widget _calendarSlider(BuildContext context) {
+  Function onDailyTransactionsBackPressed = () {
+    return context.read<TransactionsCalendarBloc>().add(TransactionsCalendarGetPreviousMonthPressed());
+  };
+
+  Function onDailyTransactionsForwardPressed = () {
+    return context.read<TransactionsCalendarBloc>().add(TransactionsCalendarGetNextMonthPressed());
+  };
+
+  return BlocBuilder<TransactionsCalendarBloc, TransactionsCalendarState>(builder: (context, state) {
+    if (state is TransactionsCalendarLoading)
+      return DateRangeSlider(
+          content: state.sliderCurrentTimeIntervalString, onForwardPressed: onDailyTransactionsForwardPressed, onBackPressed: onDailyTransactionsBackPressed);
+
+    if (state is TransactionsCalendarLoaded)
       return DateRangeSlider(
           content: state.sliderCurrentTimeIntervalString, onForwardPressed: onDailyTransactionsForwardPressed, onBackPressed: onDailyTransactionsBackPressed);
 

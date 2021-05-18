@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:csv/csv.dart';
 import 'package:bloc/bloc.dart';
-import 'package:csv/csv_settings_autodetection.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:radency_internship_project_2/models/expense_item.dart';
 import 'package:radency_internship_project_2/models/location.dart';

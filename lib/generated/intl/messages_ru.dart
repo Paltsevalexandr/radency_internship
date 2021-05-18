@@ -168,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transactionsTabButtonExpensesCreditCards" : MessageLookupByLibrary.simpleMessage("Расходы (Кредитные карты)"),
     "transactionsTabButtonExportToCSV" : MessageLookupByLibrary.simpleMessage("Экспортировать данные в CSV"),
     "transactionsTabTitleAccount" : MessageLookupByLibrary.simpleMessage("Счёт"),
+    "transactionsTabTitleCalendar" : MessageLookupByLibrary.simpleMessage("Календарь"),
     "transactionsTabTitleDaily" : MessageLookupByLibrary.simpleMessage("По дням"),
     "transactionsTabTitleMonthly" : MessageLookupByLibrary.simpleMessage("По месяцам"),
     "transactionsTabTitleSummary" : MessageLookupByLibrary.simpleMessage("Сводка"),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+
 import '../../blocs/expenses_list/daily_bloc.dart';
 import '../../blocs/settings/settings_bloc.dart';
 import '../../blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
@@ -9,12 +9,10 @@ import '../../models/expense_item.dart';
 import '../../utils/mocked_expenses.dart';
 import '../../utils/strings.dart';
 import '../../utils/ui_utils.dart';
-
 import 'common_expenses_list.dart';
 
 Widget buildDailyExpensesList(BuildContext context) {
-  return BlocBuilder<TransactionsDailyBloc, TransactionsDailyState>(
-      builder: (context, state) {
+  return BlocBuilder<TransactionsDailyBloc, TransactionsDailyState>(builder: (context, state) {
     if (state is TransactionsDailyLoaded) {
       var data = state.data;
 
@@ -120,15 +118,13 @@ class DailyExpensesItem extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(right: pixelsToDP(context, 24)),
                 child: Text('${itemEntity.category}',
-                    style: const TextStyle(fontSize: 18),
-                    overflow: TextOverflow.ellipsis),
+                    style: const TextStyle(fontSize: 18), overflow: TextOverflow.ellipsis),
               ),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(right: pixelsToDP(context, 24)),
                   child: Text('${itemEntity.description}',
-                      style: const TextStyle(fontSize: 18),
-                      overflow: TextOverflow.ellipsis),
+                      style: const TextStyle(fontSize: 18), overflow: TextOverflow.ellipsis),
                 ),
               ),
               Text(
@@ -162,12 +158,10 @@ class DailyExpensesHeader extends StatelessWidget {
 
   Widget buildBigDayText(context) {
     return Padding(
-      padding: EdgeInsets.only(
-          right: pixelsToDP(context, 24), left: pixelsToDP(context, 36)),
+      padding: EdgeInsets.only(right: pixelsToDP(context, 24), left: pixelsToDP(context, 36)),
       child: Text(
         '${dateTime.day}',
-        style: const TextStyle(
-            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 32),
+        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 32),
       ),
     );
   }
@@ -185,13 +179,9 @@ class DailyExpensesHeader extends StatelessWidget {
         ),
         Container(
           decoration: new BoxDecoration(
-              color: greyColor,
-              borderRadius: new BorderRadius.all(
-                  Radius.circular(pixelsToDP(context, 4)))),
+              color: greyColor, borderRadius: new BorderRadius.all(Radius.circular(pixelsToDP(context, 4)))),
           child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: pixelsToDP(context, 2),
-                horizontal: pixelsToDP(context, 4)),
+            padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, 2), horizontal: pixelsToDP(context, 4)),
             child: Text(
               '${getWeekDayByNumber(dateTime.weekday, context)}',
               style: const TextStyle(color: Colors.white),
@@ -215,11 +205,16 @@ class DailyExpensesHeader extends StatelessWidget {
             children: [
               buildBigDayText(context),
               buildDateColumn(context),
-              Expanded(child: SizedBox()),
-              buildIncomeText(
-                  context, getCurrencySymbol(currency), incomeTotal),
-              buildOutcomeText(
-                  context, getCurrencySymbol(currency), outcomeTotal)
+              Expanded(
+                child: Wrap(
+                  spacing: 10,
+                  alignment: WrapAlignment.end,
+                  children: [
+                    buildIncomeText(context, getCurrencySymbol(currency), incomeTotal),
+                    buildOutcomeText(context, getCurrencySymbol(currency), outcomeTotal)
+                  ],
+                ),
+              )
             ],
           ));
     });

@@ -8,7 +8,13 @@ part 'transactions_slider_event.dart';
 
 part 'transactions_slider_state.dart';
 
-enum TransactionsSliderMode { daily, weekly, monthly, summary, undefined }
+enum TransactionsSliderMode {
+  daily,
+  calendar,
+  weekly,
+  monthly,
+  summary,
+}
 
 class TransactionsSliderBloc extends Bloc<TransactionsSliderEvent, TransactionsSliderState> {
   TransactionsSliderBloc() : super(TransactionsSliderInitial());
@@ -37,16 +43,16 @@ class TransactionsSliderBloc extends Bloc<TransactionsSliderEvent, TransactionsS
         _currentTransactionsSliderMode = TransactionsSliderMode.daily;
         break;
       case 1:
-        _currentTransactionsSliderMode = TransactionsSliderMode.weekly;
+        _currentTransactionsSliderMode = TransactionsSliderMode.calendar;
         break;
       case 2:
-        _currentTransactionsSliderMode = TransactionsSliderMode.monthly;
+        _currentTransactionsSliderMode = TransactionsSliderMode.weekly;
         break;
       case 3:
-        _currentTransactionsSliderMode = TransactionsSliderMode.summary;
+        _currentTransactionsSliderMode = TransactionsSliderMode.monthly;
         break;
-      default:
-        _currentTransactionsSliderMode = TransactionsSliderMode.undefined;
+      case 4:
+        _currentTransactionsSliderMode = TransactionsSliderMode.summary;
         break;
     }
 

@@ -62,6 +62,8 @@
   "transactionsTabTitleWeekly": "По неделям",
   "transactionsTabTitleMonthly": "По месяцам",
   "transactionsTabTitleSummary": "Сводка",
+  "transactionsTabTitleCalendar": "Календарь",
+
 
   "transactionsTabTitleAccount": "Счёт",
   "transactionsTabButtonExportToCSV": "Экспортировать данные в CSV",

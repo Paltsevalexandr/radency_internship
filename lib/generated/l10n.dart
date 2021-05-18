@@ -575,6 +575,16 @@ class S {
     );
   }
 
+  /// `Calendar`
+  String get transactionsTabTitleCalendar {
+    return Intl.message(
+      'Calendar',
+      name: 'transactionsTabTitleCalendar',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Account`
   String get transactionsTabTitleAccount {
     return Intl.message(

@@ -2,6 +2,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/income_transaction.dart';
@@ -136,7 +137,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _accountFieldController.text = await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
+                _accountFieldController.text =
+                    await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
                 setState(() {
                   _accountValueFormKey.currentState.validate();
                 });
@@ -174,7 +176,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _categoryFieldController.text = await showModal(context: context, values: categories, type: ModalType.Category, onAddCallback: null);
+                _categoryFieldController.text = await showModal(
+                    context: context, values: categories, type: ModalType.Category, onAddCallback: null);
                 setState(() {
                   _categoryValueFormKey.currentState.validate();
                 });
@@ -269,47 +272,53 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
   }
 
   Widget _saveButton() {
-    return ColoredElevatedButton(
-        child: Text(
-          S.current.addTransactionButtonSave,
-        ),
-        onPressed: () {
-          _saveForms();
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+      return ColoredElevatedButton(
+          child: Text(
+            S.current.addTransactionButtonSave,
+          ),
+          onPressed: () {
+            _saveForms();
 
-          if (_validateForms()) {
-            BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
-                isAddingCompleted: true,
-                transaction: IncomeTransaction(
-                  note: _noteValue,
-                  accountOrigin: _accountValue,
-                  dateTime: _selectedDateTime,
-                  category: _categoryValue,
-                  amount: _amountValue,
-                )));
-          }
-        });
+            if (_validateForms()) {
+              BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
+                  isAddingCompleted: true,
+                  transaction: IncomeTransaction(
+                    note: _noteValue,
+                    accountOrigin: _accountValue,
+                    dateTime: _selectedDateTime,
+                    category: _categoryValue,
+                    amount: _amountValue,
+                    currency: state.currency,
+                  )));
+            }
+          });
+    });
   }
 
   Widget _continueButton() {
-    return StylizedElevatedButton(
-        child: Text(
-          S.current.addTransactionButtonContinue,
-        ),
-        onPressed: () {
-          _saveForms();
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+      return StylizedElevatedButton(
+          child: Text(
+            S.current.addTransactionButtonContinue,
+          ),
+          onPressed: () {
+            _saveForms();
 
-          if (_validateForms()) {
-            BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
-                isAddingCompleted: false,
-                transaction: IncomeTransaction(
-                  note: _noteValue,
-                  accountOrigin: _accountValue,
-                  dateTime: _selectedDateTime,
-                  category: _categoryValue,
-                  amount: _amountValue,
-                )));
-          }
-        });
+            if (_validateForms()) {
+              BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
+                  isAddingCompleted: false,
+                  transaction: IncomeTransaction(
+                    note: _noteValue,
+                    accountOrigin: _accountValue,
+                    dateTime: _selectedDateTime,
+                    category: _categoryValue,
+                    amount: _amountValue,
+                    currency: state.currency,
+                  )));
+            }
+          });
+    });
   }
 
   Widget _fieldTitleWidget({@required String title}) {
@@ -322,7 +331,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
   }
 
   Future _selectNewDate() async {
-    DateTime result = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime.now());
+    DateTime result = await showDatePicker(
+        context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime.now());
     if (result != null) {
       setState(() {
         _selectedDateTime = result;

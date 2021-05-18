@@ -64,6 +64,7 @@
   "transactionsTabTitleWeekly": "Weekly",
   "transactionsTabTitleMonthly": "Monthly",
   "transactionsTabTitleSummary": "Summary",
+  "transactionsTabTitleCalendar": "Calendar",
 
   "transactionsTabTitleAccount": "Account",
   "transactionsTabButtonExportToCSV": "Export data to CSV",

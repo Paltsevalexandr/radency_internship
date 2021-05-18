@@ -15,9 +15,6 @@ class NewCategoryPageArguments {
 }
 
 class NewCategoryPage extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => NewCategoryPage());
-  }
 
   var newCategoryName = "";
 

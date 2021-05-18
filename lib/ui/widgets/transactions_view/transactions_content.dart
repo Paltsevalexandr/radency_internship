@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/calendar/calendar_tab.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/daily_tab.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/monthly_tab.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/summary_tab.dart';
@@ -9,18 +10,39 @@ import 'package:radency_internship_project_2/ui/widgets/transactions_view/widget
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TransactionsView extends StatefulWidget {
+class TransactionsContent extends StatefulWidget {
   @override
-  _TransactionsViewState createState() => _TransactionsViewState();
+  _TransactionsContentState createState() => _TransactionsContentState();
 }
 
-class _TransactionsViewState extends State<TransactionsView> with SingleTickerProviderStateMixin {
+class _TransactionsContentState extends State<TransactionsContent> with SingleTickerProviderStateMixin {
   TabController tabBarController;
 
   @override
   void initState() {
     super.initState();
-    tabBarController = new TabController(length: 4, vsync: this);
+    int initialIndex = 0;
+    var state = context.read<TransactionsSliderBloc>().state;
+    if (state is TransactionsSliderLoaded) {
+      switch (state.transactionsSliderMode) {
+        case TransactionsSliderMode.daily:
+          initialIndex = 0;
+          break;
+        case TransactionsSliderMode.calendar:
+          initialIndex = 1;
+          break;
+        case TransactionsSliderMode.weekly:
+          initialIndex = 2;
+          break;
+        case TransactionsSliderMode.monthly:
+          initialIndex = 3;
+          break;
+        case TransactionsSliderMode.summary:
+          initialIndex = 4;
+          break;
+      }
+    }
+    tabBarController = new TabController(length: 5, vsync: this, initialIndex: initialIndex);
     tabBarController.addListener(() {
       context.read<TransactionsSliderBloc>().add(TransactionsSliderModeChanged(index: tabBarController.index));
     });
@@ -40,6 +62,7 @@ class _TransactionsViewState extends State<TransactionsView> with SingleTickerPr
                 controller: tabBarController,
                 children: [
                   DailyTab(),
+                  CalendarTab(),
                   WeeklyTab(),
                   MonthlyTab(),
                   SummaryTab(),
@@ -60,6 +83,9 @@ class _TransactionsViewState extends State<TransactionsView> with SingleTickerPr
         tabs: [
           Tab(
             child: tabTitle(S.current.transactionsTabTitleDaily),
+          ),
+          Tab(
+            child: tabTitle(S.current.transactionsTabTitleCalendar),
           ),
           Tab(
             child: tabTitle(S.current.transactionsTabTitleWeekly),

@@ -57,12 +57,12 @@ dependencies:
 
   charts_flutter: 0.10.0
 
-
   cupertino_icons: ^1.0.2
   flutter_icons: ^1.1.0
 
   modal_bottom_sheet: 2.0.0
   contacts_service: 0.6.1
+
 
   uuid: 3.0.4
 

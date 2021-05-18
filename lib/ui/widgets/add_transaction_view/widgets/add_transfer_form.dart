@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
@@ -138,7 +139,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _fromFieldController.text = await showModal(context: context, type: ModalType.Account, values: accounts, onAddCallback: null);
+                _fromFieldController.text =
+                    await showModal(context: context, type: ModalType.Account, values: accounts, onAddCallback: null);
                 setState(() {
                   _fromValueFormKey.currentState.validate();
                 });
@@ -176,7 +178,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _toFieldController.text = await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
+                _toFieldController.text =
+                    await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
                 setState(() {
                   _toValueFormKey.currentState.validate();
                 });
@@ -228,7 +231,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
                       return null;
                     },
                     onTap: () async {
-                      await showModal(context: context, type: ModalType.Amount, updateAmountCallback: updateAmountCallback);
+                      await showModal(
+                          context: context, type: ModalType.Amount, updateAmountCallback: updateAmountCallback);
                       setState(() {
                         _amountValueFormKey.currentState.validate();
                       });
@@ -297,7 +301,10 @@ class _AddTransferFormState extends State<AddTransferForm> {
                       },
                       onTap: () async {
                         await showModal(
-                            context: context, type: ModalType.Amount, updateAmountCallback: updateFeeCallback, title: S.current.addTransactionFeesFieldTitle);
+                            context: context,
+                            type: ModalType.Amount,
+                            updateAmountCallback: updateFeeCallback,
+                            title: S.current.addTransactionFeesFieldTitle);
                         setState(() {
                           _feesValueFormKey.currentState.validate();
                         });
@@ -350,49 +357,53 @@ class _AddTransferFormState extends State<AddTransferForm> {
   }
 
   Widget _saveButton() {
-    return ColoredElevatedButton(
-        child: Text(
-          S.current.addTransactionButtonSave,
-        ),
-        onPressed: () {
-          _saveForms();
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+      return ColoredElevatedButton(
+          child: Text(
+            S.current.addTransactionButtonSave,
+          ),
+          onPressed: () {
+            _saveForms();
 
-          if (_validateForms()) {
-            BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
-                isAddingCompleted: true,
-                transaction: TransferTransaction(
-                  accountOrigin: _fromValue,
-                  accountDestination: _toValue,
-                  note: _noteValue,
-                  fees: _feesValue,
-                  dateTime: _selectedDateTime,
-                  amount: _amountValue,
-                )));
-          }
-        });
+            if (_validateForms()) {
+              BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
+                  isAddingCompleted: true,
+                  transaction: TransferTransaction(
+                      accountOrigin: _fromValue,
+                      accountDestination: _toValue,
+                      note: _noteValue,
+                      fees: _feesValue,
+                      dateTime: _selectedDateTime,
+                      amount: _amountValue,
+                      currency: state.currency)));
+            }
+          });
+    });
   }
 
   Widget _continueButton() {
-    return StylizedElevatedButton(
-        child: Text(
-          S.current.addTransactionButtonContinue,
-        ),
-        onPressed: () {
-          _saveForms();
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+      return StylizedElevatedButton(
+          child: Text(
+            S.current.addTransactionButtonContinue,
+          ),
+          onPressed: () {
+            _saveForms();
 
-          if (_validateForms()) {
-            BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
-                isAddingCompleted: false,
-                transaction: TransferTransaction(
-                  note: _noteValue,
-                  accountOrigin: _fromValue,
-                  dateTime: _selectedDateTime,
-                  accountDestination: _toValue,
-                  amount: _amountValue,
-                  fees: _feesValue,
-                )));
-          }
-        });
+            if (_validateForms()) {
+              BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
+                  isAddingCompleted: false,
+                  transaction: TransferTransaction(
+                      note: _noteValue,
+                      accountOrigin: _fromValue,
+                      dateTime: _selectedDateTime,
+                      accountDestination: _toValue,
+                      amount: _amountValue,
+                      fees: _feesValue,
+                      currency: state.currency)));
+            }
+          });
+    });
   }
 
   Widget _fieldTitleWidget({@required String title}) {
@@ -413,7 +424,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
   }
 
   Future _selectNewDate() async {
-    DateTime result = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime.now());
+    DateTime result = await showDatePicker(
+        context: context, initialDate: DateTime.now(), firstDate: DateTime(1960), lastDate: DateTime.now());
     if (result != null) {
       setState(() {
         _selectedDateTime = result;
