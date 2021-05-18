@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:radency_internship_project_2/blocs/csv_export/csv_export_bloc.dart';
+import 'package:radency_internship_project_2/blocs/export_csv/export_csv_bloc.dart';
 import 'package:radency_internship_project_2/blocs/image_picker/image_picker_bloc.dart';
 import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
@@ -9,6 +9,7 @@ import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.d
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
+import 'package:radency_internship_project_2/blocs/import_csv/import_csv_bloc.dart';
 import 'package:radency_internship_project_2/repositories/budgets_repository.dart';
 import 'package:radency_internship_project_2/repositories/settings_repository/settings_repository.dart';
 import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
@@ -112,6 +113,8 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (context) => TransactionLocationMapBloc(),
           ),
+          BlocProvider(create: (BuildContext context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent())),
+          BlocProvider(create: (_) => ImportCsvBloc()),
           BlocProvider(create: (_) => CsvExportBloc()),
           BlocProvider(
             create: (context) =>

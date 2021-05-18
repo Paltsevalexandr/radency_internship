@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:radency_internship_project_2/blocs/csv_export/csv_export_bloc.dart';
+import 'package:radency_internship_project_2/blocs/export_csv/export_csv_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
@@ -9,6 +9,7 @@ import 'package:radency_internship_project_2/ui/shared_components/elevated_butto
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
+import 'package:radency_internship_project_2/utils/mocked_expenses.dart';
 
 class SummaryTab extends StatefulWidget {
   SummaryTab();
@@ -74,8 +75,10 @@ class _SummaryTabState extends State<SummaryTab> {
               child: BlocBuilder<CsvExportBloc, CsvExportState>(
                 builder: (BuildContext context, csvState) {
                   var csvExportBloc = BlocProvider.of<CsvExportBloc>(context);
+                  var data = MockedExpensesItems().generateDailyData();
+                  
                   return ColoredElevatedButton(
-                      onPressed: () => csvExportBloc.add(ExportDataToCsv(data: state.expenseSummaryItemEntity)),
+                      onPressed: () => csvExportBloc.add(ExportDataToCsv(data: data)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

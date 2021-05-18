@@ -19,6 +19,11 @@
   "stats": "Stats",
   "accounts": "Accounts",
   "settings": "Settings",
+
+  "import_csv": "Import from csv",
+  "export_csv": "Export as csv",
+  
+
  
   "language": "Language",
   "currency": "Currency",

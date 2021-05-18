@@ -42,9 +42,10 @@ class HomePageView extends StatelessWidget {
     return FloatingActionButton(onPressed: () {
       showModalBottomSheet(
         context: context, 
-        builder: (context) => AddTransactionMenu(),
-        backgroundColor: Color.fromRGBO(0, 0, 0, 0));
-      
+        builder: (_) => AddTransactionMenu(),
+        isScrollControlled: false,
+        backgroundColor: Color.fromRGBO(0, 0, 0, 0)
+      );
     }, child: Icon(
       Icons.add,
       size: pixelsToDP(context, 90),

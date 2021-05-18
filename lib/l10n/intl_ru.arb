@@ -19,6 +19,10 @@
   "stats": "Статистика",
   "accounts": "Счета",
   "settings": "Настройки",
+
+  "import_csv": "Импорт из csv",
+  "export_csv": "Экспорт csv",
+  
   "language": "Язык",
   "currency": "Валюта",
   "main_currency": "Основная валюта",

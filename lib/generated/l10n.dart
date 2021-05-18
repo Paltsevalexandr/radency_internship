@@ -215,6 +215,26 @@ class S {
     );
   }
 
+  /// `Import from csv`
+  String get import_csv {
+    return Intl.message(
+      'Import from csv',
+      name: 'import_csv',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export as csv`
+  String get export_csv {
+    return Intl.message(
+      'Export as csv',
+      name: 'export_csv',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Language`
   String get language {
     return Intl.message(

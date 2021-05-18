@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
+import 'package:radency_internship_project_2/blocs/import_csv/import_csv_bloc.dart';
 
 class AddTransactionMenu extends StatelessWidget {
   @override
@@ -26,8 +27,8 @@ class AddTransactionMenu extends StatelessWidget {
             ),
             GestureDetector(
               child: Container(
-                margin: EdgeInsets.only(top: pixelsToDP(context, 20)),
-                padding: EdgeInsets.all(pixelsToDP(context, 20)),
+                margin: EdgeInsets.only(top: pixelsToDP(context, 15)),
+                padding: EdgeInsets.all(pixelsToDP(context, 15)),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(pixelsToDP(context, 20)),
@@ -43,19 +44,29 @@ class AddTransactionMenu extends StatelessWidget {
     );
   }
 
-  List<Widget> createMenuItems(imageBloc, context) {
-    return [
-      ListTile(
-        onTap: () => Navigator.of(context).pushNamed(Routes.addTransactionPage), 
-        title: Text(S.current.form, style: TextStyle(fontSize: pixelsToDP(context, 60)))),
-      Divider(color: Colors.grey),
-      ListTile(
-        onTap: () => imageBloc.add(ImageFromGallery()), 
-        title: Text(S.current.gallery, style: TextStyle(fontSize: pixelsToDP(context, 60)))),
-      Divider(color: Colors.grey),
-      ListTile(
-        onTap: () => imageBloc.add(ImageFromCamera()), 
-        title: Text(S.current.camera, style: TextStyle(fontSize: pixelsToDP(context, 60)))),
-    ];
+List<Widget> createMenuItems(imageBloc, context) {
+  return [
+    ListTile(
+      onTap: () => Navigator.pushNamed(context, Routes.addTransactionPage), 
+      title: Text(S.current.form, style: TextStyle(fontSize: pixelsToDP(context, 34)))),
+    Divider(color: Colors.grey),
+    ListTile(
+      onTap: () => imageBloc.add(ImageFromGallery()), 
+      title: Text(S.current.gallery, style: TextStyle(fontSize: pixelsToDP(context, 34)))),
+    Divider(color: Colors.grey),
+    ListTile(
+      onTap: () => imageBloc.add(ImageFromCamera()), 
+      title: Text(S.current.camera, style: TextStyle(fontSize: pixelsToDP(context, 34)))),
+    Divider(color: Colors.grey),
+    BlocBuilder<ImportCsvBloc, ImportCsvState>(
+      builder: (context, importCsvState) {
+        ImportCsvBloc importCsvBloc = context.read<ImportCsvBloc>();
+
+        return ListTile(
+          onTap: () => importCsvBloc.add(ImportCsvFile()),
+          title: Text(S.current.import_csv, style: TextStyle(fontSize: pixelsToDP(context, 34))),
+        );
+      })
+  ];
   }
 }

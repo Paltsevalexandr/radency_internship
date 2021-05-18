@@ -45,8 +45,9 @@ dependencies:
   google_maps_flutter: 2.0.3
   geolocator: 7.0.3
   geocoding: 2.0.0
-  csv: ^5.0.0
-  share: ^2.0.1
+  file_picker_cross: 4.3.2
+  csv: 5.0.0
+  share: 2.0.1
   google_maps_cluster_manager: 1.0.0
 
   hive: ^2.0.4
