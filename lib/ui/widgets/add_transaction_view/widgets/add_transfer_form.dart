@@ -358,11 +358,11 @@ class _AddTransferFormState extends State<AddTransferForm> {
           _saveForms();
 
           if (_validateForms()) {
-            BlocProvider.of<AddTransactionBloc>(context).add(AddTransferTransaction(
+            BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
                 isAddingCompleted: true,
-                transferTransaction: TransferTransaction(
-                  from: _fromValue,
-                  to: _toValue,
+                transaction: TransferTransaction(
+                  accountOrigin: _fromValue,
+                  accountDestination: _toValue,
                   note: _noteValue,
                   fees: _feesValue,
                   dateTime: _selectedDateTime,
@@ -381,13 +381,13 @@ class _AddTransferFormState extends State<AddTransferForm> {
           _saveForms();
 
           if (_validateForms()) {
-            BlocProvider.of<AddTransactionBloc>(context).add(AddTransferTransaction(
+            BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
                 isAddingCompleted: false,
-                transferTransaction: TransferTransaction(
+                transaction: TransferTransaction(
                   note: _noteValue,
-                  from: _fromValue,
+                  accountOrigin: _fromValue,
                   dateTime: _selectedDateTime,
-                  to: _toValue,
+                  accountDestination: _toValue,
                   amount: _amountValue,
                   fees: _feesValue,
                 )));

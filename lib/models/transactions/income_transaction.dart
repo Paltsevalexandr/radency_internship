@@ -1,29 +1,28 @@
-import 'package:radency_internship_project_2/models/transactions/transaction.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:meta/meta.dart';
+import 'package:radency_internship_project_2/models/transactions/transaction.dart';
 import 'package:uuid/uuid.dart';
 
-class TransferTransaction extends Transaction {
+class IncomeTransaction extends Transaction {
+  String category;
   String accountOrigin;
-  String accountDestination;
   double amount;
   DateTime dateTime;
   String note;
   String currency;
   String subcurrency;
-  double fees;
 
-  TransferTransaction({
-    @required this.amount,
+  IncomeTransaction({
     @required this.dateTime,
-    @required this.note,
-    @required this.fees,
     @required this.accountOrigin,
-    @required this.accountDestination,
+    @required this.category,
+    @required this.amount,
+    @required this.note,
     @required this.currency,
-    this.subcurrency,
+    this.subcurrency
   }) : super(
     id: Uuid().v1(),
-    type: TransactionType.Transfer,
+    type: TransactionType.Expense,
     accountOrigin: accountOrigin,
     amount: amount,
     dateTime: dateTime,

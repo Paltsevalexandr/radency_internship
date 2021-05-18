@@ -10,14 +10,15 @@ abstract class AddTransactionState extends Equatable {
 class AddTransactionInitial extends AddTransactionState {}
 
 class AddTransactionLoaded extends AddTransactionState {
-  final List<String> categories;
+  final List<String> expenseCategories;
+  final List<String> incomeCategories;
   final List<String> accounts;
 
 
-  AddTransactionLoaded({@required this.categories, @required this.accounts});
+  AddTransactionLoaded({@required this.incomeCategories, @required this.expenseCategories, @required this.accounts});
 
   @override
-  List<Object> get props => [categories, accounts];
+  List<Object> get props => [incomeCategories, expenseCategories, accounts];
 }
 
 class AddTransactionSuccessfulAndCompleted extends AddTransactionState {}

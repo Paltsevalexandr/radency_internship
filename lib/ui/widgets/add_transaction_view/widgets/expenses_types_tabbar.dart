@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/models/transactions/transaction.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_income_form.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_transfer_form.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
@@ -54,7 +56,10 @@ class _ExpensesTypesTabbarState extends State<ExpensesTypesTabbar> {
   Widget getTransactionForm() {
     switch (selectedTab) {
       case TransactionType.Income:
-        return SizedBox();
+        return BlocProvider<AddTransactionBloc>(
+          create: (_) => AddTransactionBloc()..add(AddTransactionInitialize()),
+          child: AddIncomeForm(),
+        );
         break;
       case TransactionType.Transfer:
         return BlocProvider<AddTransactionBloc>(
@@ -116,5 +121,3 @@ getButtonStyleMap(BuildContext context) => {
    ),
  ),
 };
-
-enum TransactionType { Income, Expense, Transfer}
