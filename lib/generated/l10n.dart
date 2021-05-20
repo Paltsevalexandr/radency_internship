@@ -295,31 +295,41 @@ class S {
     );
   }
 
-  /// `Form`
+  /// `Add transaction manualy`
   String get form {
     return Intl.message(
-      'Form',
+      'Add transaction manualy',
       name: 'form',
       desc: '',
       args: [],
     );
   }
 
-  /// `Gallery`
+  /// `Bill from gallery`
   String get gallery {
     return Intl.message(
-      'Gallery',
+      'Bill from gallery',
       name: 'gallery',
       desc: '',
       args: [],
     );
   }
 
-  /// `Camera`
+  /// `Bill from camera`
   String get camera {
     return Intl.message(
-      'Camera',
+      'Bill from camera',
       name: 'camera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import csv`
+  String get importCsv {
+    return Intl.message(
+      'Import csv',
+      name: 'importCsv',
       desc: '',
       args: [],
     );

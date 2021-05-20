@@ -32,9 +32,10 @@
   "passcode": "Passcode",
 
   "cancel": "Cancel",
-  "form": "Form",
-  "gallery": "Gallery",
-  "camera": "Camera",
+  "form": "Add transaction manualy",
+  "gallery": "Bill from gallery",
+  "camera": "Bill from camera",
+  "importCsv": "Import csv",
 
   "mondayShort": "Mon",
   "tuesdayShort": "Tue",

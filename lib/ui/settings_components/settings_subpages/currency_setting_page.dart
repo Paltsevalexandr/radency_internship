@@ -28,7 +28,7 @@ class CurrensyPageState extends State<CurrencySettingPage> {
               border: Border(
                 bottom: BorderSide(width: 1, color: Colors.grey)
               ),
-              color: state.currency == currency ? Colors.red[50] : Colors.blueGrey[50]
+              color: state.currency == currency ? Theme.of(context).highlightColor : Colors.blueGrey[50]
             ), 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

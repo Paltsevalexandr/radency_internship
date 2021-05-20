@@ -30,9 +30,10 @@
   "passcode": "Пароль",
 
   "cancel": "Отмена",
-  "form": "Заполнить форму",
-  "gallery": "Галерея",
-  "camera": "Камера",
+  "form": "Заполнить форму транзакции",
+  "gallery": "Чек из галереи",
+  "camera": "Сделать фото чека",
+  "importCsv": "Импорт csv",
 
   "mondayShort": "Пн",
   "tuesdayShort": "Вт",

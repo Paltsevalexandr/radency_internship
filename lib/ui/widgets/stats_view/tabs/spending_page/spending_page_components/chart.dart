@@ -20,11 +20,11 @@ class PieOutsideLabelChart extends StatelessWidget {
         ]),
         behaviors: [
           charts.DatumLegend(
-            desiredMaxColumns: 3
+            desiredMaxColumns: 2
           )
         ],
       ),
-      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.width , maxWidth: MediaQuery.of(context).size.width),
+      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.width * 1.15, maxWidth: MediaQuery.of(context).size.width),
       margin: EdgeInsets.only(bottom: pixelsToDP(context, 100)));
   }
   List<charts.Series<ExpenseCategory, dynamic>> createChartSections() {

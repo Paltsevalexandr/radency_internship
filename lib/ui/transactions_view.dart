@@ -28,17 +28,13 @@ class TransactionsView extends StatelessWidget {
   }
 
   Widget floatingAddButton(BuildContext context) {
-    return FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-              backgroundColor: Color.fromRGBO(0, 0, 0, 0),
-              context: context,
-              builder: (_) => AddTransactionMenu(),
-              isScrollControlled: false);
-        },
-        child: Icon(
-          Icons.add,
-          size: pixelsToDP(context, 90),
-        ));
+    return FloatingActionButton(onPressed: () {
+      showDialog(
+        context: context, 
+        builder: (context) => AddTransactionMenu());      
+    }, child: Icon(
+      Icons.add,
+      size: pixelsToDP(context, 90),
+    ));
   }
 }

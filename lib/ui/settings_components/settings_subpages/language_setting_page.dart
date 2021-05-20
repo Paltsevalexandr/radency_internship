@@ -22,7 +22,7 @@ class LanguageSettingPage extends StatelessWidget{
               border: Border(
                 bottom: BorderSide(width: 1, color: Colors.grey)
               ),
-              color: state.language == language ? Colors.red[50] : Colors.blueGrey[50]
+              color: state.language == language ? Theme.of(context).highlightColor : Colors.blueGrey[50]
             ), 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
