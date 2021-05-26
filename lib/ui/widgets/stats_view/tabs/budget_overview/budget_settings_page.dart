@@ -21,11 +21,11 @@ class _BudgetSettingsPageState extends State<BudgetSettingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: List.generate(
-              MockedExpensesItems().categories.length,
+              MockedExpensesItems().expenseCategories.length,
               (index) => Column(
                     children: [
                       Divider(),
-                      categoryItem(context, MockedExpensesItems().categories[index]),
+                      categoryItem(context, MockedExpensesItems().expenseCategories[index]),
                     ],
                   )),
         ),

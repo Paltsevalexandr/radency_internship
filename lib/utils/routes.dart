@@ -16,4 +16,5 @@ class Routes {
   static const String expensesCategoriesPage = '/expensesCategoriesPage';
   static const String newCategoryPage = '/newCategoryPage';
   static const String emailVerificationResendPage = '/emailVerificationResendPage';
+  static const String searchExpensesPage = '/searchExpensesPage';
 }

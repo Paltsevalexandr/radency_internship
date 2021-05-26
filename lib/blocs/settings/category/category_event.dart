@@ -39,3 +39,27 @@ class ChangeCategoryCounter implements CategoryEvent {
   @override
   List listSettingValue;
 }
+
+class SwitchSelectionForCategory extends CategoryEvent{
+  final String category;
+
+  SwitchSelectionForCategory(this.category);
+
+  @override
+  List<Object> get props => [category];
+}
+
+class SwitchSelectionForCategoryType extends CategoryEvent{
+  final CategoryType categoryType;
+
+  SwitchSelectionForCategoryType(this.categoryType);
+
+  @override
+  List<Object> get props => [categoryType];
+}
+
+class ApplySelectedCategories extends CategoryEvent{}
+
+class DiscardSelectedCategories extends CategoryEvent{}
+
+enum CategoryType {Income, Expense}

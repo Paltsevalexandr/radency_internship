@@ -1614,6 +1614,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Search`
+  String get searchExpensesSearchTitle {
+    return Intl.message(
+      'Search',
+      name: 'searchExpensesSearchTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get searchExpensesAllCheckbox {
+    return Intl.message(
+      'All',
+      name: 'searchExpensesAllCheckbox',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

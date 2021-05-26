@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:radency_internship_project_2/blocs/transactions/add_transaction/temp_values.dart';
+import 'package:radency_internship_project_2/models/transactions/transaction.dart';
 import 'package:radency_internship_project_2/ui/category_page/category_page_common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +14,12 @@ const String expensesList = "expensesList";
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   SharedPreferences prefs;
 
-  CategoryBloc() : super(CategoryState(incomeCategories: List.empty(), expensesCategories: List.empty())) {
+  CategoryBloc() : super(CategoryState(
+    incomeCategories: List.empty(),
+    expensesCategories: List.empty(),
+    selectedCategories: List.empty(),
+    appliedCategories: List.empty()
+  )) {
     add(LoadCategoriesFromSharedPreferences());
   }
 
@@ -23,6 +30,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         expensesCategories: state.expensesCategories,
         nextIncomeCategoryId: state.nextIncomeCategoryId,
         nextExpenseCategoryId: state.nextExpenseCategoryId,
+        selectedCategories: [],
+        appliedCategories: [],
       );
     } else {
       return CategoryState(
@@ -30,6 +39,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         expensesCategories: items,
         nextIncomeCategoryId: state.nextIncomeCategoryId,
         nextExpenseCategoryId: state.nextExpenseCategoryId,
+        selectedCategories: [],
+        appliedCategories: [],
       );
     }
   }
@@ -41,6 +52,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         expensesCategories: state.expensesCategories,
         nextIncomeCategoryId: newValue,
         nextExpenseCategoryId: state.nextExpenseCategoryId,
+        selectedCategories: [],
+        appliedCategories: [],
       );
     } else {
       return CategoryState(
@@ -48,6 +61,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         expensesCategories: state.expensesCategories,
         nextIncomeCategoryId: state.nextIncomeCategoryId,
         nextExpenseCategoryId: newValue,
+        selectedCategories: [],
+        appliedCategories: [],
       );
     }
   }
@@ -59,23 +74,28 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     var incomeId = prefs.getInt(expensesList);
     var expensesId = prefs.getInt(expensesList);
 
+    var incomeLabels = TempAddTransactionValues().incomeCategories;
     var incomeItems = [];
-    for (int i = 0; i < 30; ++i) {
-      String label = "Category $i";
+    for (int i = 0; i < incomeLabels.length; ++i) {
+      String label = incomeLabels[i];
       incomeItems.add(CategoryItemData(label, ValueKey(i)));
     }
 
+    var outcomeLabels = TempAddTransactionValues().expenseCategories;
     var outcomeItems = [];
-    for (int i = 0; i < 30; ++i) {
-      String label = "OutCategory $i";
+    for (int i = 0; i < outcomeLabels.length; ++i) {
+      String label = outcomeLabels[i];
       outcomeItems.add(CategoryItemData(label, ValueKey(i)));
     }
 
     return CategoryState(
-        incomeCategories: incomeItems.cast<CategoryItemData>(),
-        expensesCategories: outcomeItems.cast<CategoryItemData>(),
-        nextIncomeCategoryId: 30,
-        nextExpenseCategoryId: 30);
+      incomeCategories: incomeItems.cast<CategoryItemData>(),
+      expensesCategories: outcomeItems.cast<CategoryItemData>(),
+      nextIncomeCategoryId: incomeLabels.length,
+      nextExpenseCategoryId: outcomeLabels.length,
+      selectedCategories: [],
+      appliedCategories: [],
+    );
   }
 
   @override
@@ -93,5 +113,101 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
       yield loadFromPreferences();
     }
+
+    if(event is SwitchSelectionForCategory) {
+      yield* _mapSwitchSelectionForCategoryToState(event);
+    }
+
+    if(event is SwitchSelectionForCategoryType) {
+      yield* _mapSwitchSelectionForCategoryTypeToState(event);
+    }
+
+    if(event is ApplySelectedCategories) {
+      yield* _mapApplySelectedCategoriesToState(event);
+    }
+
+    if(event is DiscardSelectedCategories) {
+      yield* _mapDiscardSelectedCategoriesToState(event);
+    }
+  }
+
+  Stream<CategoryState> _mapSwitchSelectionForCategoryToState(SwitchSelectionForCategory event)async* {
+    List<String> selectedCategories = List.from(state.selectedCategories);
+    if(selectedCategories.contains(event.category)){
+      selectedCategories.remove(event.category);
+    }
+    else {
+      selectedCategories.add(event.category);
+    }
+
+    yield CategoryState(
+      incomeCategories: state.incomeCategories,
+      expensesCategories: state.expensesCategories,
+      nextIncomeCategoryId: state.nextIncomeCategoryId,
+      nextExpenseCategoryId: state.nextExpenseCategoryId,
+      selectedCategories: selectedCategories,
+      appliedCategories: state.appliedCategories,
+    );
+  }
+
+  Stream<CategoryState> _mapSwitchSelectionForCategoryTypeToState(SwitchSelectionForCategoryType event) async* {
+    List<String> typeCategories = [];
+    if(event.categoryType ==  CategoryType.Income) {
+      typeCategories = state.incomeCategories.map((e) => e.title).toList();
+    }
+    if(event.categoryType ==  CategoryType.Expense) {
+      typeCategories = state.expensesCategories.map((e) => e.title).toList();
+    }
+
+    List<String> selectedCategories = List.from(state.selectedCategories);
+    bool shouldBeSelected = !(selectedCategories.where((element) => typeCategories.contains(element)).length == typeCategories.length);
+
+    List<String> newCategories = List.from(state.selectedCategories);
+
+    if (shouldBeSelected){
+      typeCategories.forEach((element) {
+        if(!(newCategories.contains(element))) {
+          newCategories.add(element);
+        }
+      });
+    }
+    else {
+      typeCategories.forEach((element) {
+        if(newCategories.contains(element)) {
+          newCategories.remove(element);
+        }
+      });
+    }
+
+    yield CategoryState(
+      incomeCategories: state.incomeCategories,
+      expensesCategories: state.expensesCategories,
+      nextIncomeCategoryId: state.nextIncomeCategoryId,
+      nextExpenseCategoryId: state.nextExpenseCategoryId,
+      selectedCategories: newCategories,
+      appliedCategories: state.appliedCategories,
+    );
+  }
+
+  Stream<CategoryState> _mapApplySelectedCategoriesToState(ApplySelectedCategories event) async* {
+    yield CategoryState(
+      incomeCategories: state.incomeCategories,
+      expensesCategories: state.expensesCategories,
+      nextIncomeCategoryId: state.nextIncomeCategoryId,
+      nextExpenseCategoryId: state.nextExpenseCategoryId,
+      selectedCategories: state.selectedCategories,
+      appliedCategories: List.from(state.selectedCategories),
+    );
+  }
+
+  Stream<CategoryState> _mapDiscardSelectedCategoriesToState(DiscardSelectedCategories event) async* {
+    yield CategoryState(
+      incomeCategories: state.incomeCategories,
+      expensesCategories: state.expensesCategories,
+      nextIncomeCategoryId: state.nextIncomeCategoryId,
+      nextExpenseCategoryId: state.nextExpenseCategoryId,
+      selectedCategories: List.from(state.appliedCategories),
+      appliedCategories: state.appliedCategories,
+    );
   }
 }

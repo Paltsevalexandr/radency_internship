@@ -98,6 +98,23 @@ TextStyle addTransactionElevatedButtonTitleStyle(BuildContext context, [Color ti
   return TextStyle(color: titleColor, fontSize: 18);
 }
 
-InputDecoration addTransactionFormFieldDecoration() {
-  return InputDecoration(helperText: '');
+InputDecoration addTransactionFormFieldDecoration({String hintText}) {
+  return InputDecoration(
+    helperText: '',
+    hintText: hintText,
+  );
+}
+
+// Search transactions view
+// ###
+
+TextStyle searchModalTitleStyle(BuildContext context) {
+  return TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600
+  );
+}
+
+TextStyle buttonTitleStyle(BuildContext context, [Color titleColor]) {
+  return TextStyle(color: titleColor ?? Colors.black, fontSize: 18);
 }

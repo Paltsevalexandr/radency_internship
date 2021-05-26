@@ -185,5 +185,8 @@
 
   "addTransactionLocationMenuCurrent" : "Указать текущее местоположение",
   "addTransactionLocationMenuFromMap" : "Выбрать на карте",
-  "addTransactionLocationMenuCancel" : "Отменить выбор"
+  "addTransactionLocationMenuCancel" : "Отменить выбор",
+
+  "searchExpensesSearchTitle": "Поиск",
+  "searchExpensesAllCheckbox": "Все"
 }

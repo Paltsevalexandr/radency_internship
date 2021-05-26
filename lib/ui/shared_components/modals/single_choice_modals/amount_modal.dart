@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/base_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/base_single_choice_modal.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class AmountModal extends StatelessWidget{
@@ -30,7 +30,7 @@ class AmountModal extends StatelessWidget{
       return null;
     }).toList();
 
-    return BaseModal(
+    return BaseSingleChoiceModal(
       title: title ?? S.current.addTransactionAmountFieldTitle,
       contents: contents,
       crossAxisCount: 4,

@@ -8,8 +8,8 @@ import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/income_transaction.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/amount_modal.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/show_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/amount_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
@@ -137,8 +137,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _accountFieldController.text =
-                    await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
+                _accountFieldController.text = await showSingleChoiceModal(context: context, values: accounts, type: SingleChoiceModalType.Account, onAddCallback: null);
                 setState(() {
                   _accountValueFormKey.currentState.validate();
                 });
@@ -176,8 +175,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _categoryFieldController.text = await showModal(
-                    context: context, values: categories, type: ModalType.Category, onAddCallback: null);
+                _categoryFieldController.text = await showSingleChoiceModal(context: context, values: categories, type: SingleChoiceModalType.Category, onAddCallback: null);
                 setState(() {
                   _categoryValueFormKey.currentState.validate();
                 });
@@ -225,7 +223,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
                 return null;
               },
               onTap: () async {
-                await showModal(context: context, type: ModalType.Amount, updateAmountCallback: updateAmountCallback);
+                await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateAmountCallback);
                 setState(() {
                   _amountValueFormKey.currentState.validate();
                 });

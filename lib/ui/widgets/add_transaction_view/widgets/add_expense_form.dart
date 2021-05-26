@@ -13,9 +13,11 @@ import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/location.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
+import 'package:radency_internship_project_2/ui/shared_components/field_title.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/amount_modal.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/show_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/amount_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
@@ -113,7 +115,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionDateFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionDateFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -137,7 +139,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionAccountFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionAccountFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -150,8 +152,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _accountFieldController.text =
-                    await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
+                _accountFieldController.text = await showSingleChoiceModal(context: context, values: accounts, type: SingleChoiceModalType.Account, onAddCallback: null);
                 setState(() {
                   _accountValueFormKey.currentState.validate();
                 });
@@ -176,7 +177,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionCategoryFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionCategoryFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -189,8 +190,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _categoryFieldController.text = await showModal(
-                    context: context, values: categories, type: ModalType.Category, onAddCallback: null);
+                _categoryFieldController.text = await showSingleChoiceModal(context: context, values: categories, type: SingleChoiceModalType.Category, onAddCallback: null);
                 setState(() {
                   _categoryValueFormKey.currentState.validate();
                 });
@@ -215,7 +215,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionAmountFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionAmountFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -238,7 +238,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                 return null;
               },
               onTap: () async {
-                await showModal(context: context, type: ModalType.Amount, updateAmountCallback: updateAmountCallback);
+                await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateAmountCallback);
                 setState(() {
                   _amountValueFormKey.currentState.validate();
                 });
@@ -256,7 +256,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionNoteFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionNoteFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -284,7 +284,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionSharedFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionSharedFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -345,7 +345,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: _fieldTitleWidget(title: S.current.addTransactionLocationFieldTitle),
+              child: buildFormFieldTitle(_context, title: S.current.addTransactionLocationFieldTitle),
               flex: _titleFlex,
             ),
             Flexible(
@@ -434,15 +434,6 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             }
           });
     });
-  }
-
-  Widget _fieldTitleWidget({@required String title}) {
-    return Text(
-      title,
-      style: addTransactionFormTitleTextStyle(context),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
   }
 
   Future _selectNewDate() async {

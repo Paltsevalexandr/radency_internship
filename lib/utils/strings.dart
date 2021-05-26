@@ -8,7 +8,7 @@ final String emailRegExp =
 
 final String phoneNumberRegExp = r'^(?:[+])?[0-9]{9,16}$';
 
-final _moneyFormat = NumberFormat("#,###.00");
+final _moneyFormat = NumberFormat("#,###0.00");
 String getMoneyFormatted(double value, {String separator, String comma}){
   return _moneyFormat.format(value).replaceAll(",", " ").replaceAll(".", ",");
 }

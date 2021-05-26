@@ -185,5 +185,8 @@
   "statsBudgetMonthlyRemainingTitle": "Remaining (Monthly)",
   "statsBudgetMonthlyTotalTitle": "Monthly",
   "statsBudgetSetupSaveButton": "Save",
-  "statsBudgetSetupSaveDescription": "Enter desired budget"
+  "statsBudgetSetupSaveDescription": "Enter desired budget",
+
+  "searchExpensesSearchTitle": "Search",
+  "searchExpensesAllCheckbox": "All"
 }

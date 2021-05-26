@@ -6,8 +6,10 @@ import 'package:radency_internship_project_2/blocs/transactions/add_transaction/
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
+import 'package:radency_internship_project_2/ui/shared_components/field_title.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/show_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
@@ -102,7 +104,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionDateFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionDateFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -126,7 +128,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionFromFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionFromFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -139,8 +141,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _fromFieldController.text =
-                    await showModal(context: context, type: ModalType.Account, values: accounts, onAddCallback: null);
+                _fromFieldController.text = await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Account, values: accounts, onAddCallback: null);
                 setState(() {
                   _fromValueFormKey.currentState.validate();
                 });
@@ -165,7 +166,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionToFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionToFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -178,8 +179,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
               readOnly: true,
               showCursor: false,
               onTap: () async {
-                _toFieldController.text =
-                    await showModal(context: context, values: accounts, type: ModalType.Account, onAddCallback: null);
+                _toFieldController.text = await showSingleChoiceModal(context: context, values: accounts, type: SingleChoiceModalType.Account, onAddCallback: null);
                 setState(() {
                   _toValueFormKey.currentState.validate();
                 });
@@ -204,7 +204,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionAmountFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionAmountFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -231,8 +231,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
                       return null;
                     },
                     onTap: () async {
-                      await showModal(
-                          context: context, type: ModalType.Amount, updateAmountCallback: updateAmountCallback);
+                      await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateAmountCallback);
                       setState(() {
                         _amountValueFormKey.currentState.validate();
                       });
@@ -269,7 +268,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            child: _fieldTitleWidget(title: S.current.addTransactionFeesFieldTitle),
+            child: buildFormFieldTitle(context, title: S.current.addTransactionFeesFieldTitle),
             flex: _titleFlex,
           ),
           Flexible(
@@ -300,11 +299,12 @@ class _AddTransferFormState extends State<AddTransferForm> {
                         return null;
                       },
                       onTap: () async {
-                        await showModal(
-                            context: context,
-                            type: ModalType.Amount,
-                            updateAmountCallback: updateFeeCallback,
-                            title: S.current.addTransactionFeesFieldTitle);
+                        await showSingleChoiceModal(
+                          context: context,
+                          type: SingleChoiceModalType.Amount,
+                          updateAmountCallback: updateFeeCallback,
+                          title: S.current.addTransactionFeesFieldTitle
+                        );
                         setState(() {
                           _feesValueFormKey.currentState.validate();
                         });
@@ -328,7 +328,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: _fieldTitleWidget(title: S.current.addTransactionNoteFieldTitle),
+          child: buildFormFieldTitle(context, title: S.current.addTransactionNoteFieldTitle),
           flex: _titleFlex,
         ),
         Flexible(
@@ -404,15 +404,6 @@ class _AddTransferFormState extends State<AddTransferForm> {
             }
           });
     });
-  }
-
-  Widget _fieldTitleWidget({@required String title}) {
-    return Text(
-      title,
-      style: addTransactionFormTitleTextStyle(context),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
   }
 
   void _toggleFeesVisibility() {

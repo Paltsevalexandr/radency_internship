@@ -32,7 +32,7 @@ class MockedCalendarData {
         list.add(ExpenseTransaction(
             dateTime: observedDay,
             accountOrigin: MockedExpensesItems().accounts[Random().nextInt(MockedExpensesItems().accounts.length)],
-            category: MockedExpensesItems().categories[Random().nextInt(MockedExpensesItems().categories.length)],
+            category: MockedExpensesItems().expenseCategories[Random().nextInt(MockedExpensesItems().expenseCategories.length)],
             amount: Random().nextInt(1000).toDouble(),
             note: '',
             currency: 'UAH'));

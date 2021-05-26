@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:radency_internship_project_2/blocs/export_csv/export_csv_bloc.dart';
+import 'package:radency_internship_project_2/blocs/accounts/account_bloc.dart';
+import 'package:radency_internship_project_2/blocs/settings/category/category_slider/category_slider_bloc.dart';
+import 'package:radency_internship_project_2/blocs/transactions/search_transactions/search_transactions_bloc.dart';
+
+import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
+import 'package:radency_internship_project_2/ui/category_page/expenses_catedory_list.dart';
+import 'package:radency_internship_project_2/ui/category_page/income_catedory_list.dart';
 import 'package:radency_internship_project_2/blocs/image_picker/image_picker_bloc.dart';
 import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
@@ -20,6 +27,7 @@ import 'package:radency_internship_project_2/ui/category_page/income_catedory_li
 import 'package:radency_internship_project_2/ui/email_login_page.dart';
 import 'package:radency_internship_project_2/ui/email_sign_up_page.dart';
 import 'package:radency_internship_project_2/ui/email_verification_resend_screen.dart';
+import 'package:radency_internship_project_2/ui/search_expenses_page/search_expenses_page_template.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/language_setting_page.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/style_setting_page.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/add_transaction_view_template.dart';
@@ -68,67 +76,85 @@ class App extends StatelessWidget {
           RepositoryProvider.value(value: biometricCredentialsService),
           RepositoryProvider.value(value: budgetsRepository),
         ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent()),
-          ),
-          BlocProvider(
-            create: (context) => AuthenticationBloc(authenticationService: authenticationService),
-          ),
-          BlocProvider(
-            create: (context) => UserProfileBloc(authenticationService: authenticationService),
-          ),
-          BlocProvider(
-            create: (context) => StylesBloc(),
-          ),
-          BlocProvider(
-            create: (context) => CategoryBloc(),
-          ),
-          BlocProvider(
-            create: (context) => TransactionsDailyBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-              ..add(TransactionsDailyInitialize()),
-          ),
-          BlocProvider(
-            create: (context) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
-          ),
-          BlocProvider(
-            create: (context) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
-          ),
-          BlocProvider(
-            create: (context) => TransactionsSummaryBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-              ..add(TransactionsSummaryInitialize()),
-          ),
-          BlocProvider(
-            create: (context) => TransactionsCalendarBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-              ..add(TransactionsCalendarInitialize()),
-          ),
-          BlocProvider(
-            create: (_) => ImagePickerBloc(),
-          ),
-          BlocProvider(
-            create: (_) => NavigationBloc()..add(SelectPage(0)),
-          ),
-          BlocProvider(
-            create: (context) => StatsBloc(),
-          ),
-          BlocProvider(
-            create: (context) => BudgetOverviewBloc(
-                settingsBloc: BlocProvider.of<SettingsBloc>(context), budgetsRepository: budgetsRepository)
-              ..add(BudgetOverviewInitialize()),
-          ),
-          BlocProvider(create: (context) => TransactionLocationMapBloc()),BlocProvider(create: (_) => ImportCsvBloc()),
-          BlocProvider(create: (_) => CsvExportBloc()),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => SettingsBloc(SettingsRepository())..add(InitialSettingsEvent()),
+            ),
+            BlocProvider(
+              create: (context) => AuthenticationBloc(
+                authenticationService: authenticationService,
+              ),
+            ),
+            BlocProvider(
+              create: (context) => UserProfileBloc(
+                authenticationService: authenticationService,
+              ),
+            ),
+            BlocProvider(
+              create: (context) => StylesBloc(),
+            ),
+            BlocProvider(
+              create: (context) => CategoryBloc(),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsDailyBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
+                ..add(
+                  TransactionsDailyInitialize(),
+                ),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsSummaryBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
+                ..add(TransactionsSummaryInitialize()),
+            ),
+            BlocProvider(
+              create: (_) => ImagePickerBloc(),
+            ),
+            BlocProvider(
+              create: (_) => NavigationBloc()..add(SelectPage(0)),
+            ),
+            BlocProvider(
+              create: (context) => StatsBloc(),
+            ),
+            BlocProvider(
+              create: (context) => BudgetOverviewBloc(
+                  settingsBloc: BlocProvider.of<SettingsBloc>(context), budgetsRepository: budgetsRepository)
+                ..add(BudgetOverviewInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => TransactionLocationMapBloc(),
+            ),
+            BlocProvider(create: (_) => ImportCsvBloc()),
+            BlocProvider(create: (_) => CsvExportBloc()),
             BlocProvider(
               create: (context) =>
                   ExpensesMapBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))..add(ExpensesMapInitialize()),
             ),
-          BlocProvider<TransactionsSliderBloc>(
-            create: (context) => TransactionsSliderBloc()..add(TransactionsSliderInitialize()),
-          )
-        ],
-        child: AppView(),
-      ));
+            BlocProvider(
+              create: (context) => TransactionsCalendarBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
+                ..add(TransactionsCalendarInitialize()),
+            ),
+            BlocProvider<TransactionsSliderBloc>(
+              create: (context) => TransactionsSliderBloc()..add(TransactionsSliderInitialize()),
+            ),
+            BlocProvider(
+              create: (_) => SearchTransactionsBloc()..add(SearchTransactionsInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => CategorySliderBloc()..add(CategorySliderInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => AccountBloc()..add(FetchAccounts()),
+            ),
+          ],
+          child: AppView(),
+        ));
   }
 }
 
@@ -181,6 +207,7 @@ class _AppViewState extends State<AppView> {
             Routes.expensesCategoriesPage: (context) => ExpensesCategoriesPage(),
             Routes.newCategoryPage: (context) => NewCategoryPage(),
             Routes.emailVerificationResendPage: (context) => EmailVerificationResendScreen(),
+            Routes.searchExpensesPage: (context) => SearchExpensesPage(),
           },
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(

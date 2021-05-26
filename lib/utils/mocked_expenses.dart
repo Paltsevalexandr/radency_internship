@@ -1,25 +1,17 @@
 import 'dart:math';
 
+import 'package:radency_internship_project_2/blocs/transactions/add_transaction/temp_values.dart';
 import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
+import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
+import 'package:radency_internship_project_2/models/transactions/income_transaction.dart';
+import 'package:radency_internship_project_2/models/transactions/transaction.dart';
+import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
 import 'package:radency_internship_project_2/models/location.dart';
-
-
 import '../models/expense_item.dart';
 
 class MockedExpensesItems {
-  final List<String> categories = [
-    'Food',
-    'Social life',
-    'Self-development',
-    'Culture',
-    'Household',
-    'Apparel',
-    'Beauty',
-    'Health',
-    'Transportation',
-    'Education',
-    'Gift',
-  ];
+  final List<String> incomeCategories = TempAddTransactionValues().incomeCategories;
+  final List<String> expenseCategories = TempAddTransactionValues().expenseCategories;
   final List<String> accounts = ['Cash', 'Bank accounts', 'Credit cards'];
 
   Map<int, List<ExpenseItemEntity>> generateDailyData({double locationLatitude, double locationLongitude}) {
@@ -108,7 +100,7 @@ class MockedExpensesItems {
   Future<List<MonthlyCategoryExpense>> generateMonthlyCategoryExpenses() async {
     List<MonthlyCategoryExpense> list = [];
 
-    categories.forEach((category) {
+    expenseCategories.forEach((category) {
       bool expensesAvailable = Random().nextBool();
       list.add(MonthlyCategoryExpense(category: category, expenseAmount: expensesAvailable ? Random().nextDouble() * Random().nextInt(1000) : 0.0));
     });
@@ -120,11 +112,85 @@ class MockedExpensesItems {
   List<Map<String, double>> summaryExpensesByCategories() {
     List<Map<String, double>> expensesByCategories = [];
 
-    for(String category in categories) {
+    for(String category in expenseCategories) {
       double categorySum = (Random().nextDouble() * Random().nextInt(1000));
       double roundedCategorySum = num.parse(categorySum.toInt().toStringAsFixed(2));
       expensesByCategories.add({category: roundedCategorySum});
     }
     return expensesByCategories;
   }
+
+  List<Transaction> generateSearchData() {
+    if(transactionList.isEmpty) {
+      for (int j = 0; j < 5; j++) {
+        var _today = DateTime.now();
+        int day = Random().nextInt(20) + 1;
+        int categoryIndex = Random().nextInt(expenseCategories.length);
+        int accountIndex = Random().nextInt(accounts.length);
+
+        transactionList.add(ExpenseTransaction(
+          dateTime: _today.subtract(Duration(days: day)),
+          accountOrigin: accounts[accountIndex],
+          category: expenseCategories[categoryIndex],
+          amount: Random().nextInt(10000) / 100.0,
+        ));
+
+        day = Random().nextInt(20) + 1;
+        categoryIndex = Random().nextInt(incomeCategories.length);
+        accountIndex = Random().nextInt(accounts.length);
+
+        transactionList.add(IncomeTransaction(
+          dateTime: _today.subtract(Duration(days: day)),
+          accountOrigin: accounts[accountIndex],
+          category: incomeCategories[categoryIndex],
+          amount: Random().nextInt(10000) / 100.0,
+        ));
+
+        day = Random().nextInt(20) + 1;
+        categoryIndex = Random().nextInt(11);
+        accountIndex = Random().nextInt(3);
+
+        transactionList.add(TransferTransaction(
+          dateTime: _today.subtract(Duration(days: day)),
+          accountOrigin: accounts[accountIndex],
+          accountDestination: accounts[(accountIndex + 1) % 3],
+          amount: Random().nextInt(10000) / 100.0,
+        ));
+      }
+    }
+    transactionList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+    return transactionList;
+  }
+
+  List<Transaction> searchDataByFilters({
+    List<String> searchAccounts, List<String> searchCategories, double minAmount, double maxAmount
+  }) {
+    List<Transaction> list = List<Transaction>.of(transactionList);
+
+    transactionList.forEach((element) {
+      if(
+      (searchAccounts ?? []).isNotEmpty &&
+        !(searchAccounts.contains(element.accountOrigin))
+      ){
+        list.remove(element);
+      }
+
+      if(
+      (searchCategories ?? []).isNotEmpty &&
+        !((element is ExpenseTransaction && searchCategories.contains(element.category)) ||
+           element is IncomeTransaction && searchCategories.contains(element.category))
+      ){
+        list.remove(element);
+      }
+
+      if(element.amount < (minAmount ?? 0) || element.amount > (maxAmount ?? double.infinity)){
+        list.remove(element);
+      }
+    });
+
+    list.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+    return list;
+  }
+
+  static List<Transaction> transactionList = [];
 }

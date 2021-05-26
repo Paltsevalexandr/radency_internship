@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
-class BaseModal extends StatelessWidget{
+class BaseSingleChoiceModal extends StatelessWidget{
   final String title;
   final List<Widget> actions;
   final List<ButtonStyleButton> contents;
@@ -11,7 +11,7 @@ class BaseModal extends StatelessWidget{
   final int crossAxisCount;
   final int mainAxisCount;
 
-  const BaseModal({Key key, this.title, this.actions, this.contents, this.crossAxisCount = 3, this.mainAxisCount = 6}) : super(key: key);
+  const BaseSingleChoiceModal({Key key, this.title, this.actions, this.contents, this.crossAxisCount = 3, this.mainAxisCount = 6}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

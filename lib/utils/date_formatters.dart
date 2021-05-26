@@ -8,6 +8,10 @@ class DateFormatters {
     return DateFormat('dd.MM.yyyy (EEE)').format(dateTime);
   }
 
+  String dateToString(DateTime dateTime) {
+    return DateFormat('dd.MM.yyyy').format(dateTime);
+  }
+
   String yearFromDateTimeString(DateTime dateTime) {
     return DateFormat('y').format(dateTime);
 
