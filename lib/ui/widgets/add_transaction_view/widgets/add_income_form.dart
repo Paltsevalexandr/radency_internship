@@ -76,7 +76,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
   }
 
   Widget _addIncomeFormBody(AddTransactionLoaded state) {
-    return Padding(
+    return Container(
+      decoration: addTransactionFormBodyStyle(),
       padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -86,9 +87,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
           _categoryField(state.incomeCategories),
           _amountField(),
           _noteField(),
-          SizedBox(
-            height: pixelsToDP(context, 30),
-          ),
+          SizedBox(height: 10),
           _submitButtons(),
         ],
       ),
@@ -106,7 +105,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
         Flexible(
           flex: _textFieldFlex,
           child: TextFormField(
-            decoration: addTransactionFormFieldDecoration(),
+            style: addTransactionFormInputTextStyle(),
+            decoration: addTransactionFormFieldDecoration(context),
             controller: _dateFieldController,
             readOnly: true,
             showCursor: false,
@@ -132,7 +132,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
           child: Form(
             key: _accountValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              style: addTransactionFormInputTextStyle(),
+              decoration: addTransactionFormFieldDecoration(context),
               controller: _accountFieldController,
               readOnly: true,
               showCursor: false,
@@ -170,7 +171,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
           child: Form(
             key: _categoryValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              style: addTransactionFormInputTextStyle(),
+              decoration: addTransactionFormFieldDecoration(context),
               controller: _categoryFieldController,
               readOnly: true,
               showCursor: false,
@@ -208,7 +210,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
           child: Form(
             key: _amountValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              style: addTransactionFormInputTextStyle(),
+              decoration: addTransactionFormFieldDecoration(context),
               readOnly: true,
               showCursor: true,
               controller: _amountFieldController,
@@ -249,7 +252,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
           child: Form(
             key: _noteValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              style: addTransactionFormInputTextStyle(),
+              decoration: addTransactionFormFieldDecoration(context),
               controller: _noteFieldController,
               onSaved: (value) => _noteValue = value,
             ),

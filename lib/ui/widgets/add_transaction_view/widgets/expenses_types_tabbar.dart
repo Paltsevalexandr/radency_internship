@@ -6,50 +6,65 @@ import 'package:radency_internship_project_2/models/transactions/transaction.dar
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_income_form.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_transfer_form.dart';
-import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class ExpensesTypesTabbar extends StatefulWidget{
+  ExpensesTypesTabbar(this.setPageTitle);
+
+  final Function setPageTitle;
+
   @override
-  _ExpensesTypesTabbarState createState() => _ExpensesTypesTabbarState();
+  _ExpensesTypesTabbarState createState() => _ExpensesTypesTabbarState(setPageTitle);
 }
 
 class _ExpensesTypesTabbarState extends State<ExpensesTypesTabbar> {
+  _ExpensesTypesTabbarState(this.setPageTitle);
+
   TransactionType selectedTab = TransactionType.Income;
+  Function setPageTitle;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: TransactionType.values.map((element) {
-            String buttonType = element == selectedTab ? "selected" : "simple";
+    return Container(
+      decoration: BoxDecoration(color: Theme.of(context).accentColor),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 40),
+            child: Row(
+            children: TransactionType.values.map((element) {
+              String buttonType = element == selectedTab ? "selected" : "simple";
 
-            return Expanded(
-            child: Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: pixelsToDP(context, 9),
-              ),
-              child: TextButton(
-                style: getButtonStyleMap(context)[buttonType],
-                child: Text(
-                  getTransactionType(element.toString().split('.').last),
-                  style: regularTextStyle.copyWith(
-                    color: element == selectedTab ? Theme.of(context).accentColor : Colors.black54,
-                  ),
+              return Expanded(
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 4,
                 ),
-                onPressed: (){
-                  setState(() {
-                    selectedTab = element;
-                  });
-                },
+                child: TextButton(
+                  style: getButtonStyleMap(context)[buttonType],
+                  child: Text(
+                    getTransactionType(element.toString().split('.').last),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600, 
+                      fontFamily: 'OpenSans', 
+                      fontSize: 14),
+                  ),
+                  onPressed: (){
+                    setPageTitle(element);
+                    setState(() {
+                      selectedTab = element;
+                    });
+                  },
+                ),
               ),
-            ),
-          );
-          }).toList(),
-        ),
-        getTransactionForm(),
-      ],
+            );
+            }).toList(),
+          )),
+          Container(
+            color: Theme.of(context).accentColor,
+            child: getTransactionForm()
+          ),
+        ],
+      )
     );
   }
 
@@ -98,26 +113,23 @@ String getTransactionType(String type){
 
 getButtonStyleMap(BuildContext context) => {
  "simple" : ButtonStyle(
-   backgroundColor: MaterialStateProperty.all<Color>(Colors.black.withOpacity(0.05)),
-   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-     RoundedRectangleBorder(
-       borderRadius: BorderRadius.circular(pixelsToDP(context, 15)),
-       side: BorderSide(
-         color: Colors.black12,
-         width: pixelsToDP(context, 3),
-       )
-     )
-   ),
+    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(
+      horizontal: 18,
+      vertical: 22)),
+    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+    shadowColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
  ),
  "selected" : ButtonStyle(
-   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-     RoundedRectangleBorder(
-       borderRadius: BorderRadius.circular(pixelsToDP(context, 15)),
-       side: BorderSide(
-         color: Theme.of(context).accentColor,
-         width: pixelsToDP(context, 4.5),
-       )
-     )
-   ),
- ),
+    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(
+      horizontal: 18,
+      vertical: 22)),
+    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+    backgroundColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.4)),
+    shadowColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor.withOpacity(0.4)),
+    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      )
+    ),
+  ),
 };

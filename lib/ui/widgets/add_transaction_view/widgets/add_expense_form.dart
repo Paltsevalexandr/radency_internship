@@ -89,7 +89,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   }
 
   Widget _addExpenseFormBody(AddTransactionLoaded state) {
-    return Padding(
+    return Container(
+      decoration: addTransactionFormBodyStyle(),
       padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -101,9 +102,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           _noteField(),
           _sharedWithField(),
           _locationField(context),
-          SizedBox(
-            height: pixelsToDP(context, 30),
-          ),
+          SizedBox(height: 10),
           _submitButtons(),
         ],
       ),
@@ -121,7 +120,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         Flexible(
           flex: _textFieldFlex,
           child: TextFormField(
-            decoration: addTransactionFormFieldDecoration(),
+            style: addTransactionFormInputTextStyle(),
+            decoration: addTransactionFormFieldDecoration(context),
             controller: _dateFieldController,
             readOnly: true,
             showCursor: false,
@@ -147,7 +147,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           child: Form(
             key: _accountValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              style: addTransactionFormInputTextStyle(),
+              decoration: addTransactionFormFieldDecoration(context),
               controller: _accountFieldController,
               readOnly: true,
               showCursor: false,
@@ -185,7 +186,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           child: Form(
             key: _categoryValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              style: addTransactionFormInputTextStyle(),
+              decoration: addTransactionFormFieldDecoration(context),
               controller: _categoryFieldController,
               readOnly: true,
               showCursor: false,
@@ -223,7 +225,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           child: Form(
             key: _amountValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              style: addTransactionFormInputTextStyle(),
+              decoration: addTransactionFormFieldDecoration(context),
               readOnly: true,
               showCursor: true,
               controller: _amountFieldController,
@@ -264,7 +267,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           child: Form(
             key: _noteValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              style: addTransactionFormInputTextStyle(),
+              decoration: addTransactionFormFieldDecoration(context),
               controller: _noteFieldController,
               onSaved: (value) => _noteValue = value,
             ),
@@ -294,6 +298,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               Flexible(
                 child: TextFormField(
                   controller: _sharedFieldController,
+                  style: addTransactionFormInputTextStyle(),
                   decoration: InputDecoration(
                     helperText: '',
                     prefixIcon: _sharedContact != null
@@ -352,6 +357,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               flex: _textFieldFlex,
               child: TextFormField(
                 controller: _locationFieldController,
+                style: addTransactionFormInputTextStyle(),
                 decoration: InputDecoration(hintText: S.current.addTransactionLocationFieldHint, helperText: ''),
                 readOnly: true,
                 showCursor: false,

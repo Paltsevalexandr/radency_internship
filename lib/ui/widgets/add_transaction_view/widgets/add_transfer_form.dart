@@ -82,7 +82,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
   }
 
   Widget _addTransferFormBody(AddTransactionLoaded state) {
-    return Padding(
+    return Container(
+      decoration: addTransactionFormBodyStyle(),
       padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -93,6 +94,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
           _amountField(),
           _feesField(),
           _noteField(),
+          SizedBox(height: 10),
           _submitButtons(),
         ],
       ),
@@ -110,7 +112,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
         Flexible(
           flex: _textFieldFlex,
           child: TextFormField(
-            decoration: addTransactionFormFieldDecoration(),
+            decoration: addTransactionFormFieldDecoration(context),
+            style: addTransactionFormInputTextStyle(),
             controller: _dateFieldController,
             readOnly: true,
             showCursor: false,
@@ -136,7 +139,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
           child: Form(
             key: _fromValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              decoration: addTransactionFormFieldDecoration(context),
+              style: addTransactionFormInputTextStyle(),
               controller: _fromFieldController,
               readOnly: true,
               showCursor: false,
@@ -174,7 +178,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
           child: Form(
             key: _toValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              decoration: addTransactionFormFieldDecoration(context),
+              style: addTransactionFormInputTextStyle(),
               controller: _toFieldController,
               readOnly: true,
               showCursor: false,
@@ -215,7 +220,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
                 child: Form(
                   key: _amountValueFormKey,
                   child: TextFormField(
-                    decoration: addTransactionFormFieldDecoration(),
+                    style: addTransactionFormInputTextStyle(),
+                    decoration: addTransactionFormFieldDecoration(context),
                     controller: _amountFieldController,
                     readOnly: true,
                     showCursor: false,
@@ -253,8 +259,6 @@ class _AddTransferFormState extends State<AddTransferForm> {
       child: Text(
         S.current.addTransactionFeesFieldTitle,
       ),
-      backgroundColor: Colors.white,
-      foregroundColor: _areFeesVisible ? Theme.of(context).accentColor : Colors.black,
       onPressed: () {
         _toggleFeesVisibility();
       },
@@ -279,7 +283,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
                   child: Form(
                     key: _feesValueFormKey,
                     child: TextFormField(
-                      decoration: addTransactionFormFieldDecoration(),
+                      decoration: addTransactionFormFieldDecoration(context),
+                      style: addTransactionFormInputTextStyle(),
                       controller: _feesFieldController,
                       readOnly: true,
                       showCursor: false,
@@ -336,7 +341,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
           child: Form(
             key: _noteValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              decoration: addTransactionFormFieldDecoration(context),
+              style: addTransactionFormInputTextStyle(),
               controller: _noteFieldController,
               onSaved: (value) => _noteValue = value,
             ),

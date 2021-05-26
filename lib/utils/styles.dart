@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 TextStyle tabTitleStyle(BuildContext context) {
   return TextStyle(color: Theme.of(context).textTheme.bodyText1.color);
@@ -17,7 +19,7 @@ const addTransactionAvatarTextStyle = TextStyle(
 );
 
 var primaryColorsArray = [
-  "#FFFFFF", "#E25F4E", "#EB839A", "#5ABC7B", "#4896F4", "#4A4A4A"
+  "#FFFFFF", "#E25F4E", "#EB839A", "#5ABC7B", "#4896F4", "#4A4A4A", "#947EB0"
 ];
 
 class HexColor extends Color {
@@ -84,7 +86,7 @@ TextStyle elevatedButtonTitleStyle(BuildContext context, Color titleColor) {
 }
 
 TextStyle addTransactionFormTitleTextStyle(BuildContext context) {
-  return TextStyle(color: Colors.grey, fontSize: 20);
+  return TextStyle(color: Colors.grey, fontSize: 16);
 }
 
 TextStyle addTransactionBottomModalSheetButtonsTextStyle(BuildContext context) {
@@ -95,14 +97,32 @@ TextStyle addTransactionBottomModalSheetButtonsTextStyle(BuildContext context) {
 }
 
 TextStyle addTransactionElevatedButtonTitleStyle(BuildContext context, [Color titleColor]) {
-  return TextStyle(color: titleColor, fontSize: 18);
+  return TextStyle(color: titleColor, fontSize: 16, fontWeight: FontWeight.w600);
 }
 
-InputDecoration addTransactionFormFieldDecoration({String hintText}) {
+InputDecoration addTransactionFormFieldDecoration(context, {String hintText}) {
   return InputDecoration(
-    helperText: '',
+    helperText: '', 
     hintText: hintText,
-  );
+    border: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Theme.of(context).accentColor, 
+        width: 1)));
+}
+
+TextStyle addTransactionFormInputTextStyle() {
+  return TextStyle(
+    fontFamily: "Nunito", 
+    fontWeight: FontWeight.w600, 
+    fontSize: 16);
+}
+
+BoxDecoration addTransactionFormBodyStyle() {
+  return BoxDecoration(
+    color: Colors.white, 
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(48), 
+      topRight: Radius.circular(48)));
 }
 
 // Search transactions view

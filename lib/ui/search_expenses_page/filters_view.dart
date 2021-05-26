@@ -92,7 +92,7 @@ class _FiltersViewState extends State<FiltersView> {
           child: Form(
             key: _accountValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              decoration: addTransactionFormFieldDecoration(context),
               controller: _accountFieldController,
               readOnly: true,
               showCursor: false,
@@ -119,7 +119,7 @@ class _FiltersViewState extends State<FiltersView> {
           child: Form(
             key: _categoryValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(),
+              decoration: addTransactionFormFieldDecoration(context),
               controller: _categoryFieldController,
               readOnly: true,
               showCursor: false,
@@ -153,6 +153,7 @@ class _FiltersViewState extends State<FiltersView> {
                   child: TextFormField(
                     textAlign: TextAlign.center,
                     decoration: addTransactionFormFieldDecoration(
+                      context,
                       hintText: "Min"
                     ),
                     readOnly: true,
@@ -176,6 +177,7 @@ class _FiltersViewState extends State<FiltersView> {
                   child: TextFormField(
                     textAlign: TextAlign.center,
                     decoration: addTransactionFormFieldDecoration(
+                      context,
                       hintText: "Max"
                     ),
                     readOnly: true,
