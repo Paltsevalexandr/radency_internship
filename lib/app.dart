@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:radency_internship_project_2/blocs/export_csv/export_csv_bloc.dart';
 import 'package:radency_internship_project_2/blocs/accounts/account_bloc.dart';
+import 'package:radency_internship_project_2/blocs/forex/forex_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/category/category_slider/category_slider_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/search_transactions/search_transactions_bloc.dart';
 
@@ -14,6 +15,7 @@ import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.da
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
+import 'package:radency_internship_project_2/blocs/sub_currency/sub_currency_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_calendar/transactions_calendar_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
@@ -152,6 +154,12 @@ class App extends StatelessWidget {
             BlocProvider(
               create: (context) => AccountBloc()..add(FetchAccounts()),
             ),
+            BlocProvider(
+              create: (context) => SubCurrencyBloc()..add(SubCurrencyInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => ForexBloc(),
+            )
           ],
           child: AppView(),
         ));

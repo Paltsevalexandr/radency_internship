@@ -100,28 +100,30 @@ TextStyle addTransactionElevatedButtonTitleStyle(BuildContext context, [Color ti
   return TextStyle(color: titleColor, fontSize: 16, fontWeight: FontWeight.w600);
 }
 
-InputDecoration addTransactionFormFieldDecoration(context, {String hintText}) {
+InputDecoration addTransactionFormFieldDecoration(context, {String hintText, Widget prefixIcon}) {
   return InputDecoration(
-    helperText: '', 
+    helperText: '',
+    prefixIcon: prefixIcon,
+    prefixIconConstraints: BoxConstraints(minWidth: 20, minHeight: 0),
     hintText: hintText,
     border: UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Theme.of(context).accentColor, 
+        color: Theme.of(context).accentColor,
         width: 1)));
 }
 
 TextStyle addTransactionFormInputTextStyle() {
   return TextStyle(
-    fontFamily: "Nunito", 
-    fontWeight: FontWeight.w600, 
+    fontFamily: "Nunito",
+    fontWeight: FontWeight.w600,
     fontSize: 16);
 }
 
 BoxDecoration addTransactionFormBodyStyle() {
   return BoxDecoration(
-    color: Colors.white, 
+    color: Colors.white,
     borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(48), 
+      topLeft: Radius.circular(48),
       topRight: Radius.circular(48)));
 }
 
@@ -138,3 +140,14 @@ TextStyle searchModalTitleStyle(BuildContext context) {
 TextStyle buttonTitleStyle(BuildContext context, [Color titleColor]) {
   return TextStyle(color: titleColor ?? Colors.black, fontSize: 18);
 }
+
+
+// Currency modal
+const currencyModalTitleStyle = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
+);
+
+const currencyModalSubtitleStyle = TextStyle(
+  fontSize: 15,
+);

@@ -6,14 +6,16 @@ import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/income_transaction.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/amount/amount_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/amount/amount_currency_prefix.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
+import 'package:radency_internship_project_2/utils/update_forex.dart';
 
 class AddIncomeForm extends StatefulWidget {
   @override
@@ -46,6 +48,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
   @override
   void initState() {
     _selectedDateTime = DateTime.now();
+    updateForex(context, _selectedDateTime);
     _clearFields();
     super.initState();
   }
@@ -211,7 +214,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
             key: _amountValueFormKey,
             child: TextFormField(
               style: addTransactionFormInputTextStyle(),
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix()),
               readOnly: true,
               showCursor: true,
               controller: _amountFieldController,
@@ -340,6 +343,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
         _selectedDateTime = result;
         _dateFieldController.text = DateFormatters().dateToTransactionDateString(result);
       });
+      updateForex(context, result);
     }
   }
 

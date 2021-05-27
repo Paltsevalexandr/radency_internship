@@ -12,17 +12,18 @@ import 'package:radency_internship_project_2/blocs/transactions/add_transaction/
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/location.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/amount/amount_modal.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/amount/amount_currency_prefix.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/field_title.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
 import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
+import 'package:radency_internship_project_2/utils/update_forex.dart';
 
 class AddExpenseForm extends StatefulWidget {
   @override
@@ -59,6 +60,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   @override
   void initState() {
     _selectedDateTime = DateTime.now();
+    updateForex(context, _selectedDateTime);
     _clearFields();
     super.initState();
   }
@@ -226,7 +228,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             key: _amountValueFormKey,
             child: TextFormField(
               style: addTransactionFormInputTextStyle(),
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix()),
               readOnly: true,
               showCursor: true,
               controller: _amountFieldController,
@@ -450,6 +452,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         _selectedDateTime = result;
         _dateFieldController.text = DateFormatters().dateToTransactionDateString(result);
       });
+      updateForex(context, result);
     }
   }
 

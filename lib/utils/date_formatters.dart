@@ -20,4 +20,8 @@ class DateFormatters {
   String monthNameAndYearFromDateTimeString(DateTime dateTime, {String locale}) {
     return capitalizeFirstLetterOfEachWord(DateFormat('LLLL y', locale).format(dateTime));
   }
+
+  String dateToNbuString(DateTime dateTime, {String locale}) {
+    return DateFormat('ddMMyyyy').format(dateTime);
+  }
 }

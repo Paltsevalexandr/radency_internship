@@ -63,8 +63,11 @@ dependencies:
   modal_bottom_sheet: 2.0.0
   contacts_service: 0.6.1
 
-
   uuid: 3.0.4
+
+  currency_picker: 2.0.4
+
+  http: 0.13.3
 
 dev_dependencies:
   flutter_test:

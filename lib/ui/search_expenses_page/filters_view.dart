@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:radency_internship_project_2/blocs/accounts/account_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/category/category_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/search_transactions/search_transactions_bloc.dart';
@@ -164,7 +165,7 @@ class _FiltersViewState extends State<FiltersView> {
                     ],
 
                     onTap: () async {
-                      await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateMinAmountCallback);
+                      await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateMinAmountCallback, showSubcurrencies: false);
                     },
                     onSaved: (value) => _minAmountValue = double.tryParse(value),
                   ),
@@ -188,7 +189,7 @@ class _FiltersViewState extends State<FiltersView> {
                     ],
 
                     onTap: () async {
-                      await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateMaxAmountCallback);
+                      await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateMaxAmountCallback, showSubcurrencies: false);
                     },
                     onSaved: (value) => _maxAmountValue = double.tryParse(value),
                   ),

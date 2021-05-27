@@ -5,6 +5,7 @@ import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/amount/amount_currency_prefix.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/field_title.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
@@ -15,6 +16,7 @@ import 'package:radency_internship_project_2/utils/date_formatters.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
+import 'package:radency_internship_project_2/utils/update_forex.dart';
 
 class AddTransferForm extends StatefulWidget {
   @override
@@ -52,6 +54,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
   @override
   void initState() {
     _selectedDateTime = DateTime.now();
+    updateForex(context, _selectedDateTime);
     _clearFields();
     super.initState();
   }
@@ -221,7 +224,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
                   key: _amountValueFormKey,
                   child: TextFormField(
                     style: addTransactionFormInputTextStyle(),
-                    decoration: addTransactionFormFieldDecoration(context),
+                    decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix()),
                     controller: _amountFieldController,
                     readOnly: true,
                     showCursor: false,
@@ -283,7 +286,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
                   child: Form(
                     key: _feesValueFormKey,
                     child: TextFormField(
-                      decoration: addTransactionFormFieldDecoration(context),
+                      decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix()),
                       style: addTransactionFormInputTextStyle(),
                       controller: _feesFieldController,
                       readOnly: true,
@@ -428,6 +431,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
         _selectedDateTime = result;
         _dateFieldController.text = DateFormatters().dateToTransactionDateString(result);
       });
+      updateForex(context, result);
     }
   }
 

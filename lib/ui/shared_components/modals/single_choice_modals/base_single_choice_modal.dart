@@ -5,13 +5,14 @@ import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class BaseSingleChoiceModal extends StatelessWidget{
   final String title;
+  final Widget subtitle;
   final List<Widget> actions;
   final List<ButtonStyleButton> contents;
 
   final int crossAxisCount;
   final int mainAxisCount;
 
-  const BaseSingleChoiceModal({Key key, this.title, this.actions, this.contents, this.crossAxisCount = 3, this.mainAxisCount = 6}) : super(key: key);
+  const BaseSingleChoiceModal({Key key, this.title, this.subtitle, this.actions, this.contents, this.crossAxisCount = 3, this.mainAxisCount = 6}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,10 @@ class BaseSingleChoiceModal extends StatelessWidget{
       height: MediaQuery.of(context).size.height / 2,
       color: Color.fromRGBO(220, 220, 220, 1),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildHeader(context),
+          subtitle ?? Container(),
           Expanded(
             child: _buildBody(),
           ),

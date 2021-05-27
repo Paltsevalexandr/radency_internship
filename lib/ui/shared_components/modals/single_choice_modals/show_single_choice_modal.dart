@@ -2,13 +2,13 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:radency_internship_project_2/ui/shared_components/modals/amount/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/single_choice_account_modal.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/single_choice_category_modal.dart';
 
 enum SingleChoiceModalType{Account, Category, Amount}
 
-Future<String> showSingleChoiceModal({BuildContext context, @required SingleChoiceModalType type, List<String> values, onAddCallback, updateAmountCallback, String title}) {
+Future<String> showSingleChoiceModal({BuildContext context, @required SingleChoiceModalType type, List<String> values, onAddCallback, updateAmountCallback, String title, bool showSubcurrencies = true}) {
   var modal;
   switch (type) {
     case SingleChoiceModalType.Account:
@@ -27,6 +27,7 @@ Future<String> showSingleChoiceModal({BuildContext context, @required SingleChoi
       modal = AmountModal(
         onUpdateCallback: updateAmountCallback,
         title: title,
+        showSubcurrencies: showSubcurrencies,
       );
       break;
   }
