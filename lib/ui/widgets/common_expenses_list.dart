@@ -1,16 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 
 Widget buildIncomeText(context, String currency, double value) {
-  return Text(
-    '$currency ${value.toStringAsFixed(2)}',
-    style: const TextStyle(color: Colors.blue, fontSize: 18),
+  return RichText(
+    text: TextSpan(
+      children: [
+        TextSpan(
+          text: currency, 
+          style: textStyleTransactionListCurrency(
+            size: 20, 
+            color: Theme.of(context).primaryColorLight, 
+            fontWeight: FontWeight.w700)),
+        TextSpan(
+          text: ' ${value.toStringAsFixed(2)}',
+          style: textStyleTransactionListAmount(
+            size: 20, 
+            color: Theme.of(context).primaryColorLight, 
+            fontWeight: FontWeight.w700)
+        )
+      ]),
   );
 }
 
 Widget buildOutcomeText(context, String currency, double value) {
-  return Text(
-    '$currency ${value.toStringAsFixed(2)}',
-    textAlign: TextAlign.end,
-    style: const TextStyle(color: Colors.redAccent, fontSize: 18),
+  return RichText(
+    text: TextSpan(
+      children: [
+        TextSpan(
+          text: currency, 
+          style: textStyleTransactionListCurrency(
+            size: 20, 
+            color: Theme.of(context).primaryColorLight, 
+            fontWeight: FontWeight.w700)),
+        TextSpan(
+          text: ' ${value.toStringAsFixed(2)}',
+          style: textStyleTransactionListAmount(
+            size: 20, 
+            color: Theme.of(context).primaryColorDark, 
+            fontWeight: FontWeight.w700),
+        )
+      ]),
   );
 }

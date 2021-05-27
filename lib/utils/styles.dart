@@ -1,6 +1,6 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 TextStyle tabTitleStyle(BuildContext context) {
   return TextStyle(color: Theme.of(context).textTheme.bodyText1.color);
@@ -19,8 +19,44 @@ const addTransactionAvatarTextStyle = TextStyle(
 );
 
 var primaryColorsArray = [
-  "#FFFFFF", "#E25F4E", "#EB839A", "#5ABC7B", "#4896F4", "#4A4A4A", "#947EB0"
+  //"#FFFFFF", "#E25F4E", "#EB839A", "#5ABC7B", "#4896F4", "#4A4A4A", "#947EB0"
+  "#947EB0", "#5ABC7B", "#4896F4", "#E25F4E", 
 ];
+
+abstract class CustomTheme {
+  String accentColor;
+  String primaryColorDark;
+  String primaryColorLight;
+  String secondaryHeaderColor = '#202020';
+}
+
+class PurpleTheme implements CustomTheme {
+  String accentColor = '#947EB0';
+  String primaryColorDark = '#190933';
+  String primaryColorLight = '#A3A5C3';
+  String secondaryHeaderColor = '#202020';
+}
+
+class GreenTheme implements CustomTheme {
+  String accentColor = '#5ABC7B';
+  String primaryColorDark = '#47803D';
+  String primaryColorLight = '#8CD388';
+  String secondaryHeaderColor = '#202020';
+}
+
+class BlueTheme implements CustomTheme {
+  String accentColor = "#4896F4";
+  String primaryColorDark = '#0A76A4';
+  String primaryColorLight = '#7FB3C9';
+  String secondaryHeaderColor = '#202020';
+}
+
+class RedTheme implements CustomTheme {
+  String accentColor = "#E25F4E";
+  String primaryColorDark = '#B92F1E';
+  String primaryColorLight = '#F17667';
+  String secondaryHeaderColor = '#202020';
+}
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
@@ -49,10 +85,10 @@ class Styles {
     return darkTheme ? HexColor(primaryLightColor) : primaryLightColor == "#FFFFFF" ? Colors.blue : HexColor(primaryLightColor);
   }
 
-  static ThemeData themeData(BuildContext context, bool darkTheme, String primaryLightColor) {
+  static ThemeData themeData(BuildContext context, bool darkTheme, CustomTheme theme) {
     return ThemeData(
-      primaryColor: darkTheme ? Colors.black : HexColor(primaryLightColor),
-      accentColor: getAccentColor(darkTheme, primaryLightColor),
+      primaryColor: darkTheme ? Colors.black : HexColor(theme.accentColor),
+      accentColor: getAccentColor(darkTheme, theme.accentColor),
       accentColorBrightness: darkTheme ? Brightness.dark : Brightness.light,
       backgroundColor: darkTheme ? Colors.black : HexColor("#F1F5FB"),
       cardColor: darkTheme ? HexColor("#151515") : Colors.white,
@@ -60,6 +96,9 @@ class Styles {
       brightness: darkTheme ? Brightness.dark : Brightness.light,
       buttonTheme: Theme.of(context).buttonTheme.copyWith(
           colorScheme: darkTheme ? ColorScheme.dark() : ColorScheme.light()),
+      secondaryHeaderColor: darkTheme ? Colors.white : HexColor(theme.secondaryHeaderColor),
+      primaryColorDark: HexColor(theme.primaryColorDark),
+      primaryColorLight: HexColor(theme.primaryColorLight),
     );
   }
 }

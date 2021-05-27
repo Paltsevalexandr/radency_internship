@@ -15,7 +15,7 @@ class StyleSettingPage extends StatelessWidget {
 
       primaryColorsArray.forEach((element) {
         colorsArray.add(
-            buildRoundColorButton(context, element, state.lightPrimaryColor));
+            buildRoundColorButton(context, element, state.themeColors.accentColor));
       });
 
       return Scaffold(

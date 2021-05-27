@@ -195,8 +195,8 @@ class _AppViewState extends State<AppView> {
           locale: Locale(language),
           navigatorKey: _navigatorKey,
           themeMode: getThemeMode(state.theme),
-          theme: Styles.themeData(context, false, state.lightPrimaryColor),
-          darkTheme: Styles.themeData(context, true, state.lightPrimaryColor),
+          theme: Styles.themeData(context, false, state.themeColors),
+          darkTheme: Styles.themeData(context, true, state.themeColors),
           routes: {
             Routes.loginPage: (context) => EmailLoginPage(),
             Routes.homePage: (context) => HomePage(),

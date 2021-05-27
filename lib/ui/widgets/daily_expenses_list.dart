@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 
 import '../../blocs/expenses_list/daily_bloc.dart';
 import '../../blocs/settings/settings_bloc.dart';
@@ -10,6 +11,7 @@ import '../../utils/mocked_expenses.dart';
 import '../../utils/strings.dart';
 import '../../utils/ui_utils.dart';
 import 'common_expenses_list.dart';
+import 'package:radency_internship_project_2/utils/time.dart';
 
 Widget buildDailyExpensesList(BuildContext context) {
   return BlocBuilder<TransactionsDailyBloc, TransactionsDailyState>(builder: (context, state) {
@@ -111,6 +113,11 @@ class DailyExpensesItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
       String currency = state.currency;
+      var amountColor = itemEntity.type == ExpenseType.income
+                  ? Theme.of(context).primaryColorLight
+                  : itemEntity.type == ExpenseType.outcome
+                      ? Theme.of(context).primaryColorDark
+                      : Colors.grey;
       return Container(
           height: pixelsToDP(context, 150),
           child: Row(
@@ -118,26 +125,29 @@ class DailyExpensesItem extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(right: pixelsToDP(context, 24)),
                 child: Text('${itemEntity.category}',
-                    style: const TextStyle(fontSize: 18), overflow: TextOverflow.ellipsis),
+                    style: transactionsListDescriptionTextStyle(), overflow: TextOverflow.ellipsis),
               ),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(right: pixelsToDP(context, 24)),
                   child: Text('${itemEntity.description}',
-                      style: const TextStyle(fontSize: 18), overflow: TextOverflow.ellipsis),
+                      style: transactionsListDescriptionTextStyle(), overflow: TextOverflow.ellipsis),
                 ),
               ),
-              Text(
-                '${getCurrencySymbol(currency)} ${itemEntity.amount.toStringAsFixed(2)}',
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                    color: itemEntity.type == ExpenseType.income
-                        ? Colors.blue
-                        : itemEntity.type == ExpenseType.outcome
-                            ? Colors.redAccent
-                            : Colors.grey,
-                    fontSize: 18),
-              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: getCurrencySymbol(currency), 
+                      style: textStyleTransactionListCurrency(
+                          size: 16, fontWeight: FontWeight.w600, color: amountColor)),
+                    TextSpan(
+                      text: '${itemEntity.amount.toStringAsFixed(2)}',
+                      style: transactionsListDescriptionTextStyle(
+                          fontWeight: FontWeight.w600, color: amountColor)
+                    )
+                  ]
+              )),
             ],
           ));
     });
@@ -156,39 +166,12 @@ class DailyExpensesHeader extends StatelessWidget {
   final double incomeTotal;
   final double outcomeTotal;
 
-  Widget buildBigDayText(context) {
+  Widget buildDateText(context) {
     return Padding(
-      padding: EdgeInsets.only(right: pixelsToDP(context, 24), left: pixelsToDP(context, 36)),
+      padding: EdgeInsets.only(right: 10, left: pixelsToDP(context, 36)),
       child: Text(
-        '${dateTime.day}',
-        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 32),
-      ),
-    );
-  }
-
-  Widget buildDateColumn(BuildContext context) {
-    const greyColor = Color(0xff8d8d8d);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '${dateTime.month}.${dateTime.year}',
-          style: const TextStyle(color: greyColor, fontSize: 18),
-        ),
-        Container(
-          decoration: new BoxDecoration(
-              color: greyColor, borderRadius: new BorderRadius.all(Radius.circular(pixelsToDP(context, 4)))),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, 2), horizontal: pixelsToDP(context, 4)),
-            child: Text(
-              '${getWeekDayByNumber(dateTime.weekday, context)}',
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-        ),
-      ],
+        '${toFancyDay(dateTime.day)}.${toFancyDay(dateTime.month)}.${dateTime.year}',
+        style: textStyleTransactionListHeaderDate(color: Theme.of(context).secondaryHeaderColor))
     );
   }
 
@@ -198,13 +181,12 @@ class DailyExpensesHeader extends StatelessWidget {
       String currency = state.currency;
       return Container(
           height: pixelsToDP(context, 200),
-          color: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: pixelsToDP(context, 8)),
+          color: Theme.of(context).backgroundColor,
+          padding: EdgeInsets.symmetric(horizontal: 3),
           alignment: Alignment.centerLeft,
           child: Row(
             children: [
-              buildBigDayText(context),
-              buildDateColumn(context),
+              buildDateText(context),
               Expanded(
                 child: Wrap(
                   spacing: 10,
