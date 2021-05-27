@@ -39,6 +39,7 @@ import 'package:radency_internship_project_2/ui/widgets/stats_view/stats_view.da
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/budget_settings_page.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/category_budget_setup_view.dart';
 
+import 'package:radency_internship_project_2/ui/onboarding_page.dart';
 import 'blocs/authentication/authentication_bloc.dart';
 import 'blocs/settings/category/category_bloc.dart';
 import 'blocs/settings/settings_bloc.dart';
@@ -202,6 +203,7 @@ class _AppViewState extends State<AppView> {
           theme: Styles.themeData(context, false, state.themeColors),
           darkTheme: Styles.themeData(context, true, state.themeColors),
           routes: {
+            Routes.onboardingPage: (context) => OnboardingPage(),
             Routes.loginPage: (context) => EmailLoginPage(),
             Routes.homePage: (context) => HomePage(),
             Routes.signUpPage: (context) => EmailSignUpPage(),
@@ -228,7 +230,7 @@ class _AppViewState extends State<AppView> {
                   case AuthenticationStatus.authenticated:
                     print("_AppViewState.build: AuthenticationStatus.authenticated ${state.user.emailVerified}");
                     if (state.user.emailVerified) {
-                      _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
+                      _navigator.pushNamedAndRemoveUntil(Routes.onboardingPage, (route) => false);
                     } else {
                       _navigator.pushNamedAndRemoveUntil(Routes.emailVerificationResendPage, (route) => false);
                     }

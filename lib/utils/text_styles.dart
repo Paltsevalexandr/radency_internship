@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:radency_internship_project_2/utils/styles.dart';
 
-textStyleTransactionListHeaderDate({@required color}) {
+textStyleOnboardingScreensMainText(context) {
+  return GoogleFonts.openSans(textStyle: 
+  TextStyle(
+    fontSize: 18, 
+    color: Theme.of(context).secondaryHeaderColor, 
+    fontWeight: FontWeight.w400));
+}
+
+textStyleHeader({@required color}) {
   return GoogleFonts.openSans(
       textStyle: TextStyle(
         fontSize: 20, 

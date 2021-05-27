@@ -171,7 +171,7 @@ class DailyExpensesHeader extends StatelessWidget {
       padding: EdgeInsets.only(right: 10, left: pixelsToDP(context, 36)),
       child: Text(
         '${toFancyDay(dateTime.day)}.${toFancyDay(dateTime.month)}.${dateTime.year}',
-        style: textStyleTransactionListHeaderDate(color: Theme.of(context).secondaryHeaderColor))
+        style: textStyleHeader(color: Theme.of(context).secondaryHeaderColor))
     );
   }
 
