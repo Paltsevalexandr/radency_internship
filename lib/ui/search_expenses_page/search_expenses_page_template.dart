@@ -10,6 +10,7 @@ import 'package:radency_internship_project_2/models/transactions/transfer_transa
 import 'package:radency_internship_project_2/ui/search_expenses_page/filters_view.dart';
 import 'package:radency_internship_project_2/ui/search_expenses_page/summary_row_widget.dart';
 import 'package:radency_internship_project_2/ui/search_expenses_page/transaction_widget.dart';
+import 'package:radency_internship_project_2/ui/shared_components/design_scaffold.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class SearchExpensesPage extends StatefulWidget{
@@ -31,7 +32,7 @@ class _SearchExpensesPageState extends State<SearchExpensesPage> {
   Widget build(BuildContext context) {
     String currency = BlocProvider.of<SettingsBloc>(context).state.currency;
 
-    return Scaffold(
+    return DesignScaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.close),
@@ -41,11 +42,10 @@ class _SearchExpensesPageState extends State<SearchExpensesPage> {
         ),
         title: Text(S.current.searchExpensesSearchTitle),
       ),
+      header: _buildTextField(),
       body: SingleChildScrollView(
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildTextField(),
             showFilters ? FiltersView() : Container(),
             ListTile(
               title: Icon(
@@ -115,10 +115,30 @@ class _SearchExpensesPageState extends State<SearchExpensesPage> {
       ),
       child: TextFormField(
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.search),
+          filled: true,
+          fillColor: Colors.white,
+          prefixIcon: Icon(
+            Icons.search,
+            color: Theme.of(context).accentColor,
+          ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5)
-          )
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: Theme.of(context).accentColor,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: Theme.of(context).accentColor,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: Theme.of(context).accentColor,
+            ),
+          ),
         ),
       ),
     );

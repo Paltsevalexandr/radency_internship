@@ -14,6 +14,7 @@ class AppSettingsList extends StatelessWidget {
       builder: (BuildContext context, state) {
         return Container(
           child: SettingsList(
+            backgroundColor: Colors.white,
             sections: [
               SettingsSection(
                 titleTextStyle: TextStyle(color: Colors.grey),

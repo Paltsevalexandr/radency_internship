@@ -68,13 +68,21 @@ class _CategoryViewState extends State<CategoryView>with SingleTickerProviderSta
   Widget _buildTabBar(BuildContext context, TabController controller) {
     return Container(
       child: TabBar(
+        labelColor: Colors.black,
+        labelStyle: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w500
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.normal
+        ),
         controller: controller,
         tabs: [
           Tab(
-            child: _buildTabTitle(S.current.income),
+            child: Text(S.current.income),
           ),
           Tab(
-            child: _buildTabTitle(S.current.expenses),
+            child: Text(S.current.expenses),
           ),
         ],
         indicatorColor: Theme.of(context).accentColor,
@@ -82,12 +90,12 @@ class _CategoryViewState extends State<CategoryView>with SingleTickerProviderSta
     );
   }
 
-  Widget _buildTabTitle(String localizedTitle) {
-    return Text(
-      localizedTitle,
-      style: tabTitleStyle(context),
-    );
-  }
+  // Widget _buildTabTitle(String localizedTitle) {
+  //   return Text(
+  //     localizedTitle,
+  //     style: tabTitleStyle(context).copyWith(color: Colors.black),
+  //   );
+  // }
 
   Widget _buildCategories(CategoryType categoryType){
     final categoryState = BlocProvider.of<CategoryBloc>(context).state;

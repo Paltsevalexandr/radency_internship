@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
       case 1:
         return StatsView();
 
-      case 3:
+      case 4:
         return SettingsPage();
 
       default:

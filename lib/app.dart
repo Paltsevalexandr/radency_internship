@@ -17,6 +17,7 @@ import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.d
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/blocs/sub_currency/sub_currency_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
+import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_type/transaction_type_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_calendar/transactions_calendar_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
 import 'package:radency_internship_project_2/blocs/import_csv/import_csv_bloc.dart';
@@ -159,6 +160,9 @@ class App extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => ForexBloc(),
+            ),
+            BlocProvider(
+              create: (context) => TransactionTypeBloc(),
             )
           ],
           child: AppView(),

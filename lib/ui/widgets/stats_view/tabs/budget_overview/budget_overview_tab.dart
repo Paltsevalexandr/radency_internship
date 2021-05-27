@@ -20,13 +20,7 @@ class BudgetOverviewTab extends StatefulWidget {
 class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        BudgetSlider(),
-        Expanded(child: budgetOverview()),
-      ],
-    );
+    return budgetOverview();
   }
 
   Widget budgetOverview() {

@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 TextStyle tabTitleStyle(BuildContext context) {
-  return TextStyle(color: Theme.of(context).textTheme.bodyText1.color);
+  return TextStyle(
+    color: Theme.of(context).primaryTextTheme.headline6.color
+  );
 }
 
 TextStyle expensesTabStyle(BuildContext context) {
@@ -20,7 +22,7 @@ const addTransactionAvatarTextStyle = TextStyle(
 
 var primaryColorsArray = [
   //"#FFFFFF", "#E25F4E", "#EB839A", "#5ABC7B", "#4896F4", "#4A4A4A", "#947EB0"
-  "#947EB0", "#5ABC7B", "#4896F4", "#E25F4E", 
+  "#947EB0", "#5ABC7B", "#4896F4", "#E25F4E",
 ];
 
 abstract class CustomTheme {
@@ -87,6 +89,9 @@ class Styles {
 
   static ThemeData themeData(BuildContext context, bool darkTheme, CustomTheme theme) {
     return ThemeData(
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+      ),
       primaryColor: darkTheme ? Colors.black : HexColor(theme.accentColor),
       accentColor: getAccentColor(darkTheme, theme.accentColor),
       accentColorBrightness: darkTheme ? Brightness.dark : Brightness.light,

@@ -17,8 +17,6 @@ class _StatsTabViewState extends State<StatsTabView> with SingleTickerProviderSt
 
   @override
   void initState() {
-
-
     int initialIndex = 0;
 
     StatsState state = BlocProvider.of<StatsBloc>(context).state;
@@ -44,7 +42,6 @@ class _StatsTabViewState extends State<StatsTabView> with SingleTickerProviderSt
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          StatsSlider(),
           _statsTabBar(context, tabBarController),
           _statsTabBarContent(),
         ],
@@ -53,11 +50,13 @@ class _StatsTabViewState extends State<StatsTabView> with SingleTickerProviderSt
   }
 
   Widget _statsTabBar(BuildContext context, TabController controller) {
+    final color = Theme.of(context).primaryColor;
+
     return TabBar(
       controller: controller,
       tabs: [
-        Tab(child: Text(S.current.statsViewChartTab, style: tabTitleStyle(context))),
-        Tab(child: Text(S.current.statsViewMapTab, style: tabTitleStyle(context))),
+        Tab(child: Text(S.current.statsViewChartTab, style: tabTitleStyle(context).copyWith(color: Colors.black))),
+        Tab(child: Text(S.current.statsViewMapTab, style: tabTitleStyle(context).copyWith(color: Colors.black))),
       ],
       indicatorColor: Colors.red,
     );

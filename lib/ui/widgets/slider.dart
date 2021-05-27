@@ -15,14 +15,19 @@ class DateRangeSlider extends StatelessWidget {
         IconButton(
           onPressed: onBackPressed,
           icon: Icon(Icons.keyboard_arrow_left),
+          color: Theme.of(context).primaryTextTheme.headline6.color,
         ),
         Text(
           content,
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(
+            fontSize: 20,
+            color: Theme.of(context).primaryTextTheme.headline6.color,
+          ),
         ),
         IconButton(
           onPressed: onForwardPressed,
           icon: Icon(Icons.keyboard_arrow_right),
+          color: Theme.of(context).primaryTextTheme.headline6.color,
         ),
       ],
     );

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
+import 'package:radency_internship_project_2/ui/add_transaction_menu.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class BottomNavBar extends StatelessWidget {
 
   Widget build(BuildContext context) {
+    final addButtonIndex = 2;
     var navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
     return BlocBuilder<NavigationBloc, NavigationState>(
@@ -21,6 +24,11 @@ class BottomNavBar extends StatelessWidget {
               label: S.current.stats,
             ),
             BottomNavigationBarItem(
+              icon: floatingAddButton(context),
+              label: ""
+              // label: S.current.accounts,
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.money),
               label: S.current.accounts,
             ),
@@ -34,9 +42,27 @@ class BottomNavBar extends StatelessWidget {
           selectedItemColor: Theme.of(context).accentColor,
           unselectedItemColor: Colors.grey,
           currentIndex: state.selectedPageIndex,
-          onTap: (currentIndex) => navigationBloc.add(SelectPage(currentIndex)),
+          onTap: (currentIndex) {
+            if (currentIndex != addButtonIndex) {
+              navigationBloc.add(SelectPage(currentIndex));
+            }
+          },
         );
       }
     );      
+  }
+
+  Widget floatingAddButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) => AddTransactionMenu()
+        );
+      },
+      child: Icon(
+        Icons.add,
+        size: pixelsToDP(context, 90),
+      ));
   }
 }
