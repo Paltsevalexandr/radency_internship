@@ -15,29 +15,28 @@ class DesignScaffold extends StatelessWidget {
       appBar: appBar,
       backgroundColor: Theme.of(context).primaryColor,
       body: NestedScrollView(
+        floatHeaderSlivers: true,
         headerSliverBuilder: (context, value) {
           return [
             SliverToBoxAdapter(child: header ?? Container()),
             SliverToBoxAdapter(child: SizedBox(height: 20,),),
-            SliverToBoxAdapter(child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-                color: Colors.white,
-              ),
-            )),
           ];
         },
         body: Container(
-          padding: EdgeInsets.only(
-            left: 10,
-            right: 10
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
+            color: Colors.white,
           ),
-          color: Colors.white,
-          child: body ?? Container(),
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
+            child: body ?? Container()
+          ),
         ),
       ),
       bottomNavigationBar: bottomNavigationBar ?? Container(

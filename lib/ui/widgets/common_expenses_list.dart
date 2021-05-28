@@ -30,7 +30,7 @@ Widget buildOutcomeText(context, String currency, double value) {
           text: currency, 
           style: textStyleTransactionListCurrency(
             size: 20, 
-            color: Theme.of(context).primaryColorLight, 
+            color: Theme.of(context).primaryColorDark,
             fontWeight: FontWeight.w700)),
         TextSpan(
           text: ' ${value.toStringAsFixed(2)}',

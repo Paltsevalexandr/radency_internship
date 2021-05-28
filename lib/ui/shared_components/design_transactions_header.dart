@@ -17,6 +17,7 @@ class _DesignTransactionHeaderState extends State<DesignTransactionHeader> {
 
   @override
   void initState() {
+    selectedIndex = widget.tabBarController.index;
     widget.tabBarController.addListener((){
       setState(() {
         selectedIndex = widget.tabBarController.index;

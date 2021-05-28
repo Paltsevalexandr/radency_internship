@@ -196,6 +196,9 @@ class DailyExpensesHeader extends StatelessWidget {
                     buildOutcomeText(context, getCurrencySymbol(currency), outcomeTotal)
                   ],
                 ),
+              ),
+              SizedBox(
+                width: 10,
               )
             ],
           ));
