@@ -51,8 +51,9 @@ class OnboardingPageState extends State<OnboardingPage> {
         0, 
         duration: duration,
         curve: curve);
-      Navigator.pushNamed(context, Routes.homePage);
-    }else {
+      Navigator.pushNamedAndRemoveUntil(context, Routes.loginPage, (route) => false);
+
+    } else {
       controller.animateToPage(
         page, 
         duration: duration,

@@ -10,17 +10,20 @@ class SettingsRepository {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String settings = prefs.getString('settings');
+      String onboardingCompletedJson = prefs.getString('onboardingCompleted');
 
       Map settingsObject =  jsonDecode(settings);
-
+      bool onboardingCompleted = jsonDecode(onboardingCompletedJson);
+      
       return LoadedSettingsState(
         currency: settingsObject['currency'], 
-        language: settingsObject['language']
+        language: settingsObject['language'],
+        onboardingCompleted: onboardingCompleted
       );
-
     } catch (_) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('settings', json.encode(defaultSettings));
+      prefs.setString('onboardingCompleted', json.encode(true));
 
       return InitialSettingsState();
     }

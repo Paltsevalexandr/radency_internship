@@ -183,9 +183,9 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
-      String language = state.language;
-      return BlocBuilder<StylesBloc, StylesState>(builder: (BuildContext context, state) {
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, settingsState) {
+      String language = settingsState.language;
+      return BlocBuilder<StylesBloc, StylesState>(builder: (BuildContext context, stylesState) {
         return MaterialApp(
           localizationsDelegates: [
             S.delegate,
@@ -199,9 +199,9 @@ class _AppViewState extends State<AppView> {
           ],
           locale: Locale(language),
           navigatorKey: _navigatorKey,
-          themeMode: getThemeMode(state.theme),
-          theme: Styles.themeData(context, false, state.themeColors),
-          darkTheme: Styles.themeData(context, true, state.themeColors),
+          themeMode: getThemeMode(stylesState.theme),
+          theme: Styles.themeData(context, false, stylesState.themeColors),
+          darkTheme: Styles.themeData(context, true, stylesState.themeColors),
           routes: {
             Routes.onboardingPage: (context) => OnboardingPage(),
             Routes.loginPage: (context) => EmailLoginPage(),
@@ -230,13 +230,18 @@ class _AppViewState extends State<AppView> {
                   case AuthenticationStatus.authenticated:
                     print("_AppViewState.build: AuthenticationStatus.authenticated ${state.user.emailVerified}");
                     if (state.user.emailVerified) {
-                      _navigator.pushNamedAndRemoveUntil(Routes.onboardingPage, (route) => false);
+                      _navigator.pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
                     } else {
                       _navigator.pushNamedAndRemoveUntil(Routes.emailVerificationResendPage, (route) => false);
                     }
                     break;
                   case AuthenticationStatus.unauthenticated:
-                    _navigator.pushNamedAndRemoveUntil(Routes.loginPage, (route) => false);
+                    bool onboardingCompleted = settingsState.onboardingCompleted;
+                    if(onboardingCompleted == true) {
+                      _navigator.pushNamedAndRemoveUntil(Routes.loginPage, (route) => false);
+                    } else {
+                      _navigator.pushNamedAndRemoveUntil(Routes.onboardingPage, (route) => false);
+                    }
                     break;
                   default:
                     _navigator.pushNamedAndRemoveUntil(Routes.splashScreen, (route) => false);
