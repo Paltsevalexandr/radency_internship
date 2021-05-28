@@ -5,8 +5,10 @@ import 'package:radency_internship_project_2/blocs/sign_up/sign_up_email/sign_up
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/providers/biometric_credentials_service.dart';
 import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/widgets/centered_scroll_view.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
+import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class EmailSignUpPage extends StatelessWidget {
@@ -117,6 +119,8 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
   }
 
   Widget _emailField() {
+    final accentColor = Theme.of(context).accentColor;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: Form(
@@ -125,10 +129,11 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
           autovalidateMode: autovalidateMode,
           keyboardType: TextInputType.emailAddress,
           initialValue: _email ?? '',
-          decoration: InputDecoration(
-              helperText: '',
-              labelText: S.current.signUpEmailLabelText,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+          cursorColor: accentColor,
+          decoration: addTransactionFormFieldDecoration(
+            context,
+            hintText: S.current.signUpEmailLabelText,
+          ),
           validator: (val) {
             if (val.trim().isEmpty) {
               return S.current.signUpEmailValidatorEmpty;
@@ -147,6 +152,8 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
   }
 
   Widget _usernameField() {
+    final accentColor = Theme.of(context).accentColor;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: Form(
@@ -154,10 +161,11 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         child: TextFormField(
           autovalidateMode: autovalidateMode,
           initialValue: _username ?? '',
-          decoration: InputDecoration(
-              helperText: '',
-              labelText: S.current.signUpUsernameLabelText,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+          cursorColor: accentColor,
+          decoration: addTransactionFormFieldDecoration(
+            context,
+            hintText: S.current.signUpUsernameLabelText,
+          ),
           validator: (val) {
             if (val.trim().isEmpty) {
               return S.current.signUpUsernameValidatorEmpty;
@@ -172,6 +180,8 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
   }
 
   Widget _passwordField() {
+    final accentColor = Theme.of(context).accentColor;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: Form(
@@ -180,10 +190,11 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
           autovalidateMode: autovalidateMode,
           initialValue: _password ?? '',
           obscureText: true,
-          decoration: InputDecoration(
-              helperText: '',
-              labelText: S.current.signUpPasswordLabelText,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+          cursorColor: accentColor,
+          decoration: addTransactionFormFieldDecoration(
+            context,
+            hintText: S.current.signUpPasswordLabelText,
+          ),
           validator: (val) {
             if (val.trim().isEmpty) {
               return S.current.signUpPasswordValidatorEmpty;
@@ -202,6 +213,8 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
   }
 
   Widget _passwordConfirmationField() {
+    final accentColor = Theme.of(context).accentColor;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: Form(
@@ -210,10 +223,11 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
           autovalidateMode: autovalidateMode,
           initialValue: _passwordConfirmation ?? '',
           obscureText: true,
-          decoration: InputDecoration(
-              helperText: '',
-              labelText: S.current.signUpPasswordConfirmationLabelText,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+          cursorColor: accentColor,
+          decoration: addTransactionFormFieldDecoration(
+            context,
+            hintText: S.current.signUpPasswordConfirmationLabelText,
+          ),
           validator: (val) {
             if (val != _password) {
               return S.current.signUpPasswordConfirmationValidatorNotMatch;
@@ -257,10 +271,8 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         return Container(
           height: 50,
           width: double.infinity,
-          child: ElevatedButton(
-            onPressed: state.areDetailsProcessing
-                ? null
-                : () {
+          child: ColoredElevatedButton(
+            onPressed: state.areDetailsProcessing ? null : () {
                     _saveForms();
 
                     setState(() {

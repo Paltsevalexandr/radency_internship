@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/authentication/authentication_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 
 class EmailVerificationResendScreen extends StatefulWidget {
   const EmailVerificationResendScreen({Key key}) : super(key: key);
@@ -44,7 +45,7 @@ class _EmailVerificationResendScreenState extends State<EmailVerificationResendS
           SizedBox(
             height: 15,
           ),
-          ElevatedButton(
+          ColoredElevatedButton(
             child: Text(
               S.current.emailVerificationResendButton,
               textAlign: TextAlign.center,

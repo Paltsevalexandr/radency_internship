@@ -4,9 +4,11 @@ import 'package:radency_internship_project_2/blocs/login/email_login/email_login
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/providers/biometric_credentials_service.dart';
 import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
+import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/widgets/centered_scroll_view.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
+import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class EmailLoginPage extends StatelessWidget {
@@ -141,6 +143,9 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
       onPressed: () {
         // TODO: implement password restore
       },
+      style: TextButton.styleFrom(
+        primary: Theme.of(context).accentColor,
+      ),
     );
   }
 
@@ -150,6 +155,9 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
       children: [
         Text(S.current.loginNoAccountNotice),
         TextButton(
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).accentColor,
+          ),
           child: Text(S.current.loginCreateAccountButton),
           onPressed: () {
             Navigator.of(context).pushNamed(Routes.signUpPage);
@@ -160,6 +168,8 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
   }
 
   Widget _emailField() {
+    final accentColor = Theme.of(context).accentColor;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: Form(
@@ -168,11 +178,16 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
           autovalidateMode: autovalidateMode,
           keyboardType: TextInputType.emailAddress,
           controller: _emailController,
-          decoration: InputDecoration(
-              helperText: '',
-              labelText: S.current.loginEmailLabelText,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
-              prefixIcon: Icon(Icons.email)),
+          cursorColor: accentColor,
+          decoration: addTransactionFormFieldDecoration(
+            context,
+            hintText: S.current.loginEmailLabelText,
+            prefixIcon: Icon(
+              Icons.email,
+              color: accentColor,
+            ),
+            prefixWidth: 50
+          ),
           validator: (val) {
             if (val.trim().isEmpty) {
               return S.current.loginEmailValidatorEmpty;
@@ -191,6 +206,8 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
   }
 
   Widget _passwordField() {
+    final accentColor = Theme.of(context).accentColor;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
       child: Form(
@@ -199,13 +216,20 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
           autovalidateMode: autovalidateMode,
           initialValue: _password ?? '',
           obscureText: true,
-          decoration: InputDecoration(
-              helperText: '',
-              labelText: S.current.loginPasswordLabelText,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
-              prefixIcon: Icon(Icons.lock)),
+          cursorColor: accentColor,
+          decoration: addTransactionFormFieldDecoration(
+            context,
+            hintText: S.current.loginPasswordLabelText,
+            prefixIcon: Icon(
+              Icons.lock,
+              color: accentColor,
+            ),
+            prefixWidth: 50
+          ),
           validator: (val) {
-            if (val.trim().isEmpty) {
+            if (val
+              .trim()
+              .isEmpty) {
               return S.current.loginPasswordValidatorEmpty;
             }
 
@@ -223,30 +247,26 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
         return Container(
           height: 50,
           width: double.infinity,
-          child: ElevatedButton(
-            onPressed: state.areDetailsProcessing
-                ? null
-                : () {
-                    _saveForms();
+          child: ColoredElevatedButton(
+            onPressed: state.areDetailsProcessing ? null : () {
+              _saveForms();
 
-                    setState(() {
-                      autovalidateMode = AutovalidateMode.always;
-                    });
+              setState(() {
+                autovalidateMode = AutovalidateMode.always;
+              });
 
-                    if (_validateForms()) {
-                      context.read<EmailLoginBloc>().add(EmailLoginSubmitted(
-                            email: _email,
-                            password: _password,
-                            pairWithBiometrics: _biometricsPairingEnabled,
-                          ));
-                    }
-                  },
-            child: state.areDetailsProcessing
-                ? Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: CircularProgressIndicator(),
-                  )
-                : Text(S.current.loginSubmitButton),
+              if (_validateForms()) {
+                context.read<EmailLoginBloc>().add(EmailLoginSubmitted(
+                  email: _email,
+                  password: _password,
+                  pairWithBiometrics: _biometricsPairingEnabled,
+                ));
+              }
+            },
+            child: state.areDetailsProcessing ? Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: CircularProgressIndicator(),
+            ) : Text(S.current.loginSubmitButton),
           ),
         );
       },
@@ -262,13 +282,17 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Checkbox(
-                  value: _biometricsPairingEnabled,
-                  onChanged: (value) {
-                    setState(() {
-                      _biometricsPairingEnabled = value;
-                    });
-                  }),
-              Text(S.current.authenticationBiometricsPairCheckbox),
+                value: _biometricsPairingEnabled,
+                onChanged: (value) {
+                  setState(() {
+                    _biometricsPairingEnabled = value;
+                  });
+                }
+              ),
+              Text(
+                S.current.authenticationBiometricsPairCheckbox,
+                maxLines: 2,
+              ),
             ],
           ),
         );
