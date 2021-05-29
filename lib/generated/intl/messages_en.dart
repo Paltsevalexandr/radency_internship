@@ -168,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "statsViewMapTab" : MessageLookupByLibrary.simpleMessage("Map"),
     "style" : MessageLookupByLibrary.simpleMessage("Style"),
     "stylePageTitle" : MessageLookupByLibrary.simpleMessage("Style"),
+    "subCurrencySettingTitle" : MessageLookupByLibrary.simpleMessage("Sub Currency Setting"),
     "sundayShort" : MessageLookupByLibrary.simpleMessage("Sun"),
     "systemTheme" : MessageLookupByLibrary.simpleMessage("System Theme"),
     "thursdayShort" : MessageLookupByLibrary.simpleMessage("Thu"),

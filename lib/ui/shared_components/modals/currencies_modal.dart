@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/forex/forex_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/sub_currency/sub_currency_bloc.dart';
+import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/utils/forex_service.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 
@@ -13,7 +14,7 @@ class CurrenciesModal extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sub Currency Setting"),
+        title: Text(S.current.subCurrencySettingTitle),
         actions: [
           IconButton(
             icon: Icon(Icons.edit),
@@ -27,6 +28,7 @@ class CurrenciesModal extends StatelessWidget{
                 showFlag: true,
                 showCurrencyName: true,
                 showCurrencyCode: true,
+                searchHint: S.current.searchExpensesSearchTitle,
                 onSelect: (Currency currency) {
                   print('Select currency: ${currency.name}');
                   BlocProvider.of<SubCurrencyBloc>(context).add(SubCurrencyAddCurrency(currency));

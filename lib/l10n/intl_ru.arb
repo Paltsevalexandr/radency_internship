@@ -194,6 +194,7 @@
 
   "searchExpensesSearchTitle": "Поиск",
   "searchExpensesAllCheckbox": "Все",
+  "subCurrencySettingTitle" : "Выбор доп. валюты",
 
   "categoriesDefaultOther": "Другое"
 }

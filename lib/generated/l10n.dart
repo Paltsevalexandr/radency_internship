@@ -1674,6 +1674,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Sub Currency Setting`
+  String get subCurrencySettingTitle {
+    return Intl.message(
+      'Sub Currency Setting',
+      name: 'subCurrencySettingTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

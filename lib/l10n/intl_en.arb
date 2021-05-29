@@ -195,5 +195,7 @@
   "categoriesDefaultOther": "Other",
 
   "searchExpensesSearchTitle": "Search",
-  "searchExpensesAllCheckbox": "All"
+  "searchExpensesAllCheckbox": "All",
+
+  "subCurrencySettingTitle" : "Sub Currency Setting"
 }

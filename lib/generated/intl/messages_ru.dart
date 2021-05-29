@@ -166,6 +166,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "statsViewMapTab" : MessageLookupByLibrary.simpleMessage("Карта"),
     "style" : MessageLookupByLibrary.simpleMessage("Стили"),
     "stylePageTitle" : MessageLookupByLibrary.simpleMessage("Стиль"),
+    "subCurrencySettingTitle" : MessageLookupByLibrary.simpleMessage("Выбор доп. валюты"),
     "sundayShort" : MessageLookupByLibrary.simpleMessage("Вс"),
     "systemTheme" : MessageLookupByLibrary.simpleMessage("Системная тема"),
     "thursdayShort" : MessageLookupByLibrary.simpleMessage("Чт"),
