@@ -282,17 +282,13 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Checkbox(
-                value: _biometricsPairingEnabled,
-                onChanged: (value) {
-                  setState(() {
-                    _biometricsPairingEnabled = value;
-                  });
-                }
-              ),
-              Text(
-                S.current.authenticationBiometricsPairCheckbox,
-                maxLines: 2,
-              ),
+                  value: _biometricsPairingEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      _biometricsPairingEnabled = value;
+                    });
+                  }),
+              Expanded(child: Text(S.current.authenticationBiometricsPairCheckbox)),
             ],
           ),
         );

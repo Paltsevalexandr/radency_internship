@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radency_internship_project_2/blocs/transactions/add_transaction/temp_values.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/utils/mocked_expenses.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
@@ -21,7 +22,7 @@ class _BudgetSettingsPageState extends State<BudgetSettingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: List.generate(
-              MockedExpensesItems().expenseCategories.length,
+              TempTransactionsValues().expenseCategories.length,
               (index) => Column(
                     children: [
                       Divider(),

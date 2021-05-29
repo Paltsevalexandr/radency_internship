@@ -20,10 +20,12 @@ class TransactionsSummaryLoading extends TransactionsSummaryState {
 
 class TransactionsSummaryLoaded extends TransactionsSummaryState {
   final String sliderCurrentTimeIntervalString;
-  final ExpenseSummaryItemEntity expenseSummaryItemEntity;
+  final SummaryDetails summaryDetails;
 
-  TransactionsSummaryLoaded({this.expenseSummaryItemEntity, @required this.sliderCurrentTimeIntervalString});
+  TransactionsSummaryLoaded({this.summaryDetails, @required this.sliderCurrentTimeIntervalString}){
+    print("TransactionsSummaryLoaded.TransactionsSummaryLoaded: ${summaryDetails.accountsExpensesDetails.toString()}");
+  }
 
   @override
-  List<Object> get props => [sliderCurrentTimeIntervalString, expenseSummaryItemEntity];
+  List<Object> get props => [sliderCurrentTimeIntervalString, summaryDetails];
 }

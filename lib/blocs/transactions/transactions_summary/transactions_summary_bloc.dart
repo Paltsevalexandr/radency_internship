@@ -4,32 +4,46 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
-import 'package:radency_internship_project_2/models/expense_item.dart';
-import 'package:radency_internship_project_2/utils/date_formatters.dart';
-import 'package:radency_internship_project_2/utils/mocked_expenses.dart';
+import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
+import 'package:radency_internship_project_2/models/transactions/income_transaction.dart';
+import 'package:radency_internship_project_2/models/transactions/summary_details.dart';
+import 'package:radency_internship_project_2/models/transactions/transaction.dart';
+import 'package:radency_internship_project_2/models/user.dart';
+import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
+import 'package:radency_internship_project_2/repositories/transactions_repository.dart';
+import 'package:radency_internship_project_2/utils/date_helper.dart';
 
 part 'transactions_summary_event.dart';
 
 part 'transactions_summary_state.dart';
 
 class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, TransactionsSummaryState> {
-  TransactionsSummaryBloc({@required this.settingsBloc}) : super(TransactionsSummaryInitial());
+  TransactionsSummaryBloc({
+    @required this.settingsBloc,
+    @required this.firebaseAuthenticationService,
+    @required this.transactionsRepository,
+  }) : super(TransactionsSummaryInitial());
 
-  SettingsBloc settingsBloc;
+  final TransactionsRepository transactionsRepository;
+  final FirebaseAuthenticationService firebaseAuthenticationService;
+  final SettingsBloc settingsBloc;
+
   StreamSubscription settingsSubscription;
   String locale = '';
 
   StreamSubscription summaryTransactionsSubscription;
+  StreamSubscription<UserEntity> _onUserChangedSubscription;
 
   DateTime _observedDate;
   String _sliderCurrentTimeIntervalString = '';
 
-  ExpenseSummaryItemEntity expenseSummaryItemEntity;
+  List<Transaction> transactions = [];
 
   @override
   Future<void> close() {
     summaryTransactionsSubscription?.cancel();
     settingsSubscription?.cancel();
+    _onUserChangedSubscription.cancel();
 
     return super.close();
   }
@@ -47,10 +61,11 @@ class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, Transaction
     } else if (event is TransactionsSummaryFetchRequested) {
       yield* _mapTransactionsSummaryFetchRequestedToState(dateForFetch: event.dateForFetch);
     } else if (event is TransactionSummaryDisplayRequested) {
-      yield* _mapTransactionSummaryDisplayRequestedToState(
-          event.sliderCurrentTimeIntervalString, event.expenseSummaryItemEntity);
+      yield* _mapTransactionSummaryDisplayRequestedToState(event.sliderCurrentTimeIntervalString, event.transactions);
     } else if (event is TransactionsSummaryLocaleChanged) {
       yield* _mapTransactionsSummaryLocaleChangedToState();
+    } else if (event is TransactionsSummaryRefreshPressed) {
+      add(TransactionsSummaryFetchRequested(dateForFetch: _observedDate));
     }
   }
 
@@ -68,15 +83,24 @@ class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, Transaction
         }
       }
     });
+
+    _onUserChangedSubscription = firebaseAuthenticationService.userFromAuthState.listen((user) {
+      if (user == UserEntity.empty) {
+        transactions.clear();
+        add(TransactionSummaryDisplayRequested(
+            sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString, transactions: transactions));
+      } else {
+        _observedDate = DateTime.now();
+        add(TransactionsSummaryFetchRequested(dateForFetch: _observedDate));
+      }
+    });
   }
 
   Stream<TransactionsSummaryState> _mapTransactionsSummaryLocaleChangedToState() async* {
-    _sliderCurrentTimeIntervalString =
-        DateFormatters().monthNameAndYearFromDateTimeString(_observedDate, locale: locale);
+    _sliderCurrentTimeIntervalString = DateHelper().monthNameAndYearFromDateTimeString(_observedDate, locale: locale);
     if (state is TransactionsSummaryLoaded) {
       add(TransactionSummaryDisplayRequested(
-          expenseSummaryItemEntity: expenseSummaryItemEntity,
-          sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString));
+          transactions: transactions, sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString));
     } else if (state is TransactionsSummaryLoading) {
       yield TransactionsSummaryLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
     }
@@ -86,22 +110,26 @@ class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, Transaction
       {@required DateTime dateForFetch}) async* {
     summaryTransactionsSubscription?.cancel();
 
-    _sliderCurrentTimeIntervalString = DateFormatters().monthNameAndYearFromDateTimeString(_observedDate);
+    _sliderCurrentTimeIntervalString = DateHelper().monthNameAndYearFromDateTimeString(_observedDate);
     yield TransactionsSummaryLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
-    summaryTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
-      // TODO: Implement fetch endpoint
-       expenseSummaryItemEntity = MockedExpensesItems().generateSummaryData();
+    summaryTransactionsSubscription = transactionsRepository
+        .getTransactionsByTimePeriod(
+            start: DateTime(dateForFetch.year, dateForFetch.month, 1),
+            end: DateTime(dateForFetch.year, dateForFetch.month + 1, 0))
+        .asStream()
+        .listen((event) {
+      transactions = event;
       add(TransactionSummaryDisplayRequested(
-          sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
-          expenseSummaryItemEntity: expenseSummaryItemEntity));
+          sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString, transactions: transactions));
     });
   }
 
   Stream<TransactionsSummaryState> _mapTransactionSummaryDisplayRequestedToState(
-      String data, ExpenseSummaryItemEntity expenseSummaryItemEntity) async* {
+      String data, List<Transaction> transactions) async* {
+    SummaryDetails summary = _convertTransactionsToSummary(transactions);
+
     yield TransactionsSummaryLoaded(
-        sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
-        expenseSummaryItemEntity: expenseSummaryItemEntity);
+        sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString, summaryDetails: summary);
   }
 
   Stream<TransactionsSummaryState> _mapTransactionsSummaryGetPreviousMonthPressedToState() async* {
@@ -112,5 +140,35 @@ class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, Transaction
   Stream<TransactionsSummaryState> _mapTransactionsSummaryGetNextMonthPressedToState() async* {
     _observedDate = DateTime(_observedDate.year, _observedDate.month + 1);
     add(TransactionsSummaryFetchRequested(dateForFetch: _observedDate));
+  }
+
+  SummaryDetails _convertTransactionsToSummary(List<Transaction> transactions) {
+    SummaryDetails summaryDetails = SummaryDetails(income: 0.0, expenses: 0.0, total: 0.0, accountsExpensesDetails: {});
+
+    if (transactions.isEmpty) {
+      return summaryDetails;
+    }
+
+    transactions.forEach((transaction) {
+      if (transaction is ExpenseTransaction) {
+        bool categoryExists = summaryDetails.accountsExpensesDetails.containsKey(transaction.category);
+
+        if (!categoryExists) {
+          summaryDetails.accountsExpensesDetails[transaction.category] = 0.0;
+        }
+
+        summaryDetails.accountsExpensesDetails[transaction.category] =
+            summaryDetails.accountsExpensesDetails[transaction.category] + transaction.amount;
+
+        summaryDetails.expenses += transaction.amount;
+      }
+
+      if (transaction is IncomeTransaction) {
+        summaryDetails.income += transaction.amount;
+      }
+    });
+
+    summaryDetails.total = summaryDetails.income - summaryDetails.expenses;
+    return summaryDetails;
   }
 }

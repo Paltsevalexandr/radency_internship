@@ -18,7 +18,7 @@ import 'package:radency_internship_project_2/ui/shared_components/elevated_butto
 import 'package:radency_internship_project_2/ui/shared_components/field_title.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
-import 'package:radency_internship_project_2/utils/date_formatters.dart';
+import 'package:radency_internship_project_2/utils/date_helper.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
@@ -405,14 +405,16 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               BlocProvider.of<AddTransactionBloc>(context).add(AddTransaction(
                   isAddingCompleted: true,
                   transaction: ExpenseTransaction(
-                    currency: state.currency,
-                    note: _noteValue,
-                    accountOrigin: _accountValue,
-                    dateTime: _selectedDateTime,
-                    category: _categoryValue,
-                    amount: _amountValue,
-                    sharedContact: _sharedContact,
-                  )));
+                      currency: state.currency,
+                      note: _noteValue,
+                      accountOrigin: _accountValue,
+                      date: _selectedDateTime,
+                      category: _categoryValue,
+                      amount: _amountValue,
+                      sharedContact: _sharedContact,
+                      locationLatitude: _locationValue?.latitude,
+                      locationLongitude: _locationValue?.longitude,
+                      creationType: ExpenseCreationType.MANUAL)));
             }
           });
     });
@@ -433,11 +435,14 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                   transaction: ExpenseTransaction(
                     note: _noteValue,
                     accountOrigin: _accountValue,
-                    dateTime: _selectedDateTime,
+                    date: _selectedDateTime,
                     category: _categoryValue,
                     amount: _amountValue,
                     sharedContact: _sharedContact,
-                    currency: state.currency
+                    currency: state.currency,
+                    locationLatitude: _locationValue.latitude,
+                    locationLongitude: _locationValue.longitude,
+                    creationType: ExpenseCreationType.MANUAL,
                   )));
             }
           });
@@ -450,7 +455,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     if (result != null) {
       setState(() {
         _selectedDateTime = result;
-        _dateFieldController.text = DateFormatters().dateToTransactionDateString(result);
+        _dateFieldController.text = DateHelper().dateToTransactionDateString(result);
       });
       updateForex(context, result);
     }
@@ -486,7 +491,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   void _clearFields() {
     setState(() {
       _selectedDateTime = DateTime.now();
-      _dateFieldController.text = DateFormatters().dateToTransactionDateString(_selectedDateTime);
+      _dateFieldController.text = DateHelper().dateToTransactionDateString(_selectedDateTime);
 
       _locationValue = null;
       _locationFieldController.text = '';

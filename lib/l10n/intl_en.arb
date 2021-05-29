@@ -75,6 +75,11 @@
   "transactionsTabButtonExpensesCashAccounts": "Expenses (Cash, Accounts)",
   "transactionsTabButtonExpensesCreditCards": "Expenses (Credit Cards)",
 
+  "noDataForCurrentDateRangeMessage": "There is no data available for this period! Switch date range or add new transaction",
+  "noCategoriesExpensesDetailsMessage": "There are no expenses for current period!",
+
+  "refreshButtonText": "Refresh",
+
   "expense": "Expense",
   "transfer": "Transfer",
 
@@ -186,6 +191,8 @@
   "statsBudgetMonthlyTotalTitle": "Monthly",
   "statsBudgetSetupSaveButton": "Save",
   "statsBudgetSetupSaveDescription": "Enter desired budget",
+
+  "categoriesDefaultOther": "Other",
 
   "searchExpensesSearchTitle": "Search",
   "searchExpensesAllCheckbox": "All"

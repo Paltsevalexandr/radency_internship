@@ -86,7 +86,7 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
                 valueColor: monthlyCategoryExpense.budgetUsage < 1 ? AlwaysStoppedAnimation<Color>(Colors.blue) : AlwaysStoppedAnimation<Color>(Colors.red),
               ),
               Container(
-                  alignment: Alignment(0.9, 0),
+                  alignment: Alignment(0.95, 0),
                   height: pixelsToDP(context, progressIndicatorHeight),
                   child: Text(
                     '${(monthlyCategoryExpense.budgetUsage * 100).toStringAsFixed(0)}%',
@@ -95,19 +95,22 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
             ],
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              '${monthlyCategoryExpense.expenseAmount.toStringAsFixed(2)}',
-              style: budgetItemLimitedExpenseAmountStyle(isOverBudget: monthlyCategoryExpense.expenseAmount > monthlyCategoryExpense.budgetTotal),
-            ),
-            Text(
-              monthlyCategoryExpense.budgetLeft.toStringAsFixed(2),
-              style: budgetItemLimitedTotalBudgetAmountStyle,
-            )
-          ],
+        Container(
+          width: double.maxFinite,
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.end,
+            children: [
+              Text(
+                '${monthlyCategoryExpense.expenseAmount.toStringAsFixed(2)}',
+                style: budgetItemLimitedExpenseAmountStyle(isOverBudget: monthlyCategoryExpense.expenseAmount > monthlyCategoryExpense.budgetTotal),
+              ),
+              Text(
+                monthlyCategoryExpense.budgetLeft.toStringAsFixed(2),
+                style: budgetItemLimitedTotalBudgetAmountStyle,
+              )
+            ],
+          ),
         )
       ],
     );

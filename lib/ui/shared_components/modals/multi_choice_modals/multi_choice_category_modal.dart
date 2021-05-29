@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/category/category_bloc.dart';
-import 'package:radency_internship_project_2/blocs/settings/category/category_slider/category_slider_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/multi_choice_modals/base_multi_choice_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/multi_choice_modals/category_view.dart';

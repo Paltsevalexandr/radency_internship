@@ -4,7 +4,6 @@ import 'package:radency_internship_project_2/blocs/accounts/account_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/multi_choice_modals/base_multi_choice_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/multi_choice_modals/item_row.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class MultiChoiceAccountModal extends StatefulWidget{
 

@@ -35,12 +35,12 @@ class ExpensesMapFetchRequested extends ExpensesMapEvent {
 
 class ExpensesMapDisplayRequested extends ExpensesMapEvent {
   final String data;
-  final Map<int, List<ExpenseItemEntity>> expenseData;
+  final List<Transaction> transactions;
 
-  ExpensesMapDisplayRequested({this.expenseData, @required this.data});
+  ExpensesMapDisplayRequested({this.transactions, @required this.data});
 
   @override
-  List<Object> get props => [data, expenseData];
+  List<Object> get props => [data, transactions];
 }
 
 class ExpensesMapOnCameraMoved extends ExpensesMapEvent {

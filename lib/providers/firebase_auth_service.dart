@@ -38,7 +38,8 @@ class FirebaseAuthenticationService {
     });
   }
 
-  Future<void> signInWithPhoneCredential({@required AuthCredential authCredential, String email, String username}) async {
+  Future<void> signInWithPhoneCredential(
+      {@required AuthCredential authCredential, String email, String username}) async {
     User firebaseUser;
     await _firebaseAuth.signInWithCredential(authCredential).then((value) async {
       firebaseUser = value.user;
@@ -52,7 +53,8 @@ class FirebaseAuthenticationService {
     await _firebaseAuth.currentUser.reload();
   }
 
-  Future<void> signInWithPhoneCredentialAndUpdateProfile({@required AuthCredential authCredential, String email, String username}) async {
+  Future<void> signInWithPhoneCredentialAndUpdateProfile(
+      {@required AuthCredential authCredential, String email, String username}) async {
     User firebaseUser;
     await _firebaseAuth.signInWithCredential(authCredential).then((value) {
       firebaseUser = value.user;
@@ -82,7 +84,11 @@ class FirebaseAuthenticationService {
     ),
     int forceResendingToken,
   }) async {
-    assert(phoneNumber != null && codeAutoRetrievalTimeout != null && verificationFailed != null && codeSent != null && verificationCompleted != null);
+    assert(phoneNumber != null &&
+        codeAutoRetrievalTimeout != null &&
+        verificationFailed != null &&
+        codeSent != null &&
+        verificationCompleted != null);
     try {
       await _firebaseAuth.verifyPhoneNumber(
           codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
@@ -100,11 +106,14 @@ class FirebaseAuthenticationService {
     await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
   }
 
-  Future<void> signUpWithEmailAndPassword({@required String email, @required String password, @required String username}) async {
+  Future<void> signUpWithEmailAndPassword(
+      {@required String email, @required String password, @required String username}) async {
     await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 
     User firebaseUser;
-    await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).then((value) => firebaseUser = value.user);
+    await _firebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) => firebaseUser = value.user);
 
     await firebaseUser.updateProfile(displayName: username);
     await _firebaseAuth.currentUser.reload();
@@ -118,6 +127,11 @@ class FirebaseAuthenticationService {
 
   Future<void> reloadUser() async {
     await _firebaseAuth.currentUser.reload();
+  }
+
+  Future<String> getUserID() async {
+    firebase_auth.User user = _firebaseAuth.currentUser;
+    return user.uid;
   }
 
   Future<void> logOut() async {

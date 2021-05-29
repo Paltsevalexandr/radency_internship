@@ -7,9 +7,7 @@ import 'package:radency_internship_project_2/ui/shared_components/design_scaffol
 import 'package:radency_internship_project_2/ui/shared_components/design_transactions_header.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/transactions_content.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
-import 'add_transaction_menu.dart';
 import 'widgets/bottom_nav_bar.dart';
 
 class TransactionsView extends StatefulWidget {

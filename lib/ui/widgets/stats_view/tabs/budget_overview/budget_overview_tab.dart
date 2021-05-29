@@ -5,7 +5,6 @@ import 'package:radency_internship_project_2/blocs/stats/budget_overview/budget_
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
-import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/widgets/budget_slider.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/widgets/expense_category_budget_card.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
@@ -33,8 +32,7 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
         }
 
         if (state is BudgetOverviewLoaded) {
-          return Column(
-            mainAxisSize: MainAxisSize.max,
+          return ListView(
             children: [
               summaryAndSettingsButton(state.summary),
               SizedBox(
@@ -65,7 +63,6 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
                 child: Wrap(
                   alignment: WrapAlignment.spaceBetween,
                   crossAxisAlignment: WrapCrossAlignment.start,
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     remainingBudgetSection(),
                     settingsButton(),
@@ -110,22 +107,19 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
   }
 
   Widget categoriesBudgetList(List<MonthlyCategoryExpense> monthlyCategoryExpenses) {
-    return Expanded(
-      child: Container(
-        color: Colors.white,
-        child: ListView(
-          shrinkWrap: true,
-          // mainAxisSize: MainAxisSize.min,
-          children: List.generate(
-              monthlyCategoryExpenses.length,
-              (index) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (index != 0) Divider(),
-                      ExpenseCategoryBudgetItem(monthlyCategoryExpense: monthlyCategoryExpenses[index]),
-                    ],
-                  )),
-        ),
+    return Container(
+      color: Colors.white,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(
+            monthlyCategoryExpenses.length,
+            (index) => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (index != 0) Divider(),
+                    ExpenseCategoryBudgetItem(monthlyCategoryExpense: monthlyCategoryExpenses[index]),
+                  ],
+                )),
       ),
     );
   }

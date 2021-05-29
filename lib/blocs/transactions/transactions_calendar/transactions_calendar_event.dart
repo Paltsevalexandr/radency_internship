@@ -49,3 +49,14 @@ class TransactionsCalendarLocaleChanged extends TransactionsCalendarEvent {
   @override
   List<Object> get props => [];
 }
+
+class TransactionsCalendarUserChanged extends TransactionsCalendarEvent {
+
+  final String id;
+
+  TransactionsCalendarUserChanged({@required this.id});
+
+  @override
+  List<Object> get props => [id];
+}
+

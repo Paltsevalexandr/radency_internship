@@ -30,11 +30,16 @@ class TransactionsWeeklyFetchRequested extends TransactionsWeeklyEvent {
 }
 
 class TransactionWeeklyDisplayRequested extends TransactionsWeeklyEvent {
-  final String data;
-  final List<ExpenseWeeklyItemEntity> expenseData;
+  final String sliderCurrentTimeIntervalString;
+  final List<Transaction> transactions;
 
-  TransactionWeeklyDisplayRequested({this.expenseData, @required this.data});
+  TransactionWeeklyDisplayRequested({this.transactions, @required this.sliderCurrentTimeIntervalString});
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [transactions, sliderCurrentTimeIntervalString];
+}
+
+class TransactionWeeklyRefreshPressed extends TransactionsWeeklyEvent {
+  @override
+  List<Object> get props => [];
 }

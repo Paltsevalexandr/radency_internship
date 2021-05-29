@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
@@ -14,72 +15,113 @@ class DayCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      builder: (context, settingsState) {
-        if (settingsState is LoadedSettingsState) {
-          return GestureDetector(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CalendarDayDialog(
-                      day: day,
-                      currencySymbol: getCurrencySymbol(settingsState.currency),
-                    );
-                  });
-            },
-            child: Container(
-              width: maxWidth / 7,
-              height: maxHeight / 6,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.grey),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    day.displayedDate,
-                    style: TextStyle(
-                      color: day.isActive ? Theme.of(context).textTheme.bodyText1.color : Colors.grey,
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      value(context: context, value: day.incomeAmount, color: Colors.blue),
-                      value(context: context, value: day.expensesAmount, color: Colors.red),
-                      value(context: context, value: day.transferAmount),
-                    ],
-                  )
-                ],
+
+    String currency = context.read<SettingsBloc>().state.currency;
+
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return CalendarDayDialog(
+                day: day,
+                currencySymbol: getCurrencySymbol(currency),
+              );
+            });
+      },
+      child: Container(
+        width: maxWidth / 7,
+        height: maxHeight / 6,
+        decoration: BoxDecoration(
+          border: Border.all(width: 1, color: Colors.grey),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              flex: 1,
+              child: AutoSizeText(
+                day.displayedDate,
+                presetFontSizes: [22, 20, 18, 17, 16, 15, 14, 13, 12, 11, 10, ],
+                textAlign: TextAlign.end,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: day.isActive ? Theme.of(context).primaryColorLight : Colors.grey,
+                ),
               ),
             ),
-          );
-        }
-
-        return SizedBox();
-      },
+            Expanded(
+              flex: 3,
+              child: LayoutBuilder(
+                builder: (BuildContext _context, BoxConstraints constraints) {
+                  return Column(
+                    // shrinkWrap: true,
+                    // physics: NeverScrollableScrollPhysics(),
+                    // //mainAxisSize: MainAxisSize.min,
+                    children: [
+                      value(
+                        context: context,
+                        value: day.incomeAmount,
+                        color: Colors.blue,
+                        height: constraints.maxHeight / 3,
+                        maxWidth: constraints.maxWidth,
+                      ),
+                      value(
+                        context: context,
+                        value: day.expensesAmount,
+                        color: Colors.red,
+                        height: constraints.maxHeight / 3,
+                        maxWidth: constraints.maxWidth,
+                      ),
+                      value(
+                        context: context,
+                        value: day.transferAmount,
+                        color: Theme.of(context).textTheme.bodyText1.color,
+                        height: constraints.maxHeight / 3,
+                        maxWidth: constraints.maxWidth,
+                      ),
+                    ],
+                  );
+                },
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
-  Widget value({@required BuildContext context, double value, Color color}) {
-    if (value == 0) {
-      value = null;
+  Widget value({
+    @required BuildContext context,
+    double value,
+    @required Color color,
+    @required double height,
+    @required double maxWidth,
+  }) {
+    if (value == 0.0) {
+      return SizedBox();
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Expanded(
-          child: Text(
-            value?.toStringAsFixed(2) ?? '',
-            style: TextStyle(color: color ?? Theme.of(context).textTheme.bodyText1.color),
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.end,
-            maxLines: 1,
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            constraints: BoxConstraints(maxHeight: height, maxWidth: maxWidth),
+            child: AutoSizeText(
+              value?.toStringAsFixed(2) ?? '',
+              presetFontSizes: [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7],
+              style: TextStyle(color: color),
+              overflowReplacement: Text('...', style: TextStyle(color: color)),
+              textAlign: TextAlign.end,
+              maxLines: 1,
+            ),
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 }

@@ -1,4 +1,3 @@
-
 part of 'transactions_daily_bloc.dart';
 
 abstract class TransactionsDailyState extends Equatable {
@@ -21,10 +20,10 @@ class TransactionsDailyLoading extends TransactionsDailyState {
 
 class TransactionsDailyLoaded extends TransactionsDailyState {
   final String sliderCurrentTimeIntervalString;
-  final Map<int, List<ExpenseItemEntity>> data;
+  final Map<int, List<Transaction>> dailySortedTransactions;
 
-  TransactionsDailyLoaded({this.data, @required this.sliderCurrentTimeIntervalString});
+  TransactionsDailyLoaded({@required this.dailySortedTransactions, @required this.sliderCurrentTimeIntervalString});
 
   @override
-  List<Object> get props => [sliderCurrentTimeIntervalString, data];
+  List<Object> get props => [sliderCurrentTimeIntervalString, dailySortedTransactions];
 }

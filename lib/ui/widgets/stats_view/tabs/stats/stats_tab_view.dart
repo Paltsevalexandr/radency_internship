@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/stats/expenses_map/expenses_map_view.dart';
-import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/spending_page/spending_page.dart';
-import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/stats/widgets/stats_slider.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
+
+import 'expenses_chart/chart_view.dart';
 
 class StatsTabView extends StatefulWidget {
   @override
@@ -66,7 +66,7 @@ class _StatsTabViewState extends State<StatsTabView> with SingleTickerProviderSt
     return BlocBuilder<StatsBloc, StatsState>(builder: (context, state) {
       switch (state.statsTabMode) {
         case StatsTabMode.chart:
-          return SpendingPage();
+          return ChartView();
           break;
         case StatsTabMode.map:
           return ExpensesMapView();

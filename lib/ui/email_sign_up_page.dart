@@ -255,7 +255,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
                       _biometricsPairingEnabled = value;
                     });
                   }),
-              Text(S.current.authenticationBiometricsPairCheckbox),
+              Expanded(child: Text(S.current.authenticationBiometricsPairCheckbox)),
             ],
           ),
         );

@@ -30,16 +30,21 @@ class TransactionsSummaryFetchRequested extends TransactionsSummaryEvent {
 
 class TransactionSummaryDisplayRequested extends TransactionsSummaryEvent {
   final String sliderCurrentTimeIntervalString;
-  final ExpenseSummaryItemEntity expenseSummaryItemEntity;
+  final List<Transaction> transactions;
 
-  TransactionSummaryDisplayRequested({this.expenseSummaryItemEntity, @required this.sliderCurrentTimeIntervalString});
+  TransactionSummaryDisplayRequested({@required this.transactions, @required this.sliderCurrentTimeIntervalString});
 
   @override
-  List<Object> get props => [sliderCurrentTimeIntervalString];
+  List<Object> get props => [sliderCurrentTimeIntervalString, transactions];
 }
 
 class TransactionsSummaryLocaleChanged extends TransactionsSummaryEvent {
 
+  @override
+  List<Object> get props => [];
+}
+
+class TransactionsSummaryRefreshPressed extends TransactionsSummaryEvent {
   @override
   List<Object> get props => [];
 }

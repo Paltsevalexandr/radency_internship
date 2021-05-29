@@ -11,8 +11,7 @@ import 'package:radency_internship_project_2/ui/shared_components/field_title.da
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
-import 'package:radency_internship_project_2/utils/date_formatters.dart';
+import 'package:radency_internship_project_2/utils/date_helper.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
@@ -382,7 +381,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
                       accountDestination: _toValue,
                       note: _noteValue,
                       fees: _feesValue,
-                      dateTime: _selectedDateTime,
+                      date: _selectedDateTime,
                       amount: _amountValue,
                       currency: state.currency)));
             }
@@ -405,7 +404,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
                   transaction: TransferTransaction(
                       note: _noteValue,
                       accountOrigin: _fromValue,
-                      dateTime: _selectedDateTime,
+                      date: _selectedDateTime,
                       accountDestination: _toValue,
                       amount: _amountValue,
                       fees: _feesValue,
@@ -429,7 +428,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
     if (result != null) {
       setState(() {
         _selectedDateTime = result;
-        _dateFieldController.text = DateFormatters().dateToTransactionDateString(result);
+        _dateFieldController.text = DateHelper().dateToTransactionDateString(result);
       });
       updateForex(context, result);
     }
@@ -452,7 +451,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
   void _clearFields() {
     setState(() {
       _selectedDateTime = DateTime.now();
-      _dateFieldController.text = DateFormatters().dateToTransactionDateString(_selectedDateTime);
+      _dateFieldController.text = DateHelper().dateToTransactionDateString(_selectedDateTime);
 
       _fromFieldController.text = '';
       _toFieldController.text = '';

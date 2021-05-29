@@ -42,9 +42,17 @@ class _CalendarTableState extends State<CalendarTable> {
         children: List.generate(
             7,
             (index) => Expanded(
-                    child: Text(
-                  getWeekDayByNumber(index + 1, context),
-                  textAlign: TextAlign.center,
+                    child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                        top: BorderSide(width: 1, color: Colors.grey),
+                        left: BorderSide(width: 1, color: Colors.grey),
+                        right: BorderSide(width: 1, color: Colors.grey)),
+                  ),
+                  child: Text(
+                    getWeekDayByNumber(index + 1, context),
+                    textAlign: TextAlign.center,
+                  ),
                 ))),
       ),
     );
@@ -69,47 +77,42 @@ class _CalendarTableState extends State<CalendarTable> {
   }
 
   Widget _summarySection() {
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      builder: (context, settingsState) {
-        if (settingsState is LoadedSettingsState) {
-          return BlocBuilder<TransactionsCalendarBloc, TransactionsCalendarState>(builder: (context, state) {
-            if (state is TransactionsCalendarLoaded) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: _totalSectionColumn(
-                      title: S.current.income,
-                      currencySymbol: getCurrencySymbol(settingsState.currency),
-                      amount: state.incomeSummary,
-                      color: Colors.blue,
-                    )),
-                    Expanded(
-                        child: _totalSectionColumn(
-                      title: S.current.expenses,
-                      currencySymbol: getCurrencySymbol(settingsState.currency),
-                      amount: state.expensesSummary,
-                      color: Colors.red,
-                    )),
-                    Expanded(
-                        child: _totalSectionColumn(
-                      title: S.current.total,
-                      currencySymbol: getCurrencySymbol(settingsState.currency),
-                      amount: state.incomeSummary - state.expensesSummary,
-                    )),
-                  ],
-                ),
-              );
-            }
+    return BlocBuilder<TransactionsCalendarBloc, TransactionsCalendarState>(builder: (context, state) {
 
-            return SizedBox();
-          });
-        }
+      String currency = context.read<SettingsBloc>().state.currency;
 
-        return SizedBox();
-      },
-    );
+      if (state is TransactionsCalendarLoaded) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Expanded(
+                  child: _totalSectionColumn(
+                    title: S.current.income,
+                    currencySymbol: getCurrencySymbol(currency),
+                    amount: state.incomeSummary,
+                    color: Colors.blue,
+                  )),
+              Expanded(
+                  child: _totalSectionColumn(
+                    title: S.current.expenses,
+                    currencySymbol: getCurrencySymbol(currency),
+                    amount: state.expensesSummary,
+                    color: Colors.red,
+                  )),
+              Expanded(
+                  child: _totalSectionColumn(
+                    title: S.current.total,
+                    currencySymbol: getCurrencySymbol(currency),
+                    amount: state.incomeSummary - state.expensesSummary,
+                  )),
+            ],
+          ),
+        );
+      }
+
+      return SizedBox();
+    });
   }
 
   Widget _totalSectionColumn({String title, String currencySymbol, double amount, Color color}) {

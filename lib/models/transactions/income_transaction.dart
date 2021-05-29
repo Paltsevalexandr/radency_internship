@@ -1,32 +1,37 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:radency_internship_project_2/models/transactions/transaction.dart';
-import 'package:uuid/uuid.dart';
 
+part 'income_transaction.g.dart';
+
+@JsonSerializable(nullable: true)
 class IncomeTransaction extends Transaction {
+  String id;
+  TransactionType transactionType = TransactionType.Income;
   String category;
   String accountOrigin;
   double amount;
-  DateTime dateTime;
+  DateTime date;
   String note;
   String currency;
   String subcurrency;
+  DateTime creationDate;
 
   IncomeTransaction({
-    @required this.dateTime,
+    this.id,
+    @required this.date,
     @required this.accountOrigin,
     @required this.category,
     @required this.amount,
     @required this.note,
     @required this.currency,
-    this.subcurrency
-  }) : super(
-    id: Uuid().v1(),
-    type: TransactionType.Expense,
-    accountOrigin: accountOrigin,
-    amount: amount,
-    dateTime: dateTime,
-    note: note,
-    currency: currency,
-    subcurrency: subcurrency,
-  );
+    this.subcurrency,
+    this.creationDate,
+  });
+
+  factory IncomeTransaction.fromJson(Map<String, dynamic> json, String id) {
+    return _$IncomeTransactionFromJson(json)..id = id;
+  }
+
+  Map<String, dynamic> toJson() => _$IncomeTransactionToJson(this);
 }

@@ -50,3 +50,13 @@ class BudgetOverviewLocaleChanged extends BudgetOverviewEvent {
   @override
   List<Object> get props => [];
 }
+
+class BudgetOverviewUserChanged extends BudgetOverviewEvent {
+
+  final String userId;
+
+  BudgetOverviewUserChanged({@required this.userId});
+
+  @override
+  List<Object> get props => [userId];
+}

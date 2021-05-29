@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:radency_internship_project_2/utils/date_formatters.dart';
+
+import 'date_helper.dart';
 
 class ForexService{
   String apiBase = "https://bank.gov.ua/NBU_Exchange/exchange?json&";
 
   Future<Map> getExchangeRates(String mainCurrencyCode, DateTime dateTime) async {
     Map<String, double> map = {};
-    String dateString = DateFormatters().dateToNbuString(dateTime);
+    String dateString = DateHelper().dateToNbuString(dateTime);
     var response = await http.get(Uri.parse(apiBase + "date=$dateString"));
     if(response.statusCode == 200) {
       List responseBody = json.decode(response.body);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:radency_internship_project_2/blocs/stats/expenses_chart/expenses_chart_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/expenses_map/expenses_map_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/ui/widgets/slider.dart';
@@ -35,11 +36,31 @@ class _StatsSliderState extends State<StatsSlider> {
 }
 
 Widget _chartSlider(BuildContext context) {
-  Function onBackPressed = () {};
+  Function onMapSliderBackPressed = () {
+    return context.read<ExpensesChartBloc>().add(ExpensesChartGetPreviousMonthPressed());
+  };
 
-  Function onForwardPressed = () {};
+  Function onMapSliderForwardPressed = () {
+    return context.read<ExpensesChartBloc>().add(ExpensesChartGetNextMonthPressed());
+  };
 
-  return DateRangeSlider(content: '', onBackPressed: null, onForwardPressed: null);
+  return BlocBuilder<ExpensesChartBloc, ExpensesChartState>(builder: (context, state) {
+    if (state is ExpensesChartLoaded) {
+      return DateRangeSlider(
+          content: state.sliderCurrentTimeIntervalString,
+          onForwardPressed: onMapSliderForwardPressed,
+          onBackPressed: onMapSliderBackPressed);
+    }
+
+    if (state is ExpensesChartLoading) {
+      return DateRangeSlider(
+          content: state.sliderCurrentTimeIntervalString,
+          onForwardPressed: onMapSliderForwardPressed,
+          onBackPressed: onMapSliderBackPressed);
+    }
+
+    return SizedBox();
+  });
 }
 
 Widget _expensesMapSlider(BuildContext context) {

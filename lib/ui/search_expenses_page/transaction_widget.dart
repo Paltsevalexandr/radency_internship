@@ -5,12 +5,12 @@ import 'package:radency_internship_project_2/models/transactions/expense_transac
 import 'package:radency_internship_project_2/models/transactions/income_transaction.dart';
 import 'package:radency_internship_project_2/models/transactions/transaction.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
-import 'package:radency_internship_project_2/utils/date_formatters.dart';
+import 'package:radency_internship_project_2/utils/date_helper.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
-class TransactionWidget extends StatelessWidget{
+class TransactionWidget extends StatelessWidget {
   final Transaction transaction;
 
   const TransactionWidget({Key key, this.transaction}) : super(key: key);
@@ -22,16 +22,16 @@ class TransactionWidget extends StatelessWidget{
     String subLabel = "";
     String accountLabel = "";
 
-    if(transaction is TransferTransaction){
+    if (transaction is TransferTransaction) {
       subLabel = "Transfer";
       accountLabel = transaction.accountOrigin + " –> " + (transaction as TransferTransaction).accountDestination;
     }
-    if(transaction is ExpenseTransaction){
+    if (transaction is ExpenseTransaction) {
       subLabel = (transaction as ExpenseTransaction).category;
       accountLabel = transaction.accountOrigin;
       valueColor = Colors.red;
     }
-    if(transaction is IncomeTransaction){
+    if (transaction is IncomeTransaction) {
       accountLabel = transaction.accountOrigin;
       subLabel = (transaction as IncomeTransaction).category;
       valueColor = Colors.blue;
@@ -48,7 +48,7 @@ class TransactionWidget extends StatelessWidget{
           Expanded(
             child: Column(
               children: [
-                Text(DateFormatters().dateToString(transaction.dateTime)),
+                Text(DateHelper().dateToString(transaction.date)),
                 SizedBox(
                   height: pixelsToDP(context, 10),
                 ),

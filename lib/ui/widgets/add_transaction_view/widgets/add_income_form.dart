@@ -11,7 +11,7 @@ import 'package:radency_internship_project_2/ui/shared_components/modals/amount/
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
-import 'package:radency_internship_project_2/utils/date_formatters.dart';
+import 'package:radency_internship_project_2/utils/date_helper.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
@@ -291,7 +291,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
                   transaction: IncomeTransaction(
                     note: _noteValue,
                     accountOrigin: _accountValue,
-                    dateTime: _selectedDateTime,
+                    date: _selectedDateTime,
                     category: _categoryValue,
                     amount: _amountValue,
                     currency: state.currency,
@@ -316,7 +316,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
                   transaction: IncomeTransaction(
                     note: _noteValue,
                     accountOrigin: _accountValue,
-                    dateTime: _selectedDateTime,
+                    date: _selectedDateTime,
                     category: _categoryValue,
                     amount: _amountValue,
                     currency: state.currency,
@@ -341,7 +341,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
     if (result != null) {
       setState(() {
         _selectedDateTime = result;
-        _dateFieldController.text = DateFormatters().dateToTransactionDateString(result);
+        _dateFieldController.text = DateHelper().dateToTransactionDateString(result);
       });
       updateForex(context, result);
     }
@@ -357,7 +357,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
   void _clearFields() {
     setState(() {
       _selectedDateTime = DateTime.now();
-      _dateFieldController.text = DateFormatters().dateToTransactionDateString(_selectedDateTime);
+      _dateFieldController.text = DateHelper().dateToTransactionDateString(_selectedDateTime);
 
       _accountFieldController.text = '';
       _categoryFieldController.text = '';

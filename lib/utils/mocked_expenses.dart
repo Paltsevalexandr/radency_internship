@@ -1,17 +1,17 @@
 import 'dart:math';
 
-import 'package:radency_internship_project_2/blocs/transactions/add_transaction/temp_values.dart';
 import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
+import 'package:radency_internship_project_2/models/expense_item.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
 import 'package:radency_internship_project_2/models/transactions/income_transaction.dart';
 import 'package:radency_internship_project_2/models/transactions/transaction.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
 import 'package:radency_internship_project_2/models/location.dart';
-import '../models/expense_item.dart';
+import 'package:radency_internship_project_2/blocs/transactions/add_transaction/temp_values.dart';
 
 class MockedExpensesItems {
-  final List<String> incomeCategories = TempAddTransactionValues().incomeCategories;
-  final List<String> expenseCategories = TempAddTransactionValues().expenseCategories;
+  final List<String> incomeCategories = TempTransactionsValues().incomeCategories;
+  final List<String> expenseCategories = TempTransactionsValues().expenseCategories;
   final List<String> accounts = ['Cash', 'Bank accounts', 'Credit cards'];
 
   Map<int, List<ExpenseItemEntity>> generateDailyData({double locationLatitude, double locationLongitude}) {
@@ -61,34 +61,6 @@ class MockedExpensesItems {
     return map;
   }
 
-  List<ExpenseWeeklyItemEntity> generateWeeklyData() {
-    var list = List<ExpenseWeeklyItemEntity>.empty(growable: true);
-
-    for (int j = 1; j < 20; j++) {
-      var date = Random().nextInt(10) + 1;
-
-      list.add(ExpenseWeeklyItemEntity(j, 1 * sqrt(j) * j - sqrt(j) * j + j + sqrt(j), 3 * sqrt(j) * j - sqrt(j) * j + j + sqrt(j), date));
-    }
-
-    list.sort((a, b) => a.weekNumber.compareTo(b.weekNumber));
-
-    return list;
-  }
-
-  List<ExpenseMonthlyItemEntity> generateMonthlyData() {
-    var list = List<ExpenseMonthlyItemEntity>.empty(growable: true);
-
-    for (int j = 1; j < 20; j++) {
-      var month = Random().nextInt(12) + 1;
-
-      list.add(ExpenseMonthlyItemEntity(j, 1 * sqrt(j) * j - sqrt(j) * j + j + sqrt(j), 3 * sqrt(j) * j - sqrt(j) * j + j + sqrt(j), month));
-    }
-
-    list.sort((a, b) => a.monthNumber.compareTo(b.monthNumber));
-
-    return list;
-  }
-
   ExpenseSummaryItemEntity generateSummaryData() {
     double income = 100 * sqrt(Random().nextInt(100) + 1);
     double outcomeCash = 100 * sqrt(Random().nextInt(25) + 1);
@@ -129,10 +101,10 @@ class MockedExpensesItems {
         int accountIndex = Random().nextInt(accounts.length);
 
         transactionList.add(ExpenseTransaction(
-          dateTime: _today.subtract(Duration(days: day)),
+          date: _today.subtract(Duration(days: day)),
           accountOrigin: accounts[accountIndex],
           category: expenseCategories[categoryIndex],
-          amount: Random().nextInt(10000) / 100.0,
+          amount: Random().nextInt(10000) / 100.0, currency: 'UAH', note: '', creationType: ExpenseCreationType.MANUAL, locationLatitude: 0, locationLongitude: 0,
         ));
 
         day = Random().nextInt(20) + 1;
@@ -140,10 +112,10 @@ class MockedExpensesItems {
         accountIndex = Random().nextInt(accounts.length);
 
         transactionList.add(IncomeTransaction(
-          dateTime: _today.subtract(Duration(days: day)),
+          date: _today.subtract(Duration(days: day)),
           accountOrigin: accounts[accountIndex],
           category: incomeCategories[categoryIndex],
-          amount: Random().nextInt(10000) / 100.0,
+          amount: Random().nextInt(10000) / 100.0, note: '', currency: 'UAH',
         ));
 
         day = Random().nextInt(20) + 1;
@@ -151,14 +123,14 @@ class MockedExpensesItems {
         accountIndex = Random().nextInt(3);
 
         transactionList.add(TransferTransaction(
-          dateTime: _today.subtract(Duration(days: day)),
+          date: _today.subtract(Duration(days: day)),
           accountOrigin: accounts[accountIndex],
           accountDestination: accounts[(accountIndex + 1) % 3],
-          amount: Random().nextInt(10000) / 100.0,
+          amount: Random().nextInt(10000) / 100.0, note: '', fees: 0.0, currency: '',
         ));
       }
     }
-    transactionList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+    transactionList.sort((a, b) => b.date.compareTo(a.date));
     return transactionList;
   }
 
@@ -188,7 +160,7 @@ class MockedExpensesItems {
       }
     });
 
-    list.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+    list.sort((a, b) => b.date.compareTo(a.date));
     return list;
   }
 

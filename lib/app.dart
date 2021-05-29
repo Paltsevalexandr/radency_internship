@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:radency_internship_project_2/blocs/export_csv/export_csv_bloc.dart';
 import 'package:radency_internship_project_2/blocs/accounts/account_bloc.dart';
 import 'package:radency_internship_project_2/blocs/forex/forex_bloc.dart';
-import 'package:radency_internship_project_2/blocs/settings/category/category_slider/category_slider_bloc.dart';
-import 'package:radency_internship_project_2/blocs/transactions/search_transactions/search_transactions_bloc.dart';
-
-import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
-import 'package:radency_internship_project_2/ui/category_page/expenses_catedory_list.dart';
-import 'package:radency_internship_project_2/ui/category_page/income_catedory_list.dart';
+import 'package:radency_internship_project_2/blocs/export_csv/export_csv_bloc.dart';
 import 'package:radency_internship_project_2/blocs/image_picker/image_picker_bloc.dart';
+import 'package:radency_internship_project_2/blocs/import_csv/import_csv_bloc.dart';
 import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.dart';
@@ -20,10 +15,12 @@ import 'package:radency_internship_project_2/blocs/transactions/add_transaction/
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_type/transaction_type_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_calendar/transactions_calendar_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_summary/transactions_summary_bloc.dart';
-import 'package:radency_internship_project_2/blocs/import_csv/import_csv_bloc.dart';
 import 'package:radency_internship_project_2/providers/biometric_credentials_service.dart';
+import 'package:radency_internship_project_2/providers/firebase_functions_provider.dart';
+import 'package:radency_internship_project_2/providers/firebase_realtime_database_provider.dart';
 import 'package:radency_internship_project_2/repositories/budgets_repository.dart';
 import 'package:radency_internship_project_2/repositories/settings_repository/settings_repository.dart';
+import 'package:radency_internship_project_2/repositories/transactions_repository.dart';
 import 'package:radency_internship_project_2/ui/category_page/category_page_add.dart';
 import 'package:radency_internship_project_2/ui/category_page/expenses_catedory_list.dart';
 import 'package:radency_internship_project_2/ui/category_page/income_catedory_list.dart';
@@ -33,7 +30,7 @@ import 'package:radency_internship_project_2/ui/email_verification_resend_screen
 import 'package:radency_internship_project_2/ui/search_expenses_page/search_expenses_page_template.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/language_setting_page.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/style_setting_page.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/add_transaction_view_template.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/add_transaction_page.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/transaction_location_select_view.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/stats_view.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/budget_settings_page.dart';
@@ -42,9 +39,13 @@ import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_o
 import 'package:radency_internship_project_2/ui/onboarding_page.dart';
 import 'blocs/authentication/authentication_bloc.dart';
 import 'blocs/settings/category/category_bloc.dart';
+import 'blocs/settings/category/category_slider/category_slider_bloc.dart';
 import 'blocs/settings/settings_bloc.dart';
 import 'blocs/stats/budget_overview/budget_overview_bloc.dart';
+import 'blocs/stats/expenses_chart/expenses_chart_bloc.dart';
 import 'blocs/stats/expenses_map/expenses_map_bloc.dart';
+import 'blocs/transactions/search_transactions/search_transactions_bloc.dart';
+import 'blocs/transactions/transactions_calendar/transactions_calendar_bloc.dart';
 import 'blocs/transactions/transactions_daily/transactions_daily_bloc.dart';
 import 'blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
 import 'blocs/transactions/transactions_slider/transactions_slider_bloc.dart';
@@ -65,12 +66,18 @@ class App extends StatelessWidget {
     @required this.authenticationService,
     @required this.budgetsRepository,
     @required this.biometricCredentialsService,
+    @required this.firebaseRealtimeDatabaseProvider,
+    @required this.transactionsRepository,
+    @required this.firebaseFunctionsProvider,
   })  : assert(authenticationService != null),
         super(key: key);
 
   final FirebaseAuthenticationService authenticationService;
   final BudgetsRepository budgetsRepository;
   final BiometricCredentialsService biometricCredentialsService;
+  final FirebaseRealtimeDatabaseProvider firebaseRealtimeDatabaseProvider;
+  final TransactionsRepository transactionsRepository;
+  final FirebaseFunctionsProvider firebaseFunctionsProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +86,8 @@ class App extends StatelessWidget {
           RepositoryProvider.value(value: authenticationService),
           RepositoryProvider.value(value: biometricCredentialsService),
           RepositoryProvider.value(value: budgetsRepository),
+          RepositoryProvider.value(value: firebaseRealtimeDatabaseProvider),
+          RepositoryProvider.value(value: transactionsRepository),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -102,22 +111,6 @@ class App extends StatelessWidget {
               create: (context) => CategoryBloc(),
             ),
             BlocProvider(
-              create: (context) => TransactionsDailyBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-                ..add(
-                  TransactionsDailyInitialize(),
-                ),
-            ),
-            BlocProvider(
-              create: (context) => TransactionsWeeklyBloc()..add(TransactionsWeeklyInitialize()),
-            ),
-            BlocProvider(
-              create: (context) => TransactionsMonthlyBloc()..add(TransactionsMonthlyInitialize()),
-            ),
-            BlocProvider(
-              create: (context) => TransactionsSummaryBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-                ..add(TransactionsSummaryInitialize()),
-            ),
-            BlocProvider(
               create: (_) => ImagePickerBloc(),
             ),
             BlocProvider(
@@ -127,22 +120,66 @@ class App extends StatelessWidget {
               create: (context) => StatsBloc(),
             ),
             BlocProvider(
-              create: (context) => BudgetOverviewBloc(
-                  settingsBloc: BlocProvider.of<SettingsBloc>(context), budgetsRepository: budgetsRepository)
-                ..add(BudgetOverviewInitialize()),
-            ),
-            BlocProvider(
               create: (context) => TransactionLocationMapBloc(),
             ),
             BlocProvider(create: (_) => ImportCsvBloc()),
             BlocProvider(create: (_) => CsvExportBloc()),
             BlocProvider(
-              create: (context) =>
-                  ExpensesMapBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))..add(ExpensesMapInitialize()),
+              create: (context) => TransactionsDailyBloc(
+                settingsBloc: BlocProvider.of<SettingsBloc>(context),
+                transactionsRepository: transactionsRepository,
+                firebaseAuthenticationService: authenticationService,
+                firebaseRealtimeDatabaseProvider: firebaseRealtimeDatabaseProvider,
+              )..add(TransactionsDailyInitialize()),
             ),
             BlocProvider(
-              create: (context) => TransactionsCalendarBloc(settingsBloc: BlocProvider.of<SettingsBloc>(context))
-                ..add(TransactionsCalendarInitialize()),
+              create: (context) => TransactionsWeeklyBloc(
+                  firebaseAuthenticationService: authenticationService, transactionsRepository: transactionsRepository)
+                ..add(TransactionsWeeklyInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsMonthlyBloc(
+                firebaseAuthenticationService: authenticationService,
+                transactionsRepository: transactionsRepository,
+              )..add(TransactionsMonthlyInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsSummaryBloc(
+                settingsBloc: BlocProvider.of<SettingsBloc>(context),
+                transactionsRepository: transactionsRepository,
+                firebaseAuthenticationService: authenticationService,
+              )..add(TransactionsSummaryInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => TransactionsCalendarBloc(
+                settingsBloc: BlocProvider.of<SettingsBloc>(context),
+                transactionsRepository: transactionsRepository,
+                firebaseAuthenticationService: authenticationService,
+                firebaseRealtimeDatabaseProvider: firebaseRealtimeDatabaseProvider,
+              )..add(TransactionsCalendarInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => BudgetOverviewBloc(
+                firebaseRealtimeDatabaseProvider: firebaseRealtimeDatabaseProvider,
+                firebaseAuthenticationService: authenticationService,
+                settingsBloc: BlocProvider.of<SettingsBloc>(context),
+                budgetsRepository: budgetsRepository,
+                transactionsRepository: transactionsRepository,
+              )..add(BudgetOverviewInitialize()),
+            ),
+            BlocProvider(create: (context) => TransactionLocationMapBloc()),
+            BlocProvider(
+              create: (context) => ExpensesMapBloc(
+                settingsBloc: BlocProvider.of<SettingsBloc>(context),
+                transactionsRepository: transactionsRepository,
+              )..add(ExpensesMapInitialize()),
+            ),
+            BlocProvider(
+              create: (context) => ExpensesChartBloc(
+                settingsBloc: BlocProvider.of<SettingsBloc>(context),
+                transactionsRepository: transactionsRepository,
+                firebaseAuthenticationService: authenticationService,
+              )..add(ExpensesChartInitialize()),
             ),
             BlocProvider<TransactionsSliderBloc>(
               create: (context) => TransactionsSliderBloc()..add(TransactionsSliderInitialize()),

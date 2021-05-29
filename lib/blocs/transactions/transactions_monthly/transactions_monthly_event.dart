@@ -30,11 +30,16 @@ class TransactionsMonthlyFetchRequested extends TransactionsMonthlyEvent {
 }
 
 class TransactionMonthlyDisplayRequested extends TransactionsMonthlyEvent {
-  final String data;
-  final List<ExpenseMonthlyItemEntity> expenseData;
+  final String sliderCurrentTimeIntervalString;
+  final List<Transaction> yearTransactions;
 
-  TransactionMonthlyDisplayRequested({this.expenseData, @required this.data});
+  TransactionMonthlyDisplayRequested({this.yearTransactions, @required this.sliderCurrentTimeIntervalString});
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [yearTransactions, sliderCurrentTimeIntervalString];
+}
+
+class TransactionMonthlyRefreshPressed extends TransactionsMonthlyEvent {
+  @override
+  List<Object> get props => [];
 }

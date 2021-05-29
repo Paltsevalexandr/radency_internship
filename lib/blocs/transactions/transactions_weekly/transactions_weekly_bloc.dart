@@ -3,29 +3,43 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
-import '../../../models/expense_item.dart';
-import '../../../utils/mocked_expenses.dart';
+import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
+import 'package:radency_internship_project_2/models/transactions/income_transaction.dart';
+import 'package:radency_internship_project_2/models/transactions/transaction.dart';
+import 'package:radency_internship_project_2/models/transactions/week_details.dart';
+import 'package:radency_internship_project_2/models/user.dart';
+import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
+import 'package:radency_internship_project_2/repositories/transactions_repository.dart';
+import 'package:radency_internship_project_2/utils/date_helper.dart';
 
 part 'transactions_weekly_event.dart';
+
 part 'transactions_weekly_state.dart';
 
 class TransactionsWeeklyBloc extends Bloc<TransactionsWeeklyEvent, TransactionsWeeklyState> {
-  TransactionsWeeklyBloc() : super(TransactionsWeeklyInitial());
+  TransactionsWeeklyBloc({@required this.transactionsRepository, @required this.firebaseAuthenticationService})
+      : super(TransactionsWeeklyInitial());
+
+  final TransactionsRepository transactionsRepository;
+  final FirebaseAuthenticationService firebaseAuthenticationService;
 
   /// In accordance with ISO 8601
   /// a week starts with Monday, which has the value 1.
   final int startOfWeek = 1;
   final int endOfWeek = 7;
 
+  List<Transaction> observedMonthTransactions = [];
+
   DateTime _observedDate;
   String _sliderCurrentTimeIntervalString = '';
 
-  StreamSubscription weeklyTransactionsSubscription;
+  StreamSubscription _weeklyTransactionsSubscription;
+  StreamSubscription<UserEntity> _onUserChangedSubscription;
 
   @override
   Future<void> close() {
-    weeklyTransactionsSubscription?.cancel();
+    _weeklyTransactionsSubscription?.cancel();
+    _onUserChangedSubscription?.cancel();
     return super.close();
   }
 
@@ -42,27 +56,57 @@ class TransactionsWeeklyBloc extends Bloc<TransactionsWeeklyEvent, TransactionsW
     } else if (event is TransactionsWeeklyFetchRequested) {
       yield* _mapTransactionsWeeklyFetchRequestedToState(dateForFetch: event.dateForFetch);
     } else if (event is TransactionWeeklyDisplayRequested) {
-      yield* _mapTransactionWeeklyDisplayRequestedToState(event.expenseData);
+      yield* _mapTransactionWeeklyDisplayRequestedToState(event.transactions);
+    } else if (event is TransactionWeeklyRefreshPressed) {
+      add(TransactionsWeeklyFetchRequested(dateForFetch: _observedDate));
     }
   }
 
-  Stream<TransactionsWeeklyState> _mapTransactionsWeeklyFetchRequestedToState({@required DateTime dateForFetch}) async* {
-    weeklyTransactionsSubscription?.cancel();
+  Stream<TransactionsWeeklyState> _mapTransactionsWeeklyFetchRequestedToState({
+    @required DateTime dateForFetch,
+  }) async* {
+    _weeklyTransactionsSubscription?.cancel();
 
-    _sliderCurrentTimeIntervalString = getWeeksRange(dateForFetch);
+    _sliderCurrentTimeIntervalString = DateHelper().getWeeksRangeString(
+        firstDay: _getFirstDayOfCurrentRange(dateTime: _observedDate),
+        lastDay: _getLastDayOfCurrentRange(dateTime: _observedDate));
+
     yield TransactionsWeeklyLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
 
-    weeklyTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
-      var weeklyData = MockedExpensesItems().generateWeeklyData();
-      add(TransactionWeeklyDisplayRequested(expenseData: weeklyData, data: _sliderCurrentTimeIntervalString));
+    _weeklyTransactionsSubscription = transactionsRepository
+        .getTransactionsByTimePeriod(
+          start: _getFirstDayOfCurrentRange(dateTime: _observedDate),
+          end: _getLastDayOfCurrentRange(dateTime: _observedDate),
+        )
+        .asStream()
+        .listen((event) {
+      observedMonthTransactions = event;
+
+      add(TransactionWeeklyDisplayRequested(
+          transactions: observedMonthTransactions, sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString));
     });
   }
 
-  Stream<TransactionsWeeklyState> _mapTransactionWeeklyDisplayRequestedToState(List<ExpenseWeeklyItemEntity> data) async* {
-    yield TransactionsWeeklyLoaded(data: data, sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
+  Stream<TransactionsWeeklyState> _mapTransactionWeeklyDisplayRequestedToState(List<Transaction> data) async* {
+    List<WeekDetails> observedMonthSummaryByWeeks = _getSummaryFromTransactionsList(data);
+
+    yield TransactionsWeeklyLoaded(
+        summaryList: observedMonthSummaryByWeeks, sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
   }
 
   Stream<TransactionsWeeklyState> _mapTransactionsWeeklyInitializeToState() async* {
+    _onUserChangedSubscription = firebaseAuthenticationService.userFromAuthState.listen((user) {
+      if (user == UserEntity.empty) {
+        observedMonthTransactions.clear();
+        add(TransactionWeeklyDisplayRequested(
+            sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
+            transactions: observedMonthTransactions));
+      } else {
+        _observedDate = DateTime.now();
+        add(TransactionsWeeklyFetchRequested(dateForFetch: _observedDate));
+      }
+    });
+
     _observedDate = DateTime.now();
     add(TransactionsWeeklyFetchRequested(dateForFetch: _observedDate));
   }
@@ -77,32 +121,65 @@ class TransactionsWeeklyBloc extends Bloc<TransactionsWeeklyEvent, TransactionsW
     add(TransactionsWeeklyFetchRequested(dateForFetch: _observedDate));
   }
 
-  String getWeeksRange(DateTime dateTime) {
-    String range = '';
+  List<WeekDetails> _getSummaryFromTransactionsList(List<Transaction> data) {
+    List<WeekDetails> list = [];
 
-    DateTime startOfFirstWeekForCurrentMonth = DateTime(dateTime.year, dateTime.month, 1);
-    while (startOfFirstWeekForCurrentMonth.weekday != startOfWeek) {
-      startOfFirstWeekForCurrentMonth =
-          DateTime(startOfFirstWeekForCurrentMonth.year, startOfFirstWeekForCurrentMonth.month, startOfFirstWeekForCurrentMonth.day - 1);
+    if (data.isEmpty) {
+      return list;
     }
 
-    DateTime endOfLastWeekForCurrentMonth = DateTime(dateTime.year, dateTime.month + 1, 0);
-    while (endOfLastWeekForCurrentMonth.weekday != endOfWeek) {
-      endOfLastWeekForCurrentMonth = DateTime(endOfLastWeekForCurrentMonth.year, endOfLastWeekForCurrentMonth.month, endOfLastWeekForCurrentMonth.day + 1);
+    DateTime firstDay = _getFirstDayOfCurrentRange(dateTime: _observedDate);
+    DateTime lastDay = _getLastDayOfCurrentRange(dateTime: _observedDate);
+    int difference = lastDay.difference(firstDay).inDays;
+    int numberOfWeeks = difference ~/ 7;
+
+    for (int weekNumber = 0; weekNumber <= numberOfWeeks; weekNumber++) {
+      DateTime weekFirstDay = DateTime(firstDay.year, firstDay.month, firstDay.day).add(Duration(days: 7 * weekNumber));
+      DateTime weekLastDay = DateTime(weekFirstDay.year, weekFirstDay.month, weekFirstDay.day).add(Duration(days: 6));
+
+      list.add(WeekDetails(
+        weekNumberInSet: weekNumber,
+        income: 0.0,
+        expenses: 0.0,
+        firstDay: weekFirstDay,
+        lastDay: weekLastDay,
+        rangeString: DateHelper().getWeeksRangeString(firstDay: weekFirstDay, lastDay: weekLastDay, oneWeekMode: true),
+      ));
     }
 
-    range = '${appendZeroToSingleDigit(startOfFirstWeekForCurrentMonth.day)}.'
-        '${appendZeroToSingleDigit(startOfFirstWeekForCurrentMonth.month)}'
-        '${startOfFirstWeekForCurrentMonth.year != endOfLastWeekForCurrentMonth.year ? '.${startOfFirstWeekForCurrentMonth.year}' : ''}'
-        ' ~ '
-        '${appendZeroToSingleDigit(endOfLastWeekForCurrentMonth.day)}.'
-        '${appendZeroToSingleDigit(endOfLastWeekForCurrentMonth.month)}'
-        '.${endOfLastWeekForCurrentMonth.year}';
+    data.forEach((transaction) {
+      int transactionWeekInCurrentSet = transaction.date.difference(firstDay).inDays ~/ 7;
 
-    return range;
+      if (transaction is ExpenseTransaction) {
+        list.where((weekSummary) => weekSummary.weekNumberInSet == transactionWeekInCurrentSet).first.expenses +=
+            transaction.amount;
+      } else if (transaction is IncomeTransaction) {
+        list.where((weekSummary) => weekSummary.weekNumberInSet == transactionWeekInCurrentSet).first.income +=
+            transaction.amount;
+      }
+    });
+
+    list.removeWhere((element) => (element.income == 0.0 && element.expenses == 0.0));
+
+    return list;
   }
 
-  String appendZeroToSingleDigit(int number) {
-    return '${number < 10 ? '0' : ''}${number.toString()}';
+  DateTime _getFirstDayOfCurrentRange({@required DateTime dateTime}) {
+    DateTime startOfFirstWeekForCurrentMonth = DateTime(dateTime.year, dateTime.month, 1);
+    while (startOfFirstWeekForCurrentMonth.weekday != startOfWeek) {
+      startOfFirstWeekForCurrentMonth = DateTime(startOfFirstWeekForCurrentMonth.year,
+          startOfFirstWeekForCurrentMonth.month, startOfFirstWeekForCurrentMonth.day - 1);
+    }
+
+    return startOfFirstWeekForCurrentMonth;
+  }
+
+  DateTime _getLastDayOfCurrentRange({@required DateTime dateTime}) {
+    DateTime endOfLastWeekForCurrentMonth = DateTime(dateTime.year, dateTime.month + 1, 0);
+    while (endOfLastWeekForCurrentMonth.weekday != endOfWeek) {
+      endOfLastWeekForCurrentMonth = DateTime(
+          endOfLastWeekForCurrentMonth.year, endOfLastWeekForCurrentMonth.month, endOfLastWeekForCurrentMonth.day + 1);
+    }
+    return endOfLastWeekForCurrentMonth;
   }
 }

@@ -665,6 +665,36 @@ class S {
     );
   }
 
+  /// `There is no data available for this period! Switch date range or add new transaction`
+  String get noDataForCurrentDateRangeMessage {
+    return Intl.message(
+      'There is no data available for this period! Switch date range or add new transaction',
+      name: 'noDataForCurrentDateRangeMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no expenses for current period!`
+  String get noCategoriesExpensesDetailsMessage {
+    return Intl.message(
+      'There are no expenses for current period!',
+      name: 'noCategoriesExpensesDetailsMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh`
+  String get refreshButtonText {
+    return Intl.message(
+      'Refresh',
+      name: 'refreshButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Expense`
   String get expense {
     return Intl.message(
@@ -1610,6 +1640,16 @@ class S {
     return Intl.message(
       'Enter desired budget',
       name: 'statsBudgetSetupSaveDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get categoriesDefaultOther {
+    return Intl.message(
+      'Other',
+      name: 'categoriesDefaultOther',
       desc: '',
       args: [],
     );

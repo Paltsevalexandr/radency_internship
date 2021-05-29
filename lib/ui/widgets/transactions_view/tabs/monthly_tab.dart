@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:radency_internship_project_2/blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
+import 'package:radency_internship_project_2/ui/widgets/monthly_transactions_list.dart';
+import 'package:radency_internship_project_2/ui/widgets/transactions_view/widgets/data_loading_widget.dart';
 
-import '../../../../blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
-import '../../../../ui/widgets/transactions_view/widgets/data_loading_widget.dart';
-import '../../monthly_expenses_list.dart';
+
 
 class MonthlyTab extends StatefulWidget {
   MonthlyTab();
@@ -27,7 +28,7 @@ class _MonthlyTabState extends State<MonthlyTab> {
       }
 
       if (state is TransactionsMonthlyLoaded) {
-        return buildMonthlyExpensesList(context);
+        return MonthlyTransactionsList();
       }
 
       return SizedBox();

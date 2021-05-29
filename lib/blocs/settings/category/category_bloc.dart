@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/temp_values.dart';
-import 'package:radency_internship_project_2/models/transactions/transaction.dart';
 import 'package:radency_internship_project_2/ui/category_page/category_page_common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,14 +73,14 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     var incomeId = prefs.getInt(expensesList);
     var expensesId = prefs.getInt(expensesList);
 
-    var incomeLabels = TempAddTransactionValues().incomeCategories;
+    var incomeLabels = TempTransactionsValues().incomeCategories;
     var incomeItems = [];
     for (int i = 0; i < incomeLabels.length; ++i) {
       String label = incomeLabels[i];
       incomeItems.add(CategoryItemData(label, ValueKey(i)));
     }
 
-    var outcomeLabels = TempAddTransactionValues().expenseCategories;
+    var outcomeLabels = TempTransactionsValues().expenseCategories;
     var outcomeItems = [];
     for (int i = 0; i < outcomeLabels.length; ++i) {
       String label = outcomeLabels[i];

@@ -20,10 +20,10 @@ class TransactionsWeeklyLoading extends TransactionsWeeklyState {
 
 class TransactionsWeeklyLoaded extends TransactionsWeeklyState {
   final String sliderCurrentTimeIntervalString;
-  final List<ExpenseWeeklyItemEntity> data;
+  final List<WeekDetails> summaryList;
 
-  TransactionsWeeklyLoaded({this.data, @required this.sliderCurrentTimeIntervalString});
+  TransactionsWeeklyLoaded({this.summaryList, @required this.sliderCurrentTimeIntervalString});
 
   @override
-  List<Object> get props => [sliderCurrentTimeIntervalString];
+  List<Object> get props => [sliderCurrentTimeIntervalString, summaryList];
 }

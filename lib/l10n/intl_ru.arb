@@ -22,7 +22,7 @@
 
   "import_csv": "Импорт из csv",
   "export_csv": "Экспорт csv",
-  
+
   "language": "Язык",
   "currency": "Валюта",
   "main_currency": "Основная валюта",
@@ -76,6 +76,11 @@
 
   "expense": "Расходы",
   "transfer": "Перевод",
+
+  "noDataForCurrentDateRangeMessage": "Отсутствуют данные для данного диапазона! Смените дату или добавьте новую транзакцию.",
+  "noCategoriesExpensesDetailsMessage": "В данном диапазоне нет трат!",
+
+  "refreshButtonText": "Обновить",
 
   "stylePageTitle": "Стиль",
   "darkTheme": "Тёмная тема",
@@ -188,5 +193,7 @@
   "addTransactionLocationMenuCancel" : "Отменить выбор",
 
   "searchExpensesSearchTitle": "Поиск",
-  "searchExpensesAllCheckbox": "Все"
+  "searchExpensesAllCheckbox": "Все",
+
+  "categoriesDefaultOther": "Другое"
 }

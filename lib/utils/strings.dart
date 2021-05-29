@@ -63,9 +63,9 @@ String getMonthByNumber(BuildContext context, int num) {
   return 'None';
 }
 
-String getCurrencySymbol(String currency){
+String getCurrencySymbol(String currency) {
   String currencySymbol = '';
-  switch(currency){
+  switch (currency) {
     case 'UAH':
       currencySymbol = '₴';
       break;
@@ -93,3 +93,7 @@ String capitalizeFirstLetter(String s) {
 }
 
 String capitalizeFirstLetterOfEachWord(String s) => s.split(" ").map((str) => capitalizeFirstLetter(str)).join(" ");
+
+T enumFromString<T>(List<T> values, String value) {
+  return values.firstWhere((v) => v.toString().split('.')[1].toUpperCase() == value.toUpperCase(), orElse: () => null);
+}

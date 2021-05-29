@@ -1,11 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/image_picker/image_picker_bloc.dart';
-import 'dart:ui';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
+import 'package:radency_internship_project_2/blocs/import_csv/import_csv_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
-import 'package:radency_internship_project_2/blocs/import_csv/import_csv_bloc.dart';
+import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class AddTransactionMenu extends StatelessWidget {
   @override
@@ -15,7 +16,7 @@ class AddTransactionMenu extends StatelessWidget {
     return BlocBuilder<ImagePickerBloc, ImagePickerState>(
       builder: (context, state) {
         return Padding(
-          padding: EdgeInsets.only(top: pixelsToDP(context, 300)), 
+          padding: EdgeInsets.only(top: pixelsToDP(context, 300)),
           child: SimpleDialog(
             contentPadding: EdgeInsets.all(0),
             backgroundColor: Color.fromRGBO(0, 0, 0, 0),
@@ -53,19 +54,19 @@ class AddTransactionMenu extends StatelessWidget {
         child: Text(S.current.addTransaction, style: TextStyle(fontSize: pixelsToDP(context, 60)))),
       Divider(color: Colors.grey[350], thickness: pixelsToDP(context, 8)),
       ListTile(
-        onTap: () => Navigator.of(context).pushNamed(Routes.addTransactionPage), 
+        onTap: () => Navigator.of(context).pushNamed(Routes.addTransactionPage),
         title: Text(S.current.form, style: TextStyle(fontSize: pixelsToDP(context, 50)))),
       Divider(color: Colors.grey[350], thickness: pixelsToDP(context, 6)),
       ListTile(
-        onTap: () => imageBloc.add(ImageFromGallery()), 
+        onTap: () => imageBloc.add(ImageFromGallery()),
         title: Text(S.current.gallery, style: TextStyle(fontSize: pixelsToDP(context, 50)))),
       Divider(color: Colors.grey[350], thickness: pixelsToDP(context, 6)),
       ListTile(
-        onTap: () => imageBloc.add(ImageFromCamera()), 
+        onTap: () => imageBloc.add(ImageFromCamera()),
         title: Text(S.current.camera, style: TextStyle(fontSize: pixelsToDP(context, 50)))),
       Divider(color: Colors.grey[350], thickness: pixelsToDP(context, 6)),
       ListTile(
-          onTap: () => importCsvBloc.add(ImportCsvFile()), 
+          onTap: () => importCsvBloc.add(ImportCsvFile()),
           title: Text(S.current.importCsv, style: TextStyle(fontSize: pixelsToDP(context, 50)))),
     ];
   }

@@ -23,7 +23,7 @@ class _WeeklyTabState extends State<WeeklyTab> {
     return BlocBuilder<TransactionsWeeklyBloc, TransactionsWeeklyState>(builder: (context, state) {
       if (state is TransactionsWeeklyLoading) return DataLoadingWidget();
 
-      if (state is TransactionsWeeklyLoaded) return buildWeeklyExpensesList(context);
+      if (state is TransactionsWeeklyLoaded) return WeeklySummaryList();
 
       return SizedBox();
     });

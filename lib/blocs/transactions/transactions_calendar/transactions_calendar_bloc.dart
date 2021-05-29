@@ -2,22 +2,36 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:meta/meta.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
-import 'package:radency_internship_project_2/blocs/transactions/transactions_calendar/mocked_calendar_data.dart';
 import 'package:radency_internship_project_2/models/calendar_day.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
 import 'package:radency_internship_project_2/models/transactions/income_transaction.dart';
 import 'package:radency_internship_project_2/models/transactions/transaction.dart';
+import 'package:radency_internship_project_2/models/transactions/transactions_helper.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
-import 'package:radency_internship_project_2/utils/date_formatters.dart';
+import 'package:radency_internship_project_2/models/user.dart';
+import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
+import 'package:radency_internship_project_2/providers/firebase_realtime_database_provider.dart';
+import 'package:radency_internship_project_2/repositories/transactions_repository.dart';
+import 'package:radency_internship_project_2/utils/date_helper.dart';
 
 part 'transactions_calendar_event.dart';
 
 part 'transactions_calendar_state.dart';
 
 class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, TransactionsCalendarState> {
-  TransactionsCalendarBloc({@required this.settingsBloc}) : super(TransactionsCalendarInitial());
+  TransactionsCalendarBloc({
+    @required this.settingsBloc,
+    @required this.transactionsRepository,
+    @required this.firebaseAuthenticationService,
+    @required this.firebaseRealtimeDatabaseProvider,
+  }) : super(TransactionsCalendarInitial());
+
+  final FirebaseAuthenticationService firebaseAuthenticationService;
+  final TransactionsRepository transactionsRepository;
+  final FirebaseRealtimeDatabaseProvider firebaseRealtimeDatabaseProvider;
 
   SettingsBloc settingsBloc;
   StreamSubscription settingsSubscription;
@@ -26,7 +40,8 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
   DateTime _observedDate;
   String _sliderCurrentTimeIntervalString = '';
 
-  var calendarData;
+  List<Transaction> transactionsList = [];
+  List<CalendarDay> calendarData = [];
   double expensesSummary = 0;
   double incomeSummary = 0;
 
@@ -36,6 +51,11 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
   final int endOfWeek = 7;
 
   StreamSubscription calendarTransactionsSubscription;
+
+  StreamSubscription<Event> _onTransactionAddedSubscription;
+  StreamSubscription<Event> _onTransactionChangedSubscription;
+  StreamSubscription<Event> _onTransactionDeletedSubscription;
+  StreamSubscription<UserEntity> _onUserChangedSubscription;
 
   @override
   Stream<TransactionsCalendarState> mapEventToState(
@@ -57,6 +77,8 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
       );
     } else if (event is TransactionsCalendarLocaleChanged) {
       yield* _mapTransactionsCalendarLocaleChangedToState();
+    } else if (event is TransactionsCalendarUserChanged) {
+      yield* _mapTransactionsCalendarUserChangedToState(event.id);
     }
   }
 
@@ -64,13 +86,35 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
   Future<void> close() {
     calendarTransactionsSubscription?.cancel();
     settingsSubscription?.cancel();
-    print("TransactionsCalendarBloc.close: ");
+    _onTransactionChangedSubscription?.cancel();
+    _onTransactionAddedSubscription?.cancel();
+    _onTransactionDeletedSubscription?.cancel();
+    _onUserChangedSubscription?.cancel();
     return super.close();
   }
 
   Stream<TransactionsCalendarState> _mapTransactionsCalendarInitializeToState() async* {
     _observedDate = DateTime.now();
     add(TransactionsCalendarFetchRequested(dateForFetch: _observedDate));
+
+    _onUserChangedSubscription = firebaseAuthenticationService.userFromAuthState.listen((user) {
+      _onTransactionChangedSubscription?.cancel();
+      _onTransactionAddedSubscription?.cancel();
+      _onTransactionDeletedSubscription?.cancel();
+
+      if (user == UserEntity.empty) {
+        calendarData?.clear();
+        transactionsList?.clear();
+        add(TransactionsCalendarDisplayRequested(
+          sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
+          daysData: calendarData,
+          incomeSummary: 0.0,
+          expensesSummary: 0.0,
+        ));
+      } else {
+        add(TransactionsCalendarUserChanged(id: user.id));
+      }
+    });
 
     if (settingsBloc.state is LoadedSettingsState) {
       locale = settingsBloc.state.language;
@@ -85,8 +129,7 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
   }
 
   Stream<TransactionsCalendarState> _mapTransactionsCalendarLocaleChangedToState() async* {
-    _sliderCurrentTimeIntervalString =
-        DateFormatters().monthNameAndYearFromDateTimeString(_observedDate, locale: locale);
+    _sliderCurrentTimeIntervalString = DateHelper().monthNameAndYearFromDateTimeString(_observedDate, locale: locale);
 
     print("TransactionsCalendarBloc._mapTransactionsCalendarLocaleChangedToState: $_sliderCurrentTimeIntervalString");
 
@@ -106,13 +149,17 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
       {@required DateTime dateForFetch}) async* {
     calendarTransactionsSubscription?.cancel();
 
-    _sliderCurrentTimeIntervalString = DateFormatters().monthNameAndYearFromDateTimeString(_observedDate);
+    _sliderCurrentTimeIntervalString = DateHelper().monthNameAndYearFromDateTimeString(_observedDate);
     yield TransactionsCalendarLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
-    calendarTransactionsSubscription = Future.delayed(Duration(seconds: 2)).asStream().listen((event) {
-      // TODO: Implement fetch endpoint
 
-      List<Transaction> transactions = MockedCalendarData().generateMonthlyTransactions(dateTime: dateForFetch);
-      calendarData = _convertTransactionsToCalendarData(transactions, _observedDate);
+    calendarTransactionsSubscription = transactionsRepository
+        .getTransactionsByTimePeriod(
+            start: DateHelper().getFirstDayOfMonth(_observedDate), end: DateHelper().getLastDayOfMonth(_observedDate))
+        .asStream()
+        .listen((event) {
+
+      transactionsList = event;
+      calendarData = _convertTransactionsToCalendarData(transactionsList, _observedDate);
       add(TransactionsCalendarDisplayRequested(
         daysData: calendarData,
         sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
@@ -120,6 +167,19 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
         incomeSummary: incomeSummary,
       ));
     });
+  }
+
+  Stream<TransactionsCalendarState> _mapTransactionsCalendarUserChangedToState(String id) async* {
+    yield TransactionsCalendarLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
+
+    FirebaseStreamsGroup streams = await firebaseRealtimeDatabaseProvider.transactionStreams(id);
+    _onTransactionAddedSubscription = streams.onChildAdded.listen(_onTransactionAdded);
+    _onTransactionChangedSubscription = streams.onChildChanged.listen(_onTransactionChanged);
+    _onTransactionDeletedSubscription = streams.onChildDeleted.listen(_onTransactionDeleted);
+
+    _observedDate = DateTime.now();
+
+    add(TransactionsCalendarFetchRequested(dateForFetch: _observedDate));
   }
 
   Stream<TransactionsCalendarState> _mapTransactionCalendarDisplayRequestedToState(
@@ -139,6 +199,55 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
   Stream<TransactionsCalendarState> _mapTransactionsCalendarGetNextMonthPressedToState() async* {
     _observedDate = DateTime(_observedDate.year, _observedDate.month + 1);
     add(TransactionsCalendarFetchRequested(dateForFetch: _observedDate));
+  }
+
+  _onTransactionAdded(Event event) async {
+    print('TransactionsBloc: snapshot ${event.snapshot}');
+    Transaction transaction = TransactionsHelper()
+        .convertJsonToTransaction(json: Map<String, dynamic>.from(event.snapshot.value), key: event.snapshot.key);
+
+    if (transaction.date.isAfter(DateHelper().getFirstDayOfMonth(_observedDate)) &&
+        transaction.date.isBefore(DateHelper().getLastDayOfMonth(_observedDate))) {
+      transactionsList.add(transaction);
+      calendarData = _convertTransactionsToCalendarData(transactionsList, _observedDate);
+      add(TransactionsCalendarDisplayRequested(
+        daysData: calendarData,
+        sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
+        expensesSummary: expensesSummary,
+        incomeSummary: incomeSummary,
+      ));
+    }
+  }
+
+  _onTransactionChanged(Event event) async {
+    Transaction oldTransactionValue =
+        transactionsList.singleWhere((transaction) => transaction.id == event.snapshot.key);
+    Transaction changedTransaction = TransactionsHelper()
+        .convertJsonToTransaction(json: Map<String, dynamic>.from(event.snapshot.value), key: event.snapshot.key);
+    transactionsList[transactionsList.indexOf(oldTransactionValue)] = changedTransaction;
+
+    calendarData = _convertTransactionsToCalendarData(transactionsList, _observedDate);
+    add(TransactionsCalendarDisplayRequested(
+      daysData: calendarData,
+      sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
+      expensesSummary: expensesSummary,
+      incomeSummary: incomeSummary,
+    ));
+  }
+
+  _onTransactionDeleted(Event event) async {
+    int index = transactionsList.indexWhere((transaction) => transaction.id == event.snapshot.key);
+    if (index != -1) {
+      transactionsList.removeAt(index);
+    }
+
+    calendarData = _convertTransactionsToCalendarData(transactionsList, _observedDate);
+    add(TransactionsCalendarDisplayRequested(
+      daysData: calendarData,
+      sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString,
+      expensesSummary: expensesSummary,
+      incomeSummary: incomeSummary,
+    ));
   }
 
   List<CalendarDay> _convertTransactionsToCalendarData(List<Transaction> transactions, DateTime observedDateTime) {
@@ -162,7 +271,7 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
 
       if (observedDay.month == currentMonth) {
         transactions.forEach((element) {
-          if (element.dateTime.month == observedDay.month && element.dateTime.day == observedDay.day) {
+          if (element.date.month == observedDay.month && element.date.day == observedDay.day) {
             dayTransactions.add(element);
 
             if (element is ExpenseTransaction) {
