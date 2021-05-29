@@ -1,3 +1,4 @@
+import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
@@ -63,21 +64,8 @@ String getMonthByNumber(BuildContext context, int num) {
   return 'None';
 }
 
-String getCurrencySymbol(String currency) {
-  String currencySymbol = '';
-  switch (currency) {
-    case 'UAH':
-      currencySymbol = '₴';
-      break;
-    case 'USD':
-      currencySymbol = '\$';
-      break;
-    case 'GBP':
-      currencySymbol = '£';
-      break;
-  }
-
-  return currencySymbol;
+String getCurrencySymbol(String currencyCode) {
+  return CurrencyService().findByCode(currencyCode).symbol;
 }
 
 final String numberWithDecimalRegExp = r'[0-9.]';

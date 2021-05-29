@@ -1,4 +1,8 @@
 PODS:
+  - cloud_functions (1.0.6):
+    - Firebase/Functions (= 7.11.0)
+    - firebase_core
+    - Flutter
   - contacts_service (0.2.2):
     - Flutter
   - DKImagePickerController/Core (4.3.2):
@@ -45,6 +49,12 @@ PODS:
     - FirebaseAnalytics (~> 7.11.0)
   - Firebase/CoreOnly (7.11.0):
     - FirebaseCore (= 7.11.0)
+  - Firebase/Database (7.11.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (~> 7.11.0)
+  - Firebase/Functions (7.11.0):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (~> 7.11.0)
   - firebase_analytics (8.0.2):
     - Firebase/Analytics (= 7.11.0)
     - firebase_core
@@ -55,6 +65,10 @@ PODS:
     - Flutter
   - firebase_core (1.1.0):
     - Firebase/CoreOnly (= 7.11.0)
+    - Flutter
+  - firebase_database (6.1.2):
+    - Firebase/Database (= 7.11.0)
+    - firebase_core
     - Flutter
   - FirebaseAnalytics (7.11.0):
     - FirebaseAnalytics/AdIdSupport (= 7.11.0)
@@ -97,7 +111,13 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
     - nanopb (~> 2.30908.0)
+  - FirebaseDatabase (7.11.0):
+    - FirebaseCore (~> 7.0)
+    - leveldb-library (~> 1.22)
   - FirebaseFirestore (7.11.0)
+  - FirebaseFunctions (7.11.0):
+    - FirebaseCore (~> 7.0)
+    - GTMSessionFetcher/Core (~> 1.4)
   - FirebaseInstallations (7.11.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
@@ -150,6 +170,7 @@ PODS:
   - GTMSessionFetcher/Core (1.5.0)
   - image_picker (0.0.1):
     - Flutter
+  - leveldb-library (1.22.1)
   - local_auth (0.0.1):
     - Flutter
   - nanopb (2.30908.0):
@@ -172,12 +193,14 @@ PODS:
   - SwiftyGif (5.4.0)
 
 DEPENDENCIES:
+  - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Firebase/Analytics
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `7.11.0`)
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
@@ -200,18 +223,23 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseDatabase
+    - FirebaseFunctions
     - FirebaseInstallations
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleMaps
     - GoogleUtilities
     - GTMSessionFetcher
+    - leveldb-library
     - nanopb
     - PromisesObjC
     - SDWebImage
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  cloud_functions:
+    :path: ".symlinks/plugins/cloud_functions/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
   file_picker:
@@ -222,6 +250,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_database:
+    :path: ".symlinks/plugins/firebase_database/ios"
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
     :tag: 7.11.0
@@ -254,6 +284,7 @@ CHECKOUT OPTIONS:
     :tag: 7.11.0
 
 SPEC CHECKSUMS:
+  cloud_functions: 4fd0494a73f7f04056ff0d5014e4f4251c954697
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
@@ -262,11 +293,14 @@ SPEC CHECKSUMS:
   firebase_analytics: 620e8cc1705feb6b9c40b6127bea9b39e03e3970
   firebase_auth: e7065954aa2a7c8ef1a8502fba3009bcdd8fc91a
   firebase_core: 84dcd80ac6d29c3d1039071b7306ee99688eb9c7
+  firebase_database: 633e6a9b7ce3f2709141f0fa5743f9cd48a6819a
   FirebaseAnalytics: cd3bd84d722a24a8923918af8af8e5236f615d77
   FirebaseAuth: 5fe4585c2ed847319f0ea68bd1d82c77e49ff9a0
   FirebaseCore: 907447d8917a4d3eb0cce2829c5a0ad21d90b432
   FirebaseCoreDiagnostics: 68ad972f99206cef818230f3f3179d52ccfb7f8c
+  FirebaseDatabase: 6c39fbf1c8514a2f32e610f9bf9ef30c535dc15a
   FirebaseFirestore: 783538aced1557a6b817ee121593561127a00244
+  FirebaseFunctions: cf3d041e5292b1c4bda868d542071a0f8291a4d4
   FirebaseInstallations: a58d4f72ec5861840b84df489f2668d970df558a
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
@@ -279,6 +313,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 284cddc7fffc14ae1907efb6f78ab95c1fccaedc
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
+  leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
