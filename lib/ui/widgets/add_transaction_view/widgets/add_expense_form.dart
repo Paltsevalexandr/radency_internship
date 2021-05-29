@@ -19,6 +19,7 @@ import 'package:radency_internship_project_2/ui/shared_components/field_title.da
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
 import 'package:radency_internship_project_2/utils/date_helper.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_income_form.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
@@ -56,6 +57,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   final int _textFieldFlex = 7;
   final int _saveButtonFlex = 6;
   final int _continueButtonFlex = 4;
+
+  Map<dynamic, bool> _focusMap = {};
 
   @override
   void initState() {
@@ -123,11 +126,14 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           flex: _textFieldFlex,
           child: TextFormField(
             style: addTransactionFormInputTextStyle(),
-            decoration: addTransactionFormFieldDecoration(context),
+            decoration: addTransactionFormFieldDecoration(context, focused: _focusMap[AddTransactionFields.Date]),
             controller: _dateFieldController,
             readOnly: true,
             showCursor: false,
             onTap: () async {
+              setState(() {
+                focusOnField(_focusMap, AddTransactionFields.Date);
+              });
               await _selectNewDate();
             },
           ),
@@ -150,11 +156,14 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             key: _accountValueFormKey,
             child: TextFormField(
               style: addTransactionFormInputTextStyle(),
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context, focused: _focusMap[AddTransactionFields.Account]),
               controller: _accountFieldController,
               readOnly: true,
               showCursor: false,
               onTap: () async {
+                setState(() {
+                  focusOnField(_focusMap, AddTransactionFields.Account);
+                });
                 _accountFieldController.text = await showSingleChoiceModal(context: context, values: accounts, type: SingleChoiceModalType.Account, onAddCallback: null);
                 setState(() {
                   _accountValueFormKey.currentState.validate();
@@ -189,11 +198,14 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             key: _categoryValueFormKey,
             child: TextFormField(
               style: addTransactionFormInputTextStyle(),
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context,  focused: _focusMap[AddTransactionFields.Category]),
               controller: _categoryFieldController,
               readOnly: true,
               showCursor: false,
               onTap: () async {
+                setState(() {
+                  focusOnField(_focusMap, AddTransactionFields.Category);
+                });
                 _categoryFieldController.text = await showSingleChoiceModal(context: context, values: categories, type: SingleChoiceModalType.Category, onAddCallback: null);
                 setState(() {
                   _categoryValueFormKey.currentState.validate();
@@ -228,7 +240,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             key: _amountValueFormKey,
             child: TextFormField(
               style: addTransactionFormInputTextStyle(),
-              decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix()),
+              decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix(),  focused: _focusMap[AddTransactionFields.Amount]),
               readOnly: true,
               showCursor: true,
               controller: _amountFieldController,
@@ -243,6 +255,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                 return null;
               },
               onTap: () async {
+                setState(() {
+                  focusOnField(_focusMap, AddTransactionFields.Amount);
+                });
                 await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateAmountCallback);
                 setState(() {
                   _amountValueFormKey.currentState.validate();
@@ -273,6 +288,11 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               decoration: addTransactionFormFieldDecoration(context),
               controller: _noteFieldController,
               onSaved: (value) => _noteValue = value,
+              onTap: (){
+                setState(() {
+                  focusOnField(_focusMap, AddTransactionFields.Note);
+                });
+              },
             ),
           ),
         )
@@ -301,8 +321,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                 child: TextFormField(
                   controller: _sharedFieldController,
                   style: addTransactionFormInputTextStyle(),
-                  decoration: InputDecoration(
-                    helperText: '',
+                  decoration: addTransactionFormFieldDecoration(
+                    context,
                     prefixIcon: _sharedContact != null
                         ? Container(
                             margin: EdgeInsets.only(
@@ -325,6 +345,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                             ),
                           )
                         : null,
+                    focused: _focusMap[AddTransactionFields.Shared]
                   ),
                   onTap: _selectSharedContact,
                   readOnly: true,
@@ -360,10 +381,13 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
               child: TextFormField(
                 controller: _locationFieldController,
                 style: addTransactionFormInputTextStyle(),
-                decoration: InputDecoration(hintText: S.current.addTransactionLocationFieldHint, helperText: ''),
+                decoration: addTransactionFormFieldDecoration(_context, hintText: S.current.addTransactionLocationFieldHint, focused: _focusMap[AddTransactionFields.Location]),
                 readOnly: true,
                 showCursor: false,
                 onTap: () async {
+                  setState(() {
+                    focusOnField(_focusMap, AddTransactionFields.Location);
+                  });
                   String languageCode = 'en';
 
                   if (state is SettingsState) {
@@ -462,6 +486,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   }
 
   Future _selectSharedContact() async {
+    setState(() {
+      focusOnField(_focusMap, AddTransactionFields.Shared);
+    });
     final Contact contact = await ContactsService.openDeviceContactPicker();
     if (Platform.isAndroid) {
       contact.avatar = await ContactsService.getAvatar(contact);
@@ -502,6 +529,10 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       _noteFieldController.text = '';
 
       _sharedContact = null;
+
+      AddTransactionFields.values.forEach((element) {
+        _focusMap[element] = false;
+      });
     });
   }
 
@@ -625,19 +656,6 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
 
     return result;
   }
-}
-
-String getUpdatedAmount(TextEditingController controller, var value) {
-  String amount = (controller.text ?? "").toString();
-
-  if (value == CalculatorButton.Back && amount.length > 0) {
-    amount = amount.substring(0, amount.length - 1);
-  }
-  if (RegExp(moneyAmountEditRegExp).hasMatch(amount + value.toString())) {
-    amount = amount + value.toString();
-  }
-
-  return amount;
 }
 
 String getContactInitials(Contact contact) {

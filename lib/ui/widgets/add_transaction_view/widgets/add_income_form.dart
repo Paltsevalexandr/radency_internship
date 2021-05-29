@@ -40,6 +40,8 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
   TextEditingController _amountFieldController = TextEditingController();
   TextEditingController _noteFieldController = TextEditingController();
 
+  Map<dynamic, bool> _focusMap = {};
+
   final int _titleFlex = 3;
   final int _textFieldFlex = 7;
   final int _saveButtonFlex = 6;
@@ -109,11 +111,14 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
           flex: _textFieldFlex,
           child: TextFormField(
             style: addTransactionFormInputTextStyle(),
-            decoration: addTransactionFormFieldDecoration(context),
+            decoration: addTransactionFormFieldDecoration(context, focused: _focusMap[AddTransactionFields.Date]),
             controller: _dateFieldController,
             readOnly: true,
             showCursor: false,
             onTap: () async {
+              setState(() {
+                focusOnField(_focusMap, AddTransactionFields.Date);
+              });
               await _selectNewDate();
             },
           ),
@@ -136,11 +141,14 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
             key: _accountValueFormKey,
             child: TextFormField(
               style: addTransactionFormInputTextStyle(),
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context, focused: _focusMap[AddTransactionFields.Account]),
               controller: _accountFieldController,
               readOnly: true,
               showCursor: false,
               onTap: () async {
+                setState(() {
+                  focusOnField(_focusMap, AddTransactionFields.Account);
+                });
                 _accountFieldController.text = await showSingleChoiceModal(context: context, values: accounts, type: SingleChoiceModalType.Account, onAddCallback: null);
                 setState(() {
                   _accountValueFormKey.currentState.validate();
@@ -175,11 +183,14 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
             key: _categoryValueFormKey,
             child: TextFormField(
               style: addTransactionFormInputTextStyle(),
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context, focused: _focusMap[AddTransactionFields.Category]),
               controller: _categoryFieldController,
               readOnly: true,
               showCursor: false,
               onTap: () async {
+                setState(() {
+                  focusOnField(_focusMap, AddTransactionFields.Category);
+                });
                 _categoryFieldController.text = await showSingleChoiceModal(context: context, values: categories, type: SingleChoiceModalType.Category, onAddCallback: null);
                 setState(() {
                   _categoryValueFormKey.currentState.validate();
@@ -214,7 +225,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
             key: _amountValueFormKey,
             child: TextFormField(
               style: addTransactionFormInputTextStyle(),
-              decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix()),
+              decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix(), focused: _focusMap[AddTransactionFields.Amount]),
               readOnly: true,
               showCursor: true,
               controller: _amountFieldController,
@@ -229,6 +240,9 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
                 return null;
               },
               onTap: () async {
+                setState(() {
+                  focusOnField(_focusMap, AddTransactionFields.Amount);
+                });
                 await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateAmountCallback);
                 setState(() {
                   _amountValueFormKey.currentState.validate();
@@ -259,6 +273,11 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
               decoration: addTransactionFormFieldDecoration(context),
               controller: _noteFieldController,
               onSaved: (value) => _noteValue = value,
+              onTap: (){
+                setState(() {
+                  focusOnField(_focusMap, AddTransactionFields.Note);
+                });
+              },
             ),
           ),
         )
@@ -363,6 +382,10 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
       _categoryFieldController.text = '';
       _amountFieldController.text = '';
       _noteFieldController.text = '';
+
+      AddTransactionFields.values.forEach((element) {
+        _focusMap[element] = false;
+      });
     });
   }
 
@@ -410,3 +433,11 @@ String getContactInitials(Contact contact) {
   String lastName = contact.familyName ?? "";
   return contact.displayName.trim()[0] + (lastName != "" ? lastName[0] : "");
 }
+
+void focusOnField(Map focusMap, AddTransactionFields field){
+  AddTransactionFields.values.forEach((element) {
+    focusMap[element] = element == field;
+  });
+}
+
+enum AddTransactionFields {Date, Account, Category, Amount, Note, Shared, Location, AccountTo, Fees, MinAmount, MaxAmount}

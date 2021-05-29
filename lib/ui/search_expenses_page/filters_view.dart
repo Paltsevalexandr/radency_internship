@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:radency_internship_project_2/blocs/accounts/account_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/category/category_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/search_transactions/search_transactions_bloc.dart';
@@ -10,7 +9,7 @@ import 'package:radency_internship_project_2/ui/shared_components/elevated_butto
 import 'package:radency_internship_project_2/ui/shared_components/field_title.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/multi_choice_modals/show_multi_choice_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_income_form.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
@@ -37,10 +36,15 @@ class _FiltersViewState extends State<FiltersView> {
   double _minAmountValue;
   double _maxAmountValue;
 
+  Map<dynamic, bool> focusMap = {};
+
   @override
   void initState() {
     _accountFieldController.text = BlocProvider.of<AccountBloc>(context).state.appliedAccounts.join("; ");
     _categoryFieldController.text = BlocProvider.of<CategoryBloc>(context).state.appliedCategories.join("; ");
+    AddTransactionFields.values.forEach((element) {
+      focusMap[element] = false;
+    });
     super.initState();
   }
 
@@ -93,11 +97,14 @@ class _FiltersViewState extends State<FiltersView> {
           child: Form(
             key: _accountValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context, focused: focusMap[AddTransactionFields.Account]),
               controller: _accountFieldController,
               readOnly: true,
               showCursor: false,
               onTap: () async {
+                setState(() {
+                  focusOnField(focusMap, AddTransactionFields.Account);
+                });
                 await showMultiChoiceModal(context: context, type: MultiChoiceModalType.Account);
               },
             ),
@@ -120,11 +127,14 @@ class _FiltersViewState extends State<FiltersView> {
           child: Form(
             key: _categoryValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context, focused: focusMap[AddTransactionFields.Category]),
               controller: _categoryFieldController,
               readOnly: true,
               showCursor: false,
               onTap: () async {
+                setState(() {
+                  focusOnField(focusMap, AddTransactionFields.Category);
+                });
                 List list = await showMultiChoiceModal(context: context, type: MultiChoiceModalType.Category);
                 _categoryFieldController.text = "";
               },
@@ -155,7 +165,8 @@ class _FiltersViewState extends State<FiltersView> {
                     textAlign: TextAlign.center,
                     decoration: addTransactionFormFieldDecoration(
                       context,
-                      hintText: "Min"
+                      hintText: "Min",
+                      focused: focusMap[AddTransactionFields.MinAmount]
                     ),
                     readOnly: true,
                     showCursor: true,
@@ -165,6 +176,9 @@ class _FiltersViewState extends State<FiltersView> {
                     ],
 
                     onTap: () async {
+                      setState(() {
+                        focusOnField(focusMap, AddTransactionFields.MinAmount);
+                      });
                       await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateMinAmountCallback, showSubcurrencies: false);
                     },
                     onSaved: (value) => _minAmountValue = double.tryParse(value),
@@ -179,7 +193,8 @@ class _FiltersViewState extends State<FiltersView> {
                     textAlign: TextAlign.center,
                     decoration: addTransactionFormFieldDecoration(
                       context,
-                      hintText: "Max"
+                      hintText: "Max",
+                      focused: focusMap[AddTransactionFields.MaxAmount],
                     ),
                     readOnly: true,
                     showCursor: true,
@@ -189,6 +204,9 @@ class _FiltersViewState extends State<FiltersView> {
                     ],
 
                     onTap: () async {
+                      setState(() {
+                        focusOnField(focusMap, AddTransactionFields.MaxAmount);
+                      });
                       await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateMaxAmountCallback, showSubcurrencies: false);
                     },
                     onSaved: (value) => _maxAmountValue = double.tryParse(value),

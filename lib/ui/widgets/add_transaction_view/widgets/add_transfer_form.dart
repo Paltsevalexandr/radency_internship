@@ -8,9 +8,9 @@ import 'package:radency_internship_project_2/models/transactions/transfer_transa
 import 'package:radency_internship_project_2/ui/shared_components/modals/amount/amount_currency_prefix.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/field_title.dart';
-import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_expense_form.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/stylized_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
+import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_income_form.dart';
 import 'package:radency_internship_project_2/utils/date_helper.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
@@ -44,6 +44,8 @@ class _AddTransferFormState extends State<AddTransferForm> {
   TextEditingController _noteFieldController = TextEditingController();
 
   bool _areFeesVisible = false;
+
+  Map<dynamic, bool> focusMap = {};
 
   final int _titleFlex = 3;
   final int _textFieldFlex = 7;
@@ -114,12 +116,15 @@ class _AddTransferFormState extends State<AddTransferForm> {
         Flexible(
           flex: _textFieldFlex,
           child: TextFormField(
-            decoration: addTransactionFormFieldDecoration(context),
+            decoration: addTransactionFormFieldDecoration(context, focused: focusMap[AddTransactionFields.Date]),
             style: addTransactionFormInputTextStyle(),
             controller: _dateFieldController,
             readOnly: true,
             showCursor: false,
             onTap: () async {
+              setState(() {
+                focusOnField(focusMap, AddTransactionFields.Date);
+              });
               await _selectNewDate();
             },
           ),
@@ -141,12 +146,15 @@ class _AddTransferFormState extends State<AddTransferForm> {
           child: Form(
             key: _fromValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context, focused: focusMap[AddTransactionFields.Account]),
               style: addTransactionFormInputTextStyle(),
               controller: _fromFieldController,
               readOnly: true,
               showCursor: false,
               onTap: () async {
+                setState(() {
+                  focusOnField(focusMap, AddTransactionFields.Account);
+                });
                 _fromFieldController.text = await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Account, values: accounts, onAddCallback: null);
                 setState(() {
                   _fromValueFormKey.currentState.validate();
@@ -180,12 +188,15 @@ class _AddTransferFormState extends State<AddTransferForm> {
           child: Form(
             key: _toValueFormKey,
             child: TextFormField(
-              decoration: addTransactionFormFieldDecoration(context),
+              decoration: addTransactionFormFieldDecoration(context, focused: focusMap[AddTransactionFields.AccountTo]),
               style: addTransactionFormInputTextStyle(),
               controller: _toFieldController,
               readOnly: true,
               showCursor: false,
               onTap: () async {
+                setState(() {
+                  focusOnField(focusMap, AddTransactionFields.AccountTo);
+                });
                 _toFieldController.text = await showSingleChoiceModal(context: context, values: accounts, type: SingleChoiceModalType.Account, onAddCallback: null);
                 setState(() {
                   _toValueFormKey.currentState.validate();
@@ -223,14 +234,13 @@ class _AddTransferFormState extends State<AddTransferForm> {
                   key: _amountValueFormKey,
                   child: TextFormField(
                     style: addTransactionFormInputTextStyle(),
-                    decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix()),
+                    decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix(), focused: focusMap[AddTransactionFields.Amount]),
                     controller: _amountFieldController,
                     readOnly: true,
                     showCursor: false,
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(numberWithDecimalRegExp)),
                     ],
-                    // keyboardType: TextInputType.numberWithOptions(decimal: true),
                     validator: (val) {
                       if (!RegExp(moneyAmountRegExp).hasMatch(val)) {
                         return S.current.addTransactionAmountFieldValidationEmpty;
@@ -239,6 +249,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
                       return null;
                     },
                     onTap: () async {
+                      setState(() {
+                        focusOnField(focusMap, AddTransactionFields.Amount);
+                      });
                       await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateAmountCallback);
                       setState(() {
                         _amountValueFormKey.currentState.validate();
@@ -285,7 +298,7 @@ class _AddTransferFormState extends State<AddTransferForm> {
                   child: Form(
                     key: _feesValueFormKey,
                     child: TextFormField(
-                      decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix()),
+                      decoration: addTransactionFormFieldDecoration(context, prefixIcon: AmountCurrencyPrefix(), focused: focusMap[AddTransactionFields.Fees]),
                       style: addTransactionFormInputTextStyle(),
                       controller: _feesFieldController,
                       readOnly: true,
@@ -306,6 +319,9 @@ class _AddTransferFormState extends State<AddTransferForm> {
                         return null;
                       },
                       onTap: () async {
+                        setState(() {
+                          focusOnField(focusMap, AddTransactionFields.Fees);
+                        });
                         await showSingleChoiceModal(
                           context: context,
                           type: SingleChoiceModalType.Amount,
@@ -347,6 +363,11 @@ class _AddTransferFormState extends State<AddTransferForm> {
               style: addTransactionFormInputTextStyle(),
               controller: _noteFieldController,
               onSaved: (value) => _noteValue = value,
+              onTap: (){
+                setState(() {
+                  focusOnField(focusMap, AddTransactionFields.Note);
+                });
+              },
             ),
           ),
         )
@@ -458,6 +479,10 @@ class _AddTransferFormState extends State<AddTransferForm> {
       _amountFieldController.text = '';
       _noteFieldController.text = '';
       _areFeesVisible = false;
+
+      AddTransactionFields.values.forEach((element) {
+        focusMap[element] = false;
+      });
     });
   }
 

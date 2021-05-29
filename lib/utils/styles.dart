@@ -144,7 +144,7 @@ TextStyle addTransactionElevatedButtonTitleStyle(BuildContext context, [Color ti
   return TextStyle(color: titleColor, fontSize: 16, fontWeight: FontWeight.w600);
 }
 
-InputDecoration addTransactionFormFieldDecoration(context, {String hintText, Widget prefixIcon, double prefixWidth}) {
+InputDecoration addTransactionFormFieldDecoration(context, {String hintText, Widget prefixIcon, double prefixWidth, bool focused = false}) {
   return InputDecoration(
     helperText: '',
     prefixIcon: prefixIcon,
@@ -160,6 +160,18 @@ InputDecoration addTransactionFormFieldDecoration(context, {String hintText, Wid
       borderSide: BorderSide(
         color: Theme.of(context).accentColor,
         width: 2
+      )
+    ),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Theme.of(context).accentColor,
+        width: focused ? 2 : 1
+      )
+    ),
+    errorBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Theme.of(context).errorColor,
+        width: focused ? 2 : 1
       )
     ),
   );
