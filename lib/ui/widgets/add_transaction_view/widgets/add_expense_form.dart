@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/add_transaction_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location/transaction_location_bloc.dart';
@@ -489,15 +490,18 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     setState(() {
       focusOnField(_focusMap, AddTransactionFields.Shared);
     });
-    final Contact contact = await ContactsService.openDeviceContactPicker();
-    if (Platform.isAndroid) {
-      contact.avatar = await ContactsService.getAvatar(contact);
-    }
-    if (contact != null) {
-      setState(() {
-        _sharedContact = contact;
-        _sharedFieldController.text = contact.displayName;
-      });
+    final contactsPermission = await Permission.contacts.request();
+    if(Platform.isIOS || contactsPermission.isGranted) {
+      final Contact contact = await ContactsService.openDeviceContactPicker();
+      if (Platform.isAndroid) {
+        contact.avatar = await ContactsService.getAvatar(contact);
+      }
+      if (contact != null) {
+        setState(() {
+          _sharedContact = contact;
+          _sharedFieldController.text = contact.displayName;
+        });
+      }
     }
   }
 
