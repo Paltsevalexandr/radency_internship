@@ -170,6 +170,7 @@ class App extends StatelessWidget {
             BlocProvider(create: (context) => TransactionLocationMapBloc()),
             BlocProvider(
               create: (context) => ExpensesMapBloc(
+                stylesBloc: BlocProvider.of<StylesBloc>(context),
                 settingsBloc: BlocProvider.of<SettingsBloc>(context),
                 transactionsRepository: transactionsRepository,
               )..add(ExpensesMapInitialize()),

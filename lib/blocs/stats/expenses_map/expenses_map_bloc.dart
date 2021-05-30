@@ -6,26 +6,34 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
+import 'package:radency_internship_project_2/blocs/settings/styles/styles_bloc.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
 import 'package:radency_internship_project_2/models/transactions/transaction.dart';
 import 'package:radency_internship_project_2/repositories/transactions_repository.dart';
 import 'package:radency_internship_project_2/utils/date_helper.dart';
 import 'package:radency_internship_project_2/utils/geolocator_utils.dart';
+import 'package:radency_internship_project_2/utils/strings.dart';
+import 'package:radency_internship_project_2/utils/styles.dart';
 
 part 'expenses_map_event.dart';
 
 part 'expenses_map_state.dart';
 
 class ExpensesMapBloc extends Bloc<ExpensesMapEvent, ExpensesMapState> {
-  ExpensesMapBloc({@required this.settingsBloc, @required this.transactionsRepository}) : super(ExpensesMapState());
+  ExpensesMapBloc({
+    @required this.settingsBloc,
+    @required this.transactionsRepository,
+    @required this.stylesBloc,
+  }) : super(ExpensesMapState());
 
   final TransactionsRepository transactionsRepository;
-
-  SettingsBloc settingsBloc;
+  final SettingsBloc settingsBloc;
+  final StylesBloc stylesBloc;
   StreamSubscription settingsSubscription;
   String locale = '';
 
@@ -167,20 +175,36 @@ class ExpensesMapBloc extends Bloc<ExpensesMapEvent, ExpensesMapState> {
             print('---- $cluster');
             cluster.items.forEach((p) => print(p));
           },
-          icon: await _getMarkerBitmap(100, 250, text: _getExpensesClusterSum(cluster).toStringAsFixed(2)),
+          icon: await _getMarkerBitmap(200,
+              text:
+                  getCurrencySymbol(settingsBloc.state.currency) + _getExpensesClusterSum(cluster).toStringAsFixed(0)),
         );
       };
 
-  Future<BitmapDescriptor> _getMarkerBitmap(double height, double width, {String text}) async {
+  Future<BitmapDescriptor> _getMarkerBitmap(double width, {String text}) async {
+    double height = width * 0.78;
+
     final PictureRecorder pictureRecorder = PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
-    final Paint paint1 = Paint()..color = Colors.orange;
+    final Paint paint1 = Paint()..color = HexColor(stylesBloc.state.themeColors.accentColor);
 
-    // Marker rectangle (background)
-    canvas.drawRect(
-      Rect.fromCenter(center: Offset(width / 2, height / 2), width: width, height: height),
+    //Marker rectangle (background)
+
+    RRect rrect = RRect.fromRectAndRadius(
+        Rect.fromCenter(
+            center: Offset(width / 2, height / 2 - height * 0.08), width: width, height: height - height * 0.16),
+        Radius.circular(width * 0.16));
+
+    canvas.drawRRect(
+      rrect,
       paint1,
     );
+
+    final path = Path()
+      ..moveTo(width / 3, height - height * 0.17)
+      ..lineTo(width / 2, height)
+      ..lineTo(width / 3 * 2, height - height * 0.17);
+    canvas.drawPath(path, paint1);
 
     // Expense amount text
     if (text != null) {
@@ -189,14 +213,15 @@ class ExpensesMapBloc extends Bloc<ExpensesMapEvent, ExpensesMapState> {
       // Text font and style
       textPainter.text = TextSpan(
         text: text,
-        style: TextStyle(fontSize: height / 3, color: Colors.white, fontWeight: FontWeight.normal),
+        style: GoogleFonts.nunito(
+            textStyle: TextStyle(fontSize: height / 3, color: Colors.white, fontWeight: FontWeight.normal)),
       );
       textPainter.layout();
 
       // Text position relative to background (here - centered)
       textPainter.paint(
         canvas,
-        Offset(width / 2 - textPainter.width / 2, height / 2 - textPainter.height / 2),
+        Offset(width / 2 - textPainter.width / 2, (height / 2 - height * 0.08) - textPainter.height / 2),
       );
     }
 
