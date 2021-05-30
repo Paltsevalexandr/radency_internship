@@ -11,7 +11,6 @@ import 'package:radency_internship_project_2/ui/search_expenses_page/filters_vie
 import 'package:radency_internship_project_2/ui/search_expenses_page/summary_row_widget.dart';
 import 'package:radency_internship_project_2/ui/search_expenses_page/transaction_widget.dart';
 import 'package:radency_internship_project_2/ui/shared_components/design_scaffold.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class SearchExpensesPage extends StatefulWidget{
   @override
@@ -110,8 +109,8 @@ class _SearchExpensesPageState extends State<SearchExpensesPage> {
   Widget _buildTextField() {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: pixelsToDP(context, 60),
-        vertical: pixelsToDP(context, 30),
+        horizontal: 20,
+        vertical: 15,
       ),
       child: TextFormField(
         decoration: InputDecoration(

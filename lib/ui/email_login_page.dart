@@ -9,7 +9,6 @@ import 'package:radency_internship_project_2/ui/widgets/centered_scroll_view.dar
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class EmailLoginPage extends StatelessWidget {
   const EmailLoginPage({Key key}) : super(key: key);
@@ -39,7 +38,7 @@ class EmailLoginForm extends StatefulWidget {
 }
 
 class _EmailLoginFormState extends State<EmailLoginForm> {
-  static const double _padding = 8.0;
+  static const double _padding = 0.0;
 
   String _email;
   String _password;
@@ -86,7 +85,7 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
       child: Column(
         children: [
           SizedBox(
-            height: pixelsToDP(context, 15.0),
+            height: 10,
           ),
           Text(
             S.current.loginWelcomeText,
@@ -94,7 +93,7 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            height: pixelsToDP(context, 15.0),
+            height: 10,
           ),
           Text(
             S.current.loginNoticeText,
@@ -102,7 +101,7 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            height: pixelsToDP(context, 80),
+            height: 30,
           ),
           _loginForms(),
           Container(
@@ -171,7 +170,7 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
     final accentColor = Theme.of(context).accentColor;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+      padding: EdgeInsets.symmetric(vertical: _padding),
       child: Form(
         key: _emailFormKey,
         child: TextFormField(
@@ -209,7 +208,7 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
     final accentColor = Theme.of(context).accentColor;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+      padding: EdgeInsets.symmetric(vertical: _padding),
       child: Form(
         key: _passwordFormKey,
         child: TextFormField(
@@ -277,7 +276,7 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
     return BlocBuilder<EmailLoginBloc, EmailLoginState>(builder: (context, state) {
       if (state.biometricsCredentialsEnrolled) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+          padding: EdgeInsets.symmetric(vertical: _padding),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

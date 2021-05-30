@@ -10,7 +10,6 @@ import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/stats/st
 import 'package:radency_internship_project_2/ui/widgets/bottom_nav_bar.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/stats/widgets/stats_slider.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class StatsView extends StatefulWidget {
   @override
@@ -66,7 +65,7 @@ class _StatsViewState extends State<StatsView> {
 
   Widget _statsViewModeSlider() {
     return Padding(
-      padding: EdgeInsets.all(pixelsToDP(context, 16.0)),
+      padding: EdgeInsets.all(8),
       child: BlocBuilder<StatsBloc, StatsState>(
         builder: (context, state) {
           return CupertinoSlidingSegmentedControl(

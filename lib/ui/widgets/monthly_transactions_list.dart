@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
+import 'package:radency_internship_project_2/blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/transactions/month_details.dart';
 import 'package:radency_internship_project_2/ui/shared_components/empty_data_refresh_container.dart';
-
-import '../../blocs/settings/settings_bloc.dart';
-import '../../blocs/transactions/transactions_monthly/transactions_monthly_bloc.dart';
-import '../../utils/strings.dart';
-import '../../utils/ui_utils.dart';
-import 'common_transactions_list.dart';
+import 'package:radency_internship_project_2/ui/widgets/common_transactions_list.dart';
+import 'package:radency_internship_project_2/utils/strings.dart';
 
 class MonthlyTransactionsList extends StatelessWidget {
   const MonthlyTransactionsList({Key key}) : super(key: key);
@@ -59,24 +57,25 @@ class MonthlyDetailsItem extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
       String currency = state.currency;
       return Container(
-          height: pixelsToDP(context, 150),
           child: Row(
             children: [
               SizedBox(
-                width: pixelsToDP(context, 180.0),
                 child: Padding(
-                  padding: EdgeInsets.only(right: pixelsToDP(context, 8.0)),
+                  padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(color: greyColor, width: 1.0),
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
                     ),
-                    child: Text(
-                      '${getMonthByNumber(context, itemEntity.monthNumber)}',
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: greyColor, fontSize: 18),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                      child: Text(
+                        '${getMonthByNumber(context, itemEntity.monthNumber)}',
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: greyColor, fontSize: 18),
+                      ),
                     ),
                   ),
                 ),

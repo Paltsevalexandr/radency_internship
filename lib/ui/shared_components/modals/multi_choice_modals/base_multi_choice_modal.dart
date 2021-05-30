@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class BaseMultiChoiceModal extends StatelessWidget{
   final String title;
@@ -15,10 +14,10 @@ class BaseMultiChoiceModal extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: pixelsToDP(context, 90),
-        bottom: pixelsToDP(context, 60),
-        left: pixelsToDP(context, 45),
-        right: pixelsToDP(context, 45),
+        top: 30,
+        bottom: 30,
+        left: 30,
+        right: 30,
       ),
       child: Column(
         // mainAxisSize: MainAxisSize.min,
@@ -26,7 +25,7 @@ class BaseMultiChoiceModal extends StatelessWidget{
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(pixelsToDP(context, 20)),
+                borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
               ),
               child: Column(
@@ -34,9 +33,9 @@ class BaseMultiChoiceModal extends StatelessWidget{
                 children: [
                   Container(
                     padding: EdgeInsets.only(
-                      top: pixelsToDP(context, 60),
-                      bottom: pixelsToDP(context, 20),
-                      left: pixelsToDP(context, 90),
+                      top: 25,
+                      bottom: 20,
+                      left: 20,
                     ),
                     child: Text(
                       title,
@@ -54,11 +53,11 @@ class BaseMultiChoiceModal extends StatelessWidget{
             ),
           ),
           SizedBox(
-            height: pixelsToDP(context, 30),
+            height: 15,
           ),
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(pixelsToDP(context, 20)),
+              borderRadius: BorderRadius.circular(5),
               color: Colors.white,
             ),
             child: IntrinsicHeight(

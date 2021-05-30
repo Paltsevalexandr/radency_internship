@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/blocs/transactions/transactions_calendar/transactions_calendar_bloc.dart';
-import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/calendar_day.dart';
+import 'package:radency_internship_project_2/ui/shared_components/summary_container.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
-import 'package:radency_internship_project_2/utils/styles.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 import 'day_cell.dart';
@@ -52,6 +52,7 @@ class _CalendarTableState extends State<CalendarTable> {
                   child: Text(
                     getWeekDayByNumber(index + 1, context),
                     textAlign: TextAlign.center,
+                    style: expenseDescriptionTextStyle(context),
                   ),
                 ))),
       ),
@@ -78,56 +79,18 @@ class _CalendarTableState extends State<CalendarTable> {
 
   Widget _summarySection() {
     return BlocBuilder<TransactionsCalendarBloc, TransactionsCalendarState>(builder: (context, state) {
-
       String currency = context.read<SettingsBloc>().state.currency;
 
       if (state is TransactionsCalendarLoaded) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                  child: _totalSectionColumn(
-                    title: S.current.income,
-                    currencySymbol: getCurrencySymbol(currency),
-                    amount: state.incomeSummary,
-                    color: Colors.blue,
-                  )),
-              Expanded(
-                  child: _totalSectionColumn(
-                    title: S.current.expenses,
-                    currencySymbol: getCurrencySymbol(currency),
-                    amount: state.expensesSummary,
-                    color: Colors.red,
-                  )),
-              Expanded(
-                  child: _totalSectionColumn(
-                    title: S.current.total,
-                    currencySymbol: getCurrencySymbol(currency),
-                    amount: state.incomeSummary - state.expensesSummary,
-                  )),
-            ],
-          ),
+        return SummaryContainer(
+          income: state.incomeSummary,
+          expenses: state.expensesSummary,
+          currency: currency,
         );
       }
 
       return SizedBox();
     });
-  }
-
-  Widget _totalSectionColumn({String title, String currencySymbol, double amount, Color color}) {
-    return Column(
-      children: [
-        Text(title),
-        SizedBox(
-          height: pixelsToDP(context, 15),
-        ),
-        Text(
-          currencySymbol + ' ' + amount.toStringAsFixed(2),
-          style: expensesTabStyle(context).copyWith(color: color),
-        ),
-      ],
-    );
   }
 
   double getCalendarHeight(BuildContext context, {@required double maxHeight}) {

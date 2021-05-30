@@ -5,14 +5,13 @@ import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class ExpenseCategoryBudgetItem extends StatelessWidget {
   final MonthlyCategoryExpense monthlyCategoryExpense;
 
-  final double progressIndicatorHeight = 80;
-  final double verticalPadding = 24;
-  final double horizontalPadding = 40;
+  final double progressIndicatorHeight = 25;
+  final double verticalPadding = 4;
+  final double horizontalPadding = 16;
 
   ExpenseCategoryBudgetItem({@required this.monthlyCategoryExpense});
 
@@ -29,9 +28,9 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, verticalPadding), horizontal: pixelsToDP(context, horizontalPadding)),
+          padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
@@ -76,18 +75,20 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(pixelsToDP(context, 10))),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
           child: Stack(
             children: [
               LinearProgressIndicator(
-                minHeight: pixelsToDP(context, progressIndicatorHeight),
+                minHeight: progressIndicatorHeight,
                 backgroundColor: Colors.grey.shade300,
                 value: monthlyCategoryExpense.budgetUsage,
-                valueColor: monthlyCategoryExpense.budgetUsage < 1 ? AlwaysStoppedAnimation<Color>(Colors.blue) : AlwaysStoppedAnimation<Color>(Colors.red),
+                valueColor: monthlyCategoryExpense.budgetUsage < 1
+                    ? AlwaysStoppedAnimation<Color>(Colors.blue)
+                    : AlwaysStoppedAnimation<Color>(Colors.red),
               ),
               Container(
                   alignment: Alignment(0.95, 0),
-                  height: pixelsToDP(context, progressIndicatorHeight),
+                  height: progressIndicatorHeight,
                   child: Text(
                     '${(monthlyCategoryExpense.budgetUsage * 100).toStringAsFixed(0)}%',
                     style: budgetItemLimitedTotalBudgetAmountStyle,
@@ -103,7 +104,8 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
             children: [
               Text(
                 '${monthlyCategoryExpense.expenseAmount.toStringAsFixed(2)}',
-                style: budgetItemLimitedExpenseAmountStyle(isOverBudget: monthlyCategoryExpense.expenseAmount > monthlyCategoryExpense.budgetTotal),
+                style: budgetItemLimitedExpenseAmountStyle(
+                    isOverBudget: monthlyCategoryExpense.expenseAmount > monthlyCategoryExpense.budgetTotal),
               ),
               Text(
                 monthlyCategoryExpense.budgetLeft.toStringAsFixed(2),
@@ -118,7 +120,7 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
 
   Widget _budgetUnlimitedCategoryItem(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, verticalPadding), horizontal: pixelsToDP(context, horizontalPadding)),
+      padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -126,9 +128,16 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
             monthlyCategoryExpense.category,
             style: budgetItemUnlimitedTitleStyle,
           ),
-          Text(
-            monthlyCategoryExpense.expenseAmount.toStringAsFixed(2),
-            style: budgetItemUnlimitedExpenseAmountStyle,
+          SizedBox(
+            width: 2,
+          ),
+          Flexible(
+            child: Text(
+              monthlyCategoryExpense.expenseAmount.toStringAsFixed(2),
+              style: budgetItemUnlimitedExpenseAmountStyle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           )
         ],
       ),

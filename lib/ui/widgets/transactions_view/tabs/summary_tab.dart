@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/export_csv/export_csv_bloc.dart';
@@ -8,11 +11,11 @@ import 'package:radency_internship_project_2/models/transactions/summary_details
 import 'package:radency_internship_project_2/ui/shared_components/centered_text_container.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/empty_data_refresh_container.dart';
+import 'package:radency_internship_project_2/ui/shared_components/summary_container.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/widgets/data_loading_widget.dart';
 import 'package:radency_internship_project_2/utils/mocked_expenses.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
-import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 
 class SummaryTab extends StatefulWidget {
   SummaryTab();
@@ -58,38 +61,43 @@ class _SummaryTabState extends State<SummaryTab> {
         context.read<TransactionsSummaryBloc>().add(TransactionsSummaryRefreshPressed());
       },
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Divider(),
-            _buildRowContent(),
-            Divider(),
-            _buildAccounts(),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: pixelsToDP(context, 60),
-              ),
-              child: BlocBuilder<CsvExportBloc, CsvExportState>(
-                builder: (BuildContext context, csvState) {
-                  var csvExportBloc = BlocProvider.of<CsvExportBloc>(context);
-                  var data = MockedExpensesItems().generateDailyData();
+        child: Center(
+          child: Container(
+            width: min(MediaQuery.of(context).size.width * 0.9, 500),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Divider(),
+                _buildRowContent(),
+                Divider(),
+                _buildAccounts(),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
+                  child: BlocBuilder<CsvExportBloc, CsvExportState>(
+                    builder: (BuildContext context, csvState) {
+                      var csvExportBloc = BlocProvider.of<CsvExportBloc>(context);
+                      var data = MockedExpensesItems().generateDailyData();
 
-                  return ColoredElevatedButton(
-                      onPressed: () => csvExportBloc.add(ExportDataToCsv(data: data)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add_moderator),
-                          SizedBox(
-                            width: pixelsToDP(context, 30),
-                          ),
-                          Text(S.current.transactionsTabButtonExportToCSV)
-                        ],
-                      ));
-                },
-              ),
-            )
-          ],
+                      return ColoredElevatedButton(
+                          onPressed: () => csvExportBloc.add(ExportDataToCsv(data: data)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.add_moderator),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(S.current.transactionsTabButtonExportToCSV)
+                            ],
+                          ));
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -100,29 +108,10 @@ class _SummaryTabState extends State<SummaryTab> {
       if (state is TransactionsSummaryLoaded) {
         String currency = context.read<SettingsBloc>().state.currency;
 
-        return Row(
-          children: [
-            Expanded(
-                child: _buildRowItem(
-              title: S.current.income,
-              currencySymbol: getCurrencySymbol(currency),
-              amount: state.summaryDetails.income,
-              color: Colors.blue,
-            )),
-            Expanded(
-                child: _buildRowItem(
-              title: S.current.expenses,
-              currencySymbol: getCurrencySymbol(currency),
-              amount: state.summaryDetails.expenses,
-              color: Colors.red,
-            )),
-            Expanded(
-                child: _buildRowItem(
-              title: S.current.total,
-              currencySymbol: getCurrencySymbol(currency),
-              amount: state.summaryDetails.total,
-            )),
-          ],
+        return SummaryContainer(
+          income: state.summaryDetails.income,
+          expenses: state.summaryDetails.expenses,
+          currency: currency,
         );
       }
 
@@ -139,15 +128,11 @@ class _SummaryTabState extends State<SummaryTab> {
           return Column(
             children: [
               _accountsTitle(),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: pixelsToDP(context, 75),
-                  vertical: pixelsToDP(context, 60),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  child: _categoriesExpensesList(state.summaryDetails),
                 ),
-                margin: EdgeInsets.all(pixelsToDP(context, 60)),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey)),
-                child: _categoriesExpensesList(state.summaryDetails),
               ),
             ],
           );
@@ -159,65 +144,68 @@ class _SummaryTabState extends State<SummaryTab> {
   }
 
   Widget _accountsTitle() {
-    return Container(
-      padding: EdgeInsets.only(
-        left: pixelsToDP(context, 60),
-        right: pixelsToDP(context, 60),
-        top: pixelsToDP(context, 30),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.money,
-          ),
-          Text(" ${S.current.transactionsTabTitleAccount}",
-              style: TextStyle(fontSize: pixelsToDP(context, 54), fontWeight: FontWeight.w500)),
-        ],
-      ),
-    );
-  }
-
-  Widget _categoriesExpensesList(SummaryDetails summaryDetails) {
-    return Column(
-      children: List.generate(
-        summaryDetails.accountsExpensesDetails.length,
-        (index) => Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: Container(
+        child: Row(
           children: [
-            Row(
-              children: [
-                Expanded(
-                    child: Text(
-                  summaryDetails.accountsExpensesDetails.keys.elementAt(index),
-                  style: regularTextStyle,
-                )),
-                Text(
-                  summaryDetails.accountsExpensesDetails.values.elementAt(index).toStringAsFixed(2),
-                  style: regularTextStyle,
-                )
-              ],
+            Icon(
+              Icons.money,
             ),
-            if (index < summaryDetails.accountsExpensesDetails.length - 1)
-              SizedBox(
-                height: pixelsToDP(context, 30),
-              )
+            Text(" ${S.current.transactionsTabTitleAccount}",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildRowItem({String title, String currencySymbol, double amount, Color color}) {
-    return Column(
-      children: [
-        Text(title),
-        SizedBox(
-          height: pixelsToDP(context, 15),
+  Widget _categoriesExpensesList(SummaryDetails summaryDetails) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: List.generate(
+          summaryDetails.accountsExpensesDetails.length,
+          (index) => Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    summaryDetails.accountsExpensesDetails.keys.elementAt(index),
+                    style: expenseDescriptionTextStyle(context),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        getCurrencySymbol(
+                          context.read<SettingsBloc>().state.currency,
+                        ),
+                        style: textStyleTransactionListCurrency(color: Theme.of(context).primaryColorDark),
+                      ),
+                      SizedBox(width: 3),
+                      Container(
+                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.4),
+                        child: Text(
+                          summaryDetails.accountsExpensesDetails.values.elementAt(index).toStringAsFixed(2),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: textStyleTransactionListAmount(color: Theme.of(context).primaryColorDark),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              if (index < summaryDetails.accountsExpensesDetails.length - 1)
+                SizedBox(
+                  height: 10,
+                )
+            ],
+          ),
         ),
-        Text(
-          amount.toStringAsFixed(2),
-          style: expensesTabStyle(context).copyWith(color: color),
-        ),
-      ],
+      ),
     );
   }
 }

@@ -8,7 +8,6 @@ import 'package:radency_internship_project_2/models/transactions/transfer_transa
 import 'package:radency_internship_project_2/utils/date_helper.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class TransactionWidget extends StatelessWidget {
   final Transaction transaction;
@@ -39,9 +38,10 @@ class TransactionWidget extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.only(
-        bottom: pixelsToDP(context, 80),
-        left: pixelsToDP(context, 30),
-        right: pixelsToDP(context, 30),
+        top: 10,
+        bottom: 10,
+        left: 10,
+        right: 10,
       ),
       child: Row(
         children: [
@@ -50,7 +50,7 @@ class TransactionWidget extends StatelessWidget {
               children: [
                 Text(DateHelper().dateToString(transaction.date)),
                 SizedBox(
-                  height: pixelsToDP(context, 10),
+                  height: 5,
                 ),
                 Text(subLabel),
               ],

@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:radency_internship_project_2/blocs/transactions/add_transaction/transaction_location_map/transaction_location_map_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class TransactionLocationSelectView extends StatefulWidget {
   @override
@@ -92,7 +91,7 @@ class _TransactionLocationSelectViewState extends State<TransactionLocationSelec
                     child: Icon(Icons.my_location),
                   ),
             SizedBox(
-              height: pixelsToDP(context, 20),
+              height: 15,
             ),
             FloatingActionButton.extended(
               label: Text(S.current.addTransactionLocationViewSelectButton),

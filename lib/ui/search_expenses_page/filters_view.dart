@@ -10,11 +10,11 @@ import 'package:radency_internship_project_2/ui/shared_components/field_title.da
 import 'package:radency_internship_project_2/ui/shared_components/modals/multi_choice_modals/show_multi_choice_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/show_single_choice_modal.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/add_income_form.dart';
+import 'package:radency_internship_project_2/ui/widgets/centered_scroll_view.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
-class FiltersView extends StatefulWidget{
+class FiltersView extends StatefulWidget {
   @override
   _FiltersViewState createState() => _FiltersViewState();
 }
@@ -53,29 +53,24 @@ class _FiltersViewState extends State<FiltersView> {
     return MultiBlocListener(
       listeners: [
         BlocListener<AccountBloc, AccountState>(
-          listener: (context, accountState){
+          listener: (context, accountState) {
             _accountFieldController.text = accountState.appliedAccounts.join("; ");
           },
         ),
         BlocListener<CategoryBloc, CategoryState>(
-          listener: (context, categoryState){
+          listener: (context, categoryState) {
             _categoryFieldController.text = categoryState.appliedCategories.join("; ");
           },
         )
       ],
-      child: Container(
-        padding: EdgeInsets.only(
-          top: pixelsToDP(context, 48),
-          left: pixelsToDP(context, 48),
-          right: pixelsToDP(context, 48),
-        ),
+      child: CenteredScrollView(
         child: Column(
           children: [
             _accountField([]),
             _categoryField([]),
             _amountField(),
             SizedBox(
-              height: pixelsToDP(context, 30),
+              height: 15,
             ),
             _applyButton(),
           ],
@@ -163,9 +158,7 @@ class _FiltersViewState extends State<FiltersView> {
                   key: _minAmountValueFormKey,
                   child: TextFormField(
                     textAlign: TextAlign.center,
-                    decoration: addTransactionFormFieldDecoration(
-                      context,
-                      hintText: "Min",
+                    decoration: addTransactionFormFieldDecoration(context, hintText: "Min",
                       focused: focusMap[AddTransactionFields.MinAmount]
                     ),
                     readOnly: true,
@@ -174,12 +167,15 @@ class _FiltersViewState extends State<FiltersView> {
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(numberWithDecimalRegExp)),
                     ],
-
                     onTap: () async {
                       setState(() {
                         focusOnField(focusMap, AddTransactionFields.MinAmount);
                       });
-                      await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateMinAmountCallback, showSubcurrencies: false);
+                      await showSingleChoiceModal(
+                          context: context,
+                          type: SingleChoiceModalType.Amount,
+                          updateAmountCallback: updateMinAmountCallback,
+                          showSubcurrencies: false);
                     },
                     onSaved: (value) => _minAmountValue = double.tryParse(value),
                   ),
@@ -191,9 +187,7 @@ class _FiltersViewState extends State<FiltersView> {
                   key: _maxAmountValueFormKey,
                   child: TextFormField(
                     textAlign: TextAlign.center,
-                    decoration: addTransactionFormFieldDecoration(
-                      context,
-                      hintText: "Max",
+                    decoration: addTransactionFormFieldDecoration(context, hintText: "Max",
                       focused: focusMap[AddTransactionFields.MaxAmount],
                     ),
                     readOnly: true,
@@ -202,12 +196,15 @@ class _FiltersViewState extends State<FiltersView> {
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(numberWithDecimalRegExp)),
                     ],
-
                     onTap: () async {
                       setState(() {
                         focusOnField(focusMap, AddTransactionFields.MaxAmount);
                       });
-                      await showSingleChoiceModal(context: context, type: SingleChoiceModalType.Amount, updateAmountCallback: updateMaxAmountCallback, showSubcurrencies: false);
+                      await showSingleChoiceModal(
+                          context: context,
+                          type: SingleChoiceModalType.Amount,
+                          updateAmountCallback: updateMaxAmountCallback,
+                          showSubcurrencies: false);
                     },
                     onSaved: (value) => _maxAmountValue = double.tryParse(value),
                   ),
@@ -222,18 +219,17 @@ class _FiltersViewState extends State<FiltersView> {
 
   Widget _applyButton() {
     return ColoredElevatedButton(
-      child: Text("Apply filters"),
-      onPressed: (){
-        _minAmountValueFormKey.currentState.save();
-        _maxAmountValueFormKey.currentState.save();
-        BlocProvider.of<SearchTransactionsBloc>(context).add(SearchTransactionsByFilters(
-          minAmount: _minAmountValue,
-          maxAmount: _maxAmountValue,
-          accounts: BlocProvider.of<AccountBloc>(context).state.selectedAccounts,
-          categories: BlocProvider.of<CategoryBloc>(context).state.selectedCategories,
-        ));
-      }
-    );
+        child: Text("Apply filters"),
+        onPressed: () {
+          _minAmountValueFormKey.currentState.save();
+          _maxAmountValueFormKey.currentState.save();
+          BlocProvider.of<SearchTransactionsBloc>(context).add(SearchTransactionsByFilters(
+            minAmount: _minAmountValue,
+            maxAmount: _maxAmountValue,
+            accounts: BlocProvider.of<AccountBloc>(context).state.selectedAccounts,
+            categories: BlocProvider.of<CategoryBloc>(context).state.selectedCategories,
+          ));
+        });
   }
 
   void updateMinAmountCallback(var value) {

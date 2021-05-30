@@ -13,7 +13,6 @@ import 'package:radency_internship_project_2/ui/widgets/transactions_view/widget
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/text_styles.dart';
 import 'package:radency_internship_project_2/utils/time.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 import 'common_transactions_list.dart';
 
@@ -103,23 +102,20 @@ class DailyTransactionItem extends StatelessWidget {
 
       var amountColor = getAmountColor(transaction, context);
 
-      return Container(
-          child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: EdgeInsets.only(right: pixelsToDP(context, 24)),
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Container(
+            child: Row(
+          children: [
+            Expanded(
+              flex: 2,
               child: Text(
                 getCategory(transaction),
                 style: transactionsListDescriptionTextStyle(),
               ),
             ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: EdgeInsets.only(right: pixelsToDP(context, 24)),
+            Expanded(
+              flex: 3,
               child: Text(
                 '${transaction.note}',
                 maxLines: 3,
@@ -127,18 +123,18 @@ class DailyTransactionItem extends StatelessWidget {
                 style: transactionsListDescriptionTextStyle(),
               ),
             ),
-          ),
-          RichText(
-              text: TextSpan(children: [
-            TextSpan(
-                text: getCurrencySymbol(currency),
-                style: textStyleTransactionListCurrency(size: 16, fontWeight: FontWeight.w600, color: amountColor)),
-            TextSpan(
-                text: '${transaction.amount.toStringAsFixed(2)}',
-                style: transactionsListDescriptionTextStyle(fontWeight: FontWeight.w600, color: amountColor))
-          ])),
-        ],
-      ));
+            RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                  text: getCurrencySymbol(currency),
+                  style: textStyleTransactionListCurrency(size: 16, fontWeight: FontWeight.w600, color: amountColor)),
+              TextSpan(
+                  text: '${transaction.amount.toStringAsFixed(2)}',
+                  style: transactionsListDescriptionTextStyle(fontWeight: FontWeight.w600, color: amountColor))
+            ])),
+          ],
+        )),
+      );
     });
   }
 
@@ -194,7 +190,7 @@ class DailyExpensesHeader extends StatelessWidget {
 
   Widget buildDateText(context) {
     return Padding(
-        padding: EdgeInsets.only(right: 10, left: pixelsToDP(context, 36)),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: Text('${toFancyDay(dateTime.day)}.${toFancyDay(dateTime.month)}.${dateTime.year}',
             style: textStyleHeader(color: Theme.of(context).secondaryHeaderColor)));
   }
@@ -204,24 +200,28 @@ class DailyExpensesHeader extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
       String currency = state.currency;
       return Container(
-          height: pixelsToDP(context, 200),
           color: Theme.of(context).backgroundColor,
-          padding: EdgeInsets.symmetric(horizontal: 3),
           alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              buildDateText(context),
-              Expanded(
-                child: Wrap(
-                  spacing: 10,
-                  alignment: WrapAlignment.end,
-                  children: [
-                    buildIncomeText(context, getCurrencySymbol(currency), incomeTotal),
-                    buildOutcomeText(context, getCurrencySymbol(currency), outcomeTotal)
-                  ],
-                ),
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                buildDateText(context),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Wrap(
+                      spacing: 10,
+                      alignment: WrapAlignment.end,
+                      children: [
+                        buildIncomeText(context, getCurrencySymbol(currency), incomeTotal),
+                        buildOutcomeText(context, getCurrencySymbol(currency), outcomeTotal)
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ));
     });
   }

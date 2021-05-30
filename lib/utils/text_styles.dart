@@ -37,7 +37,7 @@ TextStyle chartExpenseAmountTextStyle(BuildContext context) {
   );
 }
 
-TextStyle chartExpenseDescriptionTextStyle(BuildContext context) {
+TextStyle expenseDescriptionTextStyle(BuildContext context) {
   return GoogleFonts.openSans(
     fontSize: 16,
     fontWeight: FontWeight.w400,
@@ -67,4 +67,22 @@ charts.TextStyleSpec chartLabelStyle(BuildContext context) {
         r: Theme.of(context).textTheme.bodyText1.color.red,
         g: Theme.of(context).textTheme.bodyText1.color.green,
       )));
+}
+
+TextStyle addTransactionMenuTitleTextStyle() {
+  return GoogleFonts.openSans(
+    textStyle: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w600),
+  );
+}
+
+TextStyle addTransactionMenuItemTextStyle() {
+  return GoogleFonts.nunito(
+    textStyle: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w400),
+  );
+}
+
+TextStyle addTransactionMenuCancelButtonTextStyle() {
+  return GoogleFonts.openSans(
+    textStyle: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
+  );
 }

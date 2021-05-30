@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/base_single_choice_modal.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class SingleChoiceAccountModal extends StatelessWidget{
   final List<String> accounts;
@@ -32,13 +31,13 @@ class SingleChoiceAccountModal extends StatelessWidget{
           icon: Icon(Icons.copy),
           onPressed: (){},
           color: Colors.white,
-          iconSize: pixelsToDP(context, 90),
+          iconSize: 30,
         ),
         IconButton(
           icon: Icon(Icons.edit_outlined),
           onPressed: (){},
           color: Colors.white,
-          iconSize: pixelsToDP(context, 90),
+          iconSize: 30,
         ),
       ],
     );

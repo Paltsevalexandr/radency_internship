@@ -9,7 +9,6 @@ import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/currencies_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/single_choice_modals/base_single_choice_modal.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class AmountModal extends StatelessWidget{
   final onUpdateCallback;
@@ -29,7 +28,7 @@ class AmountModal extends StatelessWidget{
           child: element is String ? Text(
             element,
             style: TextStyle(
-              fontSize: pixelsToDP(context, 60),
+              fontSize: 22,
               color: element == "OK" ? Colors.red : null
             ),
           ) : element,
@@ -52,7 +51,7 @@ class AmountModal extends StatelessWidget{
             _showAvailableCurrencies(context);
           },
           color: Colors.white,
-          iconSize: pixelsToDP(context, 90),
+          iconSize: 30,
         ) : Container(),
       ],
     );
@@ -104,7 +103,7 @@ class AmountModal extends StatelessWidget{
                       getCurrencySymbol(mainCurrency),
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: pixelsToDP(context, 40),
+                        fontSize: 22,
                       ),
                     ),
                     style: TextButton.styleFrom(
@@ -119,7 +118,7 @@ class AmountModal extends StatelessWidget{
                       e.code,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: pixelsToDP(context, 40),
+                        fontSize: 22,
                       ),
                     ),
                     style: TextButton.styleFrom(

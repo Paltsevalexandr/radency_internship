@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
+import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
-import '../../blocs/settings/settings_bloc.dart';
-import '../../utils/routes.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
+
 
 class AppSettingsList extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -18,7 +18,6 @@ class AppSettingsList extends StatelessWidget {
             sections: [
               SettingsSection(
                 titleTextStyle: TextStyle(color: Colors.grey),
-                titlePadding: EdgeInsets.all(pixelsToDP(context, 20)),
                 tiles: [
                   SettingsTile(
                     title: S.of(context).main_currency,

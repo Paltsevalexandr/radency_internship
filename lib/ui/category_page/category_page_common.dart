@@ -4,7 +4,6 @@ import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:radency_internship_project_2/blocs/settings/category/category_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 import '../widgets/bottom_nav_bar.dart';
 import 'category_page_add.dart';
@@ -23,8 +22,7 @@ Widget buildReorderedCategoryList(BuildContext context, String categoriesType) {
 
     if (categoriesType == incomeList) {
       categoryItems = state.incomeCategories;
-    }
-    else {
+    } else {
       categoryItems = state.expensesCategories;
     }
 
@@ -40,17 +38,15 @@ Widget buildReorderedCategoryList(BuildContext context, String categoriesType) {
       categoryItems.removeAt(draggingIndex);
       categoryItems.insert(newPositionIndex, draggedItem);
 
-      context.read<CategoryBloc>().add(ChangeCategory(
-          settingName: categoriesType, listSettingValue: categoryItems));
+      context.read<CategoryBloc>().add(ChangeCategory(settingName: categoriesType, listSettingValue: categoryItems));
 
       return true;
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: categoriesType == incomeList
-            ? Text(S.current.incomeCategoryTitle)
-            : Text(S.current.expensesCategoryTitle),
+        title:
+            categoriesType == incomeList ? Text(S.current.incomeCategoryTitle) : Text(S.current.expensesCategoryTitle),
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back),
           onPressed: () {
@@ -66,8 +62,7 @@ Widget buildReorderedCategoryList(BuildContext context, String categoriesType) {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverPadding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).padding.bottom),
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
@@ -89,9 +84,9 @@ Widget buildReorderedCategoryList(BuildContext context, String categoriesType) {
       ),
       bottomNavigationBar: BottomNavBar(),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'addCategoryFloatingButton',
         onPressed: () {
-          Navigator.pushNamed(context, Routes.newCategoryPage,
-          arguments: NewCategoryPageArguments(categoriesType));
+          Navigator.pushNamed(context, Routes.newCategoryPage, arguments: NewCategoryPageArguments(categoriesType));
         },
         child: Icon(Icons.add),
       ),
@@ -110,8 +105,7 @@ class CategoryItem extends StatelessWidget {
   Widget _buildChild(BuildContext context, ReorderableItemState state) {
     BoxDecoration decoration;
 
-    if (state == ReorderableItemState.dragProxy ||
-        state == ReorderableItemState.dragProxyFinished) {
+    if (state == ReorderableItemState.dragProxy || state == ReorderableItemState.dragProxyFinished) {
       decoration = BoxDecoration(color: Color(0xD0FFFFFF));
     } else {
       bool placeholder = state == ReorderableItemState.placeholder;
@@ -146,12 +140,11 @@ class CategoryItem extends StatelessWidget {
                             color: Colors.red,
                           ),
                           S.current.delete, () {
-
                         categoryItems.remove(data);
 
-                        context.read<CategoryBloc>().add(ChangeCategory(
-                            settingName: categoryType,
-                            listSettingValue: categoryItems));
+                        context
+                            .read<CategoryBloc>()
+                            .add(ChangeCategory(settingName: categoryType, listSettingValue: categoryItems));
                       }),
                       _buildExpandedEditableText(context),
                       // Triggers the reordering
@@ -168,9 +161,7 @@ class CategoryItem extends StatelessWidget {
 
   Widget _buildListIcon(BuildContext context, Widget icon, String tooltip, VoidCallback onPressed) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: pixelsToDP(context, 12.0),
-          horizontal: pixelsToDP(context, 12.0)),
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       child: IconButton(
         icon: icon,
         tooltip: tooltip,
@@ -182,38 +173,27 @@ class CategoryItem extends StatelessWidget {
   Widget _buildExpandedEditableText(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            vertical: pixelsToDP(context, 16.0),
-            horizontal: pixelsToDP(context, 16.0)),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         child: Container(
           alignment: Alignment.centerLeft,
-          decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.all(
-                  Radius.circular(pixelsToDP(context, 4)))),
+          decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(3))),
           child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: pixelsToDP(context, 2),
-                horizontal: pixelsToDP(context, 4)),
+            padding: EdgeInsets.symmetric(vertical: 1, horizontal: 2),
             child: () {
               var widget = data.editMode
                   ? TextFormField(
-                  initialValue: data.title,
-                  decoration: InputDecoration(
-                      labelText: S.current.categoryName,
-                      border: OutlineInputBorder(
-                          borderRadius:
-                          BorderRadius.circular(5))),
-                  onChanged: (value) {
-                    newCategoryName = value;
-                    print(newCategoryName);
-                  }
-              )
+                      initialValue: data.title,
+                      decoration: InputDecoration(
+                          labelText: S.current.categoryName,
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+                      onChanged: (value) {
+                        newCategoryName = value;
+                        print(newCategoryName);
+                      })
                   : Text(data.title,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1);
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.subtitle1);
               return widget;
             }(),
           ),
@@ -224,9 +204,7 @@ class CategoryItem extends StatelessWidget {
 
   Widget _buildReorderIcon(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: pixelsToDP(context, 24.0),
-          horizontal: pixelsToDP(context, 12.0)),
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       child: Icon(
         Icons.reorder,
         color: Colors.grey,
@@ -244,12 +222,9 @@ class CategoryItem extends StatelessWidget {
               color: Colors.grey,
             ),
             S.current.save, () {
-          if (newCategoryName.isNotEmpty)
-            data.title = newCategoryName;
+          if (newCategoryName.isNotEmpty) data.title = newCategoryName;
           data.editMode = false;
-          context.read<CategoryBloc>().add(ChangeCategory(
-              settingName: categoryType,
-              listSettingValue: categoryItems));
+          context.read<CategoryBloc>().add(ChangeCategory(settingName: categoryType, listSettingValue: categoryItems));
         });
       } else {
         return _buildListIcon(
@@ -263,9 +238,7 @@ class CategoryItem extends StatelessWidget {
             element.editMode = false;
           });
           data.editMode = true;
-          context.read<CategoryBloc>().add(ChangeCategory(
-              settingName: categoryType,
-              listSettingValue: categoryItems));
+          context.read<CategoryBloc>().add(ChangeCategory(settingName: categoryType, listSettingValue: categoryItems));
         });
       }
     }();

@@ -4,7 +4,6 @@ import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/models/chart_models/chart_category_details.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/text_styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class HistoryOfExpenses extends StatelessWidget {
   HistoryOfExpenses({this.expensesData});
@@ -39,7 +38,7 @@ class HistoryOfExpenses extends StatelessWidget {
 
     return Container(
         padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(border: Border.all(color: Colors.grey[100], width: pixelsToDP(context, 2))),
+        decoration: BoxDecoration(border: Border.all(color: Colors.grey[100], width: 1)),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,8 +48,8 @@ class HistoryOfExpenses extends StatelessWidget {
                 Container(
                     width: MediaQuery.of(context).size.width * 0.17,
                     alignment: Alignment.center,
-                    padding: EdgeInsets.all(pixelsToDP(context, 10)),
-                    margin: EdgeInsets.only(right: pixelsToDP(context, 12)),
+                    padding: EdgeInsets.all(4),
+                    margin: EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: color),
                     child: Text(
                       '$categoryInPercents%',
@@ -58,18 +57,20 @@ class HistoryOfExpenses extends StatelessWidget {
                     )),
                 Text(
                   name,
-                  style: chartExpenseDescriptionTextStyle(context),
+                  style: expenseDescriptionTextStyle(context),
                 ),
               ],
             ),
-            RichText(
-              text: TextSpan(children: [
-                TextSpan(text: getCurrencySymbol(currency), style: chartExpenseCurrencyTextStyle(context)),
-                TextSpan(
-                  text: ' ${categoryInCurrency.toStringAsFixed(2) ?? ''}',
-                  style: chartExpenseAmountTextStyle(context),
-                )
-              ]),
+            Flexible(
+              child: RichText(
+                text: TextSpan(children: [
+                  TextSpan(text: getCurrencySymbol(currency), style: chartExpenseCurrencyTextStyle(context)),
+                  TextSpan(
+                    text: ' ${categoryInCurrency.toStringAsFixed(2) ?? ''}',
+                    style: chartExpenseAmountTextStyle(context),
+                  )
+                ]),
+              ),
             )
           ],
         ));

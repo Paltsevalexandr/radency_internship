@@ -6,7 +6,6 @@ import 'package:radency_internship_project_2/models/transactions/transaction.dar
 import 'package:radency_internship_project_2/ui/shared_components/design_scaffold.dart';
 import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/widgets/expenses_types_view.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class AddTransactionPage extends StatelessWidget {
   @override
@@ -51,9 +50,6 @@ class AddTransactionPage extends StatelessWidget {
             children: TransactionType.values.map((element) {
               return Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: pixelsToDP(context, 9),
-                  ),
                   child: TextButton(
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.symmetric(

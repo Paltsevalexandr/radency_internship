@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:radency_internship_project_2/blocs/stats/expenses_map/expenses_map_bloc.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class ExpensesMapView extends StatefulWidget {
   @override
@@ -74,7 +73,7 @@ class _ExpensesMapViewState extends State<ExpensesMapView> {
     return BlocBuilder<ExpensesMapBloc, ExpensesMapState>(
       builder: (context, state) {
         return Padding(
-          padding: EdgeInsets.all(pixelsToDP(context, 16)),
+          padding: EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,

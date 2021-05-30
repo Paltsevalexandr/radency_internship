@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class ItemRow extends StatelessWidget{
   final bool selected;
@@ -12,12 +11,12 @@ class ItemRow extends StatelessWidget{
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.only(
-        left: pixelsToDP(context, 90)
+        left: 20
       ),
       selected: selected,
       leading: Icon(
         selected ? Icons.check_box : Icons.check_box_outline_blank,
-        size: pixelsToDP(context, 100),
+        size: 30,
       ),
       title: Text(title),
       onTap: onTap,

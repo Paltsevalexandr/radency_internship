@@ -5,7 +5,7 @@ class ColoredElevatedButton extends StatelessWidget {
   final Widget child;
   final Function onPressed;
 
-  ColoredElevatedButton({@required this.child, @required this.onPressed})
+  ColoredElevatedButton({@required this.child, @required this.onPressed, })
       : assert(child != null);
 
   @override

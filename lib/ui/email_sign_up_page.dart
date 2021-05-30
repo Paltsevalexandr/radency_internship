@@ -9,7 +9,6 @@ import 'package:radency_internship_project_2/ui/shared_components/elevated_butto
 import 'package:radency_internship_project_2/ui/widgets/centered_scroll_view.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class EmailSignUpPage extends StatelessWidget {
   const EmailSignUpPage({Key key}) : super(key: key);
@@ -39,7 +38,7 @@ class EmailSignUpForm extends StatefulWidget {
 }
 
 class _EmailSignUpFormState extends State<EmailSignUpForm> {
-  static const double _padding = 8.0;
+  static const double _padding = 0.0;
 
   String _email;
   String _username;
@@ -83,7 +82,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       child: Column(
         children: [
           SizedBox(
-            height: pixelsToDP(context, 15.0),
+            height: 15.0,
           ),
           Text(
             S.current.signUpCreateAccountHeader,
@@ -91,7 +90,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            height: pixelsToDP(context, 80),
+            height: 30,
           ),
           _detailsForms(),
         ],
@@ -122,7 +121,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     final accentColor = Theme.of(context).accentColor;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+      padding: EdgeInsets.symmetric(vertical: _padding),
       child: Form(
         key: _emailFormKey,
         child: TextFormField(
@@ -155,7 +154,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     final accentColor = Theme.of(context).accentColor;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+      padding: EdgeInsets.symmetric(vertical: _padding),
       child: Form(
         key: _usernameFormKey,
         child: TextFormField(
@@ -183,7 +182,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     final accentColor = Theme.of(context).accentColor;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+      padding: EdgeInsets.symmetric(vertical: _padding),
       child: Form(
         key: _passwordFormKey,
         child: TextFormField(
@@ -216,7 +215,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     final accentColor = Theme.of(context).accentColor;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+      padding: EdgeInsets.symmetric(vertical: _padding),
       child: Form(
         key: _passwordConfirmationFormKey,
         child: TextFormField(
@@ -245,7 +244,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     return BlocBuilder<SignUpEmailBloc, SignUpEmailState>(builder: (context, state) {
       if (state.biometricsAvailable) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+          padding: EdgeInsets.symmetric(vertical: _padding),
           child: Row(
             children: [
               Checkbox(

@@ -5,12 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utils/styles.dart';
 
 part 'styles_event.dart';
+
 part 'styles_state.dart';
 
 class StylesBloc extends Bloc<StylesEvent, StylesState> {
   SharedPreferences prefs;
 
-  StylesBloc() : super(StylesState(theme: 'system', themeColors: GreenTheme())) {
+  StylesBloc() : super(StylesState(theme: 'light', themeColors: PurpleTheme())) {
     add(LoadSharedPreferences());
   }
 
@@ -23,9 +24,10 @@ class StylesBloc extends Bloc<StylesEvent, StylesState> {
   StylesState loadFromPreferences() {
     var theme = prefs.getString(cAppThemeKey);
     var primaryColor = prefs.getString(cLightThemePrimaryColorKey);
-    CustomTheme currentTheme = primaryColor != null ? chooseCurrentTheme(primaryColor) : chooseCurrentTheme(primaryColorsArray[3]);
+    CustomTheme currentTheme =
+        primaryColor != null ? chooseCurrentTheme(primaryColor) : chooseCurrentTheme(primaryColorsArray[0]);
 
-    return StylesState(theme: theme != null ? theme : "system", themeColors: currentTheme);
+    return StylesState(theme: theme != null ? theme : "light", themeColors: currentTheme);
   }
 
   StylesState changePrimaryColor(value) {
@@ -35,7 +37,7 @@ class StylesBloc extends Bloc<StylesEvent, StylesState> {
   }
 
   CustomTheme chooseCurrentTheme(color) {
-    switch(color) {
+    switch (color) {
       case "#5ABC7B":
         return GreenTheme();
       case '#947EB0':

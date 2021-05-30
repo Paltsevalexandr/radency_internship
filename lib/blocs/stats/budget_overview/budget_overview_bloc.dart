@@ -209,9 +209,14 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
   void _sortCategories() {
     if (budgets.isNotEmpty) {
       budgets.forEach((budgetEntry) {
-        monthlyCategoryExpenses
-            .firstWhere((monthlyCategoryExpense) => monthlyCategoryExpense.category == budgetEntry.category)
-            .budgetTotal = budgetEntry.budgetValue;
+        print("BudgetOverviewBloc._sortCategories: ${budgetEntry.category} ${budgetEntry.budgetValue}");
+        if (monthlyCategoryExpenses
+                .indexWhere((monthlyCategoryExpense) => monthlyCategoryExpense.category == budgetEntry.category) !=
+            -1) {
+          monthlyCategoryExpenses
+              .firstWhere((monthlyCategoryExpense) => monthlyCategoryExpense.category == budgetEntry.category)
+              .budgetTotal = budgetEntry.budgetValue;
+        }
       });
     }
 

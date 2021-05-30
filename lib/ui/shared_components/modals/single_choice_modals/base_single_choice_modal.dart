@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class BaseSingleChoiceModal extends StatelessWidget{
   final String title;
@@ -36,7 +35,7 @@ class BaseSingleChoiceModal extends StatelessWidget{
     return Container(
       color: Colors.black,
       padding: EdgeInsets.symmetric(
-        horizontal: pixelsToDP(context, 60),
+        horizontal: 20,
       ),
       child: Row(
         children: <Widget>[
@@ -44,7 +43,7 @@ class BaseSingleChoiceModal extends StatelessWidget{
             title,
             style: TextStyle(
               color: Colors.white,
-              fontSize: pixelsToDP(context, 60),
+              fontSize: 22,
             ),
           ),
           Expanded(
@@ -57,7 +56,7 @@ class BaseSingleChoiceModal extends StatelessWidget{
               Navigator.of(context).pop();
             },
             color: Colors.white,
-            iconSize: pixelsToDP(context, 90),
+            iconSize: 30,
           ),
         ],
       ),

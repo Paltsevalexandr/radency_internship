@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
 import 'package:radency_internship_project_2/ui/add_transaction_menu.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class BottomNavBar extends StatelessWidget {
 
@@ -55,14 +55,14 @@ class BottomNavBar extends StatelessWidget {
   Widget floatingAddButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        showDialog(
+        showCupertinoModalPopup(
           context: context,
           builder: (context) => AddTransactionMenu()
         );
       },
       child: Icon(
         Icons.add,
-        size: pixelsToDP(context, 90),
+        size: 30,
       ));
   }
 }

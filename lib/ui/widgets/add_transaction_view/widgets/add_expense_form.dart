@@ -326,16 +326,16 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                     prefixIcon: _sharedContact != null
                         ? Container(
                             margin: EdgeInsets.only(
-                              top: pixelsToDP(context, 3),
-                              right: pixelsToDP(context, 45),
-                              bottom: pixelsToDP(context, 3),
-                              left: pixelsToDP(context, 5),
+                              top: 5,
+                              right: 10,
+                              bottom: 5,
+                              left: 10,
                             ),
                             child: CircleAvatar(
                               foregroundImage: _photoProvider,
                               child: FittedBox(
                                 child: Container(
-                                  padding: EdgeInsets.all(pixelsToDP(context, 20)),
+                                  padding: EdgeInsets.all(10),
                                   child: Text(
                                     getContactInitials(_sharedContact),
                                     style: addTransactionAvatarTextStyle,

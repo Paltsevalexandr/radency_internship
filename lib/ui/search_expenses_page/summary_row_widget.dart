@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class SummaryRowWidget extends StatelessWidget{
   final double income;
@@ -51,7 +50,7 @@ class SummaryRowWidget extends StatelessWidget{
       children: [
         Text(title),
         SizedBox(
-          height: pixelsToDP(context, 15),
+          height: 10,
         ),
         Text(
           "$currencySymbol " + getMoneyFormatted(amount, separator: " ", comma: "."),

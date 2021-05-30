@@ -10,7 +10,6 @@ import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/providers/firebase_auth_service.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class PhoneSignUpPage extends StatelessWidget {
   const PhoneSignUpPage({Key key}) : super(key: key);
@@ -20,7 +19,7 @@ class PhoneSignUpPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(S.current.signUpPageTitle)),
       body: Padding(
-        padding: EdgeInsets.all(pixelsToDP(context, 8.0)),
+        padding: EdgeInsets.all(8),
         child: BlocProvider<PhoneSignUpBloc>(
           create: (_) => PhoneSignUpBloc(context.read<FirebaseAuthenticationService>()),
           child: SignUpForm(),
@@ -49,7 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   StreamController<ErrorAnimationType> errorController;
 
-  static const double _padding = 4.0;
+  static const double _padding = 0.0;
 
   @override
   void initState() {
@@ -102,14 +101,14 @@ class _SignUpFormState extends State<SignUpForm> {
       // mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          height: pixelsToDP(context, 15.0),
+          height: 8,
         ),
         Text(
           S.current.signUpCreateAccountHeader,
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
         SizedBox(
-          height: pixelsToDP(context, 20),
+          height: 10,
         ),
         Text(
           S.current.signUpOTPNotice,
@@ -119,7 +118,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
         ),
         SizedBox(
-          height: pixelsToDP(context, 80),
+          height: 30,
         ),
         _detailsForm(),
       ],
@@ -167,7 +166,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _phoneNumberField() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+      padding: EdgeInsets.symmetric(vertical: _padding),
       child: TextFormField(
         initialValue: _phoneNumber?.replaceAll('+', '') ?? '',
         inputFormatters: [
@@ -197,7 +196,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _emailField() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+      padding: EdgeInsets.symmetric(vertical: _padding),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         initialValue: _email ?? '',
@@ -223,7 +222,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _usernameField() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: pixelsToDP(context, _padding)),
+      padding: EdgeInsets.symmetric(vertical: _padding),
       child: TextFormField(
         initialValue: _username ?? '',
         decoration: InputDecoration(
@@ -248,19 +247,19 @@ class _SignUpFormState extends State<SignUpForm> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        SizedBox(height: pixelsToDP(context, 45)),
+        SizedBox(height: 20),
         Text(
           S.current.signUpOTPSentNotice,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 18.0),
         ),
-        SizedBox(height: pixelsToDP(context, 25)),
+        SizedBox(height: 10),
         Text(
           _phoneNumber,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 20.0),
         ),
-        SizedBox(height: pixelsToDP(context, 15)),
+        SizedBox(height: 8),
         TextButton(
           child: Text(
             S.current.signUpWrongNumberButton,
@@ -273,10 +272,10 @@ class _SignUpFormState extends State<SignUpForm> {
             });
           },
         ),
-        SizedBox(height: pixelsToDP(context, 45)),
+        SizedBox(height: 20),
         _pinCodeField(),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: pixelsToDP(context, 15.0)),
+          padding: EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             otpHasError ? S.current.signUpOTPValidatorIncorrect : "",
             style: TextStyle(
@@ -286,7 +285,7 @@ class _SignUpFormState extends State<SignUpForm> {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: pixelsToDP(context, 30)),
+        SizedBox(height: 10),
         verifyOtpSection(),
       ],
     ));
@@ -294,7 +293,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Widget _pinCodeField() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: pixelsToDP(context, 15.0)),
+      padding: EdgeInsets.symmetric(horizontal: 8),
       child: new PinCodeTextField(
         appContext: context,
         autoFocus: true,
@@ -303,8 +302,8 @@ class _SignUpFormState extends State<SignUpForm> {
         pinTheme: PinTheme(
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(5),
-          fieldHeight: pixelsToDP(context, 50),
-          fieldWidth: pixelsToDP(context, 40),
+          fieldHeight: 30,
+          fieldWidth: 30,
           selectedColor: Theme.of(context).accentColor,
           selectedFillColor: Colors.blueGrey,
           inactiveFillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -363,9 +362,9 @@ class _SignUpFormState extends State<SignUpForm> {
   Widget centeredScrollView({@required Widget child}) {
     return Center(
       child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: pixelsToDP(context, 15.0)),
+        padding: EdgeInsets.symmetric(horizontal: 8),
         child: Container(
-          constraints: BoxConstraints(maxWidth: pixelsToDP(context, 400)),
+          constraints: BoxConstraints(maxWidth: 300),
           child: child,
         ),
       ),

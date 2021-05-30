@@ -9,7 +9,6 @@ import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_o
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 class BudgetOverviewTab extends StatefulWidget {
   @override
@@ -35,9 +34,11 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
           return ListView(
             children: [
               summaryAndSettingsButton(state.summary),
-              SizedBox(
-                height: pixelsToDP(context, 30),
+              ExpenseCategoryBudgetItem(monthlyCategoryExpense: state.summary),
+              Divider(
+                thickness: 3,
               ),
+              SizedBox(height: 8),
               categoriesBudgetList(state.monthlyCategoryExpenses),
             ],
           );
@@ -52,26 +53,20 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
     return Container(
       color: Colors.white,
       child: Padding(
-        padding: EdgeInsets.all(pixelsToDP(context, 16)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(pixelsToDP(context, 34)),
-              child: Container(
-                width: double.maxFinite,
-                child: Wrap(
-                  alignment: WrapAlignment.spaceBetween,
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  children: [
-                    remainingBudgetSection(),
-                    settingsButton(),
-                  ],
-                ),
-              ),
+        padding: EdgeInsets.all(8),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: Container(
+            width: double.maxFinite,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              children: [
+                remainingBudgetSection(),
+                settingsButton(),
+              ],
             ),
-            ExpenseCategoryBudgetItem(monthlyCategoryExpense: summary),
-          ],
+          ),
         ),
       ),
     );

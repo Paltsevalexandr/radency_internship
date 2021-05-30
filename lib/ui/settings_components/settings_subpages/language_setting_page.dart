@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
-import 'package:radency_internship_project_2/utils/ui_utils.dart';
 
 List languages = ['ru', 'en'];
 
@@ -15,8 +14,8 @@ class LanguageSettingPage extends StatelessWidget{
           GestureDetector(
             child: Container(
             padding: EdgeInsets.symmetric(
-              vertical: pixelsToDP(context, 30), 
-              horizontal: pixelsToDP(context, 20)
+              vertical: 15,
+              horizontal: 10
             ),
             decoration: BoxDecoration(
               border: Border(

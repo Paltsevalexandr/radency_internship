@@ -5,6 +5,7 @@ import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/models/calendar_day.dart';
 import 'package:radency_internship_project_2/ui/widgets/transactions_view/tabs/calendar/widgets/calendar_day_dialog.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 
 class DayCell extends StatelessWidget {
   const DayCell({Key key, @required this.day, @required this.maxHeight, @required this.maxWidth}) : super(key: key);
@@ -47,10 +48,7 @@ class DayCell extends StatelessWidget {
                 presetFontSizes: [22, 20, 18, 17, 16, 15, 14, 13, 12, 11, 10, ],
                 textAlign: TextAlign.end,
                 maxLines: 1,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: day.isActive ? Theme.of(context).primaryColorLight : Colors.grey,
-                ),
+                style: expenseDescriptionTextStyle(context),
               ),
             ),
             Expanded(
@@ -65,14 +63,14 @@ class DayCell extends StatelessWidget {
                       value(
                         context: context,
                         value: day.incomeAmount,
-                        color: Colors.blue,
+                        color: Theme.of(context).primaryColorLight,
                         height: constraints.maxHeight / 3,
                         maxWidth: constraints.maxWidth,
                       ),
                       value(
                         context: context,
                         value: day.expensesAmount,
-                        color: Colors.red,
+                        color: Theme.of(context).primaryColorDark,
                         height: constraints.maxHeight / 3,
                         maxWidth: constraints.maxWidth,
                       ),
