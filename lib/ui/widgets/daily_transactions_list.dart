@@ -123,15 +123,19 @@ class DailyTransactionItem extends StatelessWidget {
                 style: transactionsListDescriptionTextStyle(),
               ),
             ),
-            RichText(
+            Expanded(
+              flex: 1,
+              child: RichText(
                 text: TextSpan(children: [
-              TextSpan(
-                  text: getCurrencySymbol(currency),
-                  style: textStyleTransactionListCurrency(size: 16, fontWeight: FontWeight.w600, color: amountColor)),
-              TextSpan(
-                  text: '${transaction.amount.toStringAsFixed(2)}',
-                  style: transactionsListDescriptionTextStyle(fontWeight: FontWeight.w600, color: amountColor))
-            ])),
+                  TextSpan(
+                      text: getCurrencySymbol(currency),
+                      style: textStyleTransactionListCurrency(size: 16, fontWeight: FontWeight.w600, color: amountColor)),
+                  TextSpan(
+                      text: '${transaction.amount.toStringAsFixed(2)}',
+                      style: transactionsListDescriptionTextStyle(fontWeight: FontWeight.w600, color: amountColor))
+                ]
+              )
+            )),
           ],
         )),
       );
