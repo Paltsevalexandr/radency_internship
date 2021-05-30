@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +9,7 @@ import 'package:radency_internship_project_2/models/transactions/income_transact
 import 'package:radency_internship_project_2/models/transactions/transaction.dart';
 import 'package:radency_internship_project_2/models/transactions/transfer_transaction.dart';
 import 'package:radency_internship_project_2/ui/widgets/daily_transactions_list.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 
 class CalendarDayDialog extends StatefulWidget {
   const CalendarDayDialog({Key key, @required this.day, @required this.currencySymbol}) : super(key: key);
@@ -26,8 +25,10 @@ class _CalendarDayDialogState extends State<CalendarDayDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      insetPadding: EdgeInsets.all(20.0),
+      contentPadding: EdgeInsets.all(10.0),
       content: Container(
-        width: min(MediaQuery.of(context).size.width * 0.8, 400),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -77,13 +78,22 @@ class _CalendarDayDialogState extends State<CalendarDayDialog> {
       case TransactionType.Income:
         return _transactionRow(
           children: [
-            _expandedText(child: Text((transaction as IncomeTransaction).category)),
-            _expandedText(child: Text(transaction.accountOrigin)),
-            _expandedText(
-              child: Text(
-                widget.currencySymbol + ' ' + transaction.amount.toStringAsFixed(2),
-                style: TextStyle(color: Colors.blue),
-                textAlign: TextAlign.end,
+            _expandedContainer(child: Text((transaction as IncomeTransaction).category)),
+            _expandedContainer(child: Text(transaction.accountOrigin)),
+            _expandedContainer(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    widget.currencySymbol + ' ',
+                    style: textStyleTransactionListCurrency(color: Theme.of(context).primaryColorLight),
+                  ),
+                  Text(
+                    transaction.amount.toStringAsFixed(2),
+                    style: textStyleTransactionListAmount(color: Theme.of(context).primaryColorLight),
+                    textAlign: TextAlign.end,
+                  ),
+                ],
               ),
             ),
           ],
@@ -92,13 +102,22 @@ class _CalendarDayDialogState extends State<CalendarDayDialog> {
       case TransactionType.Expense:
         return _transactionRow(
           children: [
-            _expandedText(child: Text((transaction as ExpenseTransaction).category)),
-            _expandedText(child: Text(transaction.accountOrigin)),
-            _expandedText(
-              child: Text(
-                widget.currencySymbol + ' ' + transaction.amount.toStringAsFixed(2),
-                style: TextStyle(color: Colors.red),
-                textAlign: TextAlign.end,
+            _expandedContainer(child: Text((transaction as ExpenseTransaction).category)),
+            _expandedContainer(child: Text(transaction.accountOrigin)),
+            _expandedContainer(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    widget.currencySymbol + ' ',
+                    style: textStyleTransactionListCurrency(color: Theme.of(context).primaryColorDark),
+                  ),
+                  Text(
+                    transaction.amount.toStringAsFixed(2),
+                    style: textStyleTransactionListAmount(color: Theme.of(context).primaryColorDark),
+                    textAlign: TextAlign.end,
+                  ),
+                ],
               ),
             ),
           ],
@@ -107,13 +126,14 @@ class _CalendarDayDialogState extends State<CalendarDayDialog> {
       case TransactionType.Transfer:
         return _transactionRow(
           children: [
-            _expandedText(child: Text(S.current.transfer)),
-            _expandedText(
+            _expandedContainer(child: Text(S.current.transfer)),
+            _expandedContainer(
                 child: Text(
                     '${transaction.accountOrigin} \u{2192} ${(transaction as TransferTransaction).accountDestination}')),
-            _expandedText(
+            _expandedContainer(
               child: Text(
                 widget.currencySymbol + ' ' + transaction.amount.toStringAsFixed(2),
+                style: textStyleTransactionListAmount(color: Colors.grey),
                 textAlign: TextAlign.end,
               ),
             ),
@@ -131,11 +151,11 @@ class _CalendarDayDialogState extends State<CalendarDayDialog> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: children,
       ),
-      constraints: BoxConstraints(maxWidth: min(MediaQuery.of(context).size.width * 0.7, 380)),
+      // constraints: BoxConstraints(maxWidth: min(MediaQuery.of(context).size.width * 0.9, 380)),
     );
   }
 
-  Widget _expandedText({Text child}) {
+  Widget _expandedContainer({Widget child}) {
     return Expanded(
       child: Container(child: child),
       flex: 1,
