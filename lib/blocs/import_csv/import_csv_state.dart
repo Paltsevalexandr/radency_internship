@@ -13,5 +13,5 @@ class ImportCsvInitial implements ImportCsvState {
 class ImportCsvLoaded implements ImportCsvState {
   ImportCsvLoaded({this.expensesData});
 
- List<ExpenseItemEntity> expensesData;
+ List<Transaction> expensesData;
 }

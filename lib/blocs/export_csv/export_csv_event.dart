@@ -5,7 +5,5 @@ class CsvExportEvent {
 }
 
 class ExportDataToCsv extends CsvExportEvent {
-  ExportDataToCsv({this.data});
-
-  final data;
+  ExportDataToCsv();
 }

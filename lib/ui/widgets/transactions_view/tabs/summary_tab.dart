@@ -81,7 +81,7 @@ class _SummaryTabState extends State<SummaryTab> {
                       var data = MockedExpensesItems().generateDailyData();
 
                       return ColoredElevatedButton(
-                          onPressed: () => csvExportBloc.add(ExportDataToCsv(data: data)),
+                          onPressed: () => csvExportBloc.add(ExportDataToCsv()),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

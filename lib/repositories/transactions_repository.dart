@@ -78,4 +78,21 @@ class TransactionsRepository extends IRepository<Transaction> {
 
     return list;
   }
+
+  Future<List<Transaction>> getAllData() async {
+    List<Transaction> list = [];
+
+    String uid = await firebaseAuthenticationService.getUserID();
+    DatabaseReference reference = await firebaseRealtimeDatabaseProvider.transactionsReference(uid);
+
+    DataSnapshot snapshot = await reference.once();
+    var values = snapshot.value;
+    values.forEach((key, value) {
+        Transaction transaction =
+            TransactionsHelper().convertJsonToTransaction(json: Map<String, dynamic>.from(value), key: key);
+
+        list.add(transaction);
+      });
+    return list;
+  }
 }
