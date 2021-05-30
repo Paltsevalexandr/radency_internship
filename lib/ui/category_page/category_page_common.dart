@@ -84,7 +84,7 @@ Widget buildReorderedCategoryList(BuildContext context, String categoriesType) {
       ),
       bottomNavigationBar: BottomNavBar(),
       floatingActionButton: FloatingActionButton(
-        heroTag: 'addCategoryFloatingButton',
+        heroTag: Hero(tag: 'addCategoryFAB', child: Icon(Icons.add),),
         onPressed: () {
           Navigator.pushNamed(context, Routes.newCategoryPage, arguments: NewCategoryPageArguments(categoriesType));
         },
