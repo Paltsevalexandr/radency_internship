@@ -178,15 +178,13 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
           keyboardType: TextInputType.emailAddress,
           controller: _emailController,
           cursorColor: accentColor,
-          decoration: addTransactionFormFieldDecoration(
-            context,
-            hintText: S.current.loginEmailLabelText,
-            prefixIcon: Icon(
-              Icons.email,
-              color: accentColor,
-            ),
-            prefixWidth: 50
-          ),
+          decoration: addTransactionFormFieldDecoration(context,
+              hintText: S.current.loginEmailLabelText,
+              prefixIcon: Icon(
+                Icons.email,
+                color: accentColor,
+              ),
+              prefixWidth: 50),
           validator: (val) {
             if (val.trim().isEmpty) {
               return S.current.loginEmailValidatorEmpty;
@@ -216,19 +214,15 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
           initialValue: _password ?? '',
           obscureText: true,
           cursorColor: accentColor,
-          decoration: addTransactionFormFieldDecoration(
-            context,
-            hintText: S.current.loginPasswordLabelText,
-            prefixIcon: Icon(
-              Icons.lock,
-              color: accentColor,
-            ),
-            prefixWidth: 50
-          ),
+          decoration: addTransactionFormFieldDecoration(context,
+              hintText: S.current.loginPasswordLabelText,
+              prefixIcon: Icon(
+                Icons.lock,
+                color: accentColor,
+              ),
+              prefixWidth: 50),
           validator: (val) {
-            if (val
-              .trim()
-              .isEmpty) {
+            if (val.trim().isEmpty) {
               return S.current.loginPasswordValidatorEmpty;
             }
 
@@ -247,25 +241,29 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
           height: 50,
           width: double.infinity,
           child: ColoredElevatedButton(
-            onPressed: state.areDetailsProcessing ? null : () {
-              _saveForms();
+            onPressed: state.areDetailsProcessing
+                ? null
+                : () {
+                    _saveForms();
 
-              setState(() {
-                autovalidateMode = AutovalidateMode.always;
-              });
+                    setState(() {
+                      autovalidateMode = AutovalidateMode.always;
+                    });
 
-              if (_validateForms()) {
-                context.read<EmailLoginBloc>().add(EmailLoginSubmitted(
-                  email: _email,
-                  password: _password,
-                  pairWithBiometrics: _biometricsPairingEnabled,
-                ));
-              }
-            },
-            child: state.areDetailsProcessing ? Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: CircularProgressIndicator(),
-            ) : Text(S.current.loginSubmitButton),
+                    if (_validateForms()) {
+                      context.read<EmailLoginBloc>().add(EmailLoginSubmitted(
+                            email: _email,
+                            password: _password,
+                            pairWithBiometrics: _biometricsPairingEnabled,
+                          ));
+                    }
+                  },
+            child: state.areDetailsProcessing
+                ? Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: CircularProgressIndicator(),
+                  )
+                : Text(S.current.loginSubmitButton),
           ),
         );
       },

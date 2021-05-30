@@ -218,7 +218,7 @@ class ExpensesChartBloc extends Bloc<ExpensesChartEvent, ExpensesChartState> {
 
       // TODO: Hardcoded colors should be removed in favour of function that returns list of colors based on main
       // theme color
-      if (isCategoryShouldHaveSection) {
+      if (isCategoryShouldHaveSection && categories[index].categoryName != otherGroupName) {
         categories[index].color = Colours().chartColors[index];
       } else {
         categories[index].color = Colours().chartColors[Colours().chartColors.length - 1];
@@ -241,7 +241,7 @@ class ExpensesChartBloc extends Bloc<ExpensesChartEvent, ExpensesChartState> {
     for (int index = 0; index < categories.length; index++) {
       bool isCategoryShouldHaveSection = isCategoryFitInChart(index: index, percentage: categories[index].percents);
 
-      if (isCategoryShouldHaveSection) {
+      if (isCategoryShouldHaveSection && categories[index].categoryName != otherGroupName) {
         chartData.add(ChartSection(
           categoryName: categories[index].categoryName,
           percents: categories[index].percents,
