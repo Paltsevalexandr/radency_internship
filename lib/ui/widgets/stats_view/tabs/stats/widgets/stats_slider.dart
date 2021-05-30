@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:radency_internship_project_2/blocs/stats/budget_overview/budget_overview_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/expenses_chart/expenses_chart_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/expenses_map/expenses_map_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
@@ -21,18 +22,47 @@ class _StatsSliderState extends State<StatsSlider> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StatsBloc, StatsState>(builder: (context, state) {
-      switch (state.statsTabMode) {
-        case StatsTabMode.chart:
+      switch (state.statsPageMode) {
+        case StatsPageMode.chart:
           return _chartSlider(context);
           break;
-        case StatsTabMode.map:
+        case StatsPageMode.map:
           return _expensesMapSlider(context);
           break;
+        case StatsPageMode.budget:
+          return _budgetSlider(context);
+        default:
+          return SizedBox();
       }
-
-      return SizedBox();
     });
   }
+}
+
+Widget _budgetSlider(BuildContext context) {
+  return BlocBuilder<BudgetOverviewBloc, BudgetOverviewState>(builder: (context, state) {
+    if (state is BudgetOverviewLoading)
+      return DateRangeSlider(
+          content: state.sliderCurrentTimeIntervalString,
+          onBackPressed: () {
+            context.read<BudgetOverviewBloc>().add(BudgetOverviewGetPreviousMonthPressed());
+          },
+          onForwardPressed: () {
+            context.read<BudgetOverviewBloc>().add(BudgetOverviewGetNextMonthPressed());
+          });
+
+    if (state is BudgetOverviewLoaded)
+      return DateRangeSlider(
+          content: state.sliderCurrentTimeIntervalString,
+          onBackPressed: () {
+            context.read<BudgetOverviewBloc>().add(BudgetOverviewGetPreviousMonthPressed());
+          },
+          onForwardPressed: () {
+            context.read<BudgetOverviewBloc>().add(BudgetOverviewGetNextMonthPressed());
+          });
+
+    return DateRangeSlider(content: '', onBackPressed: () {}, onForwardPressed: () {});
+  });
+
 }
 
 Widget _chartSlider(BuildContext context) {

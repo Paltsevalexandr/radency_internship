@@ -13,7 +13,7 @@ class ChartView extends StatefulWidget {
 
 class _ChartViewState extends State<ChartView> {
   Widget build(BuildContext context) {
-    return Expanded(child: Container(child: content()));
+    return Container(child: content());
   }
 
   Widget content() {

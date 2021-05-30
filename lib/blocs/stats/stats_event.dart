@@ -12,12 +12,3 @@ class StatsPageModeChanged extends StatsEvent {
   @override
   List<Object> get props => [statsPageMode];
 }
-
-class StatsTabChanged extends StatsEvent {
-  final int index;
-
-  StatsTabChanged({@required this.index});
-
-  @override
-  List<Object> get props => [index];
-}

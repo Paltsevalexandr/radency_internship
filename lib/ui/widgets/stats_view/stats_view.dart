@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/stats/stats_bloc.dart';
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/ui/shared_components/design_scaffold.dart';
-import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/budget_overview_tab.dart';
-import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/widgets/budget_slider.dart';
-import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/stats/stats_tab_view.dart';
 import 'package:radency_internship_project_2/ui/widgets/bottom_nav_bar.dart';
+import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/budget_overview_tab.dart';
+import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/stats/expenses_chart/chart_view.dart';
+import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/stats/expenses_map/expenses_map_view.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/stats/widgets/stats_slider.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
 
@@ -24,10 +24,7 @@ class _StatsViewState extends State<StatsView> {
         title: Text(S.current.stats),
       ),
       header: Column(
-        children: [
-          _statsViewModeSlider(),
-          _statsDateSlider()
-        ],
+        children: [_statsViewModeSlider(), _statsDateSlider()],
       ),
       body: _body(),
       bottomNavigationBar: BottomNavBar(),
@@ -44,14 +41,14 @@ class _StatsViewState extends State<StatsView> {
             listener: (context, state) {},
             builder: (context, state) {
               switch (state.statsPageMode) {
-                case StatsPageMode.stats:
-                  return StatsTabView();
+                case StatsPageMode.chart:
+                  return ChartView();
                   break;
                 case StatsPageMode.budget:
                   return BudgetOverviewTab();
                   break;
-                case StatsPageMode.note:
-                  // TODO: Handle this case.
+                case StatsPageMode.map:
+                  return ExpensesMapView();
                   break;
               }
 
@@ -87,14 +84,14 @@ class _StatsViewState extends State<StatsView> {
 
     StatsPageMode.values.forEach((statPageMode) {
       switch (statPageMode) {
-        case StatsPageMode.stats:
-          statsButtons[statPageMode] = _sliderButton(S.current.statsViewButtonStats);
+        case StatsPageMode.chart:
+          statsButtons[statPageMode] = _sliderButton(S.current.statsViewChartTab);
           break;
         case StatsPageMode.budget:
           statsButtons[statPageMode] = _sliderButton(S.current.statsViewButtonBudget);
           break;
-        case StatsPageMode.note:
-          statsButtons[statPageMode] = _sliderButton(S.current.statsViewButtonNote);
+        case StatsPageMode.map:
+          statsButtons[statPageMode] = _sliderButton(S.current.statsViewMapTab);
           break;
       }
     });
@@ -103,31 +100,25 @@ class _StatsViewState extends State<StatsView> {
   }
 
   Widget _sliderButton(String title) {
-    return Container(
-      width: double.maxFinite,
-      child: Center(
-        child: Text(
-          title,
-          style: tabTitleStyle(context)
-        )
-      )
-    );
+    return Container(width: double.maxFinite, child: Center(child: Text(title, style: tabTitleStyle(context))));
   }
 
   Widget _statsDateSlider() {
-    return BlocBuilder<StatsBloc, StatsState>(
-      builder: (context, statsState){
-        switch(statsState.statsPageMode){
-          case StatsPageMode.stats:
-            return StatsSlider();
-            break;
-          case StatsPageMode.budget:
-            return BudgetSlider();
-            break;
-          default:
-            return Container();
-        }
+    return BlocBuilder<StatsBloc, StatsState>(builder: (context, statsState) {
+      switch (statsState.statsPageMode) {
+        case StatsPageMode.chart:
+          return StatsSlider();
+          break;
+        case StatsPageMode.budget:
+          return StatsSlider();
+          break;
+        case StatsPageMode.map:
+          return StatsSlider();
+          break;
+        default:
+          return Container();
+          break;
       }
-    );
+    });
   }
 }
