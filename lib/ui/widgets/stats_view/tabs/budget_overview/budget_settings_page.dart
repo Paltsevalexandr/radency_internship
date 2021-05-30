@@ -3,7 +3,7 @@ import 'package:radency_internship_project_2/blocs/transactions/add_transaction/
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/utils/mocked_expenses.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
-import 'package:radency_internship_project_2/utils/styles.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 
 class BudgetSettingsPage extends StatefulWidget {
   @override

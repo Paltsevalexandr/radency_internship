@@ -8,7 +8,7 @@ import 'package:radency_internship_project_2/ui/shared_components/elevated_butto
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/widgets/expense_category_budget_card.dart';
 import 'package:radency_internship_project_2/utils/routes.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
-import 'package:radency_internship_project_2/utils/styles.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 
 class BudgetOverviewTab extends StatefulWidget {
   @override
@@ -80,9 +80,19 @@ class _BudgetOverviewTabState extends State<BudgetOverviewTab> {
         BlocBuilder<BudgetOverviewBloc, BudgetOverviewState>(builder: (context, budgetOverviewState) {
           if (budgetOverviewState is BudgetOverviewLoaded) {
             return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, settingsState) {
-              return Text(
-                '${getCurrencySymbol(settingsState.currency)} ${budgetOverviewState.summary.budgetLeft.toStringAsFixed(2)}',
-                style: budgetSummaryRemainingAmountStyle,
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    getCurrencySymbol(settingsState.currency),
+                    style:
+                        textStyleTransactionListCurrency(color: Theme.of(context).textTheme.bodyText1.color, size: 30),
+                  ),
+                  Text(
+                    '${budgetOverviewState.summary.budgetLeft.toStringAsFixed(2)}',
+                    style: budgetSummaryRemainingAmountStyle,
+                  ),
+                ],
               );
             });
           }

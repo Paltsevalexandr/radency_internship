@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radency_internship_project_2/blocs/settings/settings_bloc.dart';
 import 'package:radency_internship_project_2/models/budget/monthly_category_expense.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
-import 'package:radency_internship_project_2/utils/styles.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 
 class ExpenseCategoryBudgetItem extends StatelessWidget {
   final MonthlyCategoryExpense monthlyCategoryExpense;
@@ -59,9 +59,18 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
               monthlyCategoryExpense.category,
               style: budgetItemLimitedAndRemainingTitleStyle,
             ),
-            Text(
-              '${getCurrencySymbol(state.currency)} ${monthlyCategoryExpense.budgetTotal.toStringAsFixed(2)}',
-              style: budgetItemLimitedTotalBudgetAmountStyle,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  getCurrencySymbol(context.read<SettingsBloc>().state.currency),
+                  style: textStyleTransactionListCurrency(color: Theme.of(context).textTheme.bodyText1.color, size: 20),
+                ),
+                Text(
+                  '${monthlyCategoryExpense.budgetTotal.toStringAsFixed(2)}',
+                  style: budgetItemLimitedTotalBudgetAmountStyle,
+                ),
+              ],
             )
           ],
         );
@@ -83,15 +92,15 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
                 backgroundColor: Colors.grey.shade300,
                 value: monthlyCategoryExpense.budgetUsage,
                 valueColor: monthlyCategoryExpense.budgetUsage < 1
-                    ? AlwaysStoppedAnimation<Color>(Colors.blue)
-                    : AlwaysStoppedAnimation<Color>(Colors.red),
+                    ? AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColorLight)
+                    : AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColorDark),
               ),
               Container(
                   alignment: Alignment(0.95, 0),
                   height: progressIndicatorHeight,
                   child: Text(
                     '${(monthlyCategoryExpense.budgetUsage * 100).toStringAsFixed(0)}%',
-                    style: budgetItemLimitedTotalBudgetAmountStyle,
+                    style: budgetItemLimitedIndicatorPercentageStyle,
                   )),
             ],
           ),
@@ -105,7 +114,8 @@ class ExpenseCategoryBudgetItem extends StatelessWidget {
               Text(
                 '${monthlyCategoryExpense.expenseAmount.toStringAsFixed(2)}',
                 style: budgetItemLimitedExpenseAmountStyle(
-                    isOverBudget: monthlyCategoryExpense.expenseAmount > monthlyCategoryExpense.budgetTotal),
+                    context: context,
+                    isOverBudget: monthlyCategoryExpense.expenseAmount >= monthlyCategoryExpense.budgetTotal),
               ),
               Text(
                 monthlyCategoryExpense.budgetLeft.toStringAsFixed(2),

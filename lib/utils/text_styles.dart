@@ -86,3 +86,44 @@ TextStyle addTransactionMenuCancelButtonTextStyle() {
     textStyle: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
   );
 }
+
+// Budget view
+// ###
+TextStyle budgetItemUnlimitedTitleStyle = GoogleFonts.nunito(
+  textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+);
+
+TextStyle budgetItemUnlimitedExpenseAmountStyle = GoogleFonts.nunito(
+  textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+);
+
+TextStyle budgetItemLimitedAndRemainingTitleStyle =
+    GoogleFonts.nunito(textStyle: TextStyle(fontSize: 18, color: Colors.grey, fontWeight: FontWeight.bold));
+
+TextStyle budgetItemLimitedTotalBudgetAmountStyle = GoogleFonts.openSans(
+    textStyle: TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+));
+
+TextStyle budgetItemLimitedIndicatorPercentageStyle = GoogleFonts.nunito(
+    textStyle: TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+  color: Colors.grey,
+));
+
+TextStyle budgetItemLimitedExpenseAmountStyle({@required bool isOverBudget, @required BuildContext context}) {
+  return GoogleFonts.nunito(
+      textStyle: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: isOverBudget ? Theme.of(context).primaryColorDark : Theme.of(context).primaryColorLight,
+  ));
+}
+
+TextStyle budgetSummaryRemainingAmountStyle = GoogleFonts.openSans(
+    textStyle: TextStyle(
+  fontSize: 30,
+  fontWeight: FontWeight.bold,
+));

@@ -107,19 +107,7 @@ class Styles {
     );
   }
 }
-// Budget view
-// ###
-const budgetItemUnlimitedTitleStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
-const budgetItemUnlimitedExpenseAmountStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 
-const budgetItemLimitedAndRemainingTitleStyle = TextStyle(fontSize: 18, color: Colors.grey, fontWeight: FontWeight.bold);
-const budgetItemLimitedTotalBudgetAmountStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
-
-TextStyle budgetItemLimitedExpenseAmountStyle({@required bool isOverBudget}) {
-  return TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: isOverBudget ? Colors.red : Colors.blue);
-}
-
-const budgetSummaryRemainingAmountStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
 
 // ###
