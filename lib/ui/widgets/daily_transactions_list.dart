@@ -77,8 +77,13 @@ class _StickyExpensesDaily extends StatelessWidget {
       ),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, i) => ListTile(
-            title: DailyTransactionItem(transaction: items[i]),
+          (context, i) => Dismissible(
+            onDismissed: (direction) =>
+                context.read<TransactionsDailyBloc>().add(TransactionDailyDelete(transactionId: items[i].id)),
+            key: Key(items[i].id),
+            child: ListTile(
+              title: DailyTransactionItem(transaction: items[i]),
+            ),
           ),
           childCount: items.length,
         ),

@@ -75,6 +75,8 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
       yield* _mapTransactionsDailyLocaleChangedToState();
     } else if (event is TransactionDailyUserChanged) {
       yield* _mapTransactionDailyUserChangedToState(event.id);
+    } else if (event is TransactionDailyDelete) {
+      yield* _mapTransactionDailyDeleteToState(event.transactionId);
     }
   }
 
@@ -155,6 +157,10 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
     Map<int, List<Transaction>> map = sortTransactionsByDays(dailyData);
     yield TransactionsDailyLoaded(
         dailySortedTransactions: map, sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
+  }
+
+  Stream<TransactionsDailyState> _mapTransactionDailyDeleteToState(String transactionId) async* {
+    transactionsRepository.delete(transactionID: transactionId);
   }
 
   Stream<TransactionsDailyState> _mapTransactionsDailyGetPreviousMonthPressedToState() async* {

@@ -52,3 +52,11 @@ class TransactionDailyUserChanged extends TransactionsDailyEvent {
   List<Object> get props => [id];
 }
 
+class TransactionDailyDelete extends TransactionsDailyEvent {
+  final String transactionId;
+
+  TransactionDailyDelete({@required this.transactionId});
+
+  @override
+  List<Object> get props => [transactionId];
+}
