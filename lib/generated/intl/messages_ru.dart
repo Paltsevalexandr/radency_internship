@@ -109,7 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loginPasswordValidatorEmpty" : MessageLookupByLibrary.simpleMessage("Введите пароль"),
     "loginSubmitButton" : MessageLookupByLibrary.simpleMessage("ВОЙТИ"),
     "loginToolbarTitle" : MessageLookupByLibrary.simpleMessage("Вход"),
-    "loginWelcomeText" : MessageLookupByLibrary.simpleMessage("Добро пожаловать"),
+    "loginWelcomeText" : MessageLookupByLibrary.simpleMessage("Money Manager"),
     "main_currency" : MessageLookupByLibrary.simpleMessage("Основная валюта"),
     "marchShort" : MessageLookupByLibrary.simpleMessage("Мар."),
     "mayShort" : MessageLookupByLibrary.simpleMessage("Май"),

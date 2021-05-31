@@ -755,20 +755,20 @@ class S {
     );
   }
 
-  /// `Welcome Back`
+  /// `Money Manager`
   String get loginWelcomeText {
     return Intl.message(
-      'Welcome Back',
+      'Money Manager',
       name: 'loginWelcomeText',
       desc: '',
       args: [],
     );
   }
 
-  /// `Sign to continue`
+  /// `Sign in to continue`
   String get loginNoticeText {
     return Intl.message(
-      'Sign to continue',
+      'Sign in to continue',
       name: 'loginNoticeText',
       desc: '',
       args: [],

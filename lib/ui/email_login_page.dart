@@ -16,7 +16,6 @@ class EmailLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(S.of(context).loginToolbarTitle)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocProvider<EmailLoginBloc>(
@@ -84,6 +83,12 @@ class _EmailLoginFormState extends State<EmailLoginForm> {
     return CenteredScrollView(
       child: Column(
         children: [
+          Container(
+            constraints: BoxConstraints(maxWidth: 200, maxHeight: 200),
+            child: Image.asset(
+              'assets/images/Wallet.png',
+            ),
+          ),
           SizedBox(
             height: 10,
           ),

@@ -88,8 +88,8 @@
   "lightTheme": "Light Theme",
   "systemTheme": "System Theme",
 
-  "loginWelcomeText": "Welcome Back",
-  "loginNoticeText": "Sign to continue",
+  "loginWelcomeText": "Money Manager",
+  "loginNoticeText": "Sign in to continue",
   "loginEmailLabelText": "Email",
   "loginPasswordLabelText": "Password",
   "loginEmailValidatorEmpty": "Enter e-mail",
