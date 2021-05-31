@@ -29,6 +29,15 @@ class DateHelper {
 
   DateTime getLastDayOfMonth(DateTime dateTime) {
     return DateTime(dateTime.year, dateTime.month + 1, 1).subtract(Duration(seconds: 1));
+
+  }
+
+  DateTime getFirstDayOfYear(DateTime dateTime) {
+    return DateTime(dateTime.year, 1, 1);
+  }
+
+  DateTime getLastDayOfYear(DateTime dateTime) {
+    return DateTime(dateTime.year, 13, 1).subtract(Duration(seconds: 1));
   }
 
   String getWeeksRangeString({@required DateTime firstDay, @required DateTime lastDay, bool oneWeekMode = false}) {
