@@ -83,6 +83,10 @@ class ExpensesMapLocaleChanged extends ExpensesMapEvent {
   List<Object> get props => [];
 }
 
+class ExpensesMapRefreshPressed extends ExpensesMapEvent {
+  @override
+  List<Object> get props => [];
+}
 
 
 

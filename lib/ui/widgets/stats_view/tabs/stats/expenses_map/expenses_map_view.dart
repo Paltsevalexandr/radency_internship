@@ -78,13 +78,32 @@ class _ExpensesMapViewState extends State<ExpensesMapView> {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              FloatingActionButton(
+                heroTag: Hero(
+                  tag: 'refresh_map',
+                  child: Icon(Icons.refresh),
+                ),
+                onPressed: () {
+                  context.read<ExpensesMapBloc>().add(ExpensesMapRefreshPressed());
+                },
+                child: Icon(Icons.refresh),
+              ),
+              SizedBox(height: 10),
               state.isFocusing
                   ? FloatingActionButton(
+                      heroTag: Hero(
+                        tag: 'my_location',
+                        child: CircularProgressIndicator(),
+                      ),
                       onPressed: null,
                       backgroundColor: Theme.of(context).disabledColor,
                       child: CircularProgressIndicator(),
                     )
                   : FloatingActionButton(
+                      heroTag: Hero(
+                        tag: 'my_location',
+                        child: Icon(Icons.my_location),
+                      ),
                       onPressed: () {
                         context.read<ExpensesMapBloc>().add(ExpensesMapCurrentLocationPressed());
                       },

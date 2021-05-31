@@ -19,6 +19,7 @@ import 'package:radency_internship_project_2/utils/date_helper.dart';
 import 'package:radency_internship_project_2/utils/geolocator_utils.dart';
 import 'package:radency_internship_project_2/utils/strings.dart';
 import 'package:radency_internship_project_2/utils/styles.dart';
+import 'package:radency_internship_project_2/utils/text_styles.dart';
 
 part 'expenses_map_event.dart';
 
@@ -80,6 +81,8 @@ class ExpensesMapBloc extends Bloc<ExpensesMapEvent, ExpensesMapState> {
       yield state.showMarkers(markers: event.markers);
     } else if (event is ExpensesMapLocaleChanged) {
       yield* _mapExpensesMapLocaleChangedToState();
+    } else if (event is ExpensesMapRefreshPressed) {
+      yield* _mapExpensesMapRefreshPressedToState();
     }
   }
 
@@ -122,8 +125,7 @@ class ExpensesMapBloc extends Bloc<ExpensesMapEvent, ExpensesMapState> {
     yield state.setSliderTitle(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString, clearMarkers: true);
     expenseMapTimeIntervalSubscription = transactionsRepository
         .getTransactionsByTimePeriod(
-            start: DateHelper().getFirstDayOfMonth(dateForFetch),
-            end: DateHelper().getLastDayOfMonth(dateForFetch))
+            start: DateHelper().getFirstDayOfMonth(dateForFetch), end: DateHelper().getLastDayOfMonth(dateForFetch))
         .asStream()
         .listen((transactions) {
       add(ExpensesMapDisplayRequested(transactions: transactions, data: _sliderCurrentTimeIntervalString));
@@ -157,6 +159,10 @@ class ExpensesMapBloc extends Bloc<ExpensesMapEvent, ExpensesMapState> {
     yield state.setFocused();
   }
 
+  Stream<ExpensesMapState> _mapExpensesMapRefreshPressedToState() async* {
+    add(ExpensesMapFetchRequested(dateForFetch: _observedDate));
+  }
+
   Stream<ExpensesMapState> _mapExpensesMapSliderBackPressedToState() async* {
     _observedDate = DateTime(_observedDate.year, _observedDate.month - 1);
     add(ExpensesMapFetchRequested(dateForFetch: _observedDate));
@@ -176,12 +182,12 @@ class ExpensesMapBloc extends Bloc<ExpensesMapEvent, ExpensesMapState> {
             cluster.items.forEach((p) => print(p));
           },
           icon: await _getMarkerBitmap(200,
-              text:
-                  getCurrencySymbol(settingsBloc.state.currency) + _getExpensesClusterSum(cluster).toStringAsFixed(0)),
+              currency: getCurrencySymbol(settingsBloc.state.currency),
+              value: _getExpensesClusterSum(cluster).toStringAsFixed(0)),
         );
       };
 
-  Future<BitmapDescriptor> _getMarkerBitmap(double width, {String text}) async {
+  Future<BitmapDescriptor> _getMarkerBitmap(double width, {@required String currency, @required String value}) async {
     double height = width * 0.78;
 
     final PictureRecorder pictureRecorder = PictureRecorder();
@@ -207,15 +213,20 @@ class ExpensesMapBloc extends Bloc<ExpensesMapEvent, ExpensesMapState> {
     canvas.drawPath(path, paint1);
 
     // Expense amount text
-    if (text != null) {
+    if (value != null) {
       TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
 
       // Text font and style
       textPainter.text = TextSpan(
-        text: text,
-        style: GoogleFonts.nunito(
-            textStyle: TextStyle(fontSize: height / 3, color: Colors.white, fontWeight: FontWeight.normal)),
-      );
+          text: currency,
+          style: textStyleTransactionListCurrency(size: height / 3, color: Colors.white),
+          children: [
+            TextSpan(
+              text: value,
+              style: GoogleFonts.nunito(
+                  textStyle: TextStyle(fontSize: height / 3, color: Colors.white, fontWeight: FontWeight.normal)),
+            )
+          ]);
       textPainter.layout();
 
       // Text position relative to background (here - centered)
