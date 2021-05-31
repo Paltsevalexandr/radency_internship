@@ -97,7 +97,7 @@ class TransactionsHelper {
       'creationDate': checkValue(transactionToList[3]),
       'accountOrigin': checkValue(transactionToList[4]),
       'category': checkValue(transactionToList[5]),
-      'note': checkValue(transactionToList[6]),
+      'note': transactionToList[6],
       'currency': checkValue(transactionToList[7]),
       'subcurrency': checkValue(transactionToList[8]),
       'accountDestination': checkValue(transactionToList[9]),
@@ -107,6 +107,7 @@ class TransactionsHelper {
       'sharedContact': checkValue(transactionToList[13]),
       'creationType': checkValue(transactionToList[14]),
     };
+    print(transactionToMap['note'] == null);
     Transaction transactionEntity = convertJsonToTransaction(json: transactionToMap, key: transactionToMap['id']);
     return transactionEntity;
   }
