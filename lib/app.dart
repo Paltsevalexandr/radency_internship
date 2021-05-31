@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:radency_internship_project_2/blocs/accounts/account_bloc.dart';
-import 'package:radency_internship_project_2/blocs/forex/forex_bloc.dart';
 import 'package:radency_internship_project_2/blocs/export_csv/export_csv_bloc.dart';
+import 'package:radency_internship_project_2/blocs/forex/forex_bloc.dart';
 import 'package:radency_internship_project_2/blocs/image_picker/image_picker_bloc.dart';
 import 'package:radency_internship_project_2/blocs/import_csv/import_csv_bloc.dart';
 import 'package:radency_internship_project_2/blocs/navigation/navigation_bloc.dart';
@@ -27,6 +27,7 @@ import 'package:radency_internship_project_2/ui/category_page/income_catedory_li
 import 'package:radency_internship_project_2/ui/email_login_page.dart';
 import 'package:radency_internship_project_2/ui/email_sign_up_page.dart';
 import 'package:radency_internship_project_2/ui/email_verification_resend_screen.dart';
+import 'package:radency_internship_project_2/ui/onboarding_page.dart';
 import 'package:radency_internship_project_2/ui/search_expenses_page/search_expenses_page_template.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/language_setting_page.dart';
 import 'package:radency_internship_project_2/ui/settings_components/settings_subpages/style_setting_page.dart';
@@ -36,7 +37,6 @@ import 'package:radency_internship_project_2/ui/widgets/stats_view/stats_view.da
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/budget_settings_page.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/category_budget_setup_view.dart';
 
-import 'package:radency_internship_project_2/ui/onboarding_page.dart';
 import 'blocs/authentication/authentication_bloc.dart';
 import 'blocs/settings/category/category_bloc.dart';
 import 'blocs/settings/category/category_slider/category_slider_bloc.dart';
@@ -111,7 +111,7 @@ class App extends StatelessWidget {
               create: (context) => CategoryBloc(),
             ),
             BlocProvider(
-              create: (_) => ImagePickerBloc(),
+              create: (_) => ImagePickerBloc(transactionsRepository: transactionsRepository),
             ),
             BlocProvider(
               create: (_) => NavigationBloc()..add(SelectPage(0)),
@@ -275,7 +275,7 @@ class _AppViewState extends State<AppView> {
                     break;
                   case AuthenticationStatus.unauthenticated:
                     bool onboardingCompleted = settingsState.onboardingCompleted;
-                    if(onboardingCompleted == true) {
+                    if (onboardingCompleted == true) {
                       _navigator.pushNamedAndRemoveUntil(Routes.loginPage, (route) => false);
                     } else {
                       _navigator.pushNamedAndRemoveUntil(Routes.onboardingPage, (route) => false);
