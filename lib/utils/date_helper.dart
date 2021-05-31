@@ -28,7 +28,7 @@ class DateHelper {
   }
 
   DateTime getLastDayOfMonth(DateTime dateTime) {
-    return DateTime(dateTime.year, dateTime.month + 1, 0);
+    return DateTime(dateTime.year, dateTime.month + 1, 1).subtract(Duration(seconds: 1));
   }
 
   String getWeeksRangeString({@required DateTime firstDay, @required DateTime lastDay, bool oneWeekMode = false}) {

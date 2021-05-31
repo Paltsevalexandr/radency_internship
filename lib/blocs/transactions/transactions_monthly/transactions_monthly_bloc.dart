@@ -68,8 +68,8 @@ class TransactionsMonthlyBloc extends Bloc<TransactionsMonthlyEvent, Transaction
     yield TransactionsMonthlyLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
     monthlyTransactionsSubscription = transactionsRepository
         .getTransactionsByTimePeriod(
-          start: DateTime(dateForFetch.year, 1, 1),
-          end: DateTime(dateForFetch.year + 1, 1, 1),
+          start: DateHelper().getFirstDayOfMonth(dateForFetch),
+          end: DateHelper().getLastDayOfMonth(dateForFetch),
         )
         .asStream()
         .listen((event) {

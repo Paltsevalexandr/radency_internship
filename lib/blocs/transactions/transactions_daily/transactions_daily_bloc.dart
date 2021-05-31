@@ -142,8 +142,7 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
     yield TransactionsDailyLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
     dailyTransactionsSubscription = transactionsRepository
         .getTransactionsByTimePeriod(
-            start: DateTime(dateForFetch.year, dateForFetch.month, 1),
-            end: DateTime(dateForFetch.year, dateForFetch.month + 1, 0))
+            start: DateHelper().getFirstDayOfMonth(_observedDate), end: DateHelper().getLastDayOfMonth(_observedDate))
         .asStream()
         .listen((event) {
       dailyData = event;
@@ -178,7 +177,9 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
     Transaction transaction = TransactionsHelper()
         .convertJsonToTransaction(json: Map<String, dynamic>.from(event.snapshot.value), key: event.snapshot.key);
 
-    if (transaction.date.isAfter(DateHelper().getFirstDayOfMonth(_observedDate)) &&
+    // TODO: split this into readable appearance..
+    if ((transaction.date.isAfter(DateHelper().getFirstDayOfMonth(_observedDate)) ||
+            transaction.date == DateHelper().getFirstDayOfMonth(_observedDate)) &&
         transaction.date.isBefore(DateHelper().getLastDayOfMonth(_observedDate)) &&
         dailyData.indexWhere((element) => element.id == transaction.id) == -1) {
       dailyData.add(transaction);
@@ -188,10 +189,12 @@ class TransactionsDailyBloc extends Bloc<TransactionsDailyEvent, TransactionsDai
   }
 
   _onTransactionChanged(Event event) async {
-    Transaction oldTransactionValue = dailyData.singleWhere((transaction) => transaction.id == event.snapshot.key);
+    int oldTransactionIndex = dailyData.indexWhere((transaction) => transaction.id == event.snapshot.key);
     Transaction changedTransaction = TransactionsHelper()
         .convertJsonToTransaction(json: Map<String, dynamic>.from(event.snapshot.value), key: event.snapshot.key);
-    dailyData[dailyData.indexOf(oldTransactionValue)] = changedTransaction;
+    if (oldTransactionIndex != -1) {
+      dailyData[oldTransactionIndex] = changedTransaction;
+    }
     add(TransactionsDailyDisplayRequested(
         sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString, transactions: dailyData));
   }

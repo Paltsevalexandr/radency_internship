@@ -24,8 +24,9 @@ class ExpenseTransaction extends Transaction {
   double locationLongitude;
   ExpenseCreationType creationType;
   DateTime creationDate;
-  @JsonKey(fromJson: contactFromJson, toJson: contactJsonEncode)
-  Contact sharedContact;
+  // TODO: investigate and fix saving/reading image byte array when contact has photo
+  // @JsonKey(fromJson: contactFromJson, toJson: contactJsonEncode)
+  // Contact sharedContact;
 
   ExpenseTransaction({
     @required this.date,
@@ -35,7 +36,7 @@ class ExpenseTransaction extends Transaction {
     @required this.note,
     @required this.currency,
     this.id,
-    this.sharedContact,
+    //this.sharedContact,
     this.subcurrency,
     @required this.locationLatitude,
     @required this.locationLongitude,
@@ -50,11 +51,11 @@ class ExpenseTransaction extends Transaction {
   Map<String, dynamic> toJson() => _$ExpenseTransactionToJson(this);
 }
 
-String contactJsonEncode(Contact contact) => jsonEncode(contact?.toMap());
-
-Contact contactFromJson(String string) {
-  if (string == null || string == 'null')
-    return null;
-  else
-    return Contact.fromMap(json.decode(string));
-}
+// String contactJsonEncode(Contact contact) => jsonEncode(contact?.toMap());
+//
+// Contact contactFromJson(String string) {
+//   if (string == null || string == 'null')
+//     return null;
+//   else
+//     return Contact.fromMap(json.decode(string));
+// }

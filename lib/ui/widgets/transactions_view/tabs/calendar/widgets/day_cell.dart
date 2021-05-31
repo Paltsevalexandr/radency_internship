@@ -16,7 +16,6 @@ class DayCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String currency = context.read<SettingsBloc>().state.currency;
 
     return GestureDetector(
@@ -45,10 +44,10 @@ class DayCell extends StatelessWidget {
               flex: 1,
               child: AutoSizeText(
                 day.displayedDate,
-                presetFontSizes: [22, 20, 18, 17, 16, 15, 14, 13, 12, 11, 10, ],
+                presetFontSizes: [22, 20, 18, 17, 16, 15, 14, 13, 12, 11, 10],
                 textAlign: TextAlign.end,
                 maxLines: 1,
-                style: expenseDescriptionTextStyle(context),
+                style: expenseDescriptionTextStyle(context, optionalColor: day.isActive ? null : Colors.grey),
               ),
             ),
             Expanded(

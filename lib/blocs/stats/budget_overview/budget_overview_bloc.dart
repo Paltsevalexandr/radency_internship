@@ -161,8 +161,7 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
     yield BudgetOverviewLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
     budgetOverviewSubscription = transactionsRepository
         .getTransactionsByTimePeriod(
-            start: DateTime(dateForFetch.year, dateForFetch.month, 1),
-            end: DateTime(dateForFetch.year, dateForFetch.month + 1, 0))
+            start: DateHelper().getFirstDayOfMonth(_observedDate), end: DateHelper().getLastDayOfMonth(_observedDate))
         .asStream()
         .listen((event) {
       monthlyCategoryExpenses.clear();
@@ -288,7 +287,9 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
     Transaction transaction = TransactionsHelper()
         .convertJsonToTransaction(json: Map<String, dynamic>.from(event.snapshot.value), key: event.snapshot.key);
 
-    if (transaction.date.isAfter(DateHelper().getFirstDayOfMonth(_observedDate)) &&
+    // TODO: refactor
+    if ((transaction.date.isAfter(DateHelper().getFirstDayOfMonth(_observedDate)) ||
+            transaction.date == DateHelper().getFirstDayOfMonth(_observedDate)) &&
         transaction.date.isBefore(DateHelper().getLastDayOfMonth(_observedDate))) {
       transactions.add(transaction);
       add(BudgetOverviewDisplayRequested());
@@ -296,10 +297,12 @@ class BudgetOverviewBloc extends Bloc<BudgetOverviewEvent, BudgetOverviewState> 
   }
 
   _onTransactionChanged(Event event) async {
-    Transaction oldTransactionValue = transactions.singleWhere((transaction) => transaction.id == event.snapshot.key);
+    int oldTransactionIndex = transactions.indexWhere((transaction) => transaction.id == event.snapshot.key);
     Transaction changedTransaction = TransactionsHelper()
         .convertJsonToTransaction(json: Map<String, dynamic>.from(event.snapshot.value), key: event.snapshot.key);
-    transactions[transactions.indexOf(oldTransactionValue)] = changedTransaction;
+    if (oldTransactionIndex != -1) {
+      transactions[oldTransactionIndex] = changedTransaction;
+    }
     add(BudgetOverviewDisplayRequested());
   }
 

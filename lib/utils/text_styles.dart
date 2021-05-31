@@ -37,12 +37,12 @@ TextStyle chartExpenseAmountTextStyle(BuildContext context) {
   );
 }
 
-TextStyle expenseDescriptionTextStyle(BuildContext context) {
+TextStyle expenseDescriptionTextStyle(BuildContext context, {Color optionalColor}) {
   return GoogleFonts.openSans(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: -0.3,
-    color: Theme.of(context).textTheme.bodyText1.color,
+    color: optionalColor ?? Theme.of(context).textTheme.bodyText1.color,
   );
 }
 

@@ -114,8 +114,8 @@ class TransactionsSummaryBloc extends Bloc<TransactionsSummaryEvent, Transaction
     yield TransactionsSummaryLoading(sliderCurrentTimeIntervalString: _sliderCurrentTimeIntervalString);
     summaryTransactionsSubscription = transactionsRepository
         .getTransactionsByTimePeriod(
-            start: DateTime(dateForFetch.year, dateForFetch.month, 1),
-            end: DateTime(dateForFetch.year, dateForFetch.month + 1, 0))
+            start: DateHelper().getFirstDayOfMonth(dateForFetch),
+            end: DateHelper().getLastDayOfMonth(dateForFetch))
         .asStream()
         .listen((event) {
       transactions = event;

@@ -13,7 +13,6 @@ import 'package:radency_internship_project_2/blocs/transactions/add_transaction/
 import 'package:radency_internship_project_2/generated/l10n.dart';
 import 'package:radency_internship_project_2/models/location.dart';
 import 'package:radency_internship_project_2/models/transactions/expense_transaction.dart';
-import 'package:radency_internship_project_2/ui/shared_components/modals/amount/amount_modal.dart';
 import 'package:radency_internship_project_2/ui/shared_components/modals/amount/amount_currency_prefix.dart';
 import 'package:radency_internship_project_2/ui/shared_components/elevated_buttons/colored_elevated_button.dart';
 import 'package:radency_internship_project_2/ui/shared_components/field_title.dart';
@@ -436,7 +435,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                       date: _selectedDateTime,
                       category: _categoryValue,
                       amount: _amountValue,
-                      sharedContact: _sharedContact,
+                      //sharedContact: _sharedContact,
                       locationLatitude: _locationValue?.latitude,
                       locationLongitude: _locationValue?.longitude,
                       creationType: ExpenseCreationType.MANUAL)));
@@ -463,7 +462,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                     date: _selectedDateTime,
                     category: _categoryValue,
                     amount: _amountValue,
-                    sharedContact: _sharedContact,
+                    //sharedContact: _sharedContact,
                     currency: state.currency,
                     locationLatitude: _locationValue.latitude,
                     locationLongitude: _locationValue.longitude,

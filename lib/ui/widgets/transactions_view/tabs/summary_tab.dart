@@ -127,7 +127,7 @@ class _SummaryTabState extends State<SummaryTab> {
         } else {
           return Column(
             children: [
-              _accountsTitle(),
+              //_accountsTitle(),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(

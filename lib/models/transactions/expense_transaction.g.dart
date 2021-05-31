@@ -15,7 +15,6 @@ ExpenseTransaction _$ExpenseTransactionFromJson(Map<String, dynamic> json) {
     note: json['note'] as String,
     currency: json['currency'] as String,
     id: json['id'] as String,
-    sharedContact: contactFromJson(json['sharedContact'] as String),
     subcurrency: json['subcurrency'] as String,
     locationLatitude: (json['locationLatitude'] as num)?.toDouble(),
     locationLongitude: (json['locationLongitude'] as num)?.toDouble(),
@@ -43,7 +42,6 @@ Map<String, dynamic> _$ExpenseTransactionToJson(ExpenseTransaction instance) =>
       'locationLongitude': instance.locationLongitude,
       'creationType': _$ExpenseCreationTypeEnumMap[instance.creationType],
       'creationDate': instance.creationDate?.toIso8601String(),
-      'sharedContact': contactJsonEncode(instance.sharedContact),
     };
 
 T _$enumDecode<T>(

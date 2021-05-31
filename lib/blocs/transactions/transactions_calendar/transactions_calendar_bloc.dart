@@ -157,7 +157,6 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
             start: DateHelper().getFirstDayOfMonth(_observedDate), end: DateHelper().getLastDayOfMonth(_observedDate))
         .asStream()
         .listen((event) {
-
       transactionsList = event;
       calendarData = _convertTransactionsToCalendarData(transactionsList, _observedDate);
       add(TransactionsCalendarDisplayRequested(
@@ -206,7 +205,9 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
     Transaction transaction = TransactionsHelper()
         .convertJsonToTransaction(json: Map<String, dynamic>.from(event.snapshot.value), key: event.snapshot.key);
 
-    if (transaction.date.isAfter(DateHelper().getFirstDayOfMonth(_observedDate)) &&
+    // TODO: refactor
+    if ((transaction.date.isAfter(DateHelper().getFirstDayOfMonth(_observedDate)) ||
+            transaction.date == DateHelper().getFirstDayOfMonth(_observedDate)) &&
         transaction.date.isBefore(DateHelper().getLastDayOfMonth(_observedDate))) {
       transactionsList.add(transaction);
       calendarData = _convertTransactionsToCalendarData(transactionsList, _observedDate);
@@ -220,12 +221,12 @@ class TransactionsCalendarBloc extends Bloc<TransactionsCalendarEvent, Transacti
   }
 
   _onTransactionChanged(Event event) async {
-    Transaction oldTransactionValue =
-        transactionsList.singleWhere((transaction) => transaction.id == event.snapshot.key);
+    int oldTransactionIndex = transactionsList.indexWhere((transaction) => transaction.id == event.snapshot.key);
     Transaction changedTransaction = TransactionsHelper()
         .convertJsonToTransaction(json: Map<String, dynamic>.from(event.snapshot.value), key: event.snapshot.key);
-    transactionsList[transactionsList.indexOf(oldTransactionValue)] = changedTransaction;
-
+    if (oldTransactionIndex != -1) {
+      transactionsList[oldTransactionIndex] = changedTransaction;
+    }
     calendarData = _convertTransactionsToCalendarData(transactionsList, _observedDate);
     add(TransactionsCalendarDisplayRequested(
       daysData: calendarData,
