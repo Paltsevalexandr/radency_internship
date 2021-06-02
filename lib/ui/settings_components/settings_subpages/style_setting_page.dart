@@ -21,7 +21,8 @@ class StyleSettingPage extends StatelessWidget {
             children: <Widget>[
               Divider(),
               buildThemeGroupItem(
-                  context, S.current.lightTheme, IconData(60130, fontFamily: 'MaterialIcons'), "light", state.theme),
+                  context, S.current.lightTheme, const IconData(60130, fontFamily: 'MaterialIcons'), "light", state
+                  .theme),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: Row(
@@ -30,10 +31,12 @@ class StyleSettingPage extends StatelessWidget {
               ),
               Divider(),
               buildThemeGroupItem(
-                  context, S.current.darkTheme, IconData(59566, fontFamily: 'MaterialIcons'), "dark", state.theme),
+                  context, S.current.darkTheme, const IconData(59566, fontFamily: 'MaterialIcons'), "dark", state
+                  .theme),
               Divider(),
               buildThemeGroupItem(
-                  context, S.current.systemTheme, IconData(59987, fontFamily: 'MaterialIcons'), "system", state.theme),
+                  context, S.current.systemTheme, const IconData(59987, fontFamily: 'MaterialIcons'), "system", state
+                  .theme),
               Divider(),
             ],
           ));

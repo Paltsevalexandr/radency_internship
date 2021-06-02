@@ -46,3 +46,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /pubspec.lock
+/Gemfile
+/android/keys/android_keys.zip
+/android/keys/pc-api-8969900322368874884-421-73adceeb4856.json
