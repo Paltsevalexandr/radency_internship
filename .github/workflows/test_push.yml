@@ -23,6 +23,7 @@ jobs:
           lane: apply_new_version
       - name: Get current branch name
         uses: nelonoel/branch-name@v1.0.1
+      - name: Save current branch name
         run: |
           echo ${BRANCH_NAME}
           echo "pushed_branch=${BRANCH_NAME}" >> $GITHUB_ENV
