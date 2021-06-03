@@ -25,8 +25,8 @@ jobs:
           git commit -am "Update app version"
           git push
           echo "${{ env.pushed_branch }}"
-      - name: Chechout master
-        uses: actions/chechout@v2
+      - name: Checkout master
+        uses: actions/checkout@v2
         with:
           ref: master
       - name: Merge into master
