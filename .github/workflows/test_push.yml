@@ -12,6 +12,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Run Fastlane bump patch
+        uses: maierj/fastlane-action@v2.0.1
+        if: github.ref == 'refs/heads/release_patch'
+        with:
+          lane: bump_patch
+      - name: Run Fastlane bump patch
+        uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: apply_new_version
       - name: Get current branch name
         uses: nelonoel/branch-name@v1.0.1
       - name: Save current branch name
