@@ -16,6 +16,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 12.x
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: 2.0.4
       - name: Run Fastlane bump patch
         uses: maierj/fastlane-action@v2.0.1
         if: github.ref == 'refs/heads/release_patch'
