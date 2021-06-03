@@ -1,0 +1,45 @@
+name: test_push
+
+on:
+  push:
+    branches:
+      - "test_push_from_ghactions"
+
+
+jobs:
+  bump_version_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 12.x
+      - name: Run Fastlane bump patch
+        uses: maierj/fastlane-action@v2.0.1
+        if: github.ref == 'refs/heads/release_patch'
+        with:
+          lane: bump_patch
+      - name: Run Fastlane bump patch
+        uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: apply_new_version
+      - name: Install Flutter dependencies
+        run: flutter pub get
+      - name: Push changes to origin
+        run: |
+          git config --global user.name 'Auto'
+          git config --global user.email 'auto@users.noreply.github.com'
+          git commit -am "Update app version"
+          git push
+      - name: Notify slack success
+        id: slack
+        if: success()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: flutter_app_reports
+          status: SUCCESS
+          color: good
