@@ -49,3 +49,4 @@ app.*.map.json
 /Gemfile
 /android/keys/android_keys.zip
 /android/keys/pc-api-8969900322368874884-421-73adceeb4856.json
+/android/keys/service_account_key.json

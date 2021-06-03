@@ -1,12 +1,16 @@
 # cd.yml
-name: CD
+name: CI_CD
 
 on:
   push:
     branches:
-      - "v*"
+      - "release_major"
+      - "release_minor"
+      - "release_patch"
 
 jobs:
+
+
   # CI
   build_android:
     runs-on: ubuntu-latest
@@ -18,22 +22,18 @@ jobs:
         with:
           java-version: 12.x
       - name: Decrypt Android keys
-        run: .github/scripts/decrypt_android_keys.sh
+        run: sh ./.github/scripts/decrypt_android_secrets.sh
         env:
           ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: 1.17.5
+          flutter-version: 2.0.4
       - name: Install Flutter dependencies
         run: flutter pub get
-        # Add build runner commands here if you have any
-      - name: Format files
-        run: flutter format --set-exit-if-changed .
-      - name: Analyze files
-        run: flutter analyze .
-      - name: Run the tests
-        run: flutter test
+        # TODO: enable tests when there will be any
+      #      - name: Run the tests
+      #        run: flutter test
       - name: Build the APK
         run: flutter build apk --release
       - name: Upload artifact to Github
@@ -41,10 +41,12 @@ jobs:
         with:
           name: release-apk
           path: build/app/outputs/apk/release/app-release.apk
+
   # CD
   deploy_android:
     runs-on: ubuntu-latest
-    needs: [build_android]
+    # TODO: uncomment
+    #needs: [build_android]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -53,19 +55,51 @@ jobs:
         with:
           java-version: 12.x
       - name: Decrypt Android keys
-        run: .github/scripts/decrypt_android_keys.sh
+        run: sh ./.github/scripts/decrypt_android_secrets.sh
         env:
           ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: 1.17.5
+          flutter-version: 2.0.4
+      - name: Run Fastlane bump major
+        uses: maierj/fastlane-action@v2.0.1
+        if: github.ref == 'refs/heads/release_major'
+        with:
+          lane: bump_major
+      - name: Run Fastlane bump minor
+        uses: maierj/fastlane-action@v2.0.1
+        if: github.ref == 'refs/heads/release_minor'
+        with:
+          lane: bump_minor
+      - name: Run Fastlane bump patch
+        uses: maierj/fastlane-action@v2.0.1
+        if: github.ref == 'refs/heads/release_patch'
+        with:
+          lane: bump_patch
+      - name: Run Fastlane bump patch
+        uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: apply_new_version
       - name: Install Flutter dependencies
         run: flutter pub get
       - name: Build Android appbundle
         run: flutter build appbundle --release
-      - name: Run Fastlane
-        uses: maierj/fastlane-action@v1.4.0
+      - name: Run Fastlane Android deploy to Closed beta track
+        uses: maierj/fastlane-action@v2.0.1
         with:
-          lane: internal_test
+          lane: closed_beta
           subdirectory: android
+      - name: Notify slack success
+        id: slack
+        if: success()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: flutter_app_reports
+          status: SUCCESS
+          color: good
+
+
+

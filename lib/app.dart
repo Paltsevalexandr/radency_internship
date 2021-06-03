@@ -36,7 +36,6 @@ import 'package:radency_internship_project_2/ui/widgets/add_transaction_view/tra
 import 'package:radency_internship_project_2/ui/widgets/stats_view/stats_view.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/budget_settings_page.dart';
 import 'package:radency_internship_project_2/ui/widgets/stats_view/tabs/budget_overview/category_budget_setup_view.dart';
-
 import 'blocs/authentication/authentication_bloc.dart';
 import 'blocs/settings/category/category_bloc.dart';
 import 'blocs/settings/category/category_slider/category_slider_bloc.dart';
