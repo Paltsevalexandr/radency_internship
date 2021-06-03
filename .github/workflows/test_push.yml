@@ -21,12 +21,6 @@ jobs:
         uses: maierj/fastlane-action@v2.0.1
         with:
           lane: apply_new_version
-      - name: Get current branch name
-        uses: nelonoel/branch-name@v1.0.1
-      - name: Save current branch name
-        run: |
-          echo ${BRANCH_NAME}
-          echo "pushed_branch=${BRANCH_NAME}" >> $GITHUB_ENV
       - name: Push changes to origin
         run: |
           git config --global user.name 'Auto'
@@ -34,12 +28,12 @@ jobs:
           git commit -am "Update app version"
           git push
           echo "${{ env.pushed_branch }}"
-      - name: Checkout master
-        uses: actions/checkout@v2
+      - name: Merge current -> master
+        uses: devmasx/merge-branch@v1.3.1
         with:
-          ref: master
-      - name: Merge into master
-        run: git merge origin/${{ env.pushed_branch }}
+          type: now
+          target_branch: master
+          github_token: ${{ github.token }}
       - name: Notify slack success
         id: slack
         if: success()
