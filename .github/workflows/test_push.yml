@@ -39,7 +39,7 @@ jobs:
         with:
           ref: master
       - name: Merge into master
-        run: git merge ${{ env.pushed_branch }}
+        run: git merge origin/${{ env.pushed_branch }}
       - name: Notify slack success
         id: slack
         if: success()
